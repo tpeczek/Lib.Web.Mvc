@@ -3,19 +3,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E9C8CA1D-F2E4-425E-ABCD-C0C5A3821FF2}</ProjectGuid>
+    <ProjectGuid>{1332384E-DDEF-4B55-81E8-F6F0B0C779DC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Lib.Web.Mvc</RootNamespace>
     <AssemblyName>Lib.Web.Mvc</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Lib.Web.Mvc.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,70 +30,85 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Lib.Web.Mvc.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Runtime.Serialization">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.ServiceModel.Web">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AntiForgeryData.cs" />
-    <Compile Include="AntiForgeryDataSerializer.cs" />
-    <Compile Include="DataAnnotations\ValidationGroupAttribute.cs" />
-    <Compile Include="DataAnnotations\ValidationGroupValidator.cs" />
-    <Compile Include="IsAjaxRequestAttribute.cs" />
     <Compile Include="Html\RenderXmlExtensions.cs" />
+    <Compile Include="JQuery\JqGrid\Constants\JqGridColumnPredefinedFormatters.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridFilterGridOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridFilterGridRowModel.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridFilterGridTypes.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridFilterOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridSearchOperators.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridColumnSearchOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridColumnSearchTypes.cs" />
+    <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridColumnSearchableAttribute.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridFilterToolbarOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridNavigatorSearchActionOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridNestedSetTreeRecord`1.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridNestedSetTreeRecord.cs" />
+    <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridColumnEditableAttribute.cs" />
+    <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridColumnFormatterAttribute.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridAdjacencyTreeRecord.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridAdjacencyTreeRecord`1.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridCellEditingSubmitModes.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridColumnEditOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridColumnEditRules.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridColumnFormatterOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridColumnFormOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridNavigatorActionOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridNavigatorOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridRecord`1.cs" />
+    <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridColumnLayoutAttribute.cs" />
+    <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridColumnSortableAttribute.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridRefreshModes.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridRequestSearchingFilter.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridRequestSearchingFilters.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridResponse.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridOptions`1.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridAlignments.cs" />
     <Compile Include="JQuery\JqGrid\JqGridColumnModel.cs" />
     <Compile Include="JQuery\JqGrid\JqGridConfiguration.cs" />
-    <Compile Include="JQuery\JqGrid\JqGridSettings.cs" />
-    <Compile Include="JQuery\Validation\EmailAttribute.cs" />
-    <Compile Include="JQuery\Validation\EmailValidator.cs" />
-    <Compile Include="JQuery\Validation\EqualToAttribute.cs" />
-    <Compile Include="JQuery\Validation\EqualToValidator.cs" />
-    <Compile Include="JQuery\Validation\MinLengthAttribute.cs" />
-    <Compile Include="JQuery\Validation\MinLengthValidator.cs" />
-    <Compile Include="JQuery\Validation\RemoteAttribute.cs" />
-    <Compile Include="JQuery\Validation\RemoteValidator.cs" />
-    <Compile Include="JsonModelBinder.cs" />
-    <Compile Include="ModelStateDictionaryExtensions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridDataTypes.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridHelper.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridJsonResult.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridMethodTypes.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridRequest.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridRecord.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridSearchGroupingOperators.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridSortingOrders.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridSubgridModel.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridSubgridModel`1.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridTreeGridModels.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridTreeRecord.cs" />
+    <Compile Include="JQuery\JqGrid\ModelBinders\JqGridJsonModelBinder.cs" />
+    <Compile Include="JQuery\JqGrid\ModelBinders\JqGridRequestModelBinder.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridColumnEditTypes.cs" />
+    <Compile Include="JQuery\JqGrid\Serialization\JqGridScriptConverter.cs" />
+    <Compile Include="JQuery\TreeView\TreeViewNode.cs" />
     <Compile Include="NoCacheAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="ValidateAntiForgeryTokenAttribute.cs" />
     <Compile Include="XmlActionResult.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Microsoft ASP.NET\ASP.NET Web Pages\v1.0\Assemblies\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.XML" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

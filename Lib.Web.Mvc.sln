@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Web Developer Express 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lib.Web.Mvc", "Lib.Web.Mvc\Lib.Web.Mvc.csproj", "{E9C8CA1D-F2E4-425E-ABCD-C0C5A3821FF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lib.Web.Mvc", "Lib.Web.Mvc\Lib.Web.Mvc.csproj", "{1332384E-DDEF-4B55-81E8-F6F0B0C779DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E9C8CA1D-F2E4-425E-ABCD-C0C5A3821FF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E9C8CA1D-F2E4-425E-ABCD-C0C5A3821FF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E9C8CA1D-F2E4-425E-ABCD-C0C5A3821FF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E9C8CA1D-F2E4-425E-ABCD-C0C5A3821FF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1332384E-DDEF-4B55-81E8-F6F0B0C779DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1332384E-DDEF-4B55-81E8-F6F0B0C779DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1332384E-DDEF-4B55-81E8-F6F0B0C779DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1332384E-DDEF-4B55-81E8-F6F0B0C779DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

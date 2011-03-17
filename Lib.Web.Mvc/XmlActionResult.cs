@@ -134,6 +134,10 @@ namespace Lib.Web.Mvc
         #endregion
 
         #region Methods
+        /// <summary>
+        /// When called by the action invoker, renders the result of XML transformation to the response.
+        /// </summary>
+        /// <param name="context">The context that the result is executed in.</param>
         public override void ExecuteResult(ControllerContext context)
         {
             XPathDocument xpathDocument = null;
