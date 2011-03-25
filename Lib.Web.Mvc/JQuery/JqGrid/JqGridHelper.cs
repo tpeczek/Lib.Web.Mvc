@@ -676,7 +676,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                     javaScriptBuilder.AppendFormat("modal: {0},", actionOptions.Modal.Value.ToString().ToLower());
 
                 if (actionOptions.MethodType.HasValue)
-                    javaScriptBuilder.AppendFormat("mtype: {0},", actionOptions.MethodType.Value.ToString().ToUpper());
+                    javaScriptBuilder.AppendFormat("mtype: '{0}',", actionOptions.MethodType.Value.ToString().ToUpper());
 
                 if (!String.IsNullOrWhiteSpace(actionOptions.OnClose))
                     javaScriptBuilder.AppendFormat("onClose: '{0}',", actionOptions.OnClose);

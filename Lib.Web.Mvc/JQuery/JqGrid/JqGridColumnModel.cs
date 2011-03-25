@@ -165,8 +165,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 Sortable = columnSortableAttribute.Sortable;
                 Index = columnSortableAttribute.Index;
             }
-            else
-                Index = propertyMetadata.PropertyName;
 
             JqGridColumnSearchableAttribute columnSearchableAttribute = customAttributes.OfType<JqGridColumnSearchableAttribute>().FirstOrDefault();
             if (columnSearchableAttribute != null)
@@ -191,6 +189,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                     EditOptions = columnEditableAttribute.EditOptions;
                     EditRules = columnEditableAttribute.EditRules;
                     EditType = columnEditableAttribute.EditType;
+                    FormOptions = columnEditableAttribute.FormOptions;
 
                     if ((propertyMetadata.ModelType == typeof(Int16)) || (propertyMetadata.ModelType == typeof(Int32)) || (propertyMetadata.ModelType == typeof(Int64)) || (propertyMetadata.ModelType == typeof(UInt16)) || (propertyMetadata.ModelType == typeof(UInt32)) || (propertyMetadata.ModelType == typeof(UInt32)))
                         EditRules.Integer = true;
@@ -218,6 +217,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
 
             Name = propertyMetadata.PropertyName;
+
+            if (String.IsNullOrWhiteSpace(Index))
+                Index = propertyMetadata.PropertyName;
 
             if (!String.IsNullOrWhiteSpace(propertyMetadata.TemplateHint) && propertyMetadata.TemplateHint.Equals("HiddenInput"))
                 Hidden = true;

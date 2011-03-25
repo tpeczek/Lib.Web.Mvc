@@ -208,6 +208,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             EditOptions = new JqGridColumnEditOptions();
             EditRules = new JqGridColumnEditRules();
             EditType = JqGridColumnEditTypes.Text;
+            FormOptions = new JqGridColumnFormOptions();
         }
 
         /// <summary>
