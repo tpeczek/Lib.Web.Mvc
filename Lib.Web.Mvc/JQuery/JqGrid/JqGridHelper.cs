@@ -678,8 +678,17 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (actionOptions.MethodType.HasValue)
                     javaScriptBuilder.AppendFormat("mtype: '{0}',", actionOptions.MethodType.Value.ToString().ToUpper());
 
+                if (!String.IsNullOrWhiteSpace(actionOptions.OnAfterShowForm))
+                    javaScriptBuilder.AppendFormat("afterShowForm: {0},", actionOptions.OnAfterShowForm);
+
+                if (!String.IsNullOrWhiteSpace(actionOptions.OnBeforeShowForm))
+                    javaScriptBuilder.AppendFormat("beforeShowForm: {0},", actionOptions.OnBeforeShowForm);
+
                 if (!String.IsNullOrWhiteSpace(actionOptions.OnClose))
-                    javaScriptBuilder.AppendFormat("onClose: '{0}',", actionOptions.OnClose);
+                    javaScriptBuilder.AppendFormat("onClose: {0},", actionOptions.OnClose);
+
+                if (!String.IsNullOrWhiteSpace(actionOptions.OnInitializeForm))
+                    javaScriptBuilder.AppendFormat("onInitializeForm: {0},", actionOptions.OnInitializeForm);
 
                 if (actionOptions.ReloadAfterSubmit.HasValue)
                     javaScriptBuilder.AppendFormat("reloadAfterSubmit: {0},", actionOptions.ReloadAfterSubmit.Value.ToString().ToLower());

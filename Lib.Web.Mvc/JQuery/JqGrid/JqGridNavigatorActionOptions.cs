@@ -52,9 +52,24 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridMethodTypes? MethodType { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of the function for event which is raised after showing the form with the new data.
+        /// </summary>
+        public string OnAfterShowForm { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the function for event which is raised before showing the form with the new data.
+        /// </summary>
+        public string OnBeforeShowForm { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of the function for event which is raised just before closing the form.
         /// </summary>
         public string OnClose { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the function for event which is raised only once when creating the form for editing and adding.
+        /// </summary>
+        public string OnInitializeForm { get; set; }
 
         /// <summary>
         /// Gets or sets the value indicating if grid should be reloaded after submiting.
