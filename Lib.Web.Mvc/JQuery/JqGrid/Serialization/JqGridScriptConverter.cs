@@ -125,6 +125,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                         obj.ColumnsNames.Add(innerSerializedObj.ToString());
                 }
 
+                obj.Caption = GetStringFromSerializedObj(serializedObj, "caption");
                 obj.DataString = GetStringFromSerializedObj(serializedObj, "datastr");
                 obj.DataType = GetEnumFromSerializedObj<JqGridDataTypes>(serializedObj, "datatype", obj.DataType);
                 obj.EditingUrl = GetStringFromSerializedObj(serializedObj, "editurl");
@@ -132,7 +133,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.ExpandColumn = GetStringFromSerializedObj(serializedObj, "ExpandColumn");
                 obj.Height = GetInt32FromSerializedObj(serializedObj, "height");
                 obj.MethodType = GetEnumFromSerializedObj<JqGridMethodTypes>(serializedObj, "mtype", obj.MethodType);
-                obj.OnSelectRow = GetStringFromSerializedObj(serializedObj, "onSelectRow");
                 
                 if (serializedObj.ContainsKey("pager") && serializedObj["pager"] != null)
                     obj.Pager = true;
@@ -188,6 +188,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             serializedObj.Add("colModel", obj.ColumnsModels);
             serializedObj.Add("colNames", obj.ColumnsNames);
+
+            if (!String.IsNullOrEmpty(obj.Caption))
+                serializedObj.Add("caption", obj.Caption);
+
             serializedObj.Add("datatype", obj.DataType.ToString().ToLower());
 
             if (!String.IsNullOrWhiteSpace(obj.EditingUrl))
@@ -202,12 +206,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (obj.Height.HasValue)
                 serializedObj.Add("height", obj.Height.Value);
             else
-                serializedObj.Add("height", "auto");
+                serializedObj.Add("height", "100%");
 
             serializedObj.Add("mtype", obj.MethodType.ToString().ToUpper());
-
-            if (!String.IsNullOrWhiteSpace(obj.OnSelectRow))
-                serializedObj.Add("onSelectRow", obj.OnSelectRow);
 
             if (obj.Pager)
                 serializedObj.Add("pager", String.Format("#{0}Pager", obj.Id));
@@ -248,8 +249,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             if (obj.Width.HasValue)
                 serializedObj.Add("width", obj.Width.Value);
-            else
-                serializedObj.Add("width", "auto");
         }
 
         private static JqGridColumnModel DeserializeJqGridColumnModel(IDictionary<string, object> serializedObj, JavaScriptSerializer serializer)

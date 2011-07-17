@@ -42,10 +42,15 @@
   <ItemGroup>
     <Compile Include="Html\RenderXmlExtensions.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridColumnPredefinedFormatters.cs" />
+    <Compile Include="JQuery\JqGrid\Constants\JqGridNavigatorDefaults.cs" />
     <Compile Include="JQuery\JqGrid\JqGridFilterGridOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridFilterGridRowModel.cs" />
     <Compile Include="JQuery\JqGrid\JqGridFilterGridTypes.cs" />
     <Compile Include="JQuery\JqGrid\JqGridFilterOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridNavigatorButtonOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridNavigatorButtonPositions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridNavigatorControlOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridNavigatorSeparatorOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridSearchOperators.cs" />
     <Compile Include="JQuery\JqGrid\JqGridColumnSearchOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridColumnSearchTypes.cs" />

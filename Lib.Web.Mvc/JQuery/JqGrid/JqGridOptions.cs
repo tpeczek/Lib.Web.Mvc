@@ -21,6 +21,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string Id { get; private set; }
 
         /// <summary>
+        /// Gets or sets the caption for the grid.
+        /// </summary>
+        public string Caption { get; set; }
+
+        /// <summary>
         /// Gets or sets the value indicating if cell editing is enabled
         /// </summary>
         public bool? CellEditingEnabled { get; set; }
@@ -81,12 +86,27 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public int? Height { get; set; }
 
         /// <summary>
+        /// Gets or sets the function for event which is raised after the request fails.
+        /// </summary>
+        public string LoadError { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised immediately after every server request.
+        /// </summary>
+        public string LoadComplete { get; set; }
+
+        /// <summary>
         /// Gets or sets the type of request to make (default JqGridMethodTypes.Get).
         /// </summary>
         public JqGridMethodTypes MethodType { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the function for event which is raised immediately after row was clicked.
+        /// Gets or sets the function for event which is raised after all the data is loaded into the grid and all other processes are complete.
+        /// </summary>
+        public string GridComplete { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised immediately after row was clicked.
         /// </summary>
         public string OnSelectRow { get; set; }
 
@@ -166,6 +186,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             Id = id;
             _columnsModel = new List<JqGridColumnModel>();
             _columnsNames = new List<string>();
+
+            Caption = String.Empty;
+            LoadComplete = null;
+            LoadError = null;
+            GridComplete = null;
+            OnSelectRow = null;
 
             ColumnsRemaping = null;
             DataType = JqGridDataTypes.Xml;

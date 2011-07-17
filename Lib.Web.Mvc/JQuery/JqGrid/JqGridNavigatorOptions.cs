@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
@@ -44,12 +45,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets or sets the value which defines if all the actions from the bottom pager should be coppied to the top pager.
         /// </summary>
-        public bool? CloneToTop { get; set; }
+        public bool CloneToTop { get; set; }
 
         /// <summary>
         /// Gets or sets the value which defines if the warning dialog can be closed with ESC key.
         /// </summary>
-        public bool? CloseOnEscape { get; set; }
+        public bool CloseOnEscape { get; set; }
         
         /// <summary>
         /// Gets or set the value which defines if delete action is enabled (default true).
@@ -94,7 +95,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets or sets the position of the Navigator buttons in the pager.
         /// </summary>
-        public JqGridAlignments? Position { get; set; }
+        public JqGridAlignments Position { get; set; }
 
         /// <summary>
         /// Gets or set the value which defines if refresh action is enabled (default true).
@@ -119,15 +120,15 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets or sets the mode for refresh action.
         /// </summary>
-        public JqGridRefreshModes? RefreshMode { get; set; }
+        public JqGridRefreshModes RefreshMode { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the function for event which is raised after the refresh button is clicked.
+        /// Gets or sets the function for event which is raised after the refresh button is clicked.
         /// </summary>
         public string AfterRefresh { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the function for event which is raised before the refresh button is clicked.
+        /// Gets or sets the function for event which is raised before the refresh button is clicked.
         /// </summary>
         public string BeforeRefresh { get; set; } 
 
@@ -194,11 +195,40 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridNavigatorOptions()
         {
             Add = true;
+            AddIcon = JqGridNavigatorDefaults.AddIcon;
+            AddText = String.Empty;
+            AddToolTip = JqGridNavigatorDefaults.AddToolTip;
+            AlertCaption = JqGridNavigatorDefaults.AlertCaption;
+            AlertText = JqGridNavigatorDefaults.AlertText;
+            CloneToTop = false;
+            CloseOnEscape = true;
             Delete = true;
+            DeleteIcon = JqGridNavigatorDefaults.DeleteIcon;
+            DeleteText = String.Empty;
+            DeleteToolTip = JqGridNavigatorDefaults.DeleteToolTip;
             Edit = true;
+            EditIcon = JqGridNavigatorDefaults.EditIcon;
+            EditText = String.Empty;
+            EditToolTip = JqGridNavigatorDefaults.EditToolTip;
+            Position = JqGridAlignments.Left;
             Refresh = true;
+            RefreshIcon = JqGridNavigatorDefaults.RefreshIcon;
+            RefreshText = String.Empty;
+            RefreshToolTip = JqGridNavigatorDefaults.RefreshToolTip;
+            RefreshMode = JqGridRefreshModes.FirstPage;
+            AfterRefresh = null;
+            BeforeRefresh = null;
             Search = true;
-            View = true;
+            SearchIcon = JqGridNavigatorDefaults.SearchIcon;
+            SearchText = String.Empty;
+            SearchToolTip = JqGridNavigatorDefaults.SearchToolTip;
+            View = false;
+            ViewIcon = JqGridNavigatorDefaults.ViewIcon;
+            ViewText = String.Empty;
+            ViewToolTip = JqGridNavigatorDefaults.ViewToolTip;
+            AddFunction = null;
+            EditFunction = null;
+            DeleteFunction = null;
         }
         #endregion
     }

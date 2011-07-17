@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
@@ -21,6 +22,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         private JqGridNavigatorActionOptions _navigatorDeleteActionOptions;
         private JqGridNavigatorActionOptions _navigatorSearchActionOptions;
         private JqGridNavigatorActionOptions _navigatorViewActionOptions;
+        private List<JqGridNavigatorControlOptions> _navigatorControlsOptions = new List<JqGridNavigatorControlOptions>();
         private bool _filterToolbar = false;
         private JqGridFilterToolbarOptions _filterToolbarOptions;
         private List<JqGridFilterGridRowModel> _filterGridModel;
@@ -32,6 +34,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Initializes a new instance of the JqGridHelper class.
         /// </summary>
         /// <param name="id">Identifier, which will be used for table (id='{0}'), pager div (id='{0}Pager'), filter grid div (id='{0}Search') and in JavaScript.</param>
+        /// <param name="caption">The caption for the grid.</param>
         /// <param name="cellEditingEnabled">The value indicating if cell editing is enabled.</param>
         /// <param name="cellEditingSubmitMode">The cell editing submit mode.</param>
         /// <param name="cellEditingUrl">The URL for cell editing submit.</param>
@@ -41,8 +44,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <param name="expandColumnClick">The value which defines whether the tree is expanded and/or collapsed when user clicks on the text of the expanded column, not only on the image.</param>
         /// <param name="expandColumn">The name of column which should be used to expand the tree grid.</param>
         /// <param name="height">The height of the grid in pixels (default 'auto').</param>
+        /// <param name="loadError">The function for event which is raised after the request fails.</param>
+        /// <param name="loadComplete">The function for event which is raised immediately after every server request.</param>
         /// <param name="methodType">The type of request to make.</param>
-        /// <param name="onSelectRow">The name of the function for event which is raised immediately after row was clicked.</param>
+        /// <param name="gridComplete">The function for event which is raised after all the data is loaded into the grid and all other processes are complete.</param>
+        /// <param name="onSelectRow">The function for event which is raised immediately after row was clicked.</param>
         /// <param name="pager">If grid should use a pager bar to navigate through the records.</param>
         /// <param name="rowsNumber">How many records should be displayed in the grid.</param>
         /// <param name="sortingName">The initial sorting column index, when  using data returned from server.</param>
@@ -56,8 +62,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <param name="url">The url for data requests.</param>
         /// <param name="viewRecords">If grid should display the beginning and ending record number out of the total number of records in the query.</param>
         /// <param name="width">The width of the grid in pixels.</param>
-        public JqGridHelper(string id, bool? cellEditingEnabled = null, JqGridCellEditingSubmitModes? cellEditingSubmitMode = null, string cellEditingUrl = null, string dataString = null, JqGridDataTypes dataType = JqGridDataTypes.Xml, string editingUrl = null, bool? expandColumnClick = null, string expandColumn = null, int? height = null, JqGridMethodTypes methodType = JqGridMethodTypes.Get, string onSelectRow = null, bool pager = false, int rowsNumber = 20, string sortingName = "", JqGridSortingOrders sortingOrder = JqGridSortingOrders.Asc, bool? subgridEnabled = null, JqGridSubgridModel subgridModel = null, string subgridUrl = null, int? subgridColumnWidth = null, bool? treeGridEnabled = null, JqGridTreeGridModels? treeGridModel = null, string url = null, bool viewRecords = false, int? width = null)
-            : this(new JqGridOptions<TModel>(id) { CellEditingEnabled = cellEditingEnabled, CellEditingSubmitMode = cellEditingSubmitMode, CellEditingUrl = cellEditingUrl, DataString = dataString, DataType = dataType, EditingUrl = editingUrl, ExpandColumnClick = expandColumnClick, ExpandColumn = expandColumn, Height = height, MethodType = methodType, OnSelectRow = onSelectRow, Pager = pager, RowsNumber = rowsNumber, SortingName = sortingName, SortingOrder = sortingOrder, SubgridEnabled = subgridEnabled, SubgridModel = subgridModel, SubgridUrl = subgridUrl, SubgridColumnWidth = subgridColumnWidth, TreeGridEnabled = treeGridEnabled, TreeGridModel = treeGridModel, Url = url, ViewRecords = viewRecords, Width = width })
+        public JqGridHelper(string id, string caption = null, bool? cellEditingEnabled = null, JqGridCellEditingSubmitModes? cellEditingSubmitMode = null, string cellEditingUrl = null, string dataString = null, JqGridDataTypes dataType = JqGridDataTypes.Xml, string editingUrl = null, bool? expandColumnClick = null, string expandColumn = null, int? height = null, string loadError = null, string loadComplete = null, JqGridMethodTypes methodType = JqGridMethodTypes.Get, string gridComplete = null, string onSelectRow = null, bool pager = false, int rowsNumber = 20, string sortingName = "", JqGridSortingOrders sortingOrder = JqGridSortingOrders.Asc, bool? subgridEnabled = null, JqGridSubgridModel subgridModel = null, string subgridUrl = null, int? subgridColumnWidth = null, bool? treeGridEnabled = null, JqGridTreeGridModels? treeGridModel = null, string url = null, bool viewRecords = false, int? width = null)
+            : this(new JqGridOptions<TModel>(id) { Caption = caption, CellEditingEnabled = cellEditingEnabled, CellEditingSubmitMode = cellEditingSubmitMode, CellEditingUrl = cellEditingUrl, DataString = dataString, DataType = dataType, EditingUrl = editingUrl, ExpandColumnClick = expandColumnClick, ExpandColumn = expandColumn, Height = height, LoadError = loadError, LoadComplete = loadComplete, MethodType = methodType, GridComplete = gridComplete, OnSelectRow = onSelectRow, Pager = pager, RowsNumber = rowsNumber, SortingName = sortingName, SortingOrder = sortingOrder, SubgridEnabled = subgridEnabled, SubgridModel = subgridModel, SubgridUrl = subgridUrl, SubgridColumnWidth = subgridColumnWidth, TreeGridEnabled = treeGridEnabled, TreeGridModel = treeGridModel, Url = url, ViewRecords = viewRecords, Width = width })
         { }
 
         /// <summary>
@@ -159,22 +165,24 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             for (int columnModelIndex = 0; columnModelIndex < _options.ColumnsModels.Count; columnModelIndex++)
             {
                 JqGridColumnModel columnModel = _options.ColumnsModels[columnModelIndex];
-                javaScriptBuilder.AppendFormat("{{ align: '{0}', index: '{1}', ", columnModel.Alignment.ToString().ToLower(), columnModel.Index);
+                javaScriptBuilder.Append("{ ");
+
+                if (columnModel.Alignment != JqGridAlignments.Left)
+                    javaScriptBuilder.AppendFormat("align: '{0}', ", columnModel.Alignment.ToString().ToLower());
+
+                javaScriptBuilder.AppendFormat("index: '{0}', ", columnModel.Index);
 
                 if (!String.IsNullOrWhiteSpace(columnModel.Classes))
                     javaScriptBuilder.AppendFormat("classes: '{0}', ", columnModel.Classes);
 
-                if (columnModel.Editable.HasValue)
+                if (columnModel.Editable.HasValue &&columnModel.Editable.Value )
                 {
                     javaScriptBuilder.AppendFormat("editable: {0}, ", columnModel.Editable.Value.ToString().ToLower());
-                    if (columnModel.Editable.Value)
-                    {
-                        if (columnModel.EditType.HasValue)
-                            javaScriptBuilder.AppendFormat("edittype: '{0}', ", columnModel.EditType.Value.ToString().ToLower());
-                        AppendEditOptions(columnModel.EditOptions, ref javaScriptBuilder);
-                        AppendEditRules(columnModel.EditRules, ref javaScriptBuilder);
-                        AppendFormOptions(columnModel.FormOptions, ref javaScriptBuilder);
-                    }
+                    if (columnModel.EditType.HasValue)
+                        javaScriptBuilder.AppendFormat("edittype: '{0}', ", columnModel.EditType.Value.ToString().ToLower());
+                    AppendEditOptions(columnModel.EditOptions, ref javaScriptBuilder);
+                    AppendEditRules(columnModel.EditRules, ref javaScriptBuilder);
+                    AppendFormOptions(columnModel.FormOptions, ref javaScriptBuilder);
                 }
 
                 if (columnModel.Fixed.HasValue)
@@ -191,15 +199,17 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (columnModel.InitialSortingOrder.HasValue)
                     javaScriptBuilder.AppendFormat("firstsortorder: '{0}', ", columnModel.InitialSortingOrder.Value.ToString().ToLower());
 
-                javaScriptBuilder.AppendFormat("hidden: {0}, ", columnModel.Hidden.ToString().ToLower());
+                if (columnModel.Hidden)
+                    javaScriptBuilder.AppendFormat("hidden: {0}, ", columnModel.Hidden.ToString().ToLower());
 
                 if (columnModel.Resizable.HasValue)
                     javaScriptBuilder.AppendFormat("resizable: {0}, ", columnModel.Resizable.Value.ToString().ToLower());
 
                 if (columnModel.Searchable.HasValue)
                 {
-                    javaScriptBuilder.AppendFormat("search: {0}, ", columnModel.Searchable.Value.ToString().ToLower());
-                    if (columnModel.Searchable.Value)
+                    if (!columnModel.Searchable.Value)
+                        javaScriptBuilder.AppendFormat("search: {0}, ", columnModel.Searchable.Value.ToString().ToLower());
+                    else
                     {
                         if (columnModel.SearchType.HasValue)
                             javaScriptBuilder.AppendFormat("stype: '{0}', ", columnModel.SearchType.Value.ToString().ToLower());
@@ -251,8 +261,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (!String.IsNullOrWhiteSpace(editOptions.Source))
                     javaScriptBuilder.AppendFormat("src: '{0}',", editOptions.Source);
 
-                javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
-                javaScriptBuilder.Append(" }, ");
+                if (javaScriptBuilder[javaScriptBuilder.Length - 1] == ',')
+                {
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
+                    javaScriptBuilder.Append(" }, ");
+                }
+                else
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 15, 15);
             }
         }
 
@@ -298,8 +313,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (editRules.Url.HasValue)
                     javaScriptBuilder.AppendFormat("url: {0},", editRules.Url.Value.ToString().ToLower());
 
-                javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
-                javaScriptBuilder.Append(" }, ");
+                if (javaScriptBuilder[javaScriptBuilder.Length - 1] == ',')
+                {
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
+                    javaScriptBuilder.Append(" }, ");
+                }
+                else
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 13, 13);
             }
         }
 
@@ -324,8 +344,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (formOptions.RowPosition.HasValue)
                     javaScriptBuilder.AppendFormat("rowpos: {0},", formOptions.RowPosition.Value);
 
-                javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
-                javaScriptBuilder.Append(" }, ");
+                if (javaScriptBuilder[javaScriptBuilder.Length - 1] == ',')
+                {
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
+                    javaScriptBuilder.Append(" }, ");
+                }
+                else
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 15, 15);
             }
         }
 
@@ -377,8 +402,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (!String.IsNullOrWhiteSpace(formatterOptions.ThousandsSeparator))
                     javaScriptBuilder.AppendFormat("thousandsSeparator: '{0}',", formatterOptions.ThousandsSeparator);
 
-                javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
-                javaScriptBuilder.Append(" }, ");
+                if (javaScriptBuilder[javaScriptBuilder.Length - 1] == ',')
+                {
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
+                    javaScriptBuilder.Append(" }, ");
+                }
+                else
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 17, 17);
             }
         }
 
@@ -409,8 +439,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                     javaScriptBuilder.Append("],");
                 }
 
-                javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
-                javaScriptBuilder.Append(" }, ");
+                if (javaScriptBuilder[javaScriptBuilder.Length - 1] == ',')
+                {
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
+                    javaScriptBuilder.Append(" }, ");
+                }
+                else
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 17, 17);
             }
         }
 
@@ -429,7 +464,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 }
             }
 
-            javaScriptBuilder.AppendFormat("datatype: '{0}',", _options.DataType.ToString().ToLower()).AppendLine();
+            if (!String.IsNullOrEmpty(_options.Caption))
+                javaScriptBuilder.AppendFormat("caption: '{0}',", _options.Caption).AppendLine();
+
+            if (_options.DataType != JqGridDataTypes.Xml)
+                javaScriptBuilder.AppendFormat("datatype: '{0}',", _options.DataType.ToString().ToLower()).AppendLine();
 
             if (!String.IsNullOrWhiteSpace(_options.EditingUrl))
                 javaScriptBuilder.AppendFormat("editurl: '{0}',", _options.EditingUrl).AppendLine();
@@ -440,12 +479,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (!String.IsNullOrWhiteSpace(_options.ExpandColumn))
                 javaScriptBuilder.AppendFormat("ExpandColumn: '{0}',", _options.ExpandColumn).AppendLine();
 
-            if (_options.Height.HasValue)
-                javaScriptBuilder.AppendFormat("height: {0},", _options.Height.Value).AppendLine();
-            else
-                javaScriptBuilder.AppendLine("height: 'auto',");
+            if (!String.IsNullOrWhiteSpace(_options.LoadError))
+                javaScriptBuilder.AppendFormat("loadError: {0},", _options.LoadError).AppendLine();
+
+            if (!String.IsNullOrWhiteSpace(_options.LoadComplete))
+                javaScriptBuilder.AppendFormat("loadComplete: {0},", _options.LoadComplete).AppendLine();
 
             javaScriptBuilder.AppendFormat("mtype: '{0}',", _options.MethodType.ToString().ToUpper()).AppendLine();
+
+            if (!String.IsNullOrWhiteSpace(_options.GridComplete))
+                javaScriptBuilder.AppendFormat("gridComplete: {0},", _options.GridComplete).AppendLine();
 
             if (!String.IsNullOrWhiteSpace(_options.OnSelectRow))
                 javaScriptBuilder.AppendFormat("onSelectRow: {0},", _options.OnSelectRow).AppendLine();
@@ -453,9 +496,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (_options.Pager)
                 javaScriptBuilder.AppendFormat("pager: '#{0}Pager',", _options.Id).AppendLine();
 
-            javaScriptBuilder.AppendFormat("rowNum: {0},", _options.RowsNumber).AppendLine();
-            javaScriptBuilder.AppendFormat("sortname: '{0}',", _options.SortingName).AppendLine();
-            javaScriptBuilder.AppendFormat("sortorder: '{0}',", _options.SortingOrder.ToString().ToLower()).AppendLine();
+            if (_options.RowsNumber != 20)
+                javaScriptBuilder.AppendFormat("rowNum: {0},", _options.RowsNumber).AppendLine();
+
+            if (!String.IsNullOrWhiteSpace(_options.SortingName))
+                javaScriptBuilder.AppendFormat("sortname: '{0}',", _options.SortingName).AppendLine();
+
+            if (_options.SortingOrder != JqGridSortingOrders.Asc)
+                javaScriptBuilder.AppendFormat("sortorder: '{0}',", _options.SortingOrder.ToString().ToLower()).AppendLine();
 
             if (_options.SubgridEnabled.HasValue)
             {
@@ -483,12 +531,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             else
                 javaScriptBuilder.AppendFormat("url: '{0}',", _options.Url).AppendLine();
 
-            javaScriptBuilder.AppendFormat("viewrecords: {0},", _options.ViewRecords.ToString().ToLower()).AppendLine();
+            if (_options.ViewRecords)
+                javaScriptBuilder.AppendFormat("viewrecords: {0},", _options.ViewRecords.ToString().ToLower()).AppendLine();
 
             if (_options.Width.HasValue)
-                javaScriptBuilder.AppendFormat("width: {0}", _options.Width.Value).AppendLine();
+                javaScriptBuilder.AppendFormat("width: {0},", _options.Width.Value).AppendLine();
+
+            if (_options.Height.HasValue)
+                javaScriptBuilder.AppendFormat("height: {0}", _options.Height.Value).AppendLine();
             else
-                javaScriptBuilder.AppendLine("width: 'auto'");
+                javaScriptBuilder.AppendLine("height: '100%'");
         }
 
         private void AppendSubgridModel(ref StringBuilder javaScriptBuilder)
@@ -524,128 +576,162 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
         private void AppendNavigator(ref StringBuilder javaScriptBuilder)
         {
-            javaScriptBuilder.AppendFormat(".jqGrid('navGrid', '#{0}Pager',", _options.Id, _options.Id).AppendLine();
+            javaScriptBuilder.AppendFormat(".jqGrid('navGrid', '#{0}Pager',", _options.Id).AppendLine();
             AppendNavigatorOptions(ref javaScriptBuilder);
-            if (_navigatorAddActionOptions != null || _navigatorDeleteActionOptions != null || _navigatorEditActionOptions != null || _navigatorSearchActionOptions != null || _navigatorViewActionOptions != null)
+
+            if (_navigatorEditActionOptions != null || _navigatorAddActionOptions != null || _navigatorDeleteActionOptions != null || _navigatorSearchActionOptions != null || _navigatorViewActionOptions != null)
             {
                 javaScriptBuilder.AppendLine(",");
                 AppendNavigatorActionOptions(_navigatorEditActionOptions, ref javaScriptBuilder);
-                javaScriptBuilder.AppendLine(",");
-                AppendNavigatorActionOptions(_navigatorAddActionOptions, ref javaScriptBuilder);
-                javaScriptBuilder.AppendLine(",");
-                AppendNavigatorActionOptions(_navigatorDeleteActionOptions, ref javaScriptBuilder);
-                javaScriptBuilder.AppendLine(",");
-                AppendNavigatorActionOptions(_navigatorSearchActionOptions, ref javaScriptBuilder);
-                javaScriptBuilder.AppendLine(",");
-                AppendNavigatorActionOptions(_navigatorViewActionOptions, ref javaScriptBuilder);
+                if (_navigatorAddActionOptions != null || _navigatorDeleteActionOptions != null || _navigatorSearchActionOptions != null || _navigatorViewActionOptions != null)
+                {
+                    javaScriptBuilder.AppendLine(",");
+                    AppendNavigatorActionOptions(_navigatorAddActionOptions, ref javaScriptBuilder);
+                    if (_navigatorDeleteActionOptions != null || _navigatorSearchActionOptions != null || _navigatorViewActionOptions != null)
+                    {
+                        javaScriptBuilder.AppendLine(",");
+                        AppendNavigatorActionOptions(_navigatorDeleteActionOptions, ref javaScriptBuilder);
+                        if (_navigatorSearchActionOptions != null || _navigatorViewActionOptions != null)
+                        {
+                            javaScriptBuilder.AppendLine(",");
+                            AppendNavigatorActionOptions(_navigatorSearchActionOptions, ref javaScriptBuilder);
+                            if (_navigatorViewActionOptions != null)
+                            {
+                                javaScriptBuilder.AppendLine(",");
+                                AppendNavigatorActionOptions(_navigatorViewActionOptions, ref javaScriptBuilder);
+                            }
+                        }
+                    }
+                }
             }
+
             javaScriptBuilder.Append(")");
+
+            foreach (JqGridNavigatorControlOptions controlOptions in _navigatorControlsOptions)
+            {
+                if (controlOptions is JqGridNavigatorButtonOptions)
+                    AppendNavigatorButton((JqGridNavigatorButtonOptions)controlOptions, ref javaScriptBuilder);
+                else if (controlOptions is JqGridNavigatorSeparatorOptions)
+                    AppendNavigatorSeparator((JqGridNavigatorSeparatorOptions)controlOptions, ref javaScriptBuilder);
+            }
         }
 
         private void AppendNavigatorOptions(ref StringBuilder javaScriptBuilder)
         {
             javaScriptBuilder.Append("{ ");
-            javaScriptBuilder.AppendFormat("add: {0},", _navigatorOptions.Add.ToString().ToLower());
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.AddIcon))
-                javaScriptBuilder.AppendFormat("addicon: '{0}',", _navigatorOptions.AddIcon);
+            if (!_navigatorOptions.Add)
+                javaScriptBuilder.Append("add: false, ");
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.AddText))
-                javaScriptBuilder.AppendFormat("addtext: '{0}',", _navigatorOptions.AddText);
+            if (_navigatorOptions.AddIcon != JqGridNavigatorDefaults.AddIcon)
+                javaScriptBuilder.AppendFormat("addicon: '{0}', ", _navigatorOptions.AddIcon);
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.AddToolTip))
-                javaScriptBuilder.AppendFormat("addtitle: '{0}',", _navigatorOptions.AddToolTip);
+            if (!String.IsNullOrEmpty(_navigatorOptions.AddText))
+                javaScriptBuilder.AppendFormat("addtext: '{0}', ", _navigatorOptions.AddText);
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.AlertCaption))
-                javaScriptBuilder.AppendFormat("alertcap: '{0}',", _navigatorOptions.AlertCaption);
+            if (_navigatorOptions.AddToolTip != JqGridNavigatorDefaults.AddToolTip)
+                javaScriptBuilder.AppendFormat("addtitle: '{0}', ", _navigatorOptions.AddToolTip);
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.AlertText))
-                javaScriptBuilder.AppendFormat("alerttext: '{0}',", _navigatorOptions.AlertText);
+            if (_navigatorOptions.AlertCaption != JqGridNavigatorDefaults.AlertCaption)
+                javaScriptBuilder.AppendFormat("alertcap: '{0}', ", _navigatorOptions.AlertCaption);
 
-            if (_navigatorOptions.CloneToTop.HasValue)
-                javaScriptBuilder.AppendFormat("cloneToTop: {0},", _navigatorOptions.CloneToTop.ToString().ToLower());
+            if (_navigatorOptions.AlertText != JqGridNavigatorDefaults.AlertText)
+                javaScriptBuilder.AppendFormat("alerttext: '{0}', ", _navigatorOptions.AlertText);
 
-            if (_navigatorOptions.CloseOnEscape.HasValue)
-                javaScriptBuilder.AppendFormat("closeOnEscape: {0},", _navigatorOptions.CloseOnEscape.ToString().ToLower());
+            if (_navigatorOptions.CloneToTop)
+                javaScriptBuilder.Append("cloneToTop: true, ");
 
-            javaScriptBuilder.AppendFormat("del: {0},", _navigatorOptions.Delete.ToString().ToLower());
+           if (!_navigatorOptions.CloseOnEscape)
+                javaScriptBuilder.Append("closeOnEscape: false, ");
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.DeleteIcon))
-                javaScriptBuilder.AppendFormat("delicon: '{0}',", _navigatorOptions.DeleteIcon);
+            if (!_navigatorOptions.Delete)
+                javaScriptBuilder.Append("del: false, ");
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.DeleteText))
-                javaScriptBuilder.AppendFormat("deltext: '{0}',", _navigatorOptions.DeleteText);
+            if (_navigatorOptions.DeleteIcon != JqGridNavigatorDefaults.DeleteIcon)
+                javaScriptBuilder.AppendFormat("delicon: '{0}', ", _navigatorOptions.DeleteIcon);
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.DeleteToolTip))
-                javaScriptBuilder.AppendFormat("deltitle: '{0}',", _navigatorOptions.DeleteToolTip);
+            if (!String.IsNullOrEmpty(_navigatorOptions.DeleteText))
+                javaScriptBuilder.AppendFormat("deltext: '{0}', ", _navigatorOptions.DeleteText);
 
-            javaScriptBuilder.AppendFormat("edit: {0},", _navigatorOptions.Edit.ToString().ToLower());
+            if (_navigatorOptions.DeleteToolTip != JqGridNavigatorDefaults.DeleteToolTip)
+                javaScriptBuilder.AppendFormat("deltitle: '{0}', ", _navigatorOptions.DeleteToolTip);
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.EditIcon))
-                javaScriptBuilder.AppendFormat("editicon: '{0}',", _navigatorOptions.EditIcon);
+            if (!_navigatorOptions.Edit)
+                javaScriptBuilder.Append("edit: false, ");
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.EditText))
-                javaScriptBuilder.AppendFormat("edittext: '{0}',", _navigatorOptions.EditText);
+            if (_navigatorOptions.EditIcon != JqGridNavigatorDefaults.EditIcon)
+                javaScriptBuilder.AppendFormat("editicon: '{0}', ", _navigatorOptions.EditIcon);
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.EditToolTip))
-                javaScriptBuilder.AppendFormat("edittitle: '{0}',", _navigatorOptions.EditToolTip);
+            if (!String.IsNullOrEmpty(_navigatorOptions.EditText))
+                javaScriptBuilder.AppendFormat("edittext: '{0}', ", _navigatorOptions.EditText);
 
-            if (_navigatorOptions.Position.HasValue)
-                javaScriptBuilder.AppendFormat("position: '{0}',", _navigatorOptions.Position.ToString().ToLower());
+            if (_navigatorOptions.EditToolTip != JqGridNavigatorDefaults.EditToolTip)
+                javaScriptBuilder.AppendFormat("edittitle: '{0}', ", _navigatorOptions.EditToolTip);
 
-            javaScriptBuilder.AppendFormat("refresh: {0},", _navigatorOptions.Refresh.ToString().ToLower());
+            if (_navigatorOptions.Position != JqGridAlignments.Left)
+                javaScriptBuilder.AppendFormat("position: '{0}', ", _navigatorOptions.Position.ToString().ToLower());
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.RefreshIcon))
-                javaScriptBuilder.AppendFormat("refreshicon: '{0}',", _navigatorOptions.RefreshIcon);
+            if (!_navigatorOptions.Refresh)
+                javaScriptBuilder.Append("refresh: false, ");
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.RefreshText))
-                javaScriptBuilder.AppendFormat("refreshtext: '{0}',", _navigatorOptions.RefreshText);
+            if (_navigatorOptions.RefreshIcon != JqGridNavigatorDefaults.RefreshIcon)
+                javaScriptBuilder.AppendFormat("refreshicon: '{0}', ", _navigatorOptions.RefreshIcon);
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.RefreshToolTip))
-                javaScriptBuilder.AppendFormat("refreshtitle: '{0}',", _navigatorOptions.RefreshToolTip);
+            if (!String.IsNullOrEmpty(_navigatorOptions.RefreshText))
+                javaScriptBuilder.AppendFormat("refreshtext: '{0}', ", _navigatorOptions.RefreshText);
 
-            if (_navigatorOptions.RefreshMode.HasValue)
-                javaScriptBuilder.AppendFormat("refreshstate: '{0}',", _navigatorOptions.RefreshMode.ToString().ToLower());
+            if (_navigatorOptions.RefreshToolTip != JqGridNavigatorDefaults.RefreshToolTip)
+                javaScriptBuilder.AppendFormat("refreshtitle: '{0}', ", _navigatorOptions.RefreshToolTip);
+
+            if (_navigatorOptions.RefreshMode != JqGridRefreshModes.FirstPage)
+                javaScriptBuilder.Append("refreshstate: 'current', ");
 
             if (!String.IsNullOrWhiteSpace(_navigatorOptions.AfterRefresh))
-                javaScriptBuilder.AppendFormat("afterRefresh: {0},", _navigatorOptions.AfterRefresh);
+                javaScriptBuilder.AppendFormat("afterRefresh: {0}, ", _navigatorOptions.AfterRefresh);
 
             if (!String.IsNullOrWhiteSpace(_navigatorOptions.BeforeRefresh))
-                javaScriptBuilder.AppendFormat("beforeRefresh: {0},", _navigatorOptions.BeforeRefresh);
+                javaScriptBuilder.AppendFormat("beforeRefresh: {0}, ", _navigatorOptions.BeforeRefresh);
 
-            javaScriptBuilder.AppendFormat("search: {0},", _navigatorOptions.Search.ToString().ToLower());
+            if (!_navigatorOptions.Search)
+                javaScriptBuilder.Append("search: false, ");
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.SearchIcon))
-                javaScriptBuilder.AppendFormat("searchicon: '{0}',", _navigatorOptions.SearchIcon);
+            if (_navigatorOptions.SearchIcon != JqGridNavigatorDefaults.SearchIcon)
+                javaScriptBuilder.AppendFormat("searchicon: '{0}', ", _navigatorOptions.SearchIcon);
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.SearchText))
-                javaScriptBuilder.AppendFormat("searchtext: '{0}',", _navigatorOptions.SearchText);
+            if (!String.IsNullOrEmpty(_navigatorOptions.SearchText))
+                javaScriptBuilder.AppendFormat("searchtext: '{0}', ", _navigatorOptions.SearchText);
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.SearchToolTip))
-                javaScriptBuilder.AppendFormat("searchtitle: '{0}',", _navigatorOptions.SearchToolTip);
+            if (_navigatorOptions.SearchToolTip != JqGridNavigatorDefaults.SearchToolTip)
+                javaScriptBuilder.AppendFormat("searchtitle: '{0}', ", _navigatorOptions.SearchToolTip);
 
-            javaScriptBuilder.AppendFormat("view: {0},", _navigatorOptions.View.ToString().ToLower());
+            if (_navigatorOptions.View)
+                javaScriptBuilder.Append("view: true, ");
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.ViewIcon))
-                javaScriptBuilder.AppendFormat("viewicon: '{0}',", _navigatorOptions.ViewIcon);
+            if (_navigatorOptions.ViewIcon != JqGridNavigatorDefaults.ViewIcon)
+                javaScriptBuilder.AppendFormat("viewicon: '{0}', ", _navigatorOptions.ViewIcon);
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.ViewText))
-                javaScriptBuilder.AppendFormat("viewtext: '{0}',", _navigatorOptions.ViewText);
+            if (!String.IsNullOrEmpty(_navigatorOptions.ViewText))
+                javaScriptBuilder.AppendFormat("viewtext: '{0}', ", _navigatorOptions.ViewText);
 
-            if (!String.IsNullOrWhiteSpace(_navigatorOptions.ViewToolTip))
-                javaScriptBuilder.AppendFormat("viewtitle: '{0}',", _navigatorOptions.ViewToolTip);
+            if (_navigatorOptions.ViewToolTip != JqGridNavigatorDefaults.ViewToolTip)
+                javaScriptBuilder.AppendFormat("viewtitle: '{0}', ", _navigatorOptions.ViewToolTip);
 
             if (!String.IsNullOrWhiteSpace(_navigatorOptions.AddFunction))
-                javaScriptBuilder.AppendFormat("addfunc: {0},", _navigatorOptions.AddFunction);
+                javaScriptBuilder.AppendFormat("addfunc: {0}, ", _navigatorOptions.AddFunction);
 
             if (!String.IsNullOrWhiteSpace(_navigatorOptions.EditFunction))
-                javaScriptBuilder.AppendFormat("editfunc: {0},", _navigatorOptions.EditFunction);
+                javaScriptBuilder.AppendFormat("editfunc: {0}, ", _navigatorOptions.EditFunction);
 
             if (!String.IsNullOrWhiteSpace(_navigatorOptions.DeleteFunction))
-                javaScriptBuilder.AppendFormat("delfunc: {0},", _navigatorOptions.DeleteFunction);
+                javaScriptBuilder.AppendFormat("delfunc: {0}, ", _navigatorOptions.DeleteFunction);
 
-            javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
-            javaScriptBuilder.Append(" }");
+            if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
+            {
+                javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
+                javaScriptBuilder.Append(" }");
+            }
+            else
+                javaScriptBuilder.Append("}");
         }
 
         private static void AppendNavigatorActionOptions(JqGridNavigatorActionOptions actionOptions, ref StringBuilder javaScriptBuilder)
@@ -654,98 +740,170 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
             if (actionOptions != null)
             {
-                if (actionOptions.ClearAfterAdd.HasValue)
-                    javaScriptBuilder.AppendFormat("clearAfterAdd: {0},", actionOptions.ClearAfterAdd.Value.ToString().ToLower());
+                if (!actionOptions.ClearAfterAdd)
+                    javaScriptBuilder.Append("clearAfterAdd: false, ");
 
-                if (actionOptions.CloseAfterAdd.HasValue)
-                    javaScriptBuilder.AppendFormat("closeAfterAdd: {0},", actionOptions.CloseAfterAdd.Value.ToString().ToLower());
+                if (actionOptions.CloseAfterAdd)
+                    javaScriptBuilder.Append("closeAfterAdd: true, ");
 
-                if (actionOptions.CloseAfterEdit.HasValue)
-                    javaScriptBuilder.AppendFormat("closeAfterEdit: {0},", actionOptions.CloseAfterEdit.Value.ToString().ToLower());
+                if (actionOptions.CloseAfterEdit)
+                    javaScriptBuilder.Append("closeAfterEdit: true, ");
 
-                if (actionOptions.CloseOnEscape.HasValue)
-                    javaScriptBuilder.AppendFormat("closeOnEscape: {0},", actionOptions.CloseOnEscape.Value.ToString().ToLower());
+                if (actionOptions.CloseOnEscape)
+                    javaScriptBuilder.Append("closeOnEscape: true, ");
 
-                if (actionOptions.Dragable.HasValue)
-                    javaScriptBuilder.AppendFormat("drag: {0},", actionOptions.Dragable.Value.ToString().ToLower());
+                if (!actionOptions.Dragable)
+                    javaScriptBuilder.Append("drag: false, ");
 
-                if (actionOptions.UseJqModal.HasValue)
-                    javaScriptBuilder.AppendFormat("jqModal: {0},", actionOptions.UseJqModal.Value.ToString().ToLower());
+                if (!actionOptions.UseJqModal)
+                    javaScriptBuilder.Append("jqModal: false, ");
 
-                if (actionOptions.Modal.HasValue)
-                    javaScriptBuilder.AppendFormat("modal: {0},", actionOptions.Modal.Value.ToString().ToLower());
+                if (actionOptions.Modal)
+                    javaScriptBuilder.Append("modal: true, ");
 
-                if (actionOptions.MethodType.HasValue)
-                    javaScriptBuilder.AppendFormat("mtype: '{0}',", actionOptions.MethodType.Value.ToString().ToUpper());
+                if (actionOptions.MethodType != JqGridMethodTypes.Post)
+                    javaScriptBuilder.Append("mtype: 'GET', ");
 
-                if (!String.IsNullOrWhiteSpace(actionOptions.OnAfterShowForm))
-                    javaScriptBuilder.AppendFormat("afterShowForm: {0},", actionOptions.OnAfterShowForm);
+                if (!String.IsNullOrWhiteSpace(actionOptions.AfterShowForm))
+                    javaScriptBuilder.AppendFormat("afterShowForm: {0}, ", actionOptions.AfterShowForm);
 
-                if (!String.IsNullOrWhiteSpace(actionOptions.OnBeforeShowForm))
-                    javaScriptBuilder.AppendFormat("beforeShowForm: {0},", actionOptions.OnBeforeShowForm);
+                if (!String.IsNullOrWhiteSpace(actionOptions.AfterSubmit))
+                    javaScriptBuilder.AppendFormat("afterSubmit: {0}, ", actionOptions.AfterSubmit);
+
+                if (!String.IsNullOrWhiteSpace(actionOptions.BeforeShowForm))
+                    javaScriptBuilder.AppendFormat("beforeShowForm: {0}, ", actionOptions.BeforeShowForm);
 
                 if (!String.IsNullOrWhiteSpace(actionOptions.OnClose))
-                    javaScriptBuilder.AppendFormat("onClose: {0},", actionOptions.OnClose);
+                    javaScriptBuilder.AppendFormat("onClose: {0}, ", actionOptions.OnClose);
 
                 if (!String.IsNullOrWhiteSpace(actionOptions.OnInitializeForm))
-                    javaScriptBuilder.AppendFormat("onInitializeForm: {0},", actionOptions.OnInitializeForm);
+                    javaScriptBuilder.AppendFormat("onInitializeForm: {0}, ", actionOptions.OnInitializeForm);
 
-                if (actionOptions.ReloadAfterSubmit.HasValue)
-                    javaScriptBuilder.AppendFormat("reloadAfterSubmit: {0},", actionOptions.ReloadAfterSubmit.Value.ToString().ToLower());
+                if (!actionOptions.ReloadAfterSubmit)
+                    javaScriptBuilder.Append("reloadAfterSubmit: false, ");
 
-                if (actionOptions.Resizable.HasValue)
-                    javaScriptBuilder.AppendFormat("resize: {0},", actionOptions.Resizable.Value.ToString().ToLower());
+                if (!actionOptions.Resizable)
+                    javaScriptBuilder.Append("resize: false, ");
 
                 if (!String.IsNullOrWhiteSpace(actionOptions.Url))
-                    javaScriptBuilder.AppendFormat("url: '{0}',", actionOptions.Url);
+                    javaScriptBuilder.AppendFormat("url: '{0}', ", actionOptions.Url);
 
                 JqGridNavigatorSearchActionOptions searchActionOptions = actionOptions as JqGridNavigatorSearchActionOptions;
                 if (searchActionOptions != null)
                 {
                     if (!String.IsNullOrWhiteSpace(searchActionOptions.AfterShowSearch))
-                        javaScriptBuilder.AppendFormat("afterShowSearch: '{0}',", searchActionOptions.AfterShowSearch);
+                        javaScriptBuilder.AppendFormat("afterShowSearch: '{0}', ", searchActionOptions.AfterShowSearch);
 
                     if (!String.IsNullOrWhiteSpace(searchActionOptions.BeforeShowSearch))
-                        javaScriptBuilder.AppendFormat("beforeShowSearch: '{0}',", searchActionOptions.BeforeShowSearch);
+                        javaScriptBuilder.AppendFormat("beforeShowSearch: '{0}', ", searchActionOptions.BeforeShowSearch);
 
-                    if (!String.IsNullOrWhiteSpace(searchActionOptions.Caption))
-                        javaScriptBuilder.AppendFormat("caption: '{0}',", searchActionOptions.Caption);
+                    if (!String.IsNullOrEmpty(searchActionOptions.Caption))
+                        javaScriptBuilder.AppendFormat("caption: '{0}', ", searchActionOptions.Caption);
 
-                    if (searchActionOptions.CloseAfterSearch.HasValue)
-                        javaScriptBuilder.AppendFormat("closeAfterSearch: {0},", searchActionOptions.CloseAfterSearch.Value.ToString().ToLower());
+                    if (searchActionOptions.CloseAfterSearch)
+                        javaScriptBuilder.Append("closeAfterSearch: true, ");
 
-                    if (searchActionOptions.CloseAfterReset.HasValue)
-                        javaScriptBuilder.AppendFormat("closeAfterReset: {0},", searchActionOptions.CloseAfterReset.Value.ToString().ToLower());
+                    if (searchActionOptions.CloseAfterReset)
+                        javaScriptBuilder.Append("closeAfterReset: true, ");
                     
-                    if (!String.IsNullOrWhiteSpace(searchActionOptions.SearchText))
-                        javaScriptBuilder.AppendFormat("Find: '{0}',", searchActionOptions.SearchText);
+                    if (!String.IsNullOrEmpty(searchActionOptions.SearchText))
+                        javaScriptBuilder.AppendFormat("Find: '{0}', ", searchActionOptions.SearchText);
 
-                    if (searchActionOptions.AdvancedSearching.HasValue)
-                        javaScriptBuilder.AppendFormat("multipleSearch: {0},", searchActionOptions.AdvancedSearching.Value.ToString().ToLower());
+                    if (searchActionOptions.AdvancedSearching)
+                        javaScriptBuilder.Append("multipleSearch: true, ");
 
-                    if (searchActionOptions.CloneSearchRowOnAdd.HasValue)
-                        javaScriptBuilder.AppendFormat("cloneSearchRowOnAdd: {0},", searchActionOptions.CloneSearchRowOnAdd.Value.ToString().ToLower());
+                    if (searchActionOptions.AdvancedSearchingWithGroups)
+                        javaScriptBuilder.Append("multipleGroup: true, ");
+
+                    if (!searchActionOptions.CloneSearchRowOnAdd)
+                        javaScriptBuilder.Append("cloneSearchRowOnAdd: false, ");
 
                     if (!String.IsNullOrWhiteSpace(searchActionOptions.OnInitializeSearch))
-                        javaScriptBuilder.AppendFormat("onInitializeSearch: '{0}',", searchActionOptions.OnInitializeSearch);
+                        javaScriptBuilder.AppendFormat("onInitializeSearch: '{0}', ", searchActionOptions.OnInitializeSearch);
 
-                    if (searchActionOptions.RecreateFilter.HasValue)
-                        javaScriptBuilder.AppendFormat("recreateFilter: {0},", searchActionOptions.RecreateFilter.Value.ToString().ToLower());
+                    if (searchActionOptions.RecreateFilter)
+                        javaScriptBuilder.Append("recreateFilter: true, ");
 
-                    if (!String.IsNullOrWhiteSpace(searchActionOptions.ResetText))
-                        javaScriptBuilder.AppendFormat("Reset: '{0},',", searchActionOptions.ResetText);
+                    if (!String.IsNullOrEmpty(searchActionOptions.ResetText))
+                        javaScriptBuilder.AppendFormat("Reset: '{0}', ", searchActionOptions.ResetText);
 
-                    if (searchActionOptions.Overlay.HasValue)
-                        javaScriptBuilder.AppendFormat("overlay: {0},", searchActionOptions.Overlay.Value.ToString().ToLower());
+                    if (searchActionOptions.ShowQuery)
+                        javaScriptBuilder.Append("showQuery: true, ");
+
+                    if (searchActionOptions.Overlay != 10)
+                        javaScriptBuilder.AppendFormat("overlay: {0}, ", searchActionOptions.Overlay);
                 }
 
-                if (actionOptions.Width.HasValue)
-                    javaScriptBuilder.AppendFormat("width: {0}", actionOptions.Width.Value);
-                else
-                    javaScriptBuilder.Append("width: 'auto'");
+                if (actionOptions.Width != 300)
+                    javaScriptBuilder.AppendFormat("width: {0}, ", actionOptions.Width);
             }
 
-            javaScriptBuilder.Append(" }");
+            if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
+            {
+                javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
+                javaScriptBuilder.Append(" }");
+            }
+            else
+                javaScriptBuilder.Append("}");
+        }
+
+        private void AppendNavigatorButton(JqGridNavigatorButtonOptions buttonOptions, ref StringBuilder javaScriptBuilder)
+        {
+            javaScriptBuilder.AppendFormat(".jqGrid('navButtonAdd', '#{0}Pager', {{ ", _options.Id);
+
+            if (buttonOptions.Caption != JqGridNavigatorDefaults.ButtonCaption)
+                javaScriptBuilder.AppendFormat("caption: '{0}', ", buttonOptions.Caption);
+
+            if (buttonOptions.Icon != JqGridNavigatorDefaults.ButtonIcon)
+                javaScriptBuilder.AppendFormat("buttonicon: '{0}', ", buttonOptions.Icon);
+
+            if (!String.IsNullOrWhiteSpace(buttonOptions.OnClick))
+                javaScriptBuilder.AppendFormat("onClickButton: {0}, ", buttonOptions.OnClick);
+
+            if (buttonOptions.Position != JqGridNavigatorButtonPositions.Last)
+                javaScriptBuilder.Append("position: 'first', ");
+
+            if (!String.IsNullOrEmpty(buttonOptions.ToolTip))
+                javaScriptBuilder.AppendFormat("title: '{0}', ", buttonOptions.ToolTip);
+
+            if (buttonOptions.Cursor != JqGridNavigatorDefaults.ButtonCursor)
+                javaScriptBuilder.AppendFormat("cursor: '{0}', ", buttonOptions.Cursor);
+
+            if (!String.IsNullOrWhiteSpace(buttonOptions.Id))
+                javaScriptBuilder.AppendFormat("id: '{0}', ", buttonOptions.Id);
+
+            if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
+            {
+                javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
+                javaScriptBuilder.Append(" })");
+            }
+            else
+            {
+                javaScriptBuilder.Remove(javaScriptBuilder.Length - 4, 4);
+                javaScriptBuilder.Append(")");
+            }
+        }
+
+        private void AppendNavigatorSeparator(JqGridNavigatorSeparatorOptions separatorOptions, ref StringBuilder javaScriptBuilder)
+        {
+            javaScriptBuilder.AppendFormat(".jqGrid('navSeparatorAdd', '#{0}Pager', {{ ", _options.Id);
+
+            if (separatorOptions.Class != JqGridNavigatorDefaults.SeparatorClass)
+                javaScriptBuilder.AppendFormat("sepclass: '{0}', ", separatorOptions.Class);
+
+            if (!String.IsNullOrEmpty(separatorOptions.Content))
+                javaScriptBuilder.AppendFormat("sepcontent: '{0}', ", separatorOptions.Content);
+
+            if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
+            {
+                javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
+                javaScriptBuilder.Append(" })");
+            }
+            else
+            {
+                javaScriptBuilder.Remove(javaScriptBuilder.Length - 4, 4);
+                javaScriptBuilder.Append(")");
+            }
         }
 
         private void AppendFilterToolbar(ref StringBuilder javaScriptBuilder)
@@ -891,6 +1049,90 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             _navigatorDeleteActionOptions = deleteActionOptions;
             _navigatorSearchActionOptions = searchActionOptions;
             _navigatorViewActionOptions = viewActionOptions;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds button to this JqGridHelper instance Navigator.
+        /// </summary>
+        /// <param name="caption">The caption for the button.</param>
+        /// <param name="icon">The icon (form UI theme images) for the button. If this is set to "none" only text will appear.</param>
+        /// <param name="onClick">The function for button click action.</param>
+        /// <param name="position">The position where the button will be added.</param>
+        /// <param name="toolTip">The tooltip for the button.</param>
+        /// <param name="cursor">The value which determines the cursor when user mouseover the button.</param>
+        /// <returns>JqGridHelper instance.</returns>
+        public JqGridHelper<TModel> AddNavigatorButton(string caption = JqGridNavigatorDefaults.ButtonCaption, string icon = JqGridNavigatorDefaults.ButtonIcon, string onClick = null, JqGridNavigatorButtonPositions position = JqGridNavigatorButtonPositions.Last, string toolTip = "", string cursor = JqGridNavigatorDefaults.ButtonCursor)
+        {
+            if (_navigatorOptions == null)
+                throw new InvalidOperationException("In order to call AddNavigatorButton method you must call Navigator method first.");
+
+            _navigatorControlsOptions.Add(new JqGridNavigatorButtonOptions()
+            {
+                Caption = caption,
+                Icon = icon,
+                OnClick = onClick,
+                Position = position,
+                ToolTip = toolTip,
+                Cursor = cursor
+            });
+            
+            return this;
+        }
+
+        /// <summary>
+        /// Adds button to this JqGridHelper instance Navigator.
+        /// </summary>
+        /// <param name="options">The options for the button.</param>
+        /// <returns>JqGridHelper instance.</returns>
+        public JqGridHelper<TModel> AddNavigatorButton(JqGridNavigatorButtonOptions options)
+        {
+            if (options == null)
+                throw new ArgumentNullException("options");
+
+            if (_navigatorOptions == null)
+                throw new InvalidOperationException("In order to call AddNavigatorButton method you must call Navigator method first.");
+
+            _navigatorControlsOptions.Add(options);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds separator to this JqGridHelper instance Navigator.
+        /// </summary>
+        /// <param name="class">The class for the separator.</param>
+        /// <param name="content">The content for the separator.</param>
+        /// <returns>JqGridHelper instance.</returns>
+        public JqGridHelper<TModel> AddNavigatorSeparator(string @class = JqGridNavigatorDefaults.SeparatorClass, string content = "")
+        {
+            if (_navigatorOptions == null)
+                throw new InvalidOperationException("In order to call AddNavigatorSeparator method you must call Navigator method first.");
+
+            _navigatorControlsOptions.Add(new JqGridNavigatorSeparatorOptions()
+            {
+                Class = @class,
+                Content = content
+            });
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds separator to this JqGridHelper instance Navigator.
+        /// </summary>
+        /// <param name="options">The options for the separator.</param>
+        /// <returns>JqGridHelper instance.</returns>
+        public JqGridHelper<TModel> AddNavigatorSeparator(JqGridNavigatorSeparatorOptions options)
+        {
+            if (options == null)
+                throw new ArgumentNullException("options");
+
+            if (_navigatorOptions == null)
+                throw new InvalidOperationException("In order to call AddNavigatorSeparator method you must call Navigator method first.");
+
+            _navigatorControlsOptions.Add(options);
 
             return this;
         }

@@ -214,11 +214,11 @@ namespace Lib.Web.Mvc.Html
 
                 //Perform transformation based on form in which we have our XML
                 if (xmlDocument != null)
-                    transform.Transform((IXPathNavigable)xmlDocument, transformArgumentList, htmlHelper.ViewContext.HttpContext.Response.Output);
+                    transform.Transform((IXPathNavigable)xmlDocument, transformArgumentList, htmlHelper.ViewContext.Writer);
                 else if (xpathNavigator != null)
-                    transform.Transform(xpathNavigator, transformArgumentList, htmlHelper.ViewContext.HttpContext.Response.Output);
+                    transform.Transform(xpathNavigator, transformArgumentList, htmlHelper.ViewContext.Writer);
                 else
-                    transform.Transform((IXPathNavigable)xpathDocument, transformArgumentList, htmlHelper.ViewContext.HttpContext.Response.Output);
+                    transform.Transform((IXPathNavigable)xpathDocument, transformArgumentList, htmlHelper.ViewContext.Writer);
             }
         }
         #endregion
