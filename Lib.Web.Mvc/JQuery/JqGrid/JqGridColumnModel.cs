@@ -96,6 +96,21 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridColumnSearchTypes? SearchType { get; set; }
 
         /// <summary>
+        /// Gets or sets the grouping summary type.
+        /// </summary>
+        public JqGridColumnSummaryTypes? SummaryType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the grouping summary template.
+        /// </summary>
+        public string SummaryTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the grouping summary function for custom type.
+        /// </summary>
+        public string SummaryFunction { get; set; }
+
+        /// <summary>
         /// Gets or sets the value defining if this column can be sorted.
         /// </summary>
         public bool? Sortable { get; set; }
@@ -128,6 +143,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <param name="name">The unique name for the column.</param>
         public JqGridColumnModel(string name)
         {
+            SummaryType = null;
+            SummaryTemplate = "{0}";
+            SummaryFunction = null;
+
             Index = String.Empty;
             Name = name;
             Alignment = JqGridAlignments.Left;
@@ -215,6 +234,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                         EditOptions.MaximumLength = stringLengthAttribute.MaximumLength;
                 }
             }
+
+            SummaryType = propertyMetadata.GetColumnSummaryType();
+            SummaryTemplate = propertyMetadata.GetColumnSummaryTemplate();
+            SummaryFunction = propertyMetadata.GetColumnSummaryFunction();
 
             Name = propertyMetadata.PropertyName;
 

@@ -44,6 +44,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public int PageIndex { get; internal set; }
 
         /// <summary>
+        /// Gets the number of pages to return
+        /// </summary>
+        public int? PagesCount { get; internal set; }
+
+        /// <summary>
         /// Gets the number of rows to return
         /// </summary>
         public int RecordsCount { get; internal set; }

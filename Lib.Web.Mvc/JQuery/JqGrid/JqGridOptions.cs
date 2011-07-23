@@ -28,12 +28,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets or sets the value indicating if cell editing is enabled
         /// </summary>
-        public bool? CellEditingEnabled { get; set; }
+        public bool CellEditingEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets the cell editing submit mode
         /// </summary>
-        public JqGridCellEditingSubmitModes? CellEditingSubmitMode { get; set; }
+        public JqGridCellEditingSubmitModes CellEditingSubmitMode { get; set; }
 
         /// <summary>
         /// Gets or set the URL for cell editing submit
@@ -66,6 +66,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridDataTypes DataType { get; set; }
 
         /// <summary>
+        /// Gets or sets the value which defines if dynamic scrolling is enabled.
+        /// </summary>
+        public JqGridDynamicScrollingModes DynamicScrollingMode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the timeout (in miliseconds) if DynamicScrollingMode is set to JqGridDynamicScrollingModes.HoldVisibleRows
+        /// </summary>
+        public int DynamicScrollingTimeout { get; set; }
+
+        /// <summary>
         /// Gets or sets the url for inline and form editing.
         /// </summary>
         public string EditingUrl { get; set; }
@@ -73,7 +83,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets or sets the value which defines whether the tree is expanded and/or collapsed when user clicks on the text of the expanded column, not only on the image.
         /// </summary>
-        public bool? ExpandColumnClick { get; set; }
+        public bool ExpandColumnClick { get; set; }
 
         /// <summary>
         /// Gets or sets the name of column which should be used to expand the tree grid.
@@ -81,9 +91,31 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string ExpandColumn { get; set; }
 
         /// <summary>
+        /// Gets or sets the value indicating if the grouping is enabled.
+        /// </summary>
+        public bool GroupingEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the grouping view options.
+        /// </summary>
+        public JqGridGroupingView GroupingView { get; set; }
+
+        /// <summary>
         /// Gets or sets the height of the grid in pixels (default 'auto').
         /// </summary>
         public int? Height { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value which defines whether the grid is initialy hidden (no data loaded, only caption layer is shown).
+        /// Takes effect only if the Caption property is not empty string and HiddenEnabled is set to true.
+        /// </summary>
+        public bool Hidden { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value which defines whether the show/hide grid button is enabled.
+        /// Takes effect only if the Caption property is not empty string.
+        /// </summary>
+        public bool HiddenEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets the function for event which is raised after the request fails.
@@ -116,9 +148,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public bool Pager { get; set; }
 
         /// <summary>
+        /// Gets or sets customized names for jqGrid request parameters.
+        /// </summary>
+        public JqGridParametersNames ParametersNames { get; set; }
+
+        /// <summary>
         /// Gets or sets how many records should be displayed in the grid (default 20).
         /// </summary>
         public int RowsNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the width of vertical scrollbar
+        /// </summary>
+        public int ScrollOffset { get; set; }
 
         /// <summary>
         /// Gets or sets the initial sorting column index, when  using data returned from server (default: String.Empty)
@@ -133,7 +175,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets or sets the value which defines if subgrid is enabled.
         /// </summary>
-        public bool? SubgridEnabled { get; set; }
+        public bool SubgridEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets the subgrid model.
@@ -148,17 +190,17 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets or sets the width of subgrid expand/colapse column.
         /// </summary>
-        public int? SubgridColumnWidth { get; set; }
+        public int SubgridColumnWidth { get; set; }
 
         /// <summary>
         /// Gets or sets the value which defines if TreeGrid is enabled.
         /// </summary>
-        public bool? TreeGridEnabled { get; set; }
+        public bool TreeGridEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets the model for TreeGrid.
         /// </summary>
-        public JqGridTreeGridModels? TreeGridModel { get; set; }
+        public JqGridTreeGridModels TreeGridModel { get; set; }
 
         /// <summary>
         /// Gets or sets the url for data requests (default null)
@@ -188,20 +230,39 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             _columnsNames = new List<string>();
 
             Caption = String.Empty;
+            CellEditingEnabled = false;
+            CellEditingSubmitMode = JqGridCellEditingSubmitModes.Remote;
+            CellEditingUrl = null;
+            ColumnsRemaping = null;
+            DataString = null;
+            DataType = JqGridDataTypes.Xml;
+            DynamicScrollingMode = JqGridDynamicScrollingModes.Disabled;
+            DynamicScrollingTimeout = 200;
+            EditingUrl = null;
+            ExpandColumn = null;
+            ExpandColumnClick = true;
+            GridComplete = null;
+            GroupingEnabled = false;
+            GroupingView = null;
+            Height = null;
+            Hidden = false;
+            HiddenEnabled = true;
             LoadComplete = null;
             LoadError = null;
-            GridComplete = null;
-            OnSelectRow = null;
-
-            ColumnsRemaping = null;
-            DataType = JqGridDataTypes.Xml;
-            DataString = null;
-            Height = null;
             MethodType = JqGridMethodTypes.Get;
+            OnSelectRow = null;
             Pager = false;
+            ParametersNames = null;
             RowsNumber = 20;
+            ScrollOffset = 18;
             SortingName = String.Empty;
             SortingOrder = JqGridSortingOrders.Asc;
+            SubgridColumnWidth = 20;
+            SubgridEnabled = false;
+            SubgridModel = null;
+            SubgridUrl = String.Empty;
+            TreeGridEnabled = false;
+            TreeGridModel = JqGridTreeGridModels.Nested;
             Url = null;
             ViewRecords = false;
             Width = null;

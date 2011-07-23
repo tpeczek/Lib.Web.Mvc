@@ -40,17 +40,25 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <param name="cellEditingUrl">The URL for cell editing submit.</param>
         /// <param name="dataString">The string of data which will be used when DataType is set to JqGridDataTypes.XmlString or JqGridDataTypes.JsonString.</param>
         /// <param name="dataType">The type of information to expect to represent data in the grid.</param>
+        /// <param name="dynamicScrollingMode">The value which defines if dynamic scrolling is enabled.</param>
+        /// <param name="dynamicScrollingTimeout">The timeout (in miliseconds) if DynamicScrollingMode is set to JqGridDynamicScrollingModes.HoldVisibleRows.</param>
         /// <param name="editingUrl">The url for inline and form editing</param>
         /// <param name="expandColumnClick">The value which defines whether the tree is expanded and/or collapsed when user clicks on the text of the expanded column, not only on the image.</param>
         /// <param name="expandColumn">The name of column which should be used to expand the tree grid.</param>
+        /// <param name="groupingEnabled">The value indicating if the grouping is enabled.</param>
+        /// <param name="groupingView">The grouping view options.</param>
         /// <param name="height">The height of the grid in pixels (default 'auto').</param>
+        /// <param name="hidden">The value which defines whether the grid is initialy hidden (no data loaded, only caption layer is shown). Takes effect only if the caption is not empty string and hiddenEnabled is true.</param>
+        /// <param name="hiddenEnabled">The value which defines whether the show/hide grid button is enabled. Takes effect only if the caption is not empty string.</param>
         /// <param name="loadError">The function for event which is raised after the request fails.</param>
         /// <param name="loadComplete">The function for event which is raised immediately after every server request.</param>
         /// <param name="methodType">The type of request to make.</param>
         /// <param name="gridComplete">The function for event which is raised after all the data is loaded into the grid and all other processes are complete.</param>
         /// <param name="onSelectRow">The function for event which is raised immediately after row was clicked.</param>
         /// <param name="pager">If grid should use a pager bar to navigate through the records.</param>
+        /// <param name="parametersNames">The customized names for jqGrid request parameters.</param>
         /// <param name="rowsNumber">How many records should be displayed in the grid.</param>
+        /// <param name="scrollOffset">The width of vertical scrollbar.</param>
         /// <param name="sortingName">The initial sorting column index, when  using data returned from server.</param>
         /// <param name="sortingOrder">The initial sorting order, when  using data returned from server.</param>
         /// <param name="subgridEnabled">The value which defines if subgrid is enabled.</param>
@@ -62,8 +70,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <param name="url">The url for data requests.</param>
         /// <param name="viewRecords">If grid should display the beginning and ending record number out of the total number of records in the query.</param>
         /// <param name="width">The width of the grid in pixels.</param>
-        public JqGridHelper(string id, string caption = null, bool? cellEditingEnabled = null, JqGridCellEditingSubmitModes? cellEditingSubmitMode = null, string cellEditingUrl = null, string dataString = null, JqGridDataTypes dataType = JqGridDataTypes.Xml, string editingUrl = null, bool? expandColumnClick = null, string expandColumn = null, int? height = null, string loadError = null, string loadComplete = null, JqGridMethodTypes methodType = JqGridMethodTypes.Get, string gridComplete = null, string onSelectRow = null, bool pager = false, int rowsNumber = 20, string sortingName = "", JqGridSortingOrders sortingOrder = JqGridSortingOrders.Asc, bool? subgridEnabled = null, JqGridSubgridModel subgridModel = null, string subgridUrl = null, int? subgridColumnWidth = null, bool? treeGridEnabled = null, JqGridTreeGridModels? treeGridModel = null, string url = null, bool viewRecords = false, int? width = null)
-            : this(new JqGridOptions<TModel>(id) { Caption = caption, CellEditingEnabled = cellEditingEnabled, CellEditingSubmitMode = cellEditingSubmitMode, CellEditingUrl = cellEditingUrl, DataString = dataString, DataType = dataType, EditingUrl = editingUrl, ExpandColumnClick = expandColumnClick, ExpandColumn = expandColumn, Height = height, LoadError = loadError, LoadComplete = loadComplete, MethodType = methodType, GridComplete = gridComplete, OnSelectRow = onSelectRow, Pager = pager, RowsNumber = rowsNumber, SortingName = sortingName, SortingOrder = sortingOrder, SubgridEnabled = subgridEnabled, SubgridModel = subgridModel, SubgridUrl = subgridUrl, SubgridColumnWidth = subgridColumnWidth, TreeGridEnabled = treeGridEnabled, TreeGridModel = treeGridModel, Url = url, ViewRecords = viewRecords, Width = width })
+        public JqGridHelper(string id, string caption = null, bool cellEditingEnabled = false, JqGridCellEditingSubmitModes cellEditingSubmitMode = JqGridCellEditingSubmitModes.Remote, string cellEditingUrl = null, string dataString = null, JqGridDataTypes dataType = JqGridDataTypes.Xml, JqGridDynamicScrollingModes dynamicScrollingMode = JqGridDynamicScrollingModes.Disabled, int dynamicScrollingTimeout = 200, string editingUrl = null, bool expandColumnClick = true, string expandColumn = null, int? height = null, bool groupingEnabled = false, JqGridGroupingView groupingView = null, bool hidden = false, bool hiddenEnabled = true, string loadError = null, string loadComplete = null, JqGridMethodTypes methodType = JqGridMethodTypes.Get, string gridComplete = null, string onSelectRow = null, bool pager = false, JqGridParametersNames parametersNames = null, int rowsNumber = 20, int scrollOffset = 18, string sortingName = "", JqGridSortingOrders sortingOrder = JqGridSortingOrders.Asc, bool subgridEnabled = false, JqGridSubgridModel subgridModel = null, string subgridUrl = null, int subgridColumnWidth = 20, bool treeGridEnabled = false, JqGridTreeGridModels treeGridModel = JqGridTreeGridModels.Nested, string url = null, bool viewRecords = false, int? width = null)
+            : this(new JqGridOptions<TModel>(id) { Caption = caption, CellEditingEnabled = cellEditingEnabled, CellEditingSubmitMode = cellEditingSubmitMode, CellEditingUrl = cellEditingUrl, DataString = dataString, DataType = dataType, DynamicScrollingMode = dynamicScrollingMode, DynamicScrollingTimeout = dynamicScrollingTimeout, EditingUrl = editingUrl, ExpandColumnClick = expandColumnClick, ExpandColumn = expandColumn, GroupingEnabled = groupingEnabled, GroupingView = groupingView, Height = height, Hidden = hidden, HiddenEnabled = hiddenEnabled, LoadError = loadError, LoadComplete = loadComplete, MethodType = methodType, GridComplete = gridComplete, OnSelectRow = onSelectRow, Pager = pager, ParametersNames = parametersNames, RowsNumber = rowsNumber, ScrollOffset = scrollOffset, SortingName = sortingName, SortingOrder = sortingOrder, SubgridEnabled = subgridEnabled, SubgridModel = subgridModel, SubgridUrl = subgridUrl, SubgridColumnWidth = subgridColumnWidth, TreeGridEnabled = treeGridEnabled, TreeGridModel = treeGridModel, Url = url, ViewRecords = viewRecords, Width = width })
         { }
 
         /// <summary>
@@ -215,6 +223,20 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                             javaScriptBuilder.AppendFormat("stype: '{0}', ", columnModel.SearchType.Value.ToString().ToLower());
                         AppendSearchOptions(columnModel.SearchOptions, ref javaScriptBuilder);
                     }
+                }
+
+                if (_options.GroupingEnabled)
+                {
+                    if (columnModel.SummaryType.HasValue)
+                    {
+                        if (columnModel.SummaryType.Value != JqGridColumnSummaryTypes.Custom)
+                            javaScriptBuilder.AppendFormat("summaryType: '{0}', ", columnModel.SummaryType.Value.ToString().ToLower());
+                        else
+                            javaScriptBuilder.AppendFormat("summaryType: {0}, ", columnModel.SummaryFunction);
+                    }
+
+                    if (columnModel.SummaryTemplate != "{0}")
+                        javaScriptBuilder.AppendFormat("summaryTpl: '{0}', ", columnModel.SummaryTemplate);
                 }
 
                 if (columnModel.Sortable.HasValue)
@@ -451,33 +473,51 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
         private void AppendOptions(ref StringBuilder javaScriptBuilder)
         {
-            if (_options.CellEditingEnabled.HasValue)
+            if (_options.CellEditingEnabled)
             {
-                javaScriptBuilder.AppendFormat("cellEdit: {0},", _options.CellEditingEnabled.Value.ToString().ToLower()).AppendLine();
-                if (_options.CellEditingEnabled.Value)
-                {
-                    if (_options.CellEditingSubmitMode.HasValue)
-                        javaScriptBuilder.AppendFormat("cellsubmit: '{0}',", _options.CellEditingSubmitMode.Value).AppendLine();
+                javaScriptBuilder.Append("cellEdit: true,").AppendLine();
+                if (_options.CellEditingSubmitMode != JqGridCellEditingSubmitModes.Remote)
+                    javaScriptBuilder.Append("cellsubmit: 'clientArray',").AppendLine();
 
-                    if (!String.IsNullOrWhiteSpace(_options.CellEditingUrl))
-                        javaScriptBuilder.AppendFormat("cellurl: '{0}',", _options.CellEditingUrl).AppendLine();
-                }
+                if (!String.IsNullOrWhiteSpace(_options.CellEditingUrl))
+                    javaScriptBuilder.AppendFormat("cellurl: '{0}',", _options.CellEditingUrl).AppendLine();
             }
 
             if (!String.IsNullOrEmpty(_options.Caption))
+            {
                 javaScriptBuilder.AppendFormat("caption: '{0}',", _options.Caption).AppendLine();
+
+                if (!_options.HiddenEnabled)
+                    javaScriptBuilder.Append("hidegrid: false,").AppendLine();
+                else if (_options.Hidden)
+                    javaScriptBuilder.Append("hiddengrid: true,").AppendLine();
+            }
+
+            if (_options.UseDataString())
+                javaScriptBuilder.AppendFormat("datastr: '{0}',", _options.DataString).AppendLine();
+            else
+                javaScriptBuilder.AppendFormat("url: '{0}',", _options.Url).AppendLine();
 
             if (_options.DataType != JqGridDataTypes.Xml)
                 javaScriptBuilder.AppendFormat("datatype: '{0}',", _options.DataType.ToString().ToLower()).AppendLine();
 
+            if (_options.DynamicScrollingMode == JqGridDynamicScrollingModes.HoldAllRows)
+                javaScriptBuilder.Append("scroll: true,").AppendLine();
+            else if (_options.DynamicScrollingMode == JqGridDynamicScrollingModes.HoldVisibleRows)
+            {
+                javaScriptBuilder.Append("scroll: 10,").AppendLine();
+                if (_options.DynamicScrollingTimeout != 200)
+                    javaScriptBuilder.AppendFormat("scrollTimeout: {0},", _options.DynamicScrollingTimeout).AppendLine();
+            }
+
             if (!String.IsNullOrWhiteSpace(_options.EditingUrl))
                 javaScriptBuilder.AppendFormat("editurl: '{0}',", _options.EditingUrl).AppendLine();
 
-            if (_options.ExpandColumnClick.HasValue)
-                javaScriptBuilder.AppendFormat("ExpandColClick: {0},", _options.ExpandColumnClick.Value.ToString().ToLower()).AppendLine();
-
-            if (!String.IsNullOrWhiteSpace(_options.ExpandColumn))
-                javaScriptBuilder.AppendFormat("ExpandColumn: '{0}',", _options.ExpandColumn).AppendLine();
+            if (_options.GroupingEnabled)
+            {
+                javaScriptBuilder.Append("grouping: true,").AppendLine();
+                AppendGroupingView(ref javaScriptBuilder);
+            }
 
             if (!String.IsNullOrWhiteSpace(_options.LoadError))
                 javaScriptBuilder.AppendFormat("loadError: {0},", _options.LoadError).AppendLine();
@@ -485,7 +525,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (!String.IsNullOrWhiteSpace(_options.LoadComplete))
                 javaScriptBuilder.AppendFormat("loadComplete: {0},", _options.LoadComplete).AppendLine();
 
-            javaScriptBuilder.AppendFormat("mtype: '{0}',", _options.MethodType.ToString().ToUpper()).AppendLine();
+            if (_options.MethodType != JqGridMethodTypes.Get)
+                javaScriptBuilder.AppendFormat("mtype: 'POST',").AppendLine();
 
             if (!String.IsNullOrWhiteSpace(_options.GridComplete))
                 javaScriptBuilder.AppendFormat("gridComplete: {0},", _options.GridComplete).AppendLine();
@@ -496,43 +537,49 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (_options.Pager)
                 javaScriptBuilder.AppendFormat("pager: '#{0}Pager',", _options.Id).AppendLine();
 
+            AppendParametersNames(ref javaScriptBuilder);
+
             if (_options.RowsNumber != 20)
                 javaScriptBuilder.AppendFormat("rowNum: {0},", _options.RowsNumber).AppendLine();
+
+            if (_options.ScrollOffset != 18)
+                javaScriptBuilder.AppendFormat("scrollOffset: {0},", _options.ScrollOffset).AppendLine();
 
             if (!String.IsNullOrWhiteSpace(_options.SortingName))
                 javaScriptBuilder.AppendFormat("sortname: '{0}',", _options.SortingName).AppendLine();
 
             if (_options.SortingOrder != JqGridSortingOrders.Asc)
-                javaScriptBuilder.AppendFormat("sortorder: '{0}',", _options.SortingOrder.ToString().ToLower()).AppendLine();
+                javaScriptBuilder.AppendFormat("sortorder: 'desc',").AppendLine();
 
-            if (_options.SubgridEnabled.HasValue)
+            if (_options.SubgridEnabled)
             {
-                javaScriptBuilder.AppendFormat("subGrid: {0},", _options.SubgridEnabled.Value.ToString().ToLower()).AppendLine();
-                if (_options.SubgridEnabled.Value)
-                {
-                    AppendSubgridModel(ref javaScriptBuilder);
+                javaScriptBuilder.AppendFormat("subGrid: true,").AppendLine();
 
-                    if (!String.IsNullOrWhiteSpace(_options.SubgridUrl))
-                        javaScriptBuilder.AppendFormat("subGridUrl: '{0}',", _options.SubgridUrl).AppendLine();
+                AppendSubgridModel(ref javaScriptBuilder);
 
-                    if (_options.SubgridColumnWidth.HasValue)
-                        javaScriptBuilder.AppendFormat("subGridWidth: {0},", _options.SubgridColumnWidth.Value).AppendLine();
-                }
+                if (!String.IsNullOrWhiteSpace(_options.SubgridUrl))
+                    javaScriptBuilder.AppendFormat("subGridUrl: '{0}',", _options.SubgridUrl).AppendLine();
+
+                if (_options.SubgridColumnWidth != 20)
+                    javaScriptBuilder.AppendFormat("subGridWidth: {0},", _options.SubgridColumnWidth).AppendLine();
             }
 
-            if (_options.TreeGridEnabled.HasValue)
-                javaScriptBuilder.AppendFormat("treeGrid: {0},", _options.TreeGridEnabled.Value.ToString().ToLower()).AppendLine();
+            if (_options.TreeGridEnabled)
+            {
+                if (!_options.ExpandColumnClick)
+                    javaScriptBuilder.AppendFormat("ExpandColClick: false,").AppendLine();
 
-            if (_options.TreeGridModel.HasValue)
-                javaScriptBuilder.AppendFormat("treeGridModel: '{0}',", _options.TreeGridModel.Value.ToString().ToLower()).AppendLine();
+                if (!String.IsNullOrWhiteSpace(_options.ExpandColumn))
+                    javaScriptBuilder.AppendFormat("ExpandColumn: '{0}',", _options.ExpandColumn).AppendLine();
 
-            if (_options.UseDataString())
-                javaScriptBuilder.AppendFormat("datastr: '{0}',", _options.DataString).AppendLine();
-            else
-                javaScriptBuilder.AppendFormat("url: '{0}',", _options.Url).AppendLine();
+                javaScriptBuilder.AppendFormat("treeGrid: true,").AppendLine();
+
+                if (_options.TreeGridModel != JqGridTreeGridModels.Nested)
+                    javaScriptBuilder.AppendFormat("treeGridModel: 'adjacency',").AppendLine();
+            }
 
             if (_options.ViewRecords)
-                javaScriptBuilder.AppendFormat("viewrecords: {0},", _options.ViewRecords.ToString().ToLower()).AppendLine();
+                javaScriptBuilder.AppendFormat("viewrecords: true,").AppendLine();
 
             if (_options.Width.HasValue)
                 javaScriptBuilder.AppendFormat("width: {0},", _options.Width.Value).AppendLine();
@@ -541,6 +588,132 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.AppendFormat("height: {0}", _options.Height.Value).AppendLine();
             else
                 javaScriptBuilder.AppendLine("height: '100%'");
+        }
+
+        private void AppendParametersNames(ref StringBuilder javaScriptBuilder)
+        {
+            if (_options.ParametersNames != null)
+            {
+                javaScriptBuilder.Append("prmNames: { ");
+
+                if (_options.ParametersNames.PageIndex != JqGridOptionsDefaults.PageIndex)
+                    javaScriptBuilder.AppendFormat("page: '{0}', ", _options.ParametersNames.PageIndex);
+
+                if (_options.ParametersNames.RecordsCount != JqGridOptionsDefaults.RecordsCount)
+                    javaScriptBuilder.AppendFormat("rows: '{0}', ", _options.ParametersNames.RecordsCount);
+
+                if (_options.ParametersNames.SortingName != JqGridOptionsDefaults.SortingName)
+                    javaScriptBuilder.AppendFormat("sort: '{0}', ", _options.ParametersNames.SortingName);
+
+                if (_options.ParametersNames.SortingOrder != JqGridOptionsDefaults.SortingOrder)
+                    javaScriptBuilder.AppendFormat("order: '{0}', ", _options.ParametersNames.SortingOrder);
+
+                if (_options.ParametersNames.Searching != JqGridOptionsDefaults.Searching)
+                    javaScriptBuilder.AppendFormat("search: '{0}', ", _options.ParametersNames.Searching);
+
+                if (_options.ParametersNames.Id != JqGridOptionsDefaults.Id)
+                    javaScriptBuilder.AppendFormat("id: '{0}', ", _options.ParametersNames.Id);
+
+                if (_options.ParametersNames.Operator != JqGridOptionsDefaults.Operator)
+                    javaScriptBuilder.AppendFormat("oper: '{0}', ", _options.ParametersNames.Operator);
+
+                if (_options.ParametersNames.EditOperator != JqGridOptionsDefaults.EditOperator)
+                    javaScriptBuilder.AppendFormat("editoper: '{0}', ", _options.ParametersNames.EditOperator);
+
+                if (_options.ParametersNames.AddOperator != JqGridOptionsDefaults.AddOperator)
+                    javaScriptBuilder.AppendFormat("addoper: '{0}', ", _options.ParametersNames.AddOperator);
+
+                if (_options.ParametersNames.DeleteOperator != JqGridOptionsDefaults.DeleteOperator)
+                    javaScriptBuilder.AppendFormat("deloper: '{0}', ", _options.ParametersNames.DeleteOperator);
+
+                if (_options.ParametersNames.SubgridId != JqGridOptionsDefaults.SubgridId)
+                    javaScriptBuilder.AppendFormat("subgridid: '{0}', ", _options.ParametersNames.SubgridId);
+
+                if (!String.IsNullOrWhiteSpace(_options.ParametersNames.PagesCount))
+                    javaScriptBuilder.AppendFormat("npage: '{0}', ", _options.ParametersNames.PagesCount);
+
+                if (_options.ParametersNames.TotalRows != JqGridOptionsDefaults.TotalRows)
+                    javaScriptBuilder.AppendFormat("totalrows: '{0}', ", _options.ParametersNames.TotalRows);
+
+                if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
+                {
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
+                    javaScriptBuilder.Append(" }, ").AppendLine();
+                }
+                else
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 12, 12);
+            }
+        }
+
+        private void AppendGroupingView(ref StringBuilder javaScriptBuilder)
+        {
+            if (_options.GroupingView != null)
+            {
+                javaScriptBuilder.Append("groupingView: { ");
+
+                if (_options.GroupingView.Fields != null && _options.GroupingView.Fields.Length > 0)
+                {
+                    javaScriptBuilder.Append("groupField: [");
+                    foreach(string field in _options.GroupingView.Fields)
+                        javaScriptBuilder.AppendFormat("'{0}', ", field);
+                    javaScriptBuilder.Insert(javaScriptBuilder.Length - 2, ']');
+                }
+
+                if (_options.GroupingView.Orders != null && _options.GroupingView.Orders.Length > 0 && _options.GroupingView.Orders.Contains(JqGridSortingOrders.Desc))
+                {
+                    javaScriptBuilder.Append("groupOrder: [");
+                    foreach (JqGridSortingOrders order in _options.GroupingView.Orders)
+                        javaScriptBuilder.AppendFormat("'{0}', ", order.ToString().ToLower());
+                    javaScriptBuilder.Insert(javaScriptBuilder.Length - 2, ']');
+                }
+
+                if (_options.GroupingView.Texts != null && _options.GroupingView.Texts.Length > 0)
+                {
+                    javaScriptBuilder.Append("groupText: [");
+                    foreach (string text in _options.GroupingView.Texts)
+                        javaScriptBuilder.AppendFormat("'{0}', ", text);
+                    javaScriptBuilder.Insert(javaScriptBuilder.Length - 2, ']');
+                }
+
+                if (_options.GroupingView.Summary != null && _options.GroupingView.Summary.Length > 0 && _options.GroupingView.Summary.Contains(true))
+                {
+                    javaScriptBuilder.Append("groupSummary: [");
+                    foreach (bool summary in _options.GroupingView.Summary)
+                        javaScriptBuilder.AppendFormat("{0}, ", summary.ToString().ToLower());
+                    javaScriptBuilder.Insert(javaScriptBuilder.Length - 2, ']');
+                }
+
+                if (_options.GroupingView.ColumnShow != null && _options.GroupingView.ColumnShow.Length > 0 && _options.GroupingView.ColumnShow.Contains(false))
+                {
+                    javaScriptBuilder.Append("groupColumnShow: [");
+                    foreach (bool columnShow in _options.GroupingView.ColumnShow)
+                        javaScriptBuilder.AppendFormat("{0}, ", columnShow.ToString().ToLower());
+                    javaScriptBuilder.Insert(javaScriptBuilder.Length - 2, ']');
+                }
+
+                if (_options.GroupingView.SummaryOnHide)
+                    javaScriptBuilder.Append("showSummaryOnHide: true, ");
+
+                if (_options.GroupingView.DataSorted)
+                    javaScriptBuilder.Append("groupDataSorted: true, ");
+
+                if (_options.GroupingView.Collapse)
+                    javaScriptBuilder.Append("groupCollapse: true, ");
+
+                if (_options.GroupingView.PlusIcon != JqGridOptionsDefaults.GroupingPlusIcon)
+                    javaScriptBuilder.AppendFormat("plusicon: '{0}', ", _options.GroupingView.PlusIcon);
+
+                if (_options.GroupingView.MinusIcon != JqGridOptionsDefaults.GroupingMinusIcon)
+                    javaScriptBuilder.AppendFormat("minusicon: '{0}', ", _options.GroupingView.MinusIcon);
+
+                if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
+                {
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
+                    javaScriptBuilder.Append(" }, ").AppendLine();
+                }
+                else
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 16, 16);
+            }
         }
 
         private void AppendSubgridModel(ref StringBuilder javaScriptBuilder)

@@ -12,6 +12,7 @@
     <AssemblyName>Lib.Web.Mvc</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,14 +44,21 @@
     <Compile Include="Html\RenderXmlExtensions.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridColumnPredefinedFormatters.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridNavigatorDefaults.cs" />
+    <Compile Include="JQuery\JqGrid\Constants\JqGridOptionsDefaults.cs" />
+    <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridColumnSummaryAttribute.cs" />
+    <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridModelMetadataExtensions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridColumnSummaryTypes.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridDynamicScrollingModes.cs" />
     <Compile Include="JQuery\JqGrid\JqGridFilterGridOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridFilterGridRowModel.cs" />
     <Compile Include="JQuery\JqGrid\JqGridFilterGridTypes.cs" />
     <Compile Include="JQuery\JqGrid\JqGridFilterOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridGroupingView.cs" />
     <Compile Include="JQuery\JqGrid\JqGridNavigatorButtonOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridNavigatorButtonPositions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridNavigatorControlOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridNavigatorSeparatorOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridParametersNames.cs" />
     <Compile Include="JQuery\JqGrid\JqGridSearchOperators.cs" />
     <Compile Include="JQuery\JqGrid\JqGridColumnSearchOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridColumnSearchTypes.cs" />

@@ -59,7 +59,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.ModelBinders
             model.SortingName = (string)bindingContext.ValueProvider.GetValue("sidx").ConvertTo(typeof(String));
             model.SortingOrder = (JqGridSortingOrders)bindingContext.ValueProvider.GetValue("sord").ConvertTo(typeof(JqGridSortingOrders));
             model.PageIndex = (int)bindingContext.ValueProvider.GetValue("page").ConvertTo(typeof(Int32)) - 1;
-            model.RecordsCount = (int)bindingContext.ValueProvider.GetValue("rows").ConvertTo(typeof(Int32));
+
+            ValueProviderResult pagesCountValueResult = bindingContext.ValueProvider.GetValue("npage");
+            if (pagesCountValueResult != null)
+                model.PagesCount = (int)pagesCountValueResult.ConvertTo(typeof(Int32));
+            else
+                model.PagesCount = null;
+            
+                model.RecordsCount = (int)bindingContext.ValueProvider.GetValue("rows").ConvertTo(typeof(Int32));
 
             return model;
         }
