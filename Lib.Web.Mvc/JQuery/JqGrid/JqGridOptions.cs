@@ -91,6 +91,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string ExpandColumn { get; set; }
 
         /// <summary>
+        /// Gets or sets the value indicating if the footer table (with one row) will be placed below the grid records and above the pager. The number of columns equal of these from ColumnsModels.
+        /// </summary>
+        public bool FooterEnabled { get; set; }
+
+        /// <summary>
         /// Gets or sets the value indicating if the grouping is enabled.
         /// </summary>
         public bool GroupingEnabled { get; set; }
@@ -208,6 +213,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string Url { get; set; }
 
         /// <summary>
+        /// Gets or sets the value indicating if the values from user data should be placed on footer.
+        /// </summary>
+        public bool UserDataOnFooter { get; set; }
+
+        /// <summary>
         /// Gets or sets if grid should display the beginning and ending record number out of the total number of records in the query (default: false)
         /// </summary>
         public bool ViewRecords { get; set; }
@@ -241,6 +251,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             EditingUrl = null;
             ExpandColumn = null;
             ExpandColumnClick = true;
+            FooterEnabled = false;
             GridComplete = null;
             GroupingEnabled = false;
             GroupingView = null;
@@ -264,6 +275,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             TreeGridEnabled = false;
             TreeGridModel = JqGridTreeGridModels.Nested;
             Url = null;
+            UserDataOnFooter = false;
             ViewRecords = false;
             Width = null;
         }

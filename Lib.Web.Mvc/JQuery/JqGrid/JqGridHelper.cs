@@ -5,6 +5,7 @@ using System.Text;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Lib.Web.Mvc.JQuery.JqGrid.Constants;
+using System.ComponentModel;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
@@ -27,6 +28,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         private JqGridFilterToolbarOptions _filterToolbarOptions;
         private List<JqGridFilterGridRowModel> _filterGridModel;
         private JqGridFilterGridOptions _filterGridOptions;
+        private IDictionary<string, object> _footerData = null;
+        private bool _footerDataUseFormatters = true;
         #endregion
 
         #region Constructor
@@ -45,6 +48,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <param name="editingUrl">The url for inline and form editing</param>
         /// <param name="expandColumnClick">The value which defines whether the tree is expanded and/or collapsed when user clicks on the text of the expanded column, not only on the image.</param>
         /// <param name="expandColumn">The name of column which should be used to expand the tree grid.</param>
+        /// <param name="footerEnabled">The value indicating if the footer table (with one row) will be placed below the grid records and above the pager.</param>
         /// <param name="groupingEnabled">The value indicating if the grouping is enabled.</param>
         /// <param name="groupingView">The grouping view options.</param>
         /// <param name="height">The height of the grid in pixels (default 'auto').</param>
@@ -68,10 +72,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <param name="treeGridEnabled">The value which defines if TreeGrid is enabled.</param>
         /// <param name="treeGridModel">The model for TreeGrid.</param>
         /// <param name="url">The url for data requests.</param>
+        /// <param name="userDataOnFooter">The value indicating if the values from user data should be placed on footer.</param>
         /// <param name="viewRecords">If grid should display the beginning and ending record number out of the total number of records in the query.</param>
         /// <param name="width">The width of the grid in pixels.</param>
-        public JqGridHelper(string id, string caption = null, bool cellEditingEnabled = false, JqGridCellEditingSubmitModes cellEditingSubmitMode = JqGridCellEditingSubmitModes.Remote, string cellEditingUrl = null, string dataString = null, JqGridDataTypes dataType = JqGridDataTypes.Xml, JqGridDynamicScrollingModes dynamicScrollingMode = JqGridDynamicScrollingModes.Disabled, int dynamicScrollingTimeout = 200, string editingUrl = null, bool expandColumnClick = true, string expandColumn = null, int? height = null, bool groupingEnabled = false, JqGridGroupingView groupingView = null, bool hidden = false, bool hiddenEnabled = true, string loadError = null, string loadComplete = null, JqGridMethodTypes methodType = JqGridMethodTypes.Get, string gridComplete = null, string onSelectRow = null, bool pager = false, JqGridParametersNames parametersNames = null, int rowsNumber = 20, int scrollOffset = 18, string sortingName = "", JqGridSortingOrders sortingOrder = JqGridSortingOrders.Asc, bool subgridEnabled = false, JqGridSubgridModel subgridModel = null, string subgridUrl = null, int subgridColumnWidth = 20, bool treeGridEnabled = false, JqGridTreeGridModels treeGridModel = JqGridTreeGridModels.Nested, string url = null, bool viewRecords = false, int? width = null)
-            : this(new JqGridOptions<TModel>(id) { Caption = caption, CellEditingEnabled = cellEditingEnabled, CellEditingSubmitMode = cellEditingSubmitMode, CellEditingUrl = cellEditingUrl, DataString = dataString, DataType = dataType, DynamicScrollingMode = dynamicScrollingMode, DynamicScrollingTimeout = dynamicScrollingTimeout, EditingUrl = editingUrl, ExpandColumnClick = expandColumnClick, ExpandColumn = expandColumn, GroupingEnabled = groupingEnabled, GroupingView = groupingView, Height = height, Hidden = hidden, HiddenEnabled = hiddenEnabled, LoadError = loadError, LoadComplete = loadComplete, MethodType = methodType, GridComplete = gridComplete, OnSelectRow = onSelectRow, Pager = pager, ParametersNames = parametersNames, RowsNumber = rowsNumber, ScrollOffset = scrollOffset, SortingName = sortingName, SortingOrder = sortingOrder, SubgridEnabled = subgridEnabled, SubgridModel = subgridModel, SubgridUrl = subgridUrl, SubgridColumnWidth = subgridColumnWidth, TreeGridEnabled = treeGridEnabled, TreeGridModel = treeGridModel, Url = url, ViewRecords = viewRecords, Width = width })
+        public JqGridHelper(string id, string caption = null, bool cellEditingEnabled = false, JqGridCellEditingSubmitModes cellEditingSubmitMode = JqGridCellEditingSubmitModes.Remote, string cellEditingUrl = null, string dataString = null, JqGridDataTypes dataType = JqGridDataTypes.Xml, JqGridDynamicScrollingModes dynamicScrollingMode = JqGridDynamicScrollingModes.Disabled, int dynamicScrollingTimeout = 200, string editingUrl = null, bool expandColumnClick = true, string expandColumn = null, int? height = null, bool footerEnabled = false, bool groupingEnabled = false, JqGridGroupingView groupingView = null, bool hidden = false, bool hiddenEnabled = true, string loadError = null, string loadComplete = null, JqGridMethodTypes methodType = JqGridMethodTypes.Get, string gridComplete = null, string onSelectRow = null, bool pager = false, JqGridParametersNames parametersNames = null, int rowsNumber = 20, int scrollOffset = 18, string sortingName = "", JqGridSortingOrders sortingOrder = JqGridSortingOrders.Asc, bool subgridEnabled = false, JqGridSubgridModel subgridModel = null, string subgridUrl = null, int subgridColumnWidth = 20, bool treeGridEnabled = false, JqGridTreeGridModels treeGridModel = JqGridTreeGridModels.Nested, string url = null, bool userDataOnFooter = false, bool viewRecords = false, int? width = null)
+            : this(new JqGridOptions<TModel>(id) { Caption = caption, CellEditingEnabled = cellEditingEnabled, CellEditingSubmitMode = cellEditingSubmitMode, CellEditingUrl = cellEditingUrl, DataString = dataString, DataType = dataType, DynamicScrollingMode = dynamicScrollingMode, DynamicScrollingTimeout = dynamicScrollingTimeout, EditingUrl = editingUrl, ExpandColumnClick = expandColumnClick, ExpandColumn = expandColumn, FooterEnabled = footerEnabled, GroupingEnabled = groupingEnabled, GroupingView = groupingView, Height = height, Hidden = hidden, HiddenEnabled = hiddenEnabled, LoadError = loadError, LoadComplete = loadComplete, MethodType = methodType, GridComplete = gridComplete, OnSelectRow = onSelectRow, Pager = pager, ParametersNames = parametersNames, RowsNumber = rowsNumber, ScrollOffset = scrollOffset, SortingName = sortingName, SortingOrder = sortingOrder, SubgridEnabled = subgridEnabled, SubgridModel = subgridModel, SubgridUrl = subgridUrl, SubgridColumnWidth = subgridColumnWidth, TreeGridEnabled = treeGridEnabled, TreeGridModel = treeGridModel, Url = url, UserDataOnFooter = userDataOnFooter, ViewRecords = viewRecords, Width = width })
         { }
 
         /// <summary>
@@ -137,6 +142,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             AppendColumnsModels(ref javaScriptBuilder);
             AppendOptions(ref javaScriptBuilder);
             javaScriptBuilder.Append("})");
+
+            if (_options.FooterEnabled && _footerData != null && _footerData.Count > 0)
+                AppendFooterData(ref javaScriptBuilder);
 
             if (_navigatorOptions != null)
                 AppendNavigator(ref javaScriptBuilder);
@@ -512,6 +520,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
             if (!String.IsNullOrWhiteSpace(_options.EditingUrl))
                 javaScriptBuilder.AppendFormat("editurl: '{0}',", _options.EditingUrl).AppendLine();
+
+            if (_options.FooterEnabled)
+            {
+                javaScriptBuilder.Append("footerrow: true,").AppendLine();
+                if (_options.UserDataOnFooter)
+                    javaScriptBuilder.Append("userDataOnFooter: true,").AppendLine();
+            }
 
             if (_options.GroupingEnabled)
             {
@@ -1198,6 +1213,30 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                     javaScriptBuilder.AppendFormat("beforeSearch: '{0}',", options.BeforeSearch);
             }
         }
+
+        private void AppendFooterData(ref StringBuilder javaScriptBuilder)
+        {
+            javaScriptBuilder.Append(".jqGrid('footerData', 'set', { ");
+
+            foreach(KeyValuePair<string, object> footerValue in _footerData)
+                javaScriptBuilder.AppendFormat(" {0}: '{1}', ", footerValue.Key, Convert.ToString(footerValue.Value));
+
+            javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
+            javaScriptBuilder.AppendFormat(" }}, {0})", _footerDataUseFormatters.ToString().ToLower());
+        }
+
+        private static IDictionary<string, object> AnonymousObjectToDictionary(object anonymousObject)
+        {
+            Dictionary<string, object> dictionary = new Dictionary<string, object>();
+
+            if (anonymousObject != null)
+            {
+                foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(anonymousObject))
+                    dictionary.Add(property.Name, property.GetValue(anonymousObject));
+            }
+
+            return dictionary;
+        }
         #endregion
 
         #region Fluent API
@@ -1354,6 +1393,30 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 _filterGridModel = model;
             _filterGridOptions = options;
 
+            return this;
+        }
+
+        /// <summary>
+        /// Sets data on footer of this JqGridHelper instance (requires footerEnabled = true).
+        /// </summary>
+        /// <param name="data">The object with values for the footer. Should have names which are the same as names from ColumnsModels.</param>
+        /// <param name="useFormatters">The value indicating if the formatters from columns should be used for footer.</param>
+        /// <returns>JqGridHelper instance with footer data.</returns>
+        public JqGridHelper<TModel> SetFooterData(object data, bool useFormatters = true)
+        {
+            return SetFooterData(AnonymousObjectToDictionary(data), useFormatters);
+        }
+
+        /// <summary>
+        /// Sets data on footer of this JqGridHelper instance (requires footerEnabled = true).
+        /// </summary>
+        /// <param name="data">The dictionary with values for the footer. Should have keys which are the same as names from ColumnsModels.</param>
+        /// <param name="useFormatters">The value indicating if the formatters from columns should be used for footer.</param>
+        /// <returns>JqGridHelper instance with footer data.</returns>
+        public JqGridHelper<TModel> SetFooterData(IDictionary<string, object> data, bool useFormatters = true)
+        {
+            _footerData = data;
+            _footerDataUseFormatters = useFormatters;
             return this;
         }
         #endregion

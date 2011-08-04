@@ -30,6 +30,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets the records list
         /// </summary>
         public List<JqGridRecord> Records { get; private set; }
+
+        /// <summary>
+        /// Gets or sets custom data that will be send with the response.
+        /// </summary>
+        public object UserData { get; set; }
         #endregion
 
         #region Constructor

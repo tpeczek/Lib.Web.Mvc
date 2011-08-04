@@ -154,6 +154,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.EditingUrl = GetStringFromSerializedObj(serializedObj, "editurl");
                 obj.ExpandColumnClick = GetBooleanFromSerializedObj(serializedObj, "ExpandColClick", true);
                 obj.ExpandColumn = GetStringFromSerializedObj(serializedObj, "ExpandColumn");
+                obj.FooterEnabled = GetBooleanFromSerializedObj(serializedObj, "footerrow", false);
+                obj.UserDataOnFooter = GetBooleanFromSerializedObj(serializedObj, "userDataOnFooter", false);
 
                 obj.GroupingEnabled = GetBooleanFromSerializedObj(serializedObj, "grouping", false);
                 if (serializedObj.ContainsKey("groupingView") && serializedObj["groupingView"] is IDictionary<string, object>)
@@ -249,6 +251,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             if (!String.IsNullOrWhiteSpace(obj.EditingUrl))
                 serializedObj.Add("editurl", obj.EditingUrl);
+
+            if (obj.FooterEnabled)
+            {
+                serializedObj.Add("footerrow", true);
+                if (obj.UserDataOnFooter)
+                    serializedObj.Add("userDataOnFooter", true);
+            }
 
             if (obj.GroupingEnabled)
             {
@@ -872,6 +881,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             serializedObj.Add("records", obj.TotalRecordsCount);
             serializedObj.Add("rows", obj.Records);
             serializedObj.Add("total", obj.TotalPagesCount);
+
+            if (obj.UserData != null)
+                serializedObj.Add("userdata", obj.UserData);
         }
 
         private static void SerializeJqGridRecord(JqGridRecord obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
