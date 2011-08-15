@@ -59,6 +59,7 @@
     <Compile Include="JQuery\JqGrid\JqGridNavigatorControlOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridNavigatorSeparatorOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridParametersNames.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridColumnDataEvent.cs" />
     <Compile Include="JQuery\JqGrid\JqGridSearchOperators.cs" />
     <Compile Include="JQuery\JqGrid\JqGridColumnSearchOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridColumnSearchTypes.cs" />
@@ -73,7 +74,7 @@
     <Compile Include="JQuery\JqGrid\JqGridAdjacencyTreeRecord`1.cs" />
     <Compile Include="JQuery\JqGrid\JqGridCellEditingSubmitModes.cs" />
     <Compile Include="JQuery\JqGrid\JqGridColumnEditOptions.cs" />
-    <Compile Include="JQuery\JqGrid\JqGridColumnEditRules.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridColumnRules.cs" />
     <Compile Include="JQuery\JqGrid\JqGridColumnFormatterOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridColumnFormOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridNavigatorActionOptions.cs" />

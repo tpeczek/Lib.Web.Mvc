@@ -18,7 +18,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             typeof(JqGridParametersNames),
             typeof(JqGridGroupingView),
             typeof(JqGridColumnEditOptions),
-            typeof(JqGridColumnEditRules),
+            typeof(JqGridColumnRules),
             typeof(JqGridColumnFormOptions),
             typeof(JqGridColumnFormatterOptions),
             typeof(JqGridColumnSearchOptions),
@@ -47,8 +47,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                     obj = DeserializeJqGridGroupingView(dictionary, serializer);
                 else if (type == typeof(JqGridColumnEditOptions))
                     obj = DeserializeJqGridColumnEditOptions(dictionary, serializer);
-                else if (type == typeof(JqGridColumnEditRules))
-                    obj = DeserializeJqGridColumnEditRules(dictionary, serializer);
+                else if (type == typeof(JqGridColumnRules))
+                    obj = DeserializeJqGridColumnRules(dictionary, serializer);
                 else if (type == typeof(JqGridColumnFormOptions))
                     obj = DeserializeJqGridColumnFormOptions(dictionary, serializer);
                 else if (type == typeof(JqGridColumnFormatterOptions))
@@ -82,8 +82,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                     SerializeJqGridGroupingView((JqGridGroupingView)obj, serializer, ref serializedObj);
                 else if (obj is JqGridColumnEditOptions)
                     SerializeJqGridColumnEditOptions((JqGridColumnEditOptions)obj, serializer, ref serializedObj);
-                else if (obj is JqGridColumnEditRules)
-                    SerializeJqGridColumnEditRules((JqGridColumnEditRules)obj, serializer, ref serializedObj);
+                else if (obj is JqGridColumnRules)
+                    SerializeJqGridColumnRules((JqGridColumnRules)obj, serializer, ref serializedObj);
                 else if (obj is JqGridColumnFormatterOptions)
                     SerializeJqGridColumnFormatterOptions((JqGridColumnFormatterOptions)obj, serializer, ref serializedObj);
                 else if (obj is JqGridColumnFormOptions)
@@ -345,7 +345,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                     obj.EditOptions = DeserializeJqGridColumnEditOptions((IDictionary<string, object>)serializedObj["editoptions"], serializer);
 
                 if (serializedObj.ContainsKey("editrules") && serializedObj["editrules"] != null && serializedObj["editrules"] is IDictionary<string, object>)
-                    obj.EditRules = DeserializeJqGridColumnEditRules((IDictionary<string, object>)serializedObj["editrules"], serializer);
+                    obj.EditRules = DeserializeJqGridColumnRules((IDictionary<string, object>)serializedObj["editrules"], serializer);
 
                 obj.Fixed = GetBooleanFromSerializedObj(serializedObj, "fixed");
                 obj.Hidden = GetBooleanFromSerializedObj(serializedObj, "hidden", false);
@@ -370,11 +370,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.SummaryTemplate = GetStringFromSerializedObj(serializedObj, "summaryTpl", "{0}");
                 obj.Sortable = GetBooleanFromSerializedObj(serializedObj, "sortable");
                 obj.Index = GetStringFromSerializedObj(serializedObj, "index");
-                obj.Searchable = GetBooleanFromSerializedObj(serializedObj, "search");
-                obj.SearchType = GetEnumFromSerializedObj<JqGridColumnSearchTypes>(serializedObj, "stype");
+                obj.Searchable = GetBooleanFromSerializedObj(serializedObj, "search", true);
+                obj.SearchType = GetEnumFromSerializedObj<JqGridColumnSearchTypes>(serializedObj, "stype", JqGridColumnSearchTypes.Text);
 
                 if (serializedObj.ContainsKey("searchoptions") && serializedObj["searchoptions"] != null && serializedObj["searchoptions"] is IDictionary<string, object>)
                     obj.SearchOptions = DeserializeJqGridColumnSearchOptions((IDictionary<string, object>)serializedObj["searchoptions"], serializer);
+
+                if (serializedObj.ContainsKey("searchrules") && serializedObj["searchrules"] != null && serializedObj["searchrules"] is IDictionary<string, object>)
+                    obj.SearchRules = DeserializeJqGridColumnRules((IDictionary<string, object>)serializedObj["searchrules"], serializer);
 
                 obj.UnFormatter = GetStringFromSerializedObj(serializedObj, "unformat");
                 obj.Width = GetInt32FromSerializedObj(serializedObj, "width");
@@ -444,18 +447,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             serializedObj.Add("index", obj.Index);
 
-            if (obj.Searchable.HasValue)
+            if (obj.Searchable)
             {
-                serializedObj.Add("search", obj.Searchable.Value);
-                if (obj.Searchable.Value)
-                {
-                    if (obj.SearchType.HasValue)
-                        serializedObj.Add("stype", obj.SearchType.Value.ToString().ToLower());
+                if (obj.SearchType != JqGridColumnSearchTypes.Text)
+                    serializedObj.Add("stype", obj.SearchType.ToString().ToLower());
+                    
+                if (obj.SearchOptions != null)
+                    serializedObj.Add("searchoptions", obj.SearchOptions);
 
-                    if (obj.SearchOptions != null)
-                        serializedObj.Add("searchoptions", obj.SearchOptions);
-                }
+                if (obj.SearchRules != null)
+                    serializedObj.Add("searchrules", obj.SearchRules);
             }
+            else
+                serializedObj.Add("search", false);
 
             serializedObj.Add("name", obj.Name);
 
@@ -625,45 +629,45 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 serializedObj.Add("minusicon", obj.MinusIcon);
         }
 
-        private static JqGridColumnEditRules DeserializeJqGridColumnEditRules(IDictionary<string, object> serializedObj, JavaScriptSerializer serializer)
+        private static JqGridColumnRules DeserializeJqGridColumnRules(IDictionary<string, object> serializedObj, JavaScriptSerializer serializer)
         {
-            JqGridColumnEditRules obj = new JqGridColumnEditRules();
+            JqGridColumnRules obj = new JqGridColumnRules();
 
-            obj.Custom = GetBooleanFromSerializedObj(serializedObj, "custom");
+            obj.Custom = GetBooleanFromSerializedObj(serializedObj, "custom", false);
             obj.CustomFunction = GetStringFromSerializedObj(serializedObj, "custom_func");
-            obj.Date = GetBooleanFromSerializedObj(serializedObj, "date");
-            obj.EditHidden = GetBooleanFromSerializedObj(serializedObj, "edithidden");
-            obj.Email = GetBooleanFromSerializedObj(serializedObj, "email");
-            obj.Integer = GetBooleanFromSerializedObj(serializedObj, "integer");
+            obj.Date = GetBooleanFromSerializedObj(serializedObj, "date", false);
+            obj.EditHidden = GetBooleanFromSerializedObj(serializedObj, "edithidden", false);
+            obj.Email = GetBooleanFromSerializedObj(serializedObj, "email", false);
+            obj.Integer = GetBooleanFromSerializedObj(serializedObj, "integer", false);
             obj.MaxValue = GetDoubleFromSerializedObj(serializedObj, "maxValue");
             obj.MinValue = GetDoubleFromSerializedObj(serializedObj, "minValue");
-            obj.Number = GetBooleanFromSerializedObj(serializedObj, "number");
-            obj.Required = GetBooleanFromSerializedObj(serializedObj, "required");
-            obj.Time = GetBooleanFromSerializedObj(serializedObj, "time");
-            obj.Url = GetBooleanFromSerializedObj(serializedObj, "url");
+            obj.Number = GetBooleanFromSerializedObj(serializedObj, "number", false);
+            obj.Required = GetBooleanFromSerializedObj(serializedObj, "required", false);
+            obj.Time = GetBooleanFromSerializedObj(serializedObj, "time", false);
+            obj.Url = GetBooleanFromSerializedObj(serializedObj, "url", false);
 
             return obj;
         }
 
-        private static void SerializeJqGridColumnEditRules(JqGridColumnEditRules obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        private static void SerializeJqGridColumnRules(JqGridColumnRules obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
         {
-            if (obj.Custom.HasValue)
-                serializedObj.Add("custom", obj.Custom.Value);
+            if (obj.Custom)
+                serializedObj.Add("custom", true);
 
             if (!String.IsNullOrWhiteSpace(obj.CustomFunction))
                 serializedObj.Add("custom_func", obj.CustomFunction);
 
-            if (obj.Date.HasValue)
-                serializedObj.Add("date", obj.Date.Value);
+            if (obj.Date)
+                serializedObj.Add("date", true);
 
-            if (obj.EditHidden.HasValue)
-                serializedObj.Add("edithidden", obj.EditHidden.Value);
+            if (obj.EditHidden)
+                serializedObj.Add("edithidden", true);
 
-            if (obj.Email.HasValue)
-                serializedObj.Add("email", obj.Email.Value);
+            if (obj.Email)
+                serializedObj.Add("email", true);
 
-            if (obj.Integer.HasValue)
-                serializedObj.Add("integer", obj.Integer.Value);
+            if (obj.Integer)
+                serializedObj.Add("integer", true);
 
             if (obj.MaxValue.HasValue)
                 serializedObj.Add("maxValue", obj.MaxValue.Value);
@@ -671,17 +675,17 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (obj.MinValue.HasValue)
                 serializedObj.Add("minValue", obj.MinValue.Value);
 
-            if (obj.Number.HasValue)
-                serializedObj.Add("number", obj.Number.Value);
+            if (obj.Number)
+                serializedObj.Add("number", true);
 
-            if (obj.Required.HasValue)
-                serializedObj.Add("required", obj.Required.Value);
+            if (obj.Required)
+                serializedObj.Add("required", true);
 
-            if (obj.Time.HasValue)
-                serializedObj.Add("time", obj.Time.Value);
+            if (obj.Time)
+                serializedObj.Add("time", true);
 
-            if (obj.Url.HasValue)
-                serializedObj.Add("url", obj.Url.Value);
+            if (obj.Url)
+                serializedObj.Add("url", true);
         }
 
         private static JqGridColumnFormOptions DeserializeJqGridColumnFormOptions(IDictionary<string, object> serializedObj, JavaScriptSerializer serializer)
@@ -788,21 +792,29 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             obj.DataUrl = GetStringFromSerializedObj(serializedObj, "dataUrl");
             obj.DefaultValue = GetStringFromSerializedObj(serializedObj, "defaultValue");
-            obj.SearchHidden = GetBooleanFromSerializedObj(serializedObj, "searchhidden");
+
+            if (serializedObj.ContainsKey("attr") && serializedObj["attr"] != null && serializedObj["attr"] is IDictionary<string, object>)
+                obj.HtmlAttributes = (IDictionary<string, object>)serializedObj["attr"];
+
+            obj.SearchHidden = GetBooleanFromSerializedObj(serializedObj, "searchhidden", false);
 
             if (serializedObj.ContainsKey("sopt") && serializedObj["sopt"] is ArrayList)
             {
+                JqGridSearchOperators? searchOperators = null;
                 foreach (object innerSerializedObj in (ArrayList)serializedObj["sopt"])
                 {
                     JqGridSearchOperators searchOperator = JqGridSearchOperators.Eq;
                     if (Enum.TryParse<JqGridSearchOperators>(innerSerializedObj.ToString(), true, out searchOperator))
                     {
-                        if (obj.SearchOperators.HasValue)
-                            obj.SearchOperators = obj.SearchOperators | searchOperator;
+                        if (searchOperators.HasValue)
+                            searchOperators = searchOperators | searchOperator;
                         else
-                            obj.SearchOperators = searchOperator;
+                            searchOperators = searchOperator;
                     }
                 }
+
+                if (searchOperators.HasValue)
+                    obj.SearchOperators = searchOperators.Value;
             }
             
             return obj;
@@ -816,10 +828,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (!String.IsNullOrWhiteSpace(obj.DefaultValue))
                 serializedObj.Add("defaultValue", obj.DefaultValue);
 
-            if (obj.SearchHidden.HasValue)
-                serializedObj.Add("searchhidden", obj.SearchHidden.Value);
+            if (obj.HtmlAttributes != null && obj.HtmlAttributes.Count > 0)
+                serializedObj.Add("attr", obj.HtmlAttributes);
 
-            if (obj.SearchOperators.HasValue)
+            if (obj.SearchHidden)
+                serializedObj.Add("searchhidden", true);
+
+            if (obj.SearchOperators != (JqGridSearchOperators)16383)
             {
                 List<string> searchOperators = new List<string>();
                 foreach (JqGridSearchOperators searchOperator in Enum.GetValues(typeof(JqGridSearchOperators)))

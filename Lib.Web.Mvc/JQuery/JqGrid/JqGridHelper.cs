@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 using System.ComponentModel;
+using System.Web.Script.Serialization;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
@@ -197,7 +198,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                     if (columnModel.EditType.HasValue)
                         javaScriptBuilder.AppendFormat("edittype: '{0}', ", columnModel.EditType.Value.ToString().ToLower());
                     AppendEditOptions(columnModel.EditOptions, ref javaScriptBuilder);
-                    AppendEditRules(columnModel.EditRules, ref javaScriptBuilder);
+                    AppendColumnRules("editrules", columnModel.EditRules, ref javaScriptBuilder);
                     AppendFormOptions(columnModel.FormOptions, ref javaScriptBuilder);
                 }
 
@@ -221,17 +222,15 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (columnModel.Resizable.HasValue)
                     javaScriptBuilder.AppendFormat("resizable: {0}, ", columnModel.Resizable.Value.ToString().ToLower());
 
-                if (columnModel.Searchable.HasValue)
+                if (columnModel.Searchable)
                 {
-                    if (!columnModel.Searchable.Value)
-                        javaScriptBuilder.AppendFormat("search: {0}, ", columnModel.Searchable.Value.ToString().ToLower());
-                    else
-                    {
-                        if (columnModel.SearchType.HasValue)
-                            javaScriptBuilder.AppendFormat("stype: '{0}', ", columnModel.SearchType.Value.ToString().ToLower());
-                        AppendSearchOptions(columnModel.SearchOptions, ref javaScriptBuilder);
-                    }
+                    if (columnModel.SearchType != JqGridColumnSearchTypes.Text)
+                        javaScriptBuilder.AppendFormat("stype: '{0}', ", columnModel.SearchType.ToString().ToLower());
+                    AppendSearchOptions(columnModel.SearchOptions, ref javaScriptBuilder);
+                    AppendColumnRules("searchrules", columnModel.SearchRules, ref javaScriptBuilder);
                 }
+                else
+                    javaScriptBuilder.AppendFormat("search: false, ");
 
                 if (_options.GroupingEnabled)
                 {
@@ -301,55 +300,60 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private static void AppendEditRules(JqGridColumnEditRules editRules, ref StringBuilder javaScriptBuilder)
+        private static void AppendColumnRules(string rulesName, JqGridColumnRules rules, ref StringBuilder javaScriptBuilder)
         {
-            if (editRules != null)
+            if (rules != null)
             {
-                javaScriptBuilder.Append("editrules: { ");
+                javaScriptBuilder.AppendFormat("{0}: {{ ", rulesName);
 
-                if (editRules.Custom.HasValue)
-                    javaScriptBuilder.AppendFormat("custom: {0},", editRules.Custom.Value.ToString().ToLower());
-
-                if (!String.IsNullOrWhiteSpace(editRules.CustomFunction))
-                    javaScriptBuilder.AppendFormat("custom_func: {0},", editRules.CustomFunction);
-
-                if (editRules.Date.HasValue)
-                    javaScriptBuilder.AppendFormat("date: {0},", editRules.Date.Value.ToString().ToLower());
-
-                if (editRules.EditHidden.HasValue)
-                    javaScriptBuilder.AppendFormat("edithidden: {0},", editRules.EditHidden.Value.ToString().ToLower());
-
-                if (editRules.Email.HasValue)
-                    javaScriptBuilder.AppendFormat("email: {0},", editRules.Email.Value.ToString().ToLower());
-
-                if (editRules.Integer.HasValue)
-                    javaScriptBuilder.AppendFormat("integer: {0},", editRules.Integer.Value.ToString().ToLower());
-
-                if (editRules.MaxValue.HasValue)
-                    javaScriptBuilder.AppendFormat("maxValue: {0},", editRules.MaxValue.Value);
-
-                if (editRules.MinValue.HasValue)
-                    javaScriptBuilder.AppendFormat("minValue: {0},", editRules.MinValue.Value);
-
-                if (editRules.Number.HasValue)
-                    javaScriptBuilder.AppendFormat("number: {0},", editRules.Number.Value.ToString().ToLower());
-
-                if (editRules.Required.HasValue)
-                    javaScriptBuilder.AppendFormat("required: {0},", editRules.Required.Value.ToString().ToLower());
-
-                if (editRules.Time.HasValue)
-                    javaScriptBuilder.AppendFormat("time: {0},", editRules.Time.Value.ToString().ToLower());
-
-                if (editRules.Url.HasValue)
-                    javaScriptBuilder.AppendFormat("url: {0},", editRules.Url.Value.ToString().ToLower());
-
-                if (javaScriptBuilder[javaScriptBuilder.Length - 1] == ',')
+                if (rules.Custom)
                 {
-                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
+                    javaScriptBuilder.Append("custom: true, ");
+
+                    if (!String.IsNullOrWhiteSpace(rules.CustomFunction))
+                        javaScriptBuilder.AppendFormat("custom_func: {0}, ", rules.CustomFunction);
+                }
+
+                if (rules.Date)
+                    javaScriptBuilder.Append("date: true, ");
+
+                if (rules.EditHidden)
+                    javaScriptBuilder.Append("edithidden: true, ");
+
+                if (rules.Email)
+                    javaScriptBuilder.Append("email: true, ");
+
+                if (rules.Integer)
+                    javaScriptBuilder.Append("integer: true, ");
+
+                if (rules.MaxValue.HasValue)
+                    javaScriptBuilder.AppendFormat("maxValue: {0},", rules.MaxValue.Value);
+
+                if (rules.MinValue.HasValue)
+                    javaScriptBuilder.AppendFormat("minValue: {0},", rules.MinValue.Value);
+
+                if (rules.Number)
+                    javaScriptBuilder.Append("number: true, ");
+
+                if (rules.Required)
+                    javaScriptBuilder.Append("required: true, ");
+
+                if (rules.Time)
+                    javaScriptBuilder.Append("time: true, ");
+
+                if (rules.Url)
+                    javaScriptBuilder.Append("url: true, ");
+
+                if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
+                {
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
                     javaScriptBuilder.Append(" }, ");
                 }
                 else
-                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 13, 13);
+                {
+                    int rulesNameLength = rulesName.Length + 4;
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - rulesNameLength, rulesNameLength);
+                }
             }
         }
 
@@ -446,18 +450,42 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         {
             if (searchOptions != null)
             {
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
                 javaScriptBuilder.Append("searchoptions: { ");
 
+                if (!String.IsNullOrWhiteSpace(searchOptions.BuildSelect))
+                    javaScriptBuilder.AppendFormat("buildSelect: {0}, ", searchOptions.BuildSelect);
+
+                if (searchOptions.DataEvents != null && searchOptions.DataEvents.Count() > 0)
+                {
+                    javaScriptBuilder.Append("dataEvents: [ ");
+                    foreach (JqGridColumnDataEvent dataEvent in searchOptions.DataEvents)
+                    {
+                        if (dataEvent.Data == null)
+                            javaScriptBuilder.AppendFormat("{ type: '{0}', fn: {1} }, ", dataEvent.Type, dataEvent.Function);
+                        else
+                            javaScriptBuilder.AppendFormat("{ type: '{0}', data: {1}, fn: {2} }, ", dataEvent.Type, serializer.Serialize(dataEvent.Data), dataEvent.Function);
+                    }
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
+                    javaScriptBuilder.Append(" ], ");
+                }
+
+                if (!String.IsNullOrWhiteSpace(searchOptions.DataInit))
+                    javaScriptBuilder.AppendFormat("dataInit: {0}, ", searchOptions.DataInit);
+
                 if (!String.IsNullOrWhiteSpace(searchOptions.DataUrl))
-                    javaScriptBuilder.AppendFormat("dataUrl: '{0}',", searchOptions.DataUrl);
+                    javaScriptBuilder.AppendFormat("dataUrl: '{0}', ", searchOptions.DataUrl);
 
                 if (!String.IsNullOrWhiteSpace(searchOptions.DefaultValue))
-                    javaScriptBuilder.AppendFormat("defaultValue: '{0}',", searchOptions.DefaultValue);
+                    javaScriptBuilder.AppendFormat("defaultValue: '{0}', ", searchOptions.DefaultValue);
 
-                if (searchOptions.SearchHidden.HasValue)
-                    javaScriptBuilder.AppendFormat("searchhidden: {0},", searchOptions.SearchHidden.Value.ToString().ToLower());
+                if (searchOptions.HtmlAttributes != null && searchOptions.HtmlAttributes.Count > 0)
+                    javaScriptBuilder.AppendFormat("attr: {0}, ", serializer.Serialize(searchOptions.HtmlAttributes));
 
-                if (searchOptions.SearchOperators.HasValue)
+                if (searchOptions.SearchHidden)
+                    javaScriptBuilder.AppendFormat("searchhidden: true, ");
+
+                if (searchOptions.SearchOperators != (JqGridSearchOperators)16383)
                 {
                     javaScriptBuilder.Append("sopt: [ ");
                     foreach (JqGridSearchOperators searchOperator in Enum.GetValues(typeof(JqGridSearchOperators)))
@@ -466,12 +494,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                             javaScriptBuilder.AppendFormat("'{0}',", Enum.GetName(typeof(JqGridSearchOperators), searchOperator).ToLower());
                     }
                     javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
-                    javaScriptBuilder.Append("],");
+                    javaScriptBuilder.Append("], ");
                 }
 
-                if (javaScriptBuilder[javaScriptBuilder.Length - 1] == ',')
+                if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
                 {
-                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
                     javaScriptBuilder.Append(" }, ");
                 }
                 else
@@ -1378,12 +1406,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 _filterGridModel = new List<JqGridFilterGridRowModel>();
                 for (int i = 0; i < _options.ColumnsModels.Count; i++)
                 {
-                    if (_options.ColumnsModels[i].Searchable.HasValue && _options.ColumnsModels[i].Searchable.Value)
+                    if (_options.ColumnsModels[i].Searchable)
                     {
                         _filterGridModel.Add(new JqGridFilterGridRowModel(_options.ColumnsModels[i].Name, _options.ColumnsNames[i])
                         {
                             DefaultValue = _options.ColumnsModels[i].SearchOptions != null ? _options.ColumnsModels[i].SearchOptions.DefaultValue : String.Empty,
-                            SearchType = _options.ColumnsModels[i].SearchType.HasValue ? _options.ColumnsModels[i].SearchType.Value : JqGridColumnSearchTypes.Text,
+                            SearchType = _options.ColumnsModels[i].SearchType,
                             SelectUrl = _options.ColumnsModels[i].SearchOptions != null ? _options.ColumnsModels[i].SearchOptions.DataUrl : String.Empty
                         });
                     }

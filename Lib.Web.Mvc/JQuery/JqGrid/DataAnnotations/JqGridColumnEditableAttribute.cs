@@ -36,7 +36,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <summary>
         /// Gets or sets if the value should be validated with custom function.
         /// </summary>
-        public bool? CustomValidation
+        public bool CustomValidation
         {
             get { return EditRules.Custom; }
             set { EditRules.Custom = value; }
@@ -75,7 +75,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <summary>
         /// Gets or sets if the value should be valid ISO date.
         /// </summary>
-        public bool? DateValidation
+        public bool DateValidation
         {
             get { return EditRules.Date; }
             set { EditRules.Date = value; }
@@ -89,7 +89,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <summary>
         /// Gets or sets the value which defines if hidden column can be edited in form editing.
         /// </summary>
-        public bool? EditHidden
+        public bool EditHidden
         {
             get { return EditRules.EditHidden; }
             set { EditRules.EditHidden = value; }
@@ -97,7 +97,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
 
         internal JqGridColumnEditOptions EditOptions { get; private set; }
 
-        internal JqGridColumnEditRules EditRules { get; private set; }
+        internal JqGridColumnRules EditRules { get; private set; }
 
         /// <summary>
         /// Gets or sets the type of the editable field (default JqGridColumnEditTypes.Text).
@@ -107,7 +107,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <summary>
         /// Gets or sets if the value should be valid email
         /// </summary>
-        public bool? EmailValidation
+        public bool EmailValidation
         {
             get { return EditRules.Email; }
             set { EditRules.Email = value; }
@@ -181,7 +181,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <summary>
         /// Gets or sets if the value should be valid time (hh:mm format and optional am/pm at the end).
         /// </summary>
-        public bool? TimeValidation
+        public bool TimeValidation
         {
             get { return EditRules.Time; }
             set { EditRules.Time = value; }
@@ -190,7 +190,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <summary>
         /// Gets or sets if the value should be valid url.
         /// </summary>
-        public bool? UrlValidation
+        public bool UrlValidation
         {
             get { return EditRules.Url; }
             set { EditRules.Url = value; }
@@ -206,7 +206,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             Editable = editable;
             EditOptions = new JqGridColumnEditOptions();
-            EditRules = new JqGridColumnEditRules();
+            EditRules = new JqGridColumnRules();
             EditType = JqGridColumnEditTypes.Text;
             FormOptions = new JqGridColumnFormOptions();
         }

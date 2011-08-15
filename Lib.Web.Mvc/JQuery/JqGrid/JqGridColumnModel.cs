@@ -38,7 +38,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets or sets the rules for editable column.
         /// </summary>
-        public JqGridColumnEditRules EditRules { get; set; }
+        public JqGridColumnRules EditRules { get; set; }
 
         /// <summary>
         /// Gets or sets the type for editable column.
@@ -83,7 +83,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets or sets the value defining if this column can be searched.
         /// </summary>
-        public bool? Searchable { get; set; }
+        public bool Searchable { get; set; }
 
         /// <summary>
         /// Gets or sets the options for searchable column.
@@ -91,9 +91,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridColumnSearchOptions SearchOptions { get; set; }
 
         /// <summary>
+        /// Gets or sets the additional conditions for validating user input in search field.
+        /// </summary>
+        public JqGridColumnRules SearchRules { get; set; }
+
+        /// <summary>
         /// Gets or sets the type of the search field for the column.
         /// </summary>
-        public JqGridColumnSearchTypes? SearchType { get; set; }
+        public JqGridColumnSearchTypes SearchType { get; set; }
 
         /// <summary>
         /// Gets or sets the grouping summary type.
@@ -143,12 +148,17 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <param name="name">The unique name for the column.</param>
         public JqGridColumnModel(string name)
         {
+            Name = name;
+            Searchable = true;
+            SearchOptions = null;
+            SearchRules = null;
+            SearchType = JqGridColumnSearchTypes.Text;
             SummaryType = null;
             SummaryTemplate = "{0}";
             SummaryFunction = null;
 
+            //TODO: Use actual defaults
             Index = String.Empty;
-            Name = name;
             Alignment = JqGridAlignments.Left;
             Hidden = false;
         }
@@ -156,6 +166,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         internal JqGridColumnModel(ModelMetadata propertyMetadata)
         {
             IEnumerable<object> customAttributes  = propertyMetadata.ContainerType.GetProperty(propertyMetadata.PropertyName).GetCustomAttributes(true).AsEnumerable();
+            RangeAttribute rangeAttribute = customAttributes.OfType<RangeAttribute>().FirstOrDefault();
 
             JqGridColumnLayoutAttribute columnLayoutAttribute = customAttributes.OfType<JqGridColumnLayoutAttribute>().FirstOrDefault();
             if (columnLayoutAttribute != null)
@@ -185,20 +196,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 Index = columnSortableAttribute.Index;
             }
 
-            JqGridColumnSearchableAttribute columnSearchableAttribute = customAttributes.OfType<JqGridColumnSearchableAttribute>().FirstOrDefault();
-            if (columnSearchableAttribute != null)
-            {
-                Searchable = columnSearchableAttribute.Searchable;
-                if (Searchable.Value)
-                {
-                    SearchOptions = columnSearchableAttribute.SearchOptions;
-                    SearchType = columnSearchableAttribute.SearchType;
-
-                    if (SearchType == JqGridColumnSearchTypes.Select)
-                        SearchOptions.DataUrl = columnSearchableAttribute.DataUrl;
-                }
-            }
-
             JqGridColumnEditableAttribute columnEditableAttribute = customAttributes.OfType<JqGridColumnEditableAttribute>().FirstOrDefault();
             if (columnEditableAttribute != null)
             {
@@ -219,7 +216,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                     if (requiredAttribute != null)
                         EditRules.Required = true;
 
-                    RangeAttribute rangeAttribute = customAttributes.OfType<RangeAttribute>().FirstOrDefault();
                     if (rangeAttribute != null)
                     {
                         EditRules.MaxValue = Convert.ToDouble(rangeAttribute.Maximum);
@@ -234,6 +230,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                         EditOptions.MaximumLength = stringLengthAttribute.MaximumLength;
                 }
             }
+
+            Searchable = propertyMetadata.GetColumnSearchable();
+            SearchOptions = propertyMetadata.GetColumnSearchOptions();
+            SearchRules = propertyMetadata.GetColumnSearchRules();
+            if (SearchRules != null && rangeAttribute != null)
+            {
+                SearchRules.MaxValue = Convert.ToDouble(rangeAttribute.Maximum);
+                SearchRules.MinValue = Convert.ToDouble(rangeAttribute.Minimum);
+            }
+            SearchType = propertyMetadata.GetColumnSearchType();
 
             SummaryType = propertyMetadata.GetColumnSummaryType();
             SummaryTemplate = propertyMetadata.GetColumnSummaryTemplate();
