@@ -21,6 +21,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string Id { get; private set; }
 
         /// <summary>
+        /// Gets or sets the value indicating if the grid width will be recalculated automatically to the width of the parent element.
+        /// </summary>
+        public bool AutoWidth { get; set; }
+
+        /// <summary>
         /// Gets or sets the caption for the grid.
         /// </summary>
         public string Caption { get; set; }
@@ -239,6 +244,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             _columnsModel = new List<JqGridColumnModel>();
             _columnsNames = new List<string>();
 
+            AutoWidth = false;
             Caption = String.Empty;
             CellEditingEnabled = false;
             CellEditingSubmitMode = JqGridCellEditingSubmitModes.Remote;

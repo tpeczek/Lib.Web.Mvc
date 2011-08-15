@@ -114,6 +114,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (!String.IsNullOrWhiteSpace(id))
             {
                 JqGridOptions obj = new JqGridOptions(id);
+                obj.AutoWidth = GetBooleanFromSerializedObj(serializedObj, "autowidth", false);
                 obj.CellEditingEnabled = GetBooleanFromSerializedObj(serializedObj, "cellEdit", false);
                 obj.CellEditingSubmitMode = GetEnumFromSerializedObj<JqGridCellEditingSubmitModes>(serializedObj, "cellsubmit", JqGridCellEditingSubmitModes.Remote);
                 obj.CellEditingUrl = GetStringFromSerializedObj(serializedObj, "cellurl");
@@ -208,6 +209,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
         private static void SerializeJqGridOptions(JqGridOptions obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
         {
             serializedObj.Add("id", obj.Id);
+
+            if (obj.AutoWidth)
+                serializedObj.Add("autowidth", true);
 
             if (obj.CellEditingEnabled)
             {
