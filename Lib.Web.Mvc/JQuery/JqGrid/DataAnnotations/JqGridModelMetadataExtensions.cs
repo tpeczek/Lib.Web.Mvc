@@ -9,6 +9,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
     internal static class JqGridModelMetadataExtensions
     {
         #region Fields
+        private const string _labelOptionsKey = "JqGridColumnModel.LabelOptions";
         private const string _searchableKey = "JqGridColumnModel.Searchable";
         private const string _searchOptionsKey = "JqGridColumnModel.SearchOptions";
         private const string _searchRulesKey = "JqGridColumnModel.SearchRules";
@@ -19,6 +20,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         #endregion
 
         #region Methods
+        internal static void SetColumnLabelOptions(this ModelMetadata metadata, JqGridColumnLabelOptions labelOptions)
+        {
+            metadata.AdditionalValues.Add(_labelOptionsKey, labelOptions);
+        }
+
+        internal static JqGridColumnLabelOptions GetColumnLabelOptions(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_labelOptionsKey))
+                return (JqGridColumnLabelOptions)metadata.AdditionalValues[_labelOptionsKey];
+            else
+                return null;
+        }
+
         internal static void SetColumnSearchable(this ModelMetadata metadata, bool searchable)
         {
             metadata.AdditionalValues.Add(_searchableKey, searchable);

@@ -147,9 +147,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             set { SearchOptions.SearchOperators = value; }
         }
 
-        internal JqGridColumnSearchOptions SearchOptions { get; private set; }
+        private JqGridColumnSearchOptions SearchOptions { get; set; }
 
-        internal JqGridColumnRules SearchRules { get; private set; }
+        private JqGridColumnRules SearchRules { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the search field (default JqGridColumnSearchTypes.Text).

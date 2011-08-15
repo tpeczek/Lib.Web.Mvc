@@ -145,6 +145,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             AppendOptions(ref javaScriptBuilder);
             javaScriptBuilder.Append("})");
 
+            foreach (JqGridColumnModel columnModel in _options.ColumnsModels)
+            {
+                if (columnModel.LabelOptions != null)
+                    AppendColumnLabelOptions(columnModel.Name, columnModel.LabelOptions, ref javaScriptBuilder);
+            }
+
             if (_options.FooterEnabled && _footerData != null && _footerData.Count > 0)
                 AppendFooterData(ref javaScriptBuilder);
 
@@ -1255,6 +1261,32 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
             javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
             javaScriptBuilder.AppendFormat(" }}, {0})", _footerDataUseFormatters.ToString().ToLower());
+        }
+
+        private static void AppendColumnLabelOptions(string columnName, JqGridColumnLabelOptions options, ref StringBuilder javaScriptBuilder)
+        {
+            if (options != null)
+            {
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                javaScriptBuilder.AppendFormat(".jqGrid('setLabel', '{0}', ", columnName);
+                javaScriptBuilder.AppendFormat("'{0}', ", String.IsNullOrWhiteSpace(options.Label) ? String.Empty : options.Label);
+
+                if (String.IsNullOrWhiteSpace(options.Class))
+                {
+                    if (options.CssStyles != null)
+                        javaScriptBuilder.AppendFormat("{0}, ", serializer.Serialize(options.CssStyles));
+                    else if (options.HtmlAttributes != null)
+                        javaScriptBuilder.Append("null, ");
+                }
+                else
+                    javaScriptBuilder.AppendFormat("'{0}', ", options.Class);
+
+                if (options.HtmlAttributes != null)
+                    javaScriptBuilder.AppendFormat("{0}, ", serializer.Serialize(options.HtmlAttributes));
+
+                javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
+                javaScriptBuilder.Append(" )");
+            }
         }
 
         private static IDictionary<string, object> AnonymousObjectToDictionary(object anonymousObject)

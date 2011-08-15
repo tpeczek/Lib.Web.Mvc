@@ -45,8 +45,10 @@
     <Compile Include="JQuery\JqGrid\Constants\JqGridColumnPredefinedFormatters.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridNavigatorDefaults.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridOptionsDefaults.cs" />
+    <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridColumnLabelAttribute.cs" />
     <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridColumnSummaryAttribute.cs" />
     <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridModelMetadataExtensions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridColumnLabelOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridColumnSummaryTypes.cs" />
     <Compile Include="JQuery\JqGrid\JqGridDynamicScrollingModes.cs" />
     <Compile Include="JQuery\JqGrid\JqGridFilterGridOptions.cs" />

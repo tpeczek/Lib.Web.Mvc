@@ -75,6 +75,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         public JqGridSortingOrders? InitialSortingOrder { get; set; }
 
+        internal JqGridColumnLabelOptions LabelOptions { get; set; }
+
         /// <summary>
         /// Gets or sets the value which defines if column can be resized (default true).
         /// </summary>
@@ -148,6 +150,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <param name="name">The unique name for the column.</param>
         public JqGridColumnModel(string name)
         {
+            LabelOptions = null;
             Name = name;
             Searchable = true;
             SearchOptions = null;
@@ -230,6 +233,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                         EditOptions.MaximumLength = stringLengthAttribute.MaximumLength;
                 }
             }
+
+            LabelOptions = propertyMetadata.GetColumnLabelOptions();
 
             Searchable = propertyMetadata.GetColumnSearchable();
             SearchOptions = propertyMetadata.GetColumnSearchOptions();
