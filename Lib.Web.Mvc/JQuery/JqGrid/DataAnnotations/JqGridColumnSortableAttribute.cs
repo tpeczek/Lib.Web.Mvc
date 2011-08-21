@@ -42,6 +42,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         #endregion
 
         #region IMetadataAware
+        /// <summary>
+        /// Provides metadata to the model metadata creation process.
+        /// </summary>
+        /// <param name="metadata">The model metadata.</param>
         public void OnMetadataCreated(ModelMetadata metadata)
         {
             metadata.SetColumnIndex(Index);

@@ -9,6 +9,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
     internal static class JqGridModelMetadataExtensions
     {
         #region Fields
+        private const string _alignmentKey = "JqGridColumnModel.Alignment";
+        private const string _classesKey = "JqGridColumnModel.Classes";
+        private const string _fixedKey = "JqGridColumnModel.Fixed";
+        private const string _resizableKey = "JqGridColumnModel.Resizable";
+        private const string _widthKey = "JqGridColumnModel.Width";
         private const string _labelOptionsKey = "JqGridColumnModel.LabelOptions";
         private const string _searchableKey = "JqGridColumnModel.Searchable";
         private const string _searchOptionsKey = "JqGridColumnModel.SearchOptions";
@@ -23,6 +28,71 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         #endregion
 
         #region Methods
+        internal static void SetColumnAlignment(this ModelMetadata metadata, JqGridAlignments alignment)
+        {
+            metadata.AdditionalValues.Add(_alignmentKey, alignment);
+        }
+
+        internal static JqGridAlignments GetColumnAlignment(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_alignmentKey))
+                return (JqGridAlignments)metadata.AdditionalValues[_alignmentKey];
+            else
+                return JqGridAlignments.Left;
+        }
+
+        internal static void SetColumnClasses(this ModelMetadata metadata, string classes)
+        {
+            metadata.AdditionalValues.Add(_classesKey, classes);
+        }
+
+        internal static string GetColumnClasses(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_classesKey))
+                return (string)metadata.AdditionalValues[_classesKey];
+            else
+                return String.Empty;
+        }
+
+        internal static void SetColumnFixed(this ModelMetadata metadata, bool @fixed)
+        {
+            metadata.AdditionalValues.Add(_fixedKey, @fixed);
+        }
+
+        internal static bool GetColumnFixed(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_fixedKey))
+                return (bool)metadata.AdditionalValues[_fixedKey];
+            else
+                return false;
+        }
+
+        internal static void SetColumnResizable(this ModelMetadata metadata, bool resizable)
+        {
+            metadata.AdditionalValues.Add(_resizableKey, resizable);
+        }
+
+        internal static bool GetColumnResizable(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_resizableKey))
+                return (bool)metadata.AdditionalValues[_resizableKey];
+            else
+                return true;
+        }
+
+        internal static void SetColumnWidth(this ModelMetadata metadata, int width)
+        {
+            metadata.AdditionalValues.Add(_widthKey, width);
+        }
+
+        internal static int GetColumnWidth(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_widthKey))
+                return (int)metadata.AdditionalValues[_widthKey];
+            else
+                return 150;
+        }
+
         internal static void SetColumnLabelOptions(this ModelMetadata metadata, JqGridColumnLabelOptions labelOptions)
         {
             metadata.AdditionalValues.Add(_labelOptionsKey, labelOptions);

@@ -183,18 +183,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             IEnumerable<object> customAttributes  = propertyMetadata.ContainerType.GetProperty(propertyMetadata.PropertyName).GetCustomAttributes(true).AsEnumerable();
             RangeAttribute rangeAttribute = customAttributes.OfType<RangeAttribute>().FirstOrDefault();
 
-            JqGridColumnLayoutAttribute columnLayoutAttribute = customAttributes.OfType<JqGridColumnLayoutAttribute>().FirstOrDefault();
-            if (columnLayoutAttribute != null)
-            {
-                Alignment = columnLayoutAttribute.Alignment;
-                Classes = columnLayoutAttribute.Classes;
-                Fixed = columnLayoutAttribute.Fixed;
-                Resizable = columnLayoutAttribute.Resizable;
-                Width = columnLayoutAttribute.Width;
-            }
-            else
-                Alignment = JqGridAlignments.Left;
-
             JqGridColumnFormatterAttribute columnFormatterAttribute = customAttributes.OfType<JqGridColumnFormatterAttribute>().FirstOrDefault();
             if (columnFormatterAttribute != null)
             {
@@ -237,6 +225,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                         EditOptions.MaximumLength = stringLengthAttribute.MaximumLength;
                 }
             }
+
+            Alignment = propertyMetadata.GetColumnAlignment();
+            Classes = propertyMetadata.GetColumnClasses();
+            Fixed = propertyMetadata.GetColumnFixed();
+            Resizable = propertyMetadata.GetColumnResizable();
+            Width = propertyMetadata.GetColumnWidth();
 
             LabelOptions = propertyMetadata.GetColumnLabelOptions();
 

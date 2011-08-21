@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
 {
@@ -9,13 +10,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
     /// Specifies the layout attributes of grid column
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public sealed class JqGridColumnLayoutAttribute : Attribute
+    public sealed class JqGridColumnLayoutAttribute : Attribute, IMetadataAware
     {
         #region Properties
         /// <summary>
-        /// Gets the alignment of the cell in the grid body layer.
+        /// Gets or sets the alignment of the cell in the grid body layer.
         /// </summary>
-        public JqGridAlignments Alignment { get; private set; }
+        public JqGridAlignments Alignment { get; set; }
 
         /// <summary>
         /// Gets or sets additional CSS classes for the column (separated by space).
@@ -42,13 +43,27 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <summary>
         /// Initializes a new instance of the JqGridColumnLayoutAttribute class.
         /// </summary>
-        /// <param name="alignment">The alignment of the cell in the grid body layer</param>
-        public JqGridColumnLayoutAttribute(JqGridAlignments alignment)
+        public JqGridColumnLayoutAttribute()
         {
-            Alignment = alignment;
+            Alignment = JqGridAlignments.Left;
             Fixed = false;
             Resizable = true;
             Width = 150;
+        }
+        #endregion
+
+        #region IMetadataAware
+        /// <summary>
+        /// Provides metadata to the model metadata creation process.
+        /// </summary>
+        /// <param name="metadata">The model metadata.</param>
+        public void OnMetadataCreated(ModelMetadata metadata)
+        {
+            metadata.SetColumnAlignment(Alignment);
+            metadata.SetColumnClasses(Classes);
+            metadata.SetColumnFixed(Fixed);
+            metadata.SetColumnResizable(Resizable);
+            metadata.SetColumnWidth(Width);
         }
         #endregion
     }
