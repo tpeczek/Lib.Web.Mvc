@@ -28,7 +28,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets or set the value defining if this column can be edited.
         /// </summary>
-        public bool? Editable { get; set; }
+        public bool Editable { get; set; }
 
         /// <summary>
         /// Gets or sets the options for editable column.
@@ -43,12 +43,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets or sets the type for editable column.
         /// </summary>
-        public JqGridColumnEditTypes? EditType { get; set; }
+        public JqGridColumnEditTypes EditType { get; set; }
 
         /// <summary>
         /// Gets or sets the value which defines if internal recalculation of the width of the column is disabled (default false).
         /// </summary>
-        public bool? Fixed { get; set; }
+        public bool Fixed { get; set; }
 
         /// <summary>
         /// Gets or sets the predefined formatter type ('' delimited string) or custom JavaScript formatting function name.
@@ -73,14 +73,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets or sets the sorting order for first column sorting.
         /// </summary>
-        public JqGridSortingOrders? InitialSortingOrder { get; set; }
+        public JqGridSortingOrders InitialSortingOrder { get; set; }
 
         internal JqGridColumnLabelOptions LabelOptions { get; set; }
 
         /// <summary>
         /// Gets or sets the value which defines if column can be resized (default true).
         /// </summary>
-        public bool? Resizable { get; set; }
+        public bool Resizable { get; set; }
 
         /// <summary>
         /// Gets or sets the value defining if this column can be searched.
@@ -120,7 +120,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets or sets the value defining if this column can be sorted.
         /// </summary>
-        public bool? Sortable { get; set; }
+        public bool Sortable { get; set; }
 
         /// <summary>
         /// Gets or sets the index name for sorting and searching (default String.Empty)
@@ -140,7 +140,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets or sets the initial width in pixels of the column (default 150).
         /// </summary>
-        public int? Width { get; set; }
+        public int Width { get; set; }
         #endregion
 
         #region Constructor
@@ -150,8 +150,21 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <param name="name">The unique name for the column.</param>
         public JqGridColumnModel(string name)
         {
+            Alignment = JqGridAlignments.Left;
+            Editable = false;
+            EditOptions = null;
+            EditRules = null;
+            EditType = JqGridColumnEditTypes.Text;
+            Fixed = false;
+            FormOptions = null;
+            Formatter = String.Empty;
+            FormatterOptions = null;
+            InitialSortingOrder = JqGridSortingOrders.Asc;
+            Hidden = false;
+            Index = String.Empty;
             LabelOptions = null;
             Name = name;
+            Resizable = true;
             Searchable = true;
             SearchOptions = null;
             SearchRules = null;
@@ -159,14 +172,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             SummaryType = null;
             SummaryTemplate = "{0}";
             SummaryFunction = null;
-
-            //TODO: Use actual defaults
-            Index = String.Empty;
-            Alignment = JqGridAlignments.Left;
-            Hidden = false;
+            Sortable = true;
+            UnFormatter = String.Empty;
+            Width = 150;
         }
 
         internal JqGridColumnModel(ModelMetadata propertyMetadata)
+            : this(propertyMetadata.PropertyName)
         {
             IEnumerable<object> customAttributes  = propertyMetadata.ContainerType.GetProperty(propertyMetadata.PropertyName).GetCustomAttributes(true).AsEnumerable();
             RangeAttribute rangeAttribute = customAttributes.OfType<RangeAttribute>().FirstOrDefault();
@@ -191,19 +203,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 UnFormatter = columnFormatterAttribute.UnFormatter;
             }
 
-            JqGridColumnSortableAttribute columnSortableAttribute = customAttributes.OfType<JqGridColumnSortableAttribute>().FirstOrDefault();
-            if (columnSortableAttribute != null)
-            {
-                InitialSortingOrder = columnSortableAttribute.InitialSortingOrder;
-                Sortable = columnSortableAttribute.Sortable;
-                Index = columnSortableAttribute.Index;
-            }
-
             JqGridColumnEditableAttribute columnEditableAttribute = customAttributes.OfType<JqGridColumnEditableAttribute>().FirstOrDefault();
             if (columnEditableAttribute != null)
             {
                 Editable = columnEditableAttribute.Editable;
-                if (Editable.Value)
+                if (Editable)
                 {
                     EditOptions = columnEditableAttribute.EditOptions;
                     EditRules = columnEditableAttribute.EditRules;
@@ -246,14 +250,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
             SearchType = propertyMetadata.GetColumnSearchType();
 
+            InitialSortingOrder = propertyMetadata.GetColumnInitialSortingOrder();
+            Sortable = propertyMetadata.GetColumnSortable();
+            Index = propertyMetadata.GetColumnIndex();
+
             SummaryType = propertyMetadata.GetColumnSummaryType();
             SummaryTemplate = propertyMetadata.GetColumnSummaryTemplate();
             SummaryFunction = propertyMetadata.GetColumnSummaryFunction();
-
-            Name = propertyMetadata.PropertyName;
-
-            if (String.IsNullOrWhiteSpace(Index))
-                Index = propertyMetadata.PropertyName;
 
             if (!String.IsNullOrWhiteSpace(propertyMetadata.TemplateHint) && propertyMetadata.TemplateHint.Equals("HiddenInput"))
                 Hidden = true;

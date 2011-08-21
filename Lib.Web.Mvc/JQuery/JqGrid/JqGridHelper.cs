@@ -194,23 +194,24 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (columnModel.Alignment != JqGridAlignments.Left)
                     javaScriptBuilder.AppendFormat("align: '{0}', ", columnModel.Alignment.ToString().ToLower());
 
-                javaScriptBuilder.AppendFormat("index: '{0}', ", columnModel.Index);
+                if (!String.IsNullOrWhiteSpace(columnModel.Index))
+                    javaScriptBuilder.AppendFormat("index: '{0}', ", columnModel.Index);
 
                 if (!String.IsNullOrWhiteSpace(columnModel.Classes))
                     javaScriptBuilder.AppendFormat("classes: '{0}', ", columnModel.Classes);
 
-                if (columnModel.Editable.HasValue &&columnModel.Editable.Value )
+                if (columnModel.Editable)
                 {
-                    javaScriptBuilder.AppendFormat("editable: {0}, ", columnModel.Editable.Value.ToString().ToLower());
-                    if (columnModel.EditType.HasValue)
-                        javaScriptBuilder.AppendFormat("edittype: '{0}', ", columnModel.EditType.Value.ToString().ToLower());
+                    javaScriptBuilder.Append("editable: true, ");
+                    if (columnModel.EditType != JqGridColumnEditTypes.Text)
+                        javaScriptBuilder.AppendFormat("edittype: '{0}', ", columnModel.EditType.ToString().ToLower());
                     AppendEditOptions(columnModel.EditOptions, ref javaScriptBuilder);
                     AppendColumnRules("editrules", columnModel.EditRules, ref javaScriptBuilder);
                     AppendFormOptions(columnModel.FormOptions, ref javaScriptBuilder);
                 }
 
-                if (columnModel.Fixed.HasValue)
-                    javaScriptBuilder.AppendFormat("fixed: {0}, ", columnModel.Fixed.Value.ToString().ToLower());
+                if (columnModel.Fixed)
+                    javaScriptBuilder.Append("fixed: true, ");
 
                 if (!String.IsNullOrWhiteSpace(columnModel.Formatter))
                 {
@@ -220,14 +221,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                         javaScriptBuilder.AppendFormat("unformat: {0}, ", columnModel.UnFormatter);
                 }
 
-                if (columnModel.InitialSortingOrder.HasValue)
-                    javaScriptBuilder.AppendFormat("firstsortorder: '{0}', ", columnModel.InitialSortingOrder.Value.ToString().ToLower());
+                if (columnModel.InitialSortingOrder != JqGridSortingOrders.Asc)
+                    javaScriptBuilder.Append("firstsortorder: 'desc', ");
 
                 if (columnModel.Hidden)
-                    javaScriptBuilder.AppendFormat("hidden: {0}, ", columnModel.Hidden.ToString().ToLower());
+                    javaScriptBuilder.Append("hidden: true, ");
 
-                if (columnModel.Resizable.HasValue)
-                    javaScriptBuilder.AppendFormat("resizable: {0}, ", columnModel.Resizable.Value.ToString().ToLower());
+                if (!columnModel.Resizable)
+                    javaScriptBuilder.Append("resizable: false, ");
 
                 if (columnModel.Searchable)
                 {
@@ -253,11 +254,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                         javaScriptBuilder.AppendFormat("summaryTpl: '{0}', ", columnModel.SummaryTemplate);
                 }
 
-                if (columnModel.Sortable.HasValue)
-                    javaScriptBuilder.AppendFormat("sortable: {0}, ", columnModel.Sortable.Value.ToString().ToLower());
+                if (!columnModel.Sortable)
+                    javaScriptBuilder.AppendFormat("sortable: false, ");
 
-                if (columnModel.Width.HasValue)
-                    javaScriptBuilder.AppendFormat("width: {0}, ", columnModel.Width.Value);
+                if (columnModel.Width != 150)
+                    javaScriptBuilder.AppendFormat("width: {0}, ", columnModel.Width);
 
                 javaScriptBuilder.AppendFormat("name: '{0}' }}", columnModel.Name);
 

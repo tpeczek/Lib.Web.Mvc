@@ -14,6 +14,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         private const string _searchOptionsKey = "JqGridColumnModel.SearchOptions";
         private const string _searchRulesKey = "JqGridColumnModel.SearchRules";
         private const string _searchTypeKey = "JqGridColumnModel.SearchType";
+        private const string _sortableKey = "JqGridColumnModel.Sortable";
+        private const string _indexKey = "JqGridColumnModel.Index";
+        private const string _initialSortingOrderKey = "JqGridColumnModel.InitialSortingOrder";
         private const string _summaryTypeKey = "JqGridColumnModel.SummaryType";
         private const string _summaryTemplateKey = "JqGridColumnModel.SummaryTemplate";
         private const string _summaryFunctionKey = "JqGridColumnModel.SummaryFunction";
@@ -83,6 +86,45 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
                 return (JqGridColumnSearchTypes)metadata.AdditionalValues[_searchTypeKey];
             else
                 return JqGridColumnSearchTypes.Text;
+        }
+
+        internal static void SetColumnSortable(this ModelMetadata metadata, bool sortable)
+        {
+            metadata.AdditionalValues.Add(_sortableKey, sortable);
+        }
+
+        internal static bool GetColumnSortable(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_sortableKey))
+                return (bool)metadata.AdditionalValues[_sortableKey];
+            else
+                return true;
+        }
+
+        internal static void SetColumnIndex(this ModelMetadata metadata, string index)
+        {
+            metadata.AdditionalValues.Add(_indexKey, index);
+        }
+
+        internal static string GetColumnIndex(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_indexKey))
+                return (string)metadata.AdditionalValues[_indexKey];
+            else
+                return String.Empty;
+        }
+
+        internal static void SetColumnInitialSortingOrder(this ModelMetadata metadata, JqGridSortingOrders initialSortingOrder)
+        {
+            metadata.AdditionalValues.Add(_initialSortingOrderKey, initialSortingOrder);
+        }
+
+        internal static JqGridSortingOrders GetColumnInitialSortingOrder(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_initialSortingOrderKey))
+                return (JqGridSortingOrders)metadata.AdditionalValues[_initialSortingOrderKey];
+            else
+                return JqGridSortingOrders.Asc;
         }
 
         internal static void SetColumnSummaryType(this ModelMetadata metadata, JqGridColumnSummaryTypes type)

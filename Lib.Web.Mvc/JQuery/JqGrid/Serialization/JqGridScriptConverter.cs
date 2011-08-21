@@ -342,8 +342,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
                 obj.Alignment = GetEnumFromSerializedObj<JqGridAlignments>(serializedObj, "align", obj.Alignment);
                 obj.Classes = GetStringFromSerializedObj(serializedObj, "classes");
-                obj.Editable = GetBooleanFromSerializedObj(serializedObj, "editable");
-                obj.EditType = GetEnumFromSerializedObj<JqGridColumnEditTypes>(serializedObj, "edittype");
+                obj.Editable = GetBooleanFromSerializedObj(serializedObj, "editable", false);
+                obj.EditType = GetEnumFromSerializedObj<JqGridColumnEditTypes>(serializedObj, "edittype", JqGridColumnEditTypes.Text);
 
                 if (serializedObj.ContainsKey("editoptions") && serializedObj["editoptions"] != null && serializedObj["editoptions"] is IDictionary<string, object>)
                     obj.EditOptions = DeserializeJqGridColumnEditOptions((IDictionary<string, object>)serializedObj["editoptions"], serializer);
@@ -351,7 +351,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 if (serializedObj.ContainsKey("editrules") && serializedObj["editrules"] != null && serializedObj["editrules"] is IDictionary<string, object>)
                     obj.EditRules = DeserializeJqGridColumnRules((IDictionary<string, object>)serializedObj["editrules"], serializer);
 
-                obj.Fixed = GetBooleanFromSerializedObj(serializedObj, "fixed");
+                obj.Fixed = GetBooleanFromSerializedObj(serializedObj, "fixed", false);
                 obj.Hidden = GetBooleanFromSerializedObj(serializedObj, "hidden", false);
 
                 if (serializedObj.ContainsKey("formatoptions") && serializedObj["formatoptions"] != null && serializedObj["formatoptions"] is IDictionary<string, object>)
@@ -360,9 +360,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 if (serializedObj.ContainsKey("formoptions") && serializedObj["formoptions"] != null && serializedObj["formoptions"] is IDictionary<string, object>)
                     obj.FormOptions = DeserializeJqGridColumnFormOptions((IDictionary<string, object>)serializedObj["formoptions"], serializer);
 
-                obj.InitialSortingOrder = GetEnumFromSerializedObj<JqGridSortingOrders>(serializedObj, "firstsortorder");
+                obj.InitialSortingOrder = GetEnumFromSerializedObj<JqGridSortingOrders>(serializedObj, "firstsortorder", JqGridSortingOrders.Asc);
                 obj.Formatter = GetStringFromSerializedObj(serializedObj, "formatter");
-                obj.Resizable = GetBooleanFromSerializedObj(serializedObj, "resizable");
+                obj.Resizable = GetBooleanFromSerializedObj(serializedObj, "resizable", true);
                 obj.SummaryType = GetEnumFromSerializedObj<JqGridColumnSummaryTypes>(serializedObj, "summaryType");
                 if (!obj.SummaryType.HasValue)
                 {
@@ -372,7 +372,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 }
 
                 obj.SummaryTemplate = GetStringFromSerializedObj(serializedObj, "summaryTpl", "{0}");
-                obj.Sortable = GetBooleanFromSerializedObj(serializedObj, "sortable");
+                obj.Sortable = GetBooleanFromSerializedObj(serializedObj, "sortable", true);
                 obj.Index = GetStringFromSerializedObj(serializedObj, "index");
                 obj.Searchable = GetBooleanFromSerializedObj(serializedObj, "search", true);
                 obj.SearchType = GetEnumFromSerializedObj<JqGridColumnSearchTypes>(serializedObj, "stype", JqGridColumnSearchTypes.Text);
@@ -384,7 +384,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                     obj.SearchRules = DeserializeJqGridColumnRules((IDictionary<string, object>)serializedObj["searchrules"], serializer);
 
                 obj.UnFormatter = GetStringFromSerializedObj(serializedObj, "unformat");
-                obj.Width = GetInt32FromSerializedObj(serializedObj, "width");
+                obj.Width = GetInt32FromSerializedObj(serializedObj, "width", 150);
 
                 return obj;
             }
@@ -399,41 +399,38 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (!String.IsNullOrWhiteSpace(obj.Classes))
                 serializedObj.Add("classes", obj.Classes);
 
-            if (obj.Editable.HasValue)
+            if (obj.Editable)
             {
-                serializedObj.Add("editable", obj.Editable.Value);
-                if (obj.Editable.Value)
-                {
-                    if (obj.EditType.HasValue)
-                        serializedObj.Add("edittype", obj.EditType.Value.ToString().ToLower());
+                serializedObj.Add("editable", true);
+                if (obj.EditType != JqGridColumnEditTypes.Text)
+                    serializedObj.Add("edittype", obj.EditType.ToString().ToLower());
 
-                    if (obj.EditOptions != null)
-                        serializedObj.Add("editoptions", obj.EditOptions);
+                if (obj.EditOptions != null)
+                    serializedObj.Add("editoptions", obj.EditOptions);
 
-                    if (obj.EditRules != null)
-                        serializedObj.Add("editrules", obj.EditRules);
+                if (obj.EditRules != null)
+                    serializedObj.Add("editrules", obj.EditRules);
 
-                    if (obj.FormOptions != null)
-                        serializedObj.Add("formoptions", obj.FormOptions);
-                }
+                if (obj.FormOptions != null)
+                    serializedObj.Add("formoptions", obj.FormOptions);
             }
 
-            if (obj.Fixed.HasValue)
-                serializedObj.Add("fixed", obj.Fixed.Value);
+            if (obj.Fixed)
+                serializedObj.Add("fixed", true);
 
             if (obj.FormatterOptions != null)
                 serializedObj.Add("formatoptions", obj.FormatterOptions);
 
-            if (obj.InitialSortingOrder.HasValue)
-                serializedObj.Add("firstsortorder", obj.InitialSortingOrder.Value.ToString().ToLower());
+            if (obj.InitialSortingOrder != JqGridSortingOrders.Asc)
+                serializedObj.Add("firstsortorder", "desc");
 
             if (!String.IsNullOrWhiteSpace(obj.Formatter))
                 serializedObj.Add("formatter", obj.Formatter);
 
             serializedObj.Add("hidden", obj.Hidden);
 
-            if (obj.Resizable.HasValue)
-                serializedObj.Add("resizable", obj.Resizable.Value);
+            if (!obj.Resizable)
+                serializedObj.Add("resizable", false);
 
             if (obj.SummaryType.HasValue)
             {
@@ -446,8 +443,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (obj.SummaryTemplate != "{0}")
                 serializedObj.Add("summaryTpl", obj.SummaryTemplate);
 
-            if (obj.Sortable.HasValue)
-                serializedObj.Add("sortable", obj.Sortable.Value);
+            if (!obj.Sortable)
+                serializedObj.Add("sortable", false);
 
             serializedObj.Add("index", obj.Index);
 
@@ -470,8 +467,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (!String.IsNullOrWhiteSpace(obj.UnFormatter))
                 serializedObj.Add("unformat", obj.UnFormatter);
 
-            if (obj.Width.HasValue)
-                serializedObj.Add("width", obj.Width.Value);
+            if (obj.Width != 150)
+                serializedObj.Add("width", obj.Width);
         }
 
         private static JqGridColumnEditOptions DeserializeJqGridColumnEditOptions(IDictionary<string, object> serializedObj, JavaScriptSerializer serializer)

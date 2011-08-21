@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
 {
@@ -9,7 +10,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
     /// Specifies the sorting options for column
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public sealed class JqGridColumnSortableAttribute : Attribute
+    public sealed class JqGridColumnSortableAttribute : Attribute, IMetadataAware
     {
         #region Properties
         /// <summary>
@@ -37,6 +38,15 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             Sortable = sortable;
             InitialSortingOrder = JqGridSortingOrders.Asc;
+        }
+        #endregion
+
+        #region IMetadataAware
+        public void OnMetadataCreated(ModelMetadata metadata)
+        {
+            metadata.SetColumnIndex(Index);
+            metadata.SetColumnInitialSortingOrder(InitialSortingOrder);
+            metadata.SetColumnSortable(Sortable);
         }
         #endregion
     }
