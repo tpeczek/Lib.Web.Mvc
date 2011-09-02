@@ -191,46 +191,43 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 UnFormatter = columnFormatterAttribute.UnFormatter;
             }
 
-            JqGridColumnEditableAttribute columnEditableAttribute = customAttributes.OfType<JqGridColumnEditableAttribute>().FirstOrDefault();
-            if (columnEditableAttribute != null)
-            {
-                Editable = columnEditableAttribute.Editable;
-                if (Editable)
-                {
-                    EditOptions = columnEditableAttribute.EditOptions;
-                    EditRules = columnEditableAttribute.EditRules;
-                    EditType = columnEditableAttribute.EditType;
-                    FormOptions = columnEditableAttribute.FormOptions;
-
-                    if ((propertyMetadata.ModelType == typeof(Int16)) || (propertyMetadata.ModelType == typeof(Int32)) || (propertyMetadata.ModelType == typeof(Int64)) || (propertyMetadata.ModelType == typeof(UInt16)) || (propertyMetadata.ModelType == typeof(UInt32)) || (propertyMetadata.ModelType == typeof(UInt32)))
-                        EditRules.Integer = true;
-                    else if ((propertyMetadata.ModelType == typeof(Decimal)) || (propertyMetadata.ModelType == typeof(Double)) || (propertyMetadata.ModelType == typeof(Single)))
-                        EditRules.Number = true;
-
-                    RequiredAttribute requiredAttribute = customAttributes.OfType<RequiredAttribute>().FirstOrDefault();
-                    if (requiredAttribute != null)
-                        EditRules.Required = true;
-
-                    if (rangeAttribute != null)
-                    {
-                        EditRules.MaxValue = Convert.ToDouble(rangeAttribute.Maximum);
-                        EditRules.MinValue = Convert.ToDouble(rangeAttribute.Minimum);
-                    }
-
-                    if (EditType == JqGridColumnEditTypes.Select)
-                        EditOptions.DataUrl = columnEditableAttribute.DataUrl;
-
-                    StringLengthAttribute stringLengthAttribute = customAttributes.OfType<StringLengthAttribute>().FirstOrDefault();
-                    if (stringLengthAttribute != null)
-                        EditOptions.MaximumLength = stringLengthAttribute.MaximumLength;
-                }
-            }
-
             Alignment = propertyMetadata.GetColumnAlignment();
             Classes = propertyMetadata.GetColumnClasses();
             Fixed = propertyMetadata.GetColumnFixed();
             Resizable = propertyMetadata.GetColumnResizable();
             Width = propertyMetadata.GetColumnWidth();
+
+            Editable = propertyMetadata.GetColumnEditable();
+            EditOptions = propertyMetadata.GetColumnEditOptions();
+            if (EditOptions != null)
+            {
+                StringLengthAttribute stringLengthAttribute = customAttributes.OfType<StringLengthAttribute>().FirstOrDefault();
+                if (stringLengthAttribute != null)
+                {
+                    if (EditOptions.HtmlAttributes == null)
+                        EditOptions.HtmlAttributes = new Dictionary<string, object>();
+
+                    if (EditOptions.HtmlAttributes.ContainsKey("maxlength"))
+                        EditOptions.HtmlAttributes["maxlength"] = stringLengthAttribute.MaximumLength;
+                    else
+                        EditOptions.HtmlAttributes.Add("maxlength", stringLengthAttribute.MaximumLength);
+                }
+            }
+            EditRules = propertyMetadata.GetColumnEditRules();
+            if (EditRules != null)
+            {
+                RequiredAttribute requiredAttribute = customAttributes.OfType<RequiredAttribute>().FirstOrDefault();
+                if (requiredAttribute != null)
+                    EditRules.Required = true;
+
+                if (rangeAttribute != null)
+                {
+                    EditRules.MaxValue = Convert.ToDouble(rangeAttribute.Maximum);
+                    EditRules.MinValue = Convert.ToDouble(rangeAttribute.Minimum);
+                }
+            }
+            EditType = propertyMetadata.GetColumnEditType();
+            FormOptions = propertyMetadata.GetColumnFormOptions();
 
             LabelOptions = propertyMetadata.GetColumnLabelOptions();
 

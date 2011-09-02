@@ -14,6 +14,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         private const string _fixedKey = "JqGridColumnModel.Fixed";
         private const string _resizableKey = "JqGridColumnModel.Resizable";
         private const string _widthKey = "JqGridColumnModel.Width";
+        private const string _editableKey = "JqGridColumnModel.Editable";
+        private const string _editOptionsKey = "JqGridColumnModel.EditOptions";
+        private const string _editRulesKey = "JqGridColumnModel.EditRules";
+        private const string _formOptionsKey = "JqGridColumnModel.FormOptions";
+        private const string _editTypeKey = "JqGridColumnModel.EditType";
         private const string _labelOptionsKey = "JqGridColumnModel.LabelOptions";
         private const string _searchableKey = "JqGridColumnModel.Searchable";
         private const string _searchOptionsKey = "JqGridColumnModel.SearchOptions";
@@ -96,6 +101,71 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         internal static void SetColumnLabelOptions(this ModelMetadata metadata, JqGridColumnLabelOptions labelOptions)
         {
             metadata.AdditionalValues.Add(_labelOptionsKey, labelOptions);
+        }
+
+        internal static void SetColumnEditable(this ModelMetadata metadata, bool editable)
+        {
+            metadata.AdditionalValues.Add(_editableKey, editable);
+        }
+
+        internal static bool GetColumnEditable(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_editableKey))
+                return (bool)metadata.AdditionalValues[_editableKey];
+            else
+                return false;
+        }
+
+        internal static void SetColumnEditOptions(this ModelMetadata metadata, JqGridColumnEditOptions editOptions)
+        {
+            metadata.AdditionalValues.Add(_editOptionsKey, editOptions);
+        }
+
+        internal static JqGridColumnEditOptions GetColumnEditOptions(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_editOptionsKey))
+                return (JqGridColumnEditOptions)metadata.AdditionalValues[_editOptionsKey];
+            else
+                return null;
+        }
+
+        internal static void SetColumnEditRules(this ModelMetadata metadata, JqGridColumnRules editRules)
+        {
+            metadata.AdditionalValues.Add(_editRulesKey, editRules);
+        }
+
+        internal static JqGridColumnRules GetColumnEditRules(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_editRulesKey))
+                return (JqGridColumnRules)metadata.AdditionalValues[_editRulesKey];
+            else
+                return null;
+        }
+
+        internal static void SetColumnEditType(this ModelMetadata metadata, JqGridColumnEditTypes editType)
+        {
+            metadata.AdditionalValues.Add(_editTypeKey, editType);
+        }
+
+        internal static JqGridColumnEditTypes GetColumnEditType(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_editTypeKey))
+                return (JqGridColumnEditTypes)metadata.AdditionalValues[_editTypeKey];
+            else
+                return JqGridColumnEditTypes.Text;
+        }
+
+        internal static void SetColumnFormOptions(this ModelMetadata metadata, JqGridColumnFormOptions formOptions)
+        {
+            metadata.AdditionalValues.Add(_formOptionsKey, formOptions);
+        }
+
+        internal static JqGridColumnFormOptions GetColumnFormOptions(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_formOptionsKey))
+                return (JqGridColumnFormOptions)metadata.AdditionalValues[_formOptionsKey];
+            else
+                return null;
         }
 
         internal static JqGridColumnLabelOptions GetColumnLabelOptions(this ModelMetadata metadata)

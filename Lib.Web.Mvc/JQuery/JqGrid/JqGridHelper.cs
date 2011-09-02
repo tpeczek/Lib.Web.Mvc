@@ -278,34 +278,63 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         {
             if (editOptions != null)
             {
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
                 javaScriptBuilder.Append("editoptions: { ");
 
                 if (!String.IsNullOrWhiteSpace(editOptions.CustomElementFunction))
-                    javaScriptBuilder.AppendFormat("custom_element: {0},", editOptions.CustomElementFunction);
+                    javaScriptBuilder.AppendFormat("custom_element: {0}, ", editOptions.CustomElementFunction);
 
                 if (!String.IsNullOrWhiteSpace(editOptions.CustomValueFunction))
-                    javaScriptBuilder.AppendFormat("custom_value: {0},", editOptions.CustomValueFunction);
+                    javaScriptBuilder.AppendFormat("custom_value: {0}, ", editOptions.CustomValueFunction);
 
-                if (!String.IsNullOrWhiteSpace(editOptions.DataUrl))
-                    javaScriptBuilder.AppendFormat("dataUrl: '{0}',", editOptions.DataUrl);
+                AppendElementOptions(editOptions, serializer, ref javaScriptBuilder);
 
-                if (editOptions.MaximumLength.HasValue)
-                    javaScriptBuilder.AppendFormat("maxlength: {0},", editOptions.MaximumLength.Value);
+                if (editOptions.NullIfEmpty)
+                    javaScriptBuilder.AppendFormat("NullIfEmpty: true, ", editOptions.CustomValueFunction);
 
-                if (editOptions.MultipleSelect.HasValue)
-                    javaScriptBuilder.AppendFormat("multiple: {0},", editOptions.MultipleSelect.Value.ToString().ToLower());
-
-                if (!String.IsNullOrWhiteSpace(editOptions.Source))
-                    javaScriptBuilder.AppendFormat("src: '{0}',", editOptions.Source);
-
-                if (javaScriptBuilder[javaScriptBuilder.Length - 1] == ',')
+                if (editOptions.HtmlAttributes != null && editOptions.HtmlAttributes.Count > 0)
                 {
-                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
+                    string htmlAttributesSerialized = serializer.Serialize(editOptions.HtmlAttributes);
+                    javaScriptBuilder.AppendFormat("{0}, ", htmlAttributesSerialized.Substring(1, htmlAttributesSerialized.Length - 2));
+                }
+
+                if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
+                {
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
                     javaScriptBuilder.Append(" }, ");
                 }
                 else
                     javaScriptBuilder.Remove(javaScriptBuilder.Length - 15, 15);
             }
+        }
+
+        private static void AppendElementOptions(JqGridColumnElementOptions elementOptions, JavaScriptSerializer serializer, ref StringBuilder javaScriptBuilder)
+        {
+            if (!String.IsNullOrWhiteSpace(elementOptions.BuildSelect))
+                javaScriptBuilder.AppendFormat("buildSelect: {0}, ", elementOptions.BuildSelect);
+
+            if (elementOptions.DataEvents != null && elementOptions.DataEvents.Count() > 0)
+            {
+                javaScriptBuilder.Append("dataEvents: [ ");
+                foreach (JqGridColumnDataEvent dataEvent in elementOptions.DataEvents)
+                {
+                    if (dataEvent.Data == null)
+                        javaScriptBuilder.AppendFormat("{ type: '{0}', fn: {1} }, ", dataEvent.Type, dataEvent.Function);
+                    else
+                        javaScriptBuilder.AppendFormat("{ type: '{0}', data: {1}, fn: {2} }, ", dataEvent.Type, serializer.Serialize(dataEvent.Data), dataEvent.Function);
+                }
+                javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
+                javaScriptBuilder.Append(" ], ");
+            }
+
+            if (!String.IsNullOrWhiteSpace(elementOptions.DataInit))
+                javaScriptBuilder.AppendFormat("dataInit: {0}, ", elementOptions.DataInit);
+
+            if (!String.IsNullOrWhiteSpace(elementOptions.DataUrl))
+                javaScriptBuilder.AppendFormat("dataUrl: '{0}', ", elementOptions.DataUrl);
+
+            if (!String.IsNullOrWhiteSpace(elementOptions.DefaultValue))
+                javaScriptBuilder.AppendFormat("defaultValue: '{0}', ", elementOptions.DefaultValue);
         }
 
         private static void AppendColumnRules(string rulesName, JqGridColumnRules rules, ref StringBuilder javaScriptBuilder)
@@ -461,31 +490,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 javaScriptBuilder.Append("searchoptions: { ");
 
-                if (!String.IsNullOrWhiteSpace(searchOptions.BuildSelect))
-                    javaScriptBuilder.AppendFormat("buildSelect: {0}, ", searchOptions.BuildSelect);
-
-                if (searchOptions.DataEvents != null && searchOptions.DataEvents.Count() > 0)
-                {
-                    javaScriptBuilder.Append("dataEvents: [ ");
-                    foreach (JqGridColumnDataEvent dataEvent in searchOptions.DataEvents)
-                    {
-                        if (dataEvent.Data == null)
-                            javaScriptBuilder.AppendFormat("{ type: '{0}', fn: {1} }, ", dataEvent.Type, dataEvent.Function);
-                        else
-                            javaScriptBuilder.AppendFormat("{ type: '{0}', data: {1}, fn: {2} }, ", dataEvent.Type, serializer.Serialize(dataEvent.Data), dataEvent.Function);
-                    }
-                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
-                    javaScriptBuilder.Append(" ], ");
-                }
-
-                if (!String.IsNullOrWhiteSpace(searchOptions.DataInit))
-                    javaScriptBuilder.AppendFormat("dataInit: {0}, ", searchOptions.DataInit);
-
-                if (!String.IsNullOrWhiteSpace(searchOptions.DataUrl))
-                    javaScriptBuilder.AppendFormat("dataUrl: '{0}', ", searchOptions.DataUrl);
-
-                if (!String.IsNullOrWhiteSpace(searchOptions.DefaultValue))
-                    javaScriptBuilder.AppendFormat("defaultValue: '{0}', ", searchOptions.DefaultValue);
+                AppendElementOptions(searchOptions, serializer, ref javaScriptBuilder);
 
                 if (searchOptions.HtmlAttributes != null && searchOptions.HtmlAttributes.Count > 0)
                     javaScriptBuilder.AppendFormat("attr: {0}, ", serializer.Serialize(searchOptions.HtmlAttributes));

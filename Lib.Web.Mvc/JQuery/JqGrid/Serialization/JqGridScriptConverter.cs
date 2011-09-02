@@ -476,11 +476,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             JqGridColumnEditOptions obj = new JqGridColumnEditOptions();
 
             obj.CustomElementFunction = GetStringFromSerializedObj(serializedObj, "custom_element");
+            serializedObj.Remove("custom_element");
             obj.CustomValueFunction = GetStringFromSerializedObj(serializedObj, "custom_value");
+            serializedObj.Remove("custom_value");
             obj.DataUrl = GetStringFromSerializedObj(serializedObj, "dataUrl");
-            obj.MaximumLength = GetInt32FromSerializedObj(serializedObj, "maxlength");
-            obj.MultipleSelect = GetBooleanFromSerializedObj(serializedObj, "multiple");
-            obj.Source = GetStringFromSerializedObj(serializedObj, "src");
+            serializedObj.Remove("dataUrl");
+            obj.DefaultValue = GetStringFromSerializedObj(serializedObj, "defaultValue");
+            serializedObj.Remove("defaultValue");
+            obj.NullIfEmpty = GetBooleanFromSerializedObj(serializedObj, "NullIfEmpty", false);
+            serializedObj.Remove("NullIfEmpty");
+            obj.HtmlAttributes = serializedObj;
 
             return obj;
         }
@@ -493,17 +498,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (!String.IsNullOrWhiteSpace(obj.CustomValueFunction))
                 serializedObj.Add("custom_value", obj.CustomValueFunction);
 
-            if (!String.IsNullOrWhiteSpace(obj.DataUrl))
-                serializedObj.Add("dataUrl", obj.DataUrl);
+            SerializeJqGridColumnElementOptions(obj, serializer, ref serializedObj);
 
-            if (obj.MaximumLength.HasValue)
-                serializedObj.Add("maxlength", obj.MaximumLength.Value);
+            if (obj.NullIfEmpty)
+                serializedObj.Add("NullIfEmpty", true);
 
-            if (obj.MultipleSelect.HasValue)
-                serializedObj.Add("multiple", obj.MultipleSelect.Value);
-
-            if (!String.IsNullOrWhiteSpace(obj.Source))
-                serializedObj.Add("src", obj.Source);
+            if (obj.HtmlAttributes != null)
+                foreach(KeyValuePair<string, object> htmlAttribute in obj.HtmlAttributes)
+                    serializedObj.Add(htmlAttribute.Key, htmlAttribute.Value);
         }
 
         private static JqGridParametersNames DeserializeJqGridParametersNames(IDictionary<string, object> serializedObj, JavaScriptSerializer serializer)
@@ -787,6 +789,15 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 serializedObj.Add("thousandsSeparator", obj.ThousandsSeparator);            
         }
 
+        private static void SerializeJqGridColumnElementOptions(JqGridColumnElementOptions obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        {
+            if (!String.IsNullOrWhiteSpace(obj.DataUrl))
+                serializedObj.Add("dataUrl", obj.DataUrl);
+
+            if (!String.IsNullOrWhiteSpace(obj.DefaultValue))
+                serializedObj.Add("defaultValue", obj.DefaultValue);
+        }
+
         private static JqGridColumnSearchOptions DeserializeJqGridColumnSearchOptions(IDictionary<string, object> serializedObj, JavaScriptSerializer serializer)
         {
             JqGridColumnSearchOptions obj = new JqGridColumnSearchOptions();
@@ -823,11 +834,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
         private static void SerializeJqGridColumnSearchOptions(JqGridColumnSearchOptions obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
         {
-            if (!String.IsNullOrWhiteSpace(obj.DataUrl))
-                serializedObj.Add("dataUrl", obj.DataUrl);
-
-            if (!String.IsNullOrWhiteSpace(obj.DefaultValue))
-                serializedObj.Add("defaultValue", obj.DefaultValue);
+            SerializeJqGridColumnElementOptions(obj, serializer, ref serializedObj);
 
             if (obj.HtmlAttributes != null && obj.HtmlAttributes.Count > 0)
                 serializedObj.Add("attr", obj.HtmlAttributes);

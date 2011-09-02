@@ -12,7 +12,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
     /// Specifies the editing options for column
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public sealed class JqGridColumnEditableAttribute : Attribute
+    public sealed class JqGridColumnEditableAttribute : JqGridColumnElementAttribute, IMetadataAware
     {
         #region Properties
         /// <summary>
@@ -34,54 +34,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         }
 
         /// <summary>
-        /// Gets or sets if the value should be validated with custom function.
-        /// </summary>
-        public bool CustomValidation
-        {
-            get { return EditRules.Custom; }
-            set { EditRules.Custom = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the name of custom validation function
-        /// </summary>
-        public string CustomValidationFunction
-        {
-            get { return EditRules.CustomFunction; }
-            set { EditRules.CustomFunction = value; }
-        }
-
-        internal string DataUrl
-        {
-            get
-            {
-                if (!String.IsNullOrWhiteSpace(DataUrlRouteName) || DataUrlRouteData != null)
-                {
-                    VirtualPathData dataUrlPathData = RouteTable.Routes.GetVirtualPathForArea(HttpContext.Current != null ? HttpContext.Current.Request.RequestContext : null, DataUrlRouteName, DataUrlRouteData);
-
-                    if (dataUrlPathData == null)
-                        throw new InvalidOperationException("The DataUrl could not be resolved.");
-
-                    return dataUrlPathData.VirtualPath;
-                }
-                return null;
-            }
-        }
-
-        private RouteValueDictionary DataUrlRouteData { get; set; }
-
-        private string DataUrlRouteName { get; set; }
-
-        /// <summary>
-        /// Gets or sets if the value should be valid ISO date.
-        /// </summary>
-        public bool DateValidation
-        {
-            get { return EditRules.Date; }
-            set { EditRules.Date = value; }
-        }
-
-        /// <summary>
         /// Gets the value defining if this column can be edited.
         /// </summary>
         public bool Editable { get; private set; }
@@ -91,13 +43,15 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool EditHidden
         {
-            get { return EditRules.EditHidden; }
-            set { EditRules.EditHidden = value; }
+            get { return Rules.EditHidden; }
+            set { Rules.EditHidden = value; }
         }
 
-        internal JqGridColumnEditOptions EditOptions { get; private set; }
-
-        internal JqGridColumnRules EditRules { get; private set; }
+        internal JqGridColumnEditOptions EditOptions
+        {
+            get { return (base.Options as JqGridColumnEditOptions); }
+            set { base.Options = value; }
+        }
 
         /// <summary>
         /// Gets or sets the type of the editable field (default JqGridColumnEditTypes.Text).
@@ -105,18 +59,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         public JqGridColumnEditTypes EditType { get; set; }
 
         /// <summary>
-        /// Gets or sets if the value should be valid email
-        /// </summary>
-        public bool EmailValidation
-        {
-            get { return EditRules.Email; }
-            set { EditRules.Email = value; }
-        }
-
-        /// <summary>
         /// Gets or sets the column position of the element (with the label) in form editing (one-based).
         /// </summary>
-        public int? FormColumnPosition
+        public int FormColumnPosition
         {
             get { return FormOptions.ColumnPosition.HasValue ? FormOptions.ColumnPosition.Value : 1; }
             set { FormOptions.ColumnPosition = value; }
@@ -152,7 +97,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <summary>
         /// Gets or sets the row position of the element (with the label) in form editing (one-based).
         /// </summary>
-        public int? RowPosition
+        public int FormRowPosition
         {
             get { return FormOptions.RowPosition.HasValue ? FormOptions.RowPosition.Value : 1; }
             set { FormOptions.RowPosition = value; }
@@ -161,39 +106,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         internal JqGridColumnFormOptions FormOptions { get; private set; }
 
         /// <summary>
-        /// Gets or sets value which defines if multiselect is enabled for select edit element.
+        /// Gets or sets the value which defines if null value should be send to server if the field is empty.
         /// </summary>
-        public bool? MultipleSelect
+        public bool NullIfEmpty
         {
-            get { return EditOptions.MultipleSelect; }
-            set { EditOptions.MultipleSelect = value; }
-        }
-
-        /// <summary>
-        /// Get or sets the source for element of type image.
-        /// </summary>
-        public string Source
-        {
-            get { return EditOptions.Source; }
-            set { EditOptions.Source = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets if the value should be valid time (hh:mm format and optional am/pm at the end).
-        /// </summary>
-        public bool TimeValidation
-        {
-            get { return EditRules.Time; }
-            set { EditRules.Time = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets if the value should be valid url.
-        /// </summary>
-        public bool UrlValidation
-        {
-            get { return EditRules.Url; }
-            set { EditRules.Url = value; }
+            get { return EditOptions.NullIfEmpty; }
+            set { EditOptions.NullIfEmpty = value; }
         }
         #endregion
 
@@ -206,7 +124,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             Editable = editable;
             EditOptions = new JqGridColumnEditOptions();
-            EditRules = new JqGridColumnRules();
+            Rules = new JqGridColumnRules();
             EditType = JqGridColumnEditTypes.Text;
             FormOptions = new JqGridColumnFormOptions();
         }
@@ -259,6 +177,30 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
 
             if (!String.IsNullOrWhiteSpace(dataUrlAreaName))
                 DataUrlRouteData["area"] = dataUrlAreaName;
+        }
+        #endregion
+
+        #region IMetadataAware
+        /// <summary>
+        /// Provides metadata to the model metadata creation process.
+        /// </summary>
+        /// <param name="metadata">The model metadata.</param>
+        public void OnMetadataCreated(ModelMetadata metadata)
+        {
+            EditOptions.DataEvents = DataEvents;
+            EditOptions.DataUrl = DataUrl;
+            EditOptions.HtmlAttributes = HtmlAttributes;
+
+            if ((metadata.ModelType == typeof(Int16)) || (metadata.ModelType == typeof(Int32)) || (metadata.ModelType == typeof(Int64)) || (metadata.ModelType == typeof(UInt16)) || (metadata.ModelType == typeof(UInt32)) || (metadata.ModelType == typeof(UInt32)))
+                Rules.Integer = true;
+            else if ((metadata.ModelType == typeof(Decimal)) || (metadata.ModelType == typeof(Double)) || (metadata.ModelType == typeof(Single)))
+                Rules.Number = true;
+
+            metadata.SetColumnEditable(Editable);
+            metadata.SetColumnEditOptions(EditOptions);
+            metadata.SetColumnEditRules(Rules);
+            metadata.SetColumnEditType(EditType);
+            metadata.SetColumnFormOptions(FormOptions);
         }
         #endregion
     }
