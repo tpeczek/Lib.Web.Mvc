@@ -16,7 +16,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets the value indicating searching.
         /// </summary>
-        public bool Searching { get; internal set; }
+        public bool Searching { get; set; }
 
         /// <summary>
         /// Gets the searching filter (single searching). 
@@ -31,27 +31,27 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets the sorting column name.
         /// </summary>
-        public string SortingName { get; internal set; }
+        public string SortingName { get; set; }
 
         /// <summary>
         /// Gets the sorting order
         /// </summary>
-        public JqGridSortingOrders SortingOrder { get; internal set; }
+        public JqGridSortingOrders SortingOrder { get; set; }
 
         /// <summary>
         /// Gets the index (zero based) of page to return
         /// </summary>
-        public int PageIndex { get; internal set; }
+        public int PageIndex { get; set; }
 
         /// <summary>
         /// Gets the number of pages to return
         /// </summary>
-        public int? PagesCount { get; internal set; }
+        public int? PagesCount { get; set; }
 
         /// <summary>
         /// Gets the number of rows to return
         /// </summary>
-        public int RecordsCount { get; internal set; }
+        public int RecordsCount { get; set; }
         #endregion
     }
 }
