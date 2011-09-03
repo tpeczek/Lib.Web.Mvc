@@ -20,7 +20,22 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             {
                 if (!String.IsNullOrWhiteSpace(DataUrlRouteName) || DataUrlRouteData != null)
                 {
-                    VirtualPathData dataUrlPathData = RouteTable.Routes.GetVirtualPathForArea(HttpContext.Current != null ? HttpContext.Current.Request.RequestContext : null, DataUrlRouteName, DataUrlRouteData);
+                    RouteValueDictionary dataUrlRouteValueDictionary = DataUrlRouteData;
+                    if (DataUrlRouteValues != null)
+                    {
+                        dataUrlRouteValueDictionary = new RouteValueDictionary(DataUrlRouteValues);
+                        if (DataUrlRouteData != null)
+                        {
+                            foreach (string key in DataUrlRouteData.Keys)
+                            {
+                                if (dataUrlRouteValueDictionary.ContainsKey(key))
+                                    dataUrlRouteValueDictionary[key] = DataUrlRouteData[key];
+                                else
+                                    dataUrlRouteValueDictionary.Add(key, DataUrlRouteData[key]);
+                            }
+                        }
+                    }
+                    VirtualPathData dataUrlPathData = RouteTable.Routes.GetVirtualPathForArea(HttpContext.Current != null ? HttpContext.Current.Request.RequestContext : null, DataUrlRouteName, dataUrlRouteValueDictionary);
 
                     if (dataUrlPathData == null)
                         throw new InvalidOperationException("The DataUrl could not be resolved.");
@@ -34,6 +49,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         internal RouteValueDictionary DataUrlRouteData { get; set; }
 
         internal string DataUrlRouteName { get; set; }
+
+        /// <summary>
+        /// When overriden in delivered class, provides additional route values for the select element AJAX request.
+        /// </summary>
+        protected virtual object DataUrlRouteValues
+        {
+            get { return null; }
+        }
 
         /// <summary>
         /// Gets or sets the function which will build the select element in case where the server response can not build it (requires DataUrl property to be set).
