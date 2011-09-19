@@ -16,11 +16,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Initializes a new instance of the JqGridAdjacencyTreeRecord class.
         /// </summary>
         /// <param name="id">The record identifier.</param>
-        /// <param name="value">The value for record.</param>
+        /// <param name="value">The record value.</param>
         /// <param name="level">The level of the record in the hierarchy.</param>
         /// <param name="parentId">The id of parent of this record.</param>
         public JqGridAdjacencyTreeRecord(string id, TModel value, int level, string parentId)
-            : base(id, JqGridRecord<TModel>.GetValues(value), level, parentId)
+            : base(id, value, level, parentId)
         { }
         #endregion
     }

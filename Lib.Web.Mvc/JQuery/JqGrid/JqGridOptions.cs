@@ -128,6 +128,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public bool HiddenEnabled { get; set; }
 
         /// <summary>
+        /// Gets or sets the JSON reader for the grid.
+        /// </summary>
+        public JqGridJsonReader JsonReader { get; set; }
+
+        /// <summary>
         /// Gets or sets the function for event which is raised after the request fails.
         /// </summary>
         public string LoadError { get; set; }
@@ -264,12 +269,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             Height = null;
             Hidden = false;
             HiddenEnabled = true;
+            JsonReader = JqGridResponse.JsonReader;
             LoadComplete = null;
             LoadError = null;
             MethodType = JqGridMethodTypes.Get;
             OnSelectRow = null;
             Pager = false;
-            ParametersNames = null;
+            ParametersNames = JqGridRequest.ParameterNames;
             RowsNumber = 20;
             ScrollOffset = 18;
             SortingName = String.Empty;

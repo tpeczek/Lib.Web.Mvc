@@ -58,6 +58,7 @@
     <Compile Include="JQuery\JqGrid\JqGridFilterGridTypes.cs" />
     <Compile Include="JQuery\JqGrid\JqGridFilterOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridGroupingView.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridJsonReader.cs" />
     <Compile Include="JQuery\JqGrid\JqGridNavigatorButtonOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridNavigatorButtonPositions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridNavigatorControlOptions.cs" />

@@ -15,6 +15,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
         {
             typeof(JqGridOptions),
             typeof(JqGridColumnModel),
+            typeof(JqGridJsonReader),
             typeof(JqGridParametersNames),
             typeof(JqGridGroupingView),
             typeof(JqGridColumnEditOptions),
@@ -24,7 +25,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             typeof(JqGridColumnSearchOptions),
             typeof(JqGridSubgridModel),
             typeof(JqGridResponse),
-            typeof(JqGridRecord),
             typeof(JqGridRequestSearchingFilters),
             typeof(JqGridRequestSearchingFilter)
         });
@@ -41,6 +41,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                     obj = DeserializeJqGridOptions(dictionary, serializer);
                 else if (type == typeof(JqGridColumnModel))
                     obj = DeserializeJqGridColumnModel(dictionary, serializer);
+                else if (type == typeof(JqGridJsonReader))
+                    obj = DeserializeJqGridJsonReader(dictionary, serializer);
                 else if (type == typeof(JqGridParametersNames))
                     obj = DeserializeJqGridParametersNames(dictionary, serializer);
                 else if (type == typeof(JqGridGroupingView))
@@ -76,6 +78,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                     SerializeJqGridOptions((JqGridOptions)obj, serializer, ref serializedObj);
                 else if (obj is JqGridColumnModel)
                     SerializeJqGridColumnModel((JqGridColumnModel)obj, serializer, ref serializedObj);
+                else if (obj is JqGridJsonReader)
+                    SerializeJqGridJsonReader((JqGridJsonReader)obj, serializer, ref serializedObj);
                 else if (obj is JqGridParametersNames)
                     SerializeJqGridParametersNames((JqGridParametersNames)obj, serializer, ref serializedObj);
                 else if (obj is JqGridGroupingView)
@@ -94,8 +98,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                     SerializeJqGridSubgridModel((JqGridSubgridModel)obj, serializer, ref serializedObj);
                 else if (obj is JqGridResponse)
                     SerializeJqGridResponse((JqGridResponse)obj, serializer, ref serializedObj);
-                else if (obj is JqGridRecord)
-                    SerializeJqGridRecord((JqGridRecord)obj, serializer, ref serializedObj);
             }
 
             return serializedObj;
@@ -170,8 +172,15 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 if (serializedObj.ContainsKey("pager") && serializedObj["pager"] != null)
                     obj.Pager = true;
 
+                if (serializedObj.ContainsKey("jsonReader") && serializedObj["jsonReader"] is IDictionary<string, object>)
+                    obj.JsonReader = DeserializeJqGridJsonReader((IDictionary<string, object>)serializedObj["jsonReader"], serializer);
+                else
+                    obj.JsonReader = JqGridResponse.JsonReader;
+
                 if (serializedObj.ContainsKey("prmNames") && serializedObj["prmNames"] is IDictionary<string, object>)
                     obj.ParametersNames = DeserializeJqGridParametersNames((IDictionary<string, object>)serializedObj["prmNames"], serializer);
+                else
+                    obj.ParametersNames = JqGridRequest.ParameterNames;
 
                 if (serializedObj.ContainsKey("remapColumns") && serializedObj["remapColumns"] is ArrayList)
                 {
@@ -282,7 +291,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (obj.Pager)
                 serializedObj.Add("pager", String.Format("#{0}Pager", obj.Id));
 
-            if (obj.ParametersNames != null)
+            if (obj.JsonReader != null && !obj.JsonReader.IsDefault())
+                serializedObj.Add("jsonReader", obj.JsonReader);
+
+            if (obj.ParametersNames != null && !obj.ParametersNames.IsDefault())
                 serializedObj.Add("prmNames", obj.ParametersNames);
 
             serializedObj.Add("remapColumns", obj.ColumnsRemaping);
@@ -508,66 +520,133 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                     serializedObj.Add(htmlAttribute.Key, htmlAttribute.Value);
         }
 
+        private static JqGridJsonReader DeserializeJqGridJsonReader(IDictionary<string, object> serializedObj, JavaScriptSerializer serializer)
+        {
+            JqGridJsonReader obj = new JqGridJsonReader();
+
+            obj.PageIndex = GetStringFromSerializedObj(serializedObj, "page", JqGridOptionsDefaults.ResponsePageIndex);
+            obj.RecordId = GetStringFromSerializedObj(serializedObj, "id", JqGridOptionsDefaults.ResponseRecordId);
+            obj.Records = GetStringFromSerializedObj(serializedObj, "root", JqGridOptionsDefaults.ResponseRecords);
+            obj.RecordValues = GetStringFromSerializedObj(serializedObj, "cell", JqGridOptionsDefaults.ResponseRecordValues);
+            obj.RepeatItems = GetBooleanFromSerializedObj(serializedObj, "repeatitems", true);
+            obj.TotalPagesCount = GetStringFromSerializedObj(serializedObj, "total", JqGridOptionsDefaults.ResponseTotalPagesCount);
+            obj.TotalRecordsCount = GetStringFromSerializedObj(serializedObj, "records", JqGridOptionsDefaults.ResponseTotalRecordsCount);
+            obj.UserData = GetStringFromSerializedObj(serializedObj, "userdata", JqGridOptionsDefaults.ResponseUserData);
+
+            if (serializedObj.ContainsKey("subgrid") && serializedObj["subgrid"] is IDictionary<string, object>)
+            {
+                IDictionary<string, object> serializedSubgrid = (IDictionary<string, object>)serializedObj["subgrid"];
+                obj.SubgridReader.Records = GetStringFromSerializedObj(serializedSubgrid, "root", JqGridOptionsDefaults.ResponseRecords);
+                obj.SubgridReader.RecordValues = GetStringFromSerializedObj(serializedSubgrid, "cell", JqGridOptionsDefaults.ResponseRecordValues);
+                obj.SubgridReader.RepeatItems = GetBooleanFromSerializedObj(serializedSubgrid, "repeatitems", true);
+            }
+
+            return obj;
+        }
+
+        private static void SerializeJqGridJsonReader(JqGridJsonReader obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        {
+            if (obj.Records != JqGridOptionsDefaults.ResponseRecords)
+                serializedObj.Add("root", obj.Records);
+
+            if (obj.PageIndex != JqGridOptionsDefaults.ResponsePageIndex)
+                serializedObj.Add("page", obj.PageIndex);
+
+            if (obj.TotalPagesCount != JqGridOptionsDefaults.ResponseTotalPagesCount)
+                serializedObj.Add("total", obj.TotalPagesCount);
+
+            if (obj.TotalRecordsCount != JqGridOptionsDefaults.ResponseTotalRecordsCount)
+                serializedObj.Add("records", obj.TotalRecordsCount);
+
+            if (!obj.RepeatItems)
+                serializedObj.Add("repeatitems", false);
+
+            if (obj.RecordValues != JqGridOptionsDefaults.ResponseRecordValues)
+                serializedObj.Add("cell", obj.RecordValues);
+
+            if (obj.RecordId != JqGridOptionsDefaults.ResponseRecordId)
+                serializedObj.Add("id", obj.RecordId);
+
+            if (obj.UserData != JqGridOptionsDefaults.ResponseUserData)
+                serializedObj.Add("userdata", obj.UserData);
+
+            if (!obj.SubgridReader.IsDefault())
+            {
+                Dictionary<string, object> serializedSubgrid = new Dictionary<string, object>();
+
+                if (obj.SubgridReader.Records != JqGridOptionsDefaults.ResponseRecords)
+                    serializedSubgrid.Add("root", obj.SubgridReader.Records);
+
+                if (!obj.SubgridReader.RepeatItems)
+                    serializedSubgrid.Add("repeatitems", false);
+
+                if (obj.SubgridReader.RecordValues != JqGridOptionsDefaults.ResponseRecordValues)
+                    serializedSubgrid.Add("cell", obj.SubgridReader.RecordValues);
+
+                serializedObj.Add("subgrid", serializedSubgrid);
+            }
+        }
+
         private static JqGridParametersNames DeserializeJqGridParametersNames(IDictionary<string, object> serializedObj, JavaScriptSerializer serializer)
         {
             JqGridParametersNames obj = new JqGridParametersNames();
 
-            obj.PageIndex = GetStringFromSerializedObj(serializedObj, "page", JqGridOptionsDefaults.PageIndex);
-            obj.RecordsCount = GetStringFromSerializedObj(serializedObj, "rows", JqGridOptionsDefaults.RecordsCount);
-            obj.SortingName = GetStringFromSerializedObj(serializedObj, "sort", JqGridOptionsDefaults.SortingName);
-            obj.SortingOrder = GetStringFromSerializedObj(serializedObj, "order", JqGridOptionsDefaults.SortingOrder);
-            obj.Searching = GetStringFromSerializedObj(serializedObj, "search", JqGridOptionsDefaults.Searching);
-            obj.Id = GetStringFromSerializedObj(serializedObj, "id", JqGridOptionsDefaults.Id);
-            obj.Operator = GetStringFromSerializedObj(serializedObj, "oper", JqGridOptionsDefaults.Operator);
-            obj.EditOperator = GetStringFromSerializedObj(serializedObj, "editoper", JqGridOptionsDefaults.EditOperator);
-            obj.AddOperator = GetStringFromSerializedObj(serializedObj, "addoper", JqGridOptionsDefaults.AddOperator);
-            obj.DeleteOperator = GetStringFromSerializedObj(serializedObj, "deloper", JqGridOptionsDefaults.DeleteOperator);
-            obj.SubgridId = GetStringFromSerializedObj(serializedObj, "subgridid", JqGridOptionsDefaults.SubgridId);
+            obj.PageIndex = GetStringFromSerializedObj(serializedObj, "page", JqGridOptionsDefaults.RequestPageIndex);
+            obj.RecordsCount = GetStringFromSerializedObj(serializedObj, "rows", JqGridOptionsDefaults.RequestRecordsCount);
+            obj.SortingName = GetStringFromSerializedObj(serializedObj, "sort", JqGridOptionsDefaults.RequestSortingName);
+            obj.SortingOrder = GetStringFromSerializedObj(serializedObj, "order", JqGridOptionsDefaults.RequestSortingOrder);
+            obj.Searching = GetStringFromSerializedObj(serializedObj, "search", JqGridOptionsDefaults.RequestSearching);
+            obj.Id = GetStringFromSerializedObj(serializedObj, "id", JqGridOptionsDefaults.RequestId);
+            obj.Operator = GetStringFromSerializedObj(serializedObj, "oper", JqGridOptionsDefaults.RequestOperator);
+            obj.EditOperator = GetStringFromSerializedObj(serializedObj, "editoper", JqGridOptionsDefaults.RequestEditOperator);
+            obj.AddOperator = GetStringFromSerializedObj(serializedObj, "addoper", JqGridOptionsDefaults.RequestAddOperator);
+            obj.DeleteOperator = GetStringFromSerializedObj(serializedObj, "deloper", JqGridOptionsDefaults.RequestDeleteOperator);
+            obj.SubgridId = GetStringFromSerializedObj(serializedObj, "subgridid", JqGridOptionsDefaults.RequestSubgridId);
             obj.PagesCount = GetStringFromSerializedObj(serializedObj, "npage");
-            obj.TotalRows = GetStringFromSerializedObj(serializedObj, "totalrows", JqGridOptionsDefaults.TotalRows);
+            obj.TotalRows = GetStringFromSerializedObj(serializedObj, "totalrows", JqGridOptionsDefaults.RequestTotalRows);
 
             return obj;
         }
 
         private static void SerializeJqGridParametersNames(JqGridParametersNames obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
         {
-            if (obj.PageIndex != JqGridOptionsDefaults.PageIndex)
+            if (obj.PageIndex != JqGridOptionsDefaults.RequestPageIndex)
                 serializedObj.Add("page", obj.PageIndex);
 
-            if (obj.RecordsCount != JqGridOptionsDefaults.RecordsCount)
+            if (obj.RecordsCount != JqGridOptionsDefaults.RequestRecordsCount)
                 serializedObj.Add("rows", obj.RecordsCount);
 
-            if (obj.SortingName != JqGridOptionsDefaults.SortingName)
+            if (obj.SortingName != JqGridOptionsDefaults.RequestSortingName)
                 serializedObj.Add("sort", obj.SortingName);
 
-            if (obj.SortingOrder != JqGridOptionsDefaults.SortingOrder)
+            if (obj.SortingOrder != JqGridOptionsDefaults.RequestSortingOrder)
                 serializedObj.Add("order", obj.SortingOrder);
 
-            if (obj.Searching != JqGridOptionsDefaults.Searching)
+            if (obj.Searching != JqGridOptionsDefaults.RequestSearching)
                 serializedObj.Add("search", obj.Searching);
 
-            if (obj.Id != JqGridOptionsDefaults.Id)
+            if (obj.Id != JqGridOptionsDefaults.RequestId)
                 serializedObj.Add("id", obj.Id);
 
-            if (obj.Operator != JqGridOptionsDefaults.Operator)
+            if (obj.Operator != JqGridOptionsDefaults.RequestOperator)
                 serializedObj.Add("oper", obj.Operator);
 
-            if (obj.EditOperator != JqGridOptionsDefaults.EditOperator)
+            if (obj.EditOperator != JqGridOptionsDefaults.RequestEditOperator)
                 serializedObj.Add("editoper", obj.EditOperator);
 
-            if (obj.AddOperator != JqGridOptionsDefaults.AddOperator)
+            if (obj.AddOperator != JqGridOptionsDefaults.RequestAddOperator)
                 serializedObj.Add("addoper", obj.AddOperator);
 
-            if (obj.DeleteOperator != JqGridOptionsDefaults.DeleteOperator)
+            if (obj.DeleteOperator != JqGridOptionsDefaults.RequestDeleteOperator)
                 serializedObj.Add("deloper", obj.DeleteOperator);
 
-            if (obj.SubgridId != JqGridOptionsDefaults.SubgridId)
+            if (obj.SubgridId != JqGridOptionsDefaults.RequestSubgridId)
                 serializedObj.Add("subgridid", obj.SubgridId);
 
             if (!String.IsNullOrWhiteSpace(obj.PagesCount))
                 serializedObj.Add("npage", obj.PagesCount);
 
-            if (obj.TotalRows != JqGridOptionsDefaults.TotalRows)
+            if (obj.TotalRows != JqGridOptionsDefaults.RequestTotalRows)
                 serializedObj.Add("totalrows", obj.TotalRows);
         }
 
@@ -900,42 +979,115 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
         private static void SerializeJqGridResponse(JqGridResponse obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
         {
-            serializedObj.Add("page", obj.PageIndex + 1);
-            serializedObj.Add("records", obj.TotalRecordsCount);
-            serializedObj.Add("rows", obj.Records);
-            serializedObj.Add("total", obj.TotalPagesCount);
+            JqGridJsonReader jsonReader = (obj.Reader == null) ? JqGridResponse.JsonReader : obj.Reader;
 
-            if (obj.UserData != null)
-                serializedObj.Add("userdata", obj.UserData);
+            if (!obj.IsSubgridResponse)
+            {
+                serializedObj.Add(jsonReader.PageIndex, obj.PageIndex + 1);
+                serializedObj.Add(jsonReader.TotalRecordsCount, obj.TotalRecordsCount);
+                serializedObj.Add(jsonReader.TotalPagesCount, obj.TotalPagesCount);
+
+                if (obj.UserData != null)
+                    serializedObj.Add(jsonReader.UserData, obj.UserData);
+            }
+
+            serializedObj.Add(obj.IsSubgridResponse ? jsonReader.SubgridReader.Records : jsonReader.Records, SerializeJqGridRecords(obj.Records, obj.IsSubgridResponse, jsonReader));
         }
 
-        private static void SerializeJqGridRecord(JqGridRecord obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        private static List<object> SerializeJqGridRecords(List<JqGridRecord> objs, bool isSubgridResponse, JqGridJsonReader jsonReader)
         {
-            List<object> values = obj.Values;
+            int recordIdIndex = 0;
+            bool isRecordIndexInt = Int32.TryParse(jsonReader.RecordId, out recordIdIndex);
+            bool isRecordValuesEmpty = String.IsNullOrWhiteSpace(jsonReader.RecordValues);
+            bool repeatItems = isSubgridResponse ? jsonReader.SubgridReader.RepeatItems : jsonReader.RepeatItems;
 
-            JqGridAdjacencyTreeRecord adjacencyTreeRecord = obj as JqGridAdjacencyTreeRecord;
-            if (adjacencyTreeRecord != null)
+            if (!isSubgridResponse)
             {
-                values.Add(adjacencyTreeRecord.Level);
-                values.Add(adjacencyTreeRecord.ParentId);
-                values.Add(adjacencyTreeRecord.Leaf);
-                values.Add(adjacencyTreeRecord.Expanded);
+                if (repeatItems && isRecordValuesEmpty && !isRecordIndexInt)
+                    throw new InvalidOperationException("JqGridJsonReader.RecordId must be a number when JqGridJsonReader.RepeatItems is set to true and JqGridJsonReader.RecordValues is set to empty string.");
+
+                if (repeatItems && !isRecordValuesEmpty && isRecordIndexInt)
+                    throw new InvalidOperationException("JqGridJsonReader.RecordValues can't be an empty string when JqGridJsonReader.RepeatItems is set to true and JqGridJsonReader.RecordId is a number.");
             }
-            else
+
+            List<object> serializedObjs = new List<object>();
+
+            foreach (JqGridRecord obj in objs)
             {
+                JqGridAdjacencyTreeRecord adjacencyTreeRecord = obj as JqGridAdjacencyTreeRecord;
                 JqGridNestedSetTreeRecord nestedSetTreeRecord = obj as JqGridNestedSetTreeRecord;
-                if (nestedSetTreeRecord != null)
+                if (repeatItems)
                 {
-                    values.Add(nestedSetTreeRecord.Level);
-                    values.Add(nestedSetTreeRecord.LeftField);
-                    values.Add(nestedSetTreeRecord.RightField);
-                    values.Add(nestedSetTreeRecord.Leaf);
-                    values.Add(nestedSetTreeRecord.Expanded);
+                    List<object> values = obj.Values;
+
+                    if (!isSubgridResponse)
+                    {
+                        if (adjacencyTreeRecord != null)
+                        {
+                            values.Add(adjacencyTreeRecord.Level);
+                            values.Add(adjacencyTreeRecord.ParentId);
+                            values.Add(adjacencyTreeRecord.Leaf);
+                            values.Add(adjacencyTreeRecord.Expanded);
+                        }
+                        else if (nestedSetTreeRecord != null)
+                        {
+                            values.Add(nestedSetTreeRecord.Level);
+                            values.Add(nestedSetTreeRecord.LeftField);
+                            values.Add(nestedSetTreeRecord.RightField);
+                            values.Add(nestedSetTreeRecord.Leaf);
+                            values.Add(nestedSetTreeRecord.Expanded);
+                        }
+                    }
+
+                    if (isRecordValuesEmpty)
+                    {
+                        if (!isSubgridResponse && Convert.ToString(values[recordIdIndex]) != obj.Id)
+                            values.Insert(recordIdIndex, obj.Id);
+                        serializedObjs.Add(values);
+                    }
+                    else
+                    {
+                        Dictionary<string, object> serializedObj = new Dictionary<string, object>();
+                        serializedObj.Add(isSubgridResponse ? jsonReader.SubgridReader.RecordValues : jsonReader.RecordValues, values);
+                        if (!isSubgridResponse)
+                            serializedObj.Add(jsonReader.RecordId, obj.Id);
+                        serializedObjs.Add(serializedObj);
+                    }
+                }
+                else
+                {
+                    if (obj.Value == null)
+                        throw new InvalidOperationException("JqGridRecord.Value can't be null when JqGridJsonReader.RepeatItems is set to false.");
+
+                    Dictionary<string, object> serializedObj = obj.GetValuesAsDictionary();
+
+                    if (!isSubgridResponse)
+                    {
+                        if (adjacencyTreeRecord != null)
+                        {
+                            serializedObj.Add("level", adjacencyTreeRecord.Level);
+                            serializedObj.Add("parent", adjacencyTreeRecord.ParentId);
+                            serializedObj.Add("isLeaf", adjacencyTreeRecord.Leaf);
+                            serializedObj.Add("expanded", adjacencyTreeRecord.Expanded);
+                        }
+                        else if (nestedSetTreeRecord != null)
+                        {
+                            serializedObj.Add("level", nestedSetTreeRecord.Level);
+                            serializedObj.Add("lft", nestedSetTreeRecord.LeftField);
+                            serializedObj.Add("rgt", nestedSetTreeRecord.RightField);
+                            serializedObj.Add("isLeaf", nestedSetTreeRecord.Leaf);
+                            serializedObj.Add("expanded", nestedSetTreeRecord.Expanded);
+                        }
+                    }
+
+                    if (!isSubgridResponse && !isRecordIndexInt && !serializedObj.ContainsKey(jsonReader.RecordId))
+                        serializedObj.Add(jsonReader.RecordId, obj.Id);
+
+                    serializedObjs.Add(serializedObj);
                 }
             }
 
-            serializedObj.Add("cell", values);
-            serializedObj.Add("id", obj.Id);
+            return serializedObjs;
         }
 
         private static JqGridRequestSearchingFilters DeserializeJqGridRequestSearchingFilters(IDictionary<string, object> serializedObj, JavaScriptSerializer serializer)

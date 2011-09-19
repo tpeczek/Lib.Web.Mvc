@@ -16,12 +16,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Initializes a new instance of the JqGridNestedSetTreeRecord class.
         /// </summary>
         /// <param name="id">The record identifier.</param>
-        /// <param name="value">The value for record.</param>
+        /// <param name="value">The record value.</param>
         /// <param name="level">The level of the record in the hierarchy.</param>
         /// <param name="leftField">The rowid of the record to the left.</param>
         /// <param name="rightField">The rowid of the record to the right.</param>
         public JqGridNestedSetTreeRecord(string id, TModel value, int level, int leftField, int rightField)
-            : base(id, JqGridRecord<TModel>.GetValues(value), level, leftField, rightField)
+            : base(id, value, level, leftField, rightField)
         { }
         #endregion
     }

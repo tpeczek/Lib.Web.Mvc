@@ -12,7 +12,25 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
     [ModelBinder(typeof(ModelBinders.JqGridRequestModelBinder))]
     public class JqGridRequest
     {
+        #region Fields
+        private static JqGridParametersNames _parametersNames;
+        #endregion
+
         #region Properties
+        /// <summary>
+        /// Gets or sets the customized names for jqGrid request parameters (will be also use as defaults for JqGridOptions/JqGridHelper).
+        /// </summary>
+        public static JqGridParametersNames ParameterNames
+        {
+            get { return _parametersNames; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                _parametersNames = value;
+            }
+        }
+
         /// <summary>
         /// Gets the value indicating searching.
         /// </summary>
@@ -52,6 +70,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets the number of rows to return
         /// </summary>
         public int RecordsCount { get; set; }
+        #endregion
+
+        #region Constructors
+        static JqGridRequest()
+        {
+            ParameterNames = new JqGridParametersNames();
+        }
         #endregion
     }
 }

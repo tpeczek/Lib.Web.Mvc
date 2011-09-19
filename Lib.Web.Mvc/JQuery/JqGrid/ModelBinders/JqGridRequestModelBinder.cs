@@ -19,9 +19,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.ModelBinders
             JqGridRequest model = new JqGridRequest();
 
             model.Searching = false;
-            ValueProviderResult searchingResult = bindingContext.ValueProvider.GetValue("_search");
-            if (searchingResult != null)
-                model.Searching = (bool)searchingResult.ConvertTo(typeof(Boolean));
+            if (!String.IsNullOrWhiteSpace(JqGridRequest.ParameterNames.Searching))
+            {
+                ValueProviderResult searchingResult = bindingContext.ValueProvider.GetValue(JqGridRequest.ParameterNames.Searching);
+                if (searchingResult != null)
+                    model.Searching = (bool)searchingResult.ConvertTo(typeof(Boolean));
+            }
 
             model.SearchingFilter = null;
             model.SearchingFilters = null;
@@ -56,17 +59,27 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.ModelBinders
                 }
             }
 
-            model.SortingName = (string)bindingContext.ValueProvider.GetValue("sidx").ConvertTo(typeof(String));
-            model.SortingOrder = (JqGridSortingOrders)bindingContext.ValueProvider.GetValue("sord").ConvertTo(typeof(JqGridSortingOrders));
-            model.PageIndex = (int)bindingContext.ValueProvider.GetValue("page").ConvertTo(typeof(Int32)) - 1;
+            if (!String.IsNullOrWhiteSpace(JqGridRequest.ParameterNames.SortingName))
+                model.SortingName = (string)bindingContext.ValueProvider.GetValue(JqGridRequest.ParameterNames.SortingName).ConvertTo(typeof(String));
 
-            ValueProviderResult pagesCountValueResult = bindingContext.ValueProvider.GetValue("npage");
-            if (pagesCountValueResult != null)
-                model.PagesCount = (int)pagesCountValueResult.ConvertTo(typeof(Int32));
+            if (!String.IsNullOrWhiteSpace(JqGridRequest.ParameterNames.SortingOrder))
+                model.SortingOrder = (JqGridSortingOrders)bindingContext.ValueProvider.GetValue(JqGridRequest.ParameterNames.SortingOrder).ConvertTo(typeof(JqGridSortingOrders));
+
+            if (!String.IsNullOrWhiteSpace(JqGridRequest.ParameterNames.PageIndex))
+                model.PageIndex = (int)bindingContext.ValueProvider.GetValue(JqGridRequest.ParameterNames.PageIndex).ConvertTo(typeof(Int32)) - 1;
             else
-                model.PagesCount = null;
-            
-                model.RecordsCount = (int)bindingContext.ValueProvider.GetValue("rows").ConvertTo(typeof(Int32));
+                model.PageIndex = 0;
+
+            model.PagesCount = null;
+            if (!String.IsNullOrWhiteSpace(JqGridRequest.ParameterNames.PagesCount))
+            {
+                ValueProviderResult pagesCountValueResult = bindingContext.ValueProvider.GetValue(JqGridRequest.ParameterNames.PagesCount);
+                if (pagesCountValueResult != null)
+                    model.PagesCount = (int)pagesCountValueResult.ConvertTo(typeof(Int32));
+            }
+
+            if (!String.IsNullOrWhiteSpace(JqGridRequest.ParameterNames.RecordsCount))
+                model.RecordsCount = (int)bindingContext.ValueProvider.GetValue(JqGridRequest.ParameterNames.RecordsCount).ConvertTo(typeof(Int32));
 
             return model;
         }

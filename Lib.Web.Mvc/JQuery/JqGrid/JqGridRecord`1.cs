@@ -20,16 +20,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <param name="id">The record identifier</param>
         /// <param name="value">The value for record</param>
         public JqGridRecord(string id, TModel value)
-            : base(id, GetValues(value))
+            : base(id, value)
         { }
         #endregion
 
         #region Methods
-        internal static List<object> GetValues(TModel value)
+        internal override List<object> GetValuesAsList()
         {
             List<object> values = new List<object>();
 
-            IEnumerable<ModelMetadata> modelMetadata = ModelMetadataProviders.Current.GetMetadataForProperties(value, typeof(TModel));
+            IEnumerable<ModelMetadata> modelMetadata = ModelMetadataProviders.Current.GetMetadataForProperties(Value, typeof(TModel));
             foreach (ModelMetadata propertyMetadata in modelMetadata.Where(p => p.ShowForDisplay && !p.IsComplexType))
             {
 
@@ -40,6 +40,26 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                     formattedValue = String.Format(CultureInfo.CurrentCulture, propertyMetadata.DisplayFormatString, propertyMetadata.Model);
 
                 values.Add(formattedValue);
+            }
+
+            return values;
+        }
+
+        internal override Dictionary<string, object> GetValuesAsDictionary()
+        {
+            Dictionary<string, object> values = new Dictionary<string, object>();
+
+            IEnumerable<ModelMetadata> modelMetadata = ModelMetadataProviders.Current.GetMetadataForProperties(Value, typeof(TModel));
+            foreach (ModelMetadata propertyMetadata in modelMetadata.Where(p => p.ShowForDisplay && !p.IsComplexType))
+            {
+
+                object formattedValue = propertyMetadata.Model;
+                if (propertyMetadata.Model == null)
+                    formattedValue = propertyMetadata.NullDisplayText;
+                else if (!String.IsNullOrEmpty(propertyMetadata.DisplayFormatString))
+                    formattedValue = String.Format(CultureInfo.CurrentCulture, propertyMetadata.DisplayFormatString, propertyMetadata.Model);
+
+                values.Add(propertyMetadata.PropertyName, formattedValue);
             }
 
             return values;

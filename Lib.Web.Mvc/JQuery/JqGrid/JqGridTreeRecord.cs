@@ -32,10 +32,24 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Initializes a new instance of the JqGridTreeRecord class.
         /// </summary>
         /// <param name="id">The record identifier.</param>
-        /// <param name="values">The list of values for cells.</param>
+        /// <param name="values">The record cells values.</param>
         /// <param name="level">The level of the record in the hierarchy.</param>
         public JqGridTreeRecord(string id, List<object> values, int level)
             : base(id, values)
+        {
+            Level = level;
+            Leaf = false;
+            Expanded = false;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the JqGridTreeRecord class.
+        /// </summary>
+        /// <param name="id">The record identifier.</param>
+        /// <param name="value">The record value.</param>
+        /// <param name="level">The level of the record in the hierarchy.</param>
+        public JqGridTreeRecord(string id, object value, int level)
+            : base(id, value)
         {
             Level = level;
             Leaf = false;
