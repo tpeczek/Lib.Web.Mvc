@@ -168,6 +168,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridParametersNames ParametersNames { get; set; }
 
         /// <summary>
+        /// Gets or sets an array to construct a select box element in the pager in which user can change the number of the visible rows.
+        /// </summary>
+        public List<int> RowsList { get; set; }
+
+        /// <summary>
         /// Gets or sets how many records should be displayed in the grid (default 20).
         /// </summary>
         public int RowsNumber { get; set; }
@@ -276,6 +281,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             OnSelectRow = null;
             Pager = false;
             ParametersNames = JqGridRequest.ParameterNames;
+            RowsList = null;
             RowsNumber = 20;
             ScrollOffset = 18;
             SortingName = String.Empty;

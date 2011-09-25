@@ -182,16 +182,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 else
                     obj.ParametersNames = JqGridRequest.ParameterNames;
 
-                if (serializedObj.ContainsKey("remapColumns") && serializedObj["remapColumns"] is ArrayList)
-                {
-                    obj.ColumnsRemaping = new List<int>();
-                    foreach (object innerSerializedObj in (ArrayList)serializedObj["remapColumns"])
-                    {
-                        if (innerSerializedObj is Int32)
-                            obj.ColumnsRemaping.Add((int)innerSerializedObj);
-                    }
-                }
-
+                obj.ColumnsRemaping = GetInt32ArrayFromSerializedObj(serializedObj, "remapColumns");
+                obj.RowsList = GetInt32ArrayFromSerializedObj(serializedObj, "rowList");
                 obj.RowsNumber = GetInt32FromSerializedObj(serializedObj, "rowNum", 20);
                 obj.ScrollOffset = GetInt32FromSerializedObj(serializedObj, "scrollOffset", 18);
                 obj.SortingName = GetStringFromSerializedObj(serializedObj, "sortname");
@@ -298,6 +290,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 serializedObj.Add("prmNames", obj.ParametersNames);
 
             serializedObj.Add("remapColumns", obj.ColumnsRemaping);
+
+            if (obj.RowsList != null && obj.RowsList.Count > 0)
+                serializedObj.Add("rowList", obj.RowsList);
 
             if (obj.RowsNumber != 20)
                 serializedObj.Add("rowNum", obj.RowsNumber);
@@ -1177,6 +1172,24 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 return (int)serializedObj[key];
             else
                 return defaultValue;
+        }
+
+        private static List<int> GetInt32ArrayFromSerializedObj(IDictionary<string, object> serializedObj, string key)
+        {
+            List<int> array = null;
+
+            if (serializedObj.ContainsKey(key) && serializedObj[key] is ArrayList)
+            {
+                array = new List<int>();
+                ArrayList serializedArray = (ArrayList)serializedObj[key];
+                foreach (object serializedItem in serializedArray)
+                {
+                    if (serializedItem is Int32)
+                        array.Add((int)serializedItem);
+                }
+            }
+
+            return array;
         }
 
         private static string GetStringFromSerializedObj(IDictionary<string, object> serializedObj, string key)
