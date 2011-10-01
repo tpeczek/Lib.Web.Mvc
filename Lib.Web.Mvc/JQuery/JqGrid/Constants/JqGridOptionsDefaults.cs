@@ -114,5 +114,50 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Constants
         /// The icon (form UI theme images) that will be used if the group is expanded.
         /// </summary>
         public const string GroupingMinusIcon = "ui-icon-circlesmall-minus";
+
+        /// <summary>
+        /// The decimal places for formatter.
+        /// </summary>
+        public const int FormatterDecimalPlaces = 2;
+
+        /// <summary>
+        /// The decimal separator for formatter.
+        /// </summary>
+        public const string FormatterDecimalSeparator = ".";
+
+        /// <summary>
+        /// The date source format for formatter.
+        /// </summary>
+        public const string FormatterSourceFormat = "Y-m-d";
+
+        /// <summary>
+        /// The date output format for formatter.
+        /// </summary>
+        public const string FormatterOutputFormat = "d/m/Y";
+
+        /// <summary>
+        /// The thousands separator for formatter.
+        /// </summary>
+        public const string FormatterThousandsSeparator = " ";
+
+        /// <summary>
+        /// The first parameter that is added after the ShowAction.
+        /// </summary>
+        public const string FormatterIdName = "id";
+
+        /// <summary>
+        /// The default value for integer formatter.
+        /// </summary>
+        public const string IntegerFormatterDefaultValue = "0";
+
+        /// <summary>
+        /// The default value for number formatter.
+        /// </summary>
+        public const string NumberFormatterDefaultValue = "0.00";
+
+        /// <summary>
+        /// The default value for currency formatter.
+        /// </summary>
+        public const string CurrencyFormatterDefaultValue = "0.00";
     }
 }

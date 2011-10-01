@@ -800,67 +800,40 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
         {
             JqGridColumnFormatterOptions obj = new JqGridColumnFormatterOptions();
 
-            obj.AddParam = GetStringFromSerializedObj(serializedObj, "addParam");
-            obj.BaseLinkUrl = GetStringFromSerializedObj(serializedObj, "baseLinkUrl");
-            obj.DecimalPlaces = GetInt32FromSerializedObj(serializedObj, "decimalPlaces");
-            obj.DecimalSeparator = GetStringFromSerializedObj(serializedObj, "decimalSeparator");
-            obj.DefaulValue = GetStringFromSerializedObj(serializedObj, "defaulValue");
-            obj.Disabled = GetBooleanFromSerializedObj(serializedObj, "disabled");
-            obj.IdName = GetStringFromSerializedObj(serializedObj, "idName");
-            obj.Prefix = GetStringFromSerializedObj(serializedObj, "prefix");
-            obj.ShowAction = GetStringFromSerializedObj(serializedObj, "showAction");
-            obj.SourceFormat = GetStringFromSerializedObj(serializedObj, "srcformat");
-            obj.Suffix = GetStringFromSerializedObj(serializedObj, "suffix");
-            obj.Target = GetStringFromSerializedObj(serializedObj, "target");
-            obj.TargetFormat = GetStringFromSerializedObj(serializedObj, "newformat");
-            obj.ThousandsSeparator = GetStringFromSerializedObj(serializedObj, "thousandsSeparator");
+            obj.AddParam = GetStringFromSerializedObj(serializedObj, "addParam", String.Empty);
+            obj.BaseLinkUrl = GetStringFromSerializedObj(serializedObj, "baseLinkUrl", String.Empty);
+            obj.DecimalPlaces = GetInt32FromSerializedObj(serializedObj, "decimalPlaces", 0);
+            obj.DecimalSeparator = GetStringFromSerializedObj(serializedObj, "decimalSeparator", String.Empty);
+            obj.DefaultValue = GetStringFromSerializedObj(serializedObj, "defaultValue", String.Empty);
+            obj.Disabled = GetBooleanFromSerializedObj(serializedObj, "disabled", true);
+            obj.IdName = GetStringFromSerializedObj(serializedObj, "idName", String.Empty);
+            obj.OutputFormat = GetStringFromSerializedObj(serializedObj, "srcformat", String.Empty);
+            obj.Prefix = GetStringFromSerializedObj(serializedObj, "prefix", String.Empty);
+            obj.ShowAction = GetStringFromSerializedObj(serializedObj, "showAction", String.Empty);
+            obj.SourceFormat = GetStringFromSerializedObj(serializedObj, "newformat", String.Empty);
+            obj.Suffix = GetStringFromSerializedObj(serializedObj, "suffix", String.Empty);
+            obj.Target = GetStringFromSerializedObj(serializedObj, "target", String.Empty);
+            obj.ThousandsSeparator = GetStringFromSerializedObj(serializedObj, "thousandsSeparator", String.Empty);
 
             return obj;
         }
 
         private static void SerializeJqGridColumnFormatterOptions(JqGridColumnFormatterOptions obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
         {
-            if (!String.IsNullOrWhiteSpace(obj.AddParam))
-                serializedObj.Add("addParam", obj.AddParam);
-
-            if (!String.IsNullOrWhiteSpace(obj.BaseLinkUrl))
-                serializedObj.Add("baseLinkUrl", obj.BaseLinkUrl);
-
-            if (obj.DecimalPlaces.HasValue)
-                serializedObj.Add("decimalPlaces", obj.DecimalPlaces);
-
-            if (!String.IsNullOrWhiteSpace(obj.DecimalSeparator))
-                serializedObj.Add("decimalSeparator", obj.DecimalSeparator);
-
-            if (!String.IsNullOrWhiteSpace(obj.DefaulValue))
-                serializedObj.Add("defaulValue", obj.DefaulValue);
-
-            if (obj.Disabled.HasValue)
-                serializedObj.Add("disabled", obj.Disabled);
-
-            if (!String.IsNullOrWhiteSpace(obj.IdName))
-                serializedObj.Add("idName", obj.IdName);
-
-            if (!String.IsNullOrWhiteSpace(obj.Prefix))
-                serializedObj.Add("prefix", obj.Prefix);
-
-            if (!String.IsNullOrWhiteSpace(obj.ShowAction))
-                serializedObj.Add("showAction", obj.ShowAction);
-
-            if (!String.IsNullOrWhiteSpace(obj.SourceFormat))
-                serializedObj.Add("srcformat", obj.SourceFormat);
-
-            if (!String.IsNullOrWhiteSpace(obj.Suffix))
-                serializedObj.Add("suffix", obj.Suffix);
-
-            if (!String.IsNullOrWhiteSpace(obj.Target))
-                serializedObj.Add("target", obj.Target);
-
-            if (!String.IsNullOrWhiteSpace(obj.TargetFormat))
-                serializedObj.Add("newformat", obj.TargetFormat);
-
-            if (!String.IsNullOrWhiteSpace(obj.ThousandsSeparator))
-                serializedObj.Add("thousandsSeparator", obj.ThousandsSeparator);            
+            serializedObj.Add("addParam", obj.AddParam);
+            serializedObj.Add("baseLinkUrl", obj.BaseLinkUrl);
+            serializedObj.Add("decimalPlaces", obj.DecimalPlaces);
+            serializedObj.Add("decimalSeparator", obj.DecimalSeparator);
+            serializedObj.Add("defaultValue", obj.DefaultValue);
+            serializedObj.Add("disabled", obj.Disabled);
+            serializedObj.Add("idName", obj.IdName);
+            serializedObj.Add("srcformat", obj.OutputFormat);
+            serializedObj.Add("prefix", obj.Prefix);
+            serializedObj.Add("showAction", obj.ShowAction);
+            serializedObj.Add("newformat", obj.SourceFormat);
+            serializedObj.Add("suffix", obj.Suffix);
+            serializedObj.Add("target", obj.Target);
+            serializedObj.Add("thousandsSeparator", obj.ThousandsSeparator);
         }
 
         private static void SerializeJqGridColumnElementOptions(JqGridColumnElementOptions obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)

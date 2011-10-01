@@ -218,7 +218,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (!String.IsNullOrWhiteSpace(columnModel.Formatter))
                 {
                     javaScriptBuilder.AppendFormat("formatter: {0}, ", columnModel.Formatter);
-                    AppendFormatterOptions(columnModel.FormatterOptions, ref javaScriptBuilder);
+                    AppendFormatterOptions(columnModel.Formatter, columnModel.FormatterOptions, ref javaScriptBuilder);
                     if (!String.IsNullOrWhiteSpace(columnModel.UnFormatter))
                         javaScriptBuilder.AppendFormat("unformat: {0}, ", columnModel.UnFormatter);
                 }
@@ -427,57 +427,40 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private static void AppendFormatterOptions(JqGridColumnFormatterOptions formatterOptions, ref StringBuilder javaScriptBuilder)
+        private static void AppendFormatterOptions(string formatter, JqGridColumnFormatterOptions formatterOptions, ref StringBuilder javaScriptBuilder)
         {
-            if (formatterOptions != null)
-            {
+            if (formatterOptions != null && !formatterOptions.IsDefault(formatter))
+            { 
                 javaScriptBuilder.Append("formatoptions: { ");
 
-                if (!String.IsNullOrWhiteSpace(formatterOptions.AddParam))
-                    javaScriptBuilder.AppendFormat("addParam: '{0}',", formatterOptions.AddParam);
-
-                if (!String.IsNullOrWhiteSpace(formatterOptions.BaseLinkUrl))
-                    javaScriptBuilder.AppendFormat("baseLinkUrl: '{0}',", formatterOptions.BaseLinkUrl);
-
-                if (formatterOptions.DecimalPlaces.HasValue)
-                    javaScriptBuilder.AppendFormat("decimalPlaces: {0},", formatterOptions.DecimalPlaces.Value);
-
-                if (!String.IsNullOrWhiteSpace(formatterOptions.DecimalSeparator))
-                    javaScriptBuilder.AppendFormat("decimalSeparator: '{0}',", formatterOptions.DecimalSeparator);
-
-                if (!String.IsNullOrWhiteSpace(formatterOptions.DefaulValue))
-                    javaScriptBuilder.AppendFormat("defaulValue: '{0}',", formatterOptions.DefaulValue);
-
-                if (formatterOptions.Disabled.HasValue)
-                    javaScriptBuilder.AppendFormat("disabled: {0},", formatterOptions.Disabled.Value.ToString().ToLower());
-
-                if (!String.IsNullOrWhiteSpace(formatterOptions.IdName))
-                    javaScriptBuilder.AppendFormat("idName: '{0}',", formatterOptions.IdName);
-
-                if (!String.IsNullOrWhiteSpace(formatterOptions.Prefix))
-                    javaScriptBuilder.AppendFormat("prefix: '{0}',", formatterOptions.Prefix);
-
-                if (!String.IsNullOrWhiteSpace(formatterOptions.ShowAction))
-                    javaScriptBuilder.AppendFormat("showAction: '{0}',", formatterOptions.ShowAction);
-
-                if (!String.IsNullOrWhiteSpace(formatterOptions.SourceFormat))
-                    javaScriptBuilder.AppendFormat("srcformat: '{0}',", formatterOptions.SourceFormat);
-
-                if (!String.IsNullOrWhiteSpace(formatterOptions.Suffix))
-                    javaScriptBuilder.AppendFormat("suffix: '{0}',", formatterOptions.Suffix);
-
-                if (!String.IsNullOrWhiteSpace(formatterOptions.Target))
-                    javaScriptBuilder.AppendFormat("target: '{0}',", formatterOptions.Target);
-
-                if (!String.IsNullOrWhiteSpace(formatterOptions.TargetFormat))
-                    javaScriptBuilder.AppendFormat("newformat: '{0}',", formatterOptions.TargetFormat);
-
-                if (!String.IsNullOrWhiteSpace(formatterOptions.ThousandsSeparator))
-                    javaScriptBuilder.AppendFormat("thousandsSeparator: '{0}',", formatterOptions.ThousandsSeparator);
-
-                if (javaScriptBuilder[javaScriptBuilder.Length - 1] == ',')
+                switch (formatter)
                 {
-                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
+                    case JqGridColumnPredefinedFormatters.Integer:
+                        javaScriptBuilder.AppendFormat("{0}{1}", (formatterOptions.DefaultValue == JqGridOptionsDefaults.IntegerFormatterDefaultValue) ? String.Empty : String.Format("defaultValue: '{0}', ", formatterOptions.DefaultValue), (formatterOptions.ThousandsSeparator == JqGridOptionsDefaults.FormatterThousandsSeparator) ? String.Empty : String.Format("thousandsSeparator: '{0}', ", formatterOptions.ThousandsSeparator));
+                        break;
+                    case JqGridColumnPredefinedFormatters.Number:
+                        javaScriptBuilder.AppendFormat("{0}{1}{2}{3}", (formatterOptions.DecimalPlaces == JqGridOptionsDefaults.FormatterDecimalPlaces) ? String.Empty : String.Format("decimalPlaces: {0}, ", formatterOptions.DecimalPlaces), (formatterOptions.DecimalSeparator == JqGridOptionsDefaults.FormatterDecimalSeparator) ? String.Empty : String.Format("decimalSeparator: '{0}', ", formatterOptions.DecimalSeparator), (formatterOptions.DefaultValue == JqGridOptionsDefaults.NumberFormatterDefaultValue) ? String.Empty : String.Format("defaultValue: '{0}', ", formatterOptions.DefaultValue), (formatterOptions.ThousandsSeparator == JqGridOptionsDefaults.FormatterThousandsSeparator) ? String.Empty : String.Format("thousandsSeparator: '{0}', ", formatterOptions.ThousandsSeparator));
+                        break;
+                    case JqGridColumnPredefinedFormatters.Currency:
+                        javaScriptBuilder.AppendFormat("{0}{1}{2}{3}{4}{5}", (formatterOptions.DecimalPlaces == JqGridOptionsDefaults.FormatterDecimalPlaces) ? String.Empty : String.Format("decimalPlaces: {0}, ", formatterOptions.DecimalPlaces), (formatterOptions.DecimalSeparator == JqGridOptionsDefaults.FormatterDecimalSeparator) ? String.Empty : String.Format("decimalSeparator: '{0}', ", formatterOptions.DecimalSeparator), (formatterOptions.DefaultValue == JqGridOptionsDefaults.NumberFormatterDefaultValue) ? String.Empty : String.Format("defaultValue: '{0}', ", formatterOptions.DefaultValue), String.IsNullOrWhiteSpace(formatterOptions.Prefix) ? String.Empty : String.Format("prefix: '{0}', ", formatterOptions.Prefix), String.IsNullOrWhiteSpace(formatterOptions.Suffix) ? String.Empty : String.Format("suffix: '{0}', ", formatterOptions.Suffix), (formatterOptions.ThousandsSeparator == JqGridOptionsDefaults.FormatterThousandsSeparator) ? String.Empty : String.Format("thousandsSeparator: '{0}', ", formatterOptions.ThousandsSeparator));
+                        break;
+                    case JqGridColumnPredefinedFormatters.Date:
+                        javaScriptBuilder.AppendFormat("{0}{1}", (formatterOptions.SourceFormat == JqGridOptionsDefaults.FormatterSourceFormat) ? String.Empty : String.Format("srcformat: '{0}', ", formatterOptions.SourceFormat), (formatterOptions.OutputFormat == JqGridOptionsDefaults.FormatterOutputFormat) ? String.Empty : String.Format("newformat: '{0}', ", formatterOptions.OutputFormat));
+                        break;
+                    case JqGridColumnPredefinedFormatters.Link:
+                        javaScriptBuilder.AppendFormat("target: '{0}', ", formatterOptions.Target);
+                        break;
+                    case JqGridColumnPredefinedFormatters.ShowLink:
+                        javaScriptBuilder.AppendFormat("{0}{1}{2}{3}{4}", String.IsNullOrWhiteSpace(formatterOptions.BaseLinkUrl) ? String.Empty : String.Format("baseLinkUrl: '{0}', ", formatterOptions.BaseLinkUrl), String.IsNullOrWhiteSpace(formatterOptions.ShowAction) ? String.Empty : String.Format("showAction: '{0}', ", formatterOptions.ShowAction), String.IsNullOrWhiteSpace(formatterOptions.AddParam) ? String.Empty : String.Format("addParam: '{0}', ", formatterOptions.AddParam), String.IsNullOrWhiteSpace(formatterOptions.Target) ? String.Empty : String.Format("target: '{0}', ", formatterOptions.Target), (formatterOptions.IdName == JqGridOptionsDefaults.FormatterIdName) ? String.Empty : String.Format("idName: '{0}', ", formatterOptions.IdName));
+                        break;
+                    case JqGridColumnPredefinedFormatters.CheckBox:
+                        javaScriptBuilder.Append("disabled: false, ");
+                        break;
+                }
+
+                if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
+                {
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
                     javaScriptBuilder.Append(" }, ");
                 }
                 else

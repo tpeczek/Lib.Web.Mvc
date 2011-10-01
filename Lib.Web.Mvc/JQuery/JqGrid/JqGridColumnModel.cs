@@ -183,14 +183,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             IEnumerable<object> customAttributes  = propertyMetadata.ContainerType.GetProperty(propertyMetadata.PropertyName).GetCustomAttributes(true).AsEnumerable();
             RangeAttribute rangeAttribute = customAttributes.OfType<RangeAttribute>().FirstOrDefault();
 
-            JqGridColumnFormatterAttribute columnFormatterAttribute = customAttributes.OfType<JqGridColumnFormatterAttribute>().FirstOrDefault();
-            if (columnFormatterAttribute != null)
-            {
-                Formatter = columnFormatterAttribute.Formatter;
-                FormatterOptions = columnFormatterAttribute.FormatterOptions;
-                UnFormatter = columnFormatterAttribute.UnFormatter;
-            }
-
             Alignment = propertyMetadata.GetColumnAlignment();
             Classes = propertyMetadata.GetColumnClasses();
             Fixed = propertyMetadata.GetColumnFixed();
@@ -227,6 +219,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 }
             }
             EditType = propertyMetadata.GetColumnEditType();
+
+            Formatter = propertyMetadata.GetColumnFormatter();
+            FormatterOptions = propertyMetadata.GetColumnFormatterOptions();
+            UnFormatter = propertyMetadata.GetColumnUnFormatter();
+
             FormOptions = propertyMetadata.GetColumnFormOptions();
 
             LabelOptions = propertyMetadata.GetColumnLabelOptions();

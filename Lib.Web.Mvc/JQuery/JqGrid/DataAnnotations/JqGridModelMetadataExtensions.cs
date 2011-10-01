@@ -19,6 +19,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         private const string _editRulesKey = "JqGridColumnModel.EditRules";
         private const string _formOptionsKey = "JqGridColumnModel.FormOptions";
         private const string _editTypeKey = "JqGridColumnModel.EditType";
+        private const string _formatterKey = "JqGridColumnModel.Formatter";
+        private const string _formatterOptionsKey = "JqGridColumnModel.FormatterOptions";
+        private const string _unFormatterKey = "JqGridColumnModel.UnFormatter";
         private const string _labelOptionsKey = "JqGridColumnModel.LabelOptions";
         private const string _searchableKey = "JqGridColumnModel.Searchable";
         private const string _searchOptionsKey = "JqGridColumnModel.SearchOptions";
@@ -166,6 +169,45 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
                 return (JqGridColumnFormOptions)metadata.AdditionalValues[_formOptionsKey];
             else
                 return null;
+        }
+
+        internal static void SetColumnFormatter(this ModelMetadata metadata, string formatter)
+        {
+            metadata.AdditionalValues.Add(_formatterKey, formatter);
+        }
+
+        internal static string GetColumnFormatter(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_formatterKey))
+                return (string)metadata.AdditionalValues[_formatterKey];
+            else
+                return String.Empty;
+        }
+
+        internal static void SetColumnFormatterOptions(this ModelMetadata metadata, JqGridColumnFormatterOptions formatterOptions)
+        {
+            metadata.AdditionalValues.Add(_formatterOptionsKey, formatterOptions);
+        }
+
+        internal static JqGridColumnFormatterOptions GetColumnFormatterOptions(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_formatterOptionsKey))
+                return (JqGridColumnFormatterOptions)metadata.AdditionalValues[_formatterOptionsKey];
+            else
+                return null;
+        }
+
+        internal static void SetColumnUnFormatter(this ModelMetadata metadata, string unFormatter)
+        {
+            metadata.AdditionalValues.Add(_unFormatterKey, unFormatter);
+        }
+
+        internal static string GetColumnUnFormatter(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_unFormatterKey))
+                return (string)metadata.AdditionalValues[_unFormatterKey];
+            else
+                return String.Empty;
         }
 
         internal static JqGridColumnLabelOptions GetColumnLabelOptions(this ModelMetadata metadata)
