@@ -21,9 +21,24 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string Id { get; private set; }
 
         /// <summary>
+        /// Gets or sets the function for event which is raised after every inserted row.
+        /// </summary>
+        public string AfterInsertRow { get; set; }
+
+        /// <summary>
         /// Gets or sets the value indicating if the grid width will be recalculated automatically to the width of the parent element.
         /// </summary>
         public bool AutoWidth { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised before requesting any data.
+        /// </summary>
+        public string BeforeRequest { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised when the user click on the row, but before selecting it.
+        /// </summary>
+        public string BeforeSelectRow { get; set; }
 
         /// <summary>
         /// Gets or sets the caption for the grid.
@@ -101,6 +116,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public bool FooterEnabled { get; set; }
 
         /// <summary>
+        /// Gets or sets the function for event which is raised after all the data is loaded into the grid and all other processes are complete.
+        /// </summary>
+        public string GridComplete { get; set; }
+
+        /// <summary>
         /// Gets or sets the value indicating if the grouping is enabled.
         /// </summary>
         public bool GroupingEnabled { get; set; }
@@ -133,9 +153,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridJsonReader JsonReader { get; set; }
 
         /// <summary>
-        /// Gets or sets the function for event which is raised after the request fails.
+        /// Gets or sets the function for pre-callback to modify the XMLHttpRequest object before it is sent.
         /// </summary>
-        public string LoadError { get; set; }
+        public string LoadBeforeSend { get; set; }
 
         /// <summary>
         /// Gets or sets the function for event which is raised immediately after every server request.
@@ -143,19 +163,54 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string LoadComplete { get; set; }
 
         /// <summary>
+        /// Gets or sets the function for event which is raised after the request fails.
+        /// </summary>
+        public string LoadError { get; set; }
+
+        /// <summary>
         /// Gets or sets the type of request to make (default JqGridMethodTypes.Get).
         /// </summary>
         public JqGridMethodTypes MethodType { get; set; }
 
         /// <summary>
-        /// Gets or sets the function for event which is raised after all the data is loaded into the grid and all other processes are complete.
+        /// Gets or sets the function for event which is raised when user clicks on particular cell in the grid.
         /// </summary>
-        public string GridComplete { get; set; }
+        public string OnCellSelect { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised immediately after row was double clicked.
+        /// </summary>
+        public string OnDoubleClickRow { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised after clicking to hide or show grid.
+        /// </summary>
+        public string OnHeaderClick { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised before populating the data after page index/size change.
+        /// </summary>
+        public string OnPaging { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised immediately after row was right clicked.
+        /// </summary>
+        public string OnRightClickRow { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised when MultipleSelect option is true and user clicks on the header checkbox.
+        /// </summary>
+        public string OnSelectAll { get; set; }
 
         /// <summary>
         /// Gets or sets the function for event which is raised immediately after row was clicked.
         /// </summary>
         public string OnSelectRow { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised immediately after sortable column was clicked and before sorting the data.
+        /// </summary>
+        public string OnSortCol { get; set; }
 
         /// <summary>
         /// Gets or sets if grid should use a pager bar to navigate through the records (default: false).
@@ -166,6 +221,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets customized names for jqGrid request parameters.
         /// </summary>
         public JqGridParametersNames ParametersNames { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised when user starts resizing a column.
+        /// </summary>
+        public string ResizeStart { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised after the column is resized.
+        /// </summary>
+        public string ResizeStop { get; set; }
 
         /// <summary>
         /// Gets or sets an array to construct a select box element in the pager in which user can change the number of the visible rows.
@@ -181,6 +246,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the width of vertical scrollbar
         /// </summary>
         public int ScrollOffset { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which can serialize the data passed to the ajax request.
+        /// </summary>
+        public string SerializeGridData { get; set; }
 
         /// <summary>
         /// Gets or sets the initial sorting column index, when  using data returned from server (default: String.Empty)
@@ -254,7 +324,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             _columnsModel = new List<JqGridColumnModel>();
             _columnsNames = new List<string>();
 
+            AfterInsertRow = null;
             AutoWidth = false;
+            BeforeRequest = null;
+            BeforeSelectRow = null;
             Caption = String.Empty;
             CellEditingEnabled = false;
             CellEditingSubmitMode = JqGridCellEditingSubmitModes.Remote;
@@ -275,15 +348,26 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             Hidden = false;
             HiddenEnabled = true;
             JsonReader = JqGridResponse.JsonReader;
+            LoadBeforeSend = null;
             LoadComplete = null;
             LoadError = null;
             MethodType = JqGridMethodTypes.Get;
+            OnCellSelect = null;
+            OnDoubleClickRow = null;
+            OnHeaderClick = null;
+            OnPaging = null;
+            OnRightClickRow = null;
+            OnSelectAll = null;
             OnSelectRow = null;
+            OnSortCol = null;
             Pager = false;
             ParametersNames = JqGridRequest.ParameterNames;
+            ResizeStart = null;
+            ResizeStop = null;
             RowsList = null;
             RowsNumber = 20;
             ScrollOffset = 18;
+            SerializeGridData = null;
             SortingName = String.Empty;
             SortingOrder = JqGridSortingOrders.Asc;
             SubgridColumnWidth = 20;

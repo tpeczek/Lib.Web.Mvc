@@ -38,7 +38,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Initializes a new instance of the JqGridHelper class.
         /// </summary>
         /// <param name="id">Identifier, which will be used for table (id='{0}'), pager div (id='{0}Pager'), filter grid div (id='{0}Search') and in JavaScript.</param>
-        /// <param name="autoWidth">the value indicating if the grid width will be recalculated automatically to the width of the parent element.</param>
+        /// <param name="afterInsertRow">The function for event which is raised after every inserted row.</param>
+        /// <param name="autoWidth">The value indicating if the grid width will be recalculated automatically to the width of the parent element.</param>
+        /// <param name="beforeRequest">The function for event which is raised before requesting any data.</param>
+        /// <param name="beforeSelectRow">The function for event which is raised when the user click on the row, but before selecting it.</param>
         /// <param name="caption">The caption for the grid.</param>
         /// <param name="cellEditingEnabled">The value indicating if cell editing is enabled.</param>
         /// <param name="cellEditingSubmitMode">The cell editing submit mode.</param>
@@ -57,16 +60,27 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <param name="hidden">The value which defines whether the grid is initialy hidden (no data loaded, only caption layer is shown). Takes effect only if the caption is not empty string and hiddenEnabled is true.</param>
         /// <param name="hiddenEnabled">The value which defines whether the show/hide grid button is enabled. Takes effect only if the caption is not empty string.</param>
         /// <param name="jsonReader">The JSON reader for the grid.</param>
+        /// <param name="loadBeforeSend">The function for pre-callback to modify the XMLHttpRequest object before it is sent.</param>
         /// <param name="loadError">The function for event which is raised after the request fails.</param>
         /// <param name="loadComplete">The function for event which is raised immediately after every server request.</param>
         /// <param name="methodType">The type of request to make.</param>
         /// <param name="gridComplete">The function for event which is raised after all the data is loaded into the grid and all other processes are complete.</param>
+        /// <param name="onCellSelect">The function for event which is raised when user clicks on particular cell in the grid.</param>
+        /// <param name="onDoubleClickRow">The function for event which is raised immediately after row was double clicked.</param>
+        /// <param name="onHeaderClick">The function for event which is raised after clicking to hide or show grid.</param>
+        /// <param name="onPaging">The function for event which is raised before populating the data after page index/size change.</param>
+        /// <param name="onRightClickRow">The function for event which is raised immediately after row was right clicked.</param>
+        /// <param name="onSelectAll">The function for event which is raised when MultipleSelect option is true and user clicks on the header checkbox.</param>
         /// <param name="onSelectRow">The function for event which is raised immediately after row was clicked.</param>
+        /// <param name="onSortCol">The function for event which is raised immediately after sortable column was clicked and before sorting the data.</param>
         /// <param name="pager">If grid should use a pager bar to navigate through the records.</param>
         /// <param name="parametersNames">The customized names for jqGrid request parameters.</param>
+        /// <param name="resizeStart">The function for event which is raised when user starts resizing a column.</param>
+        /// <param name="resizeStop">The function for event which is raised after the column is resized.</param>
         /// <param name="rowsList">The array to construct a select box element in the pager in which user can change the number of the visible rows.</param>
         /// <param name="rowsNumber">How many records should be displayed in the grid.</param>
         /// <param name="scrollOffset">The width of vertical scrollbar.</param>
+        /// <param name="serializeGridData">The function for event which can serialize the data passed to the ajax request.</param>
         /// <param name="sortingName">The initial sorting column index, when  using data returned from server.</param>
         /// <param name="sortingOrder">The initial sorting order, when  using data returned from server.</param>
         /// <param name="subgridEnabled">The value which defines if subgrid is enabled.</param>
@@ -79,8 +93,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <param name="userDataOnFooter">The value indicating if the values from user data should be placed on footer.</param>
         /// <param name="viewRecords">If grid should display the beginning and ending record number out of the total number of records in the query.</param>
         /// <param name="width">The width of the grid in pixels.</param>
-        public JqGridHelper(string id, bool autoWidth = false, string caption = null, bool cellEditingEnabled = false, JqGridCellEditingSubmitModes cellEditingSubmitMode = JqGridCellEditingSubmitModes.Remote, string cellEditingUrl = null, string dataString = null, JqGridDataTypes dataType = JqGridDataTypes.Xml, JqGridDynamicScrollingModes dynamicScrollingMode = JqGridDynamicScrollingModes.Disabled, int dynamicScrollingTimeout = 200, string editingUrl = null, bool expandColumnClick = true, string expandColumn = null, int? height = null, bool footerEnabled = false, bool groupingEnabled = false, JqGridGroupingView groupingView = null, bool hidden = false, bool hiddenEnabled = true, JqGridJsonReader jsonReader = null, string loadError = null, string loadComplete = null, JqGridMethodTypes methodType = JqGridMethodTypes.Get, string gridComplete = null, string onSelectRow = null, bool pager = false, JqGridParametersNames parametersNames = null, List<int> rowsList = null, int rowsNumber = 20, int scrollOffset = 18, string sortingName = "", JqGridSortingOrders sortingOrder = JqGridSortingOrders.Asc, bool subgridEnabled = false, JqGridSubgridModel subgridModel = null, string subgridUrl = null, int subgridColumnWidth = 20, bool treeGridEnabled = false, JqGridTreeGridModels treeGridModel = JqGridTreeGridModels.Nested, string url = null, bool userDataOnFooter = false, bool viewRecords = false, int? width = null)
-            : this(new JqGridOptions<TModel>(id) { AutoWidth = autoWidth, Caption = caption, CellEditingEnabled = cellEditingEnabled, CellEditingSubmitMode = cellEditingSubmitMode, CellEditingUrl = cellEditingUrl, DataString = dataString, DataType = dataType, DynamicScrollingMode = dynamicScrollingMode, DynamicScrollingTimeout = dynamicScrollingTimeout, EditingUrl = editingUrl, ExpandColumnClick = expandColumnClick, ExpandColumn = expandColumn, FooterEnabled = footerEnabled, GroupingEnabled = groupingEnabled, GroupingView = groupingView, Height = height, Hidden = hidden, HiddenEnabled = hiddenEnabled, JsonReader = (jsonReader != null) ? jsonReader : JqGridResponse.JsonReader, LoadError = loadError, LoadComplete = loadComplete, MethodType = methodType, GridComplete = gridComplete, OnSelectRow = onSelectRow, Pager = pager, ParametersNames = (parametersNames != null) ? parametersNames : JqGridRequest.ParameterNames, RowsList = rowsList, RowsNumber = rowsNumber, ScrollOffset = scrollOffset, SortingName = sortingName, SortingOrder = sortingOrder, SubgridEnabled = subgridEnabled, SubgridModel = subgridModel, SubgridUrl = subgridUrl, SubgridColumnWidth = subgridColumnWidth, TreeGridEnabled = treeGridEnabled, TreeGridModel = treeGridModel, Url = url, UserDataOnFooter = userDataOnFooter, ViewRecords = viewRecords, Width = width })
+        public JqGridHelper(string id, string afterInsertRow = null, bool autoWidth = false, string beforeRequest = null, string beforeSelectRow = null, string caption = null, bool cellEditingEnabled = false, JqGridCellEditingSubmitModes cellEditingSubmitMode = JqGridCellEditingSubmitModes.Remote, string cellEditingUrl = null, string dataString = null, JqGridDataTypes dataType = JqGridDataTypes.Xml, JqGridDynamicScrollingModes dynamicScrollingMode = JqGridDynamicScrollingModes.Disabled, int dynamicScrollingTimeout = 200, string editingUrl = null, bool expandColumnClick = true, string expandColumn = null, int? height = null, bool footerEnabled = false, bool groupingEnabled = false, JqGridGroupingView groupingView = null, bool hidden = false, bool hiddenEnabled = true, JqGridJsonReader jsonReader = null, string loadBeforeSend = null, string loadError = null, string loadComplete = null, JqGridMethodTypes methodType = JqGridMethodTypes.Get, string gridComplete = null, string onCellSelect = null, string onDoubleClickRow = null, string onHeaderClick = null, string onPaging = null, string onRightClickRow = null, string onSelectAll = null, string onSelectRow = null, string onSortCol = null, bool pager = false, JqGridParametersNames parametersNames = null, string resizeStart = null, string resizeStop = null, List<int> rowsList = null, int rowsNumber = 20, int scrollOffset = 18, string serializeGridData = null, string sortingName = "", JqGridSortingOrders sortingOrder = JqGridSortingOrders.Asc, bool subgridEnabled = false, JqGridSubgridModel subgridModel = null, string subgridUrl = null, int subgridColumnWidth = 20, bool treeGridEnabled = false, JqGridTreeGridModels treeGridModel = JqGridTreeGridModels.Nested, string url = null, bool userDataOnFooter = false, bool viewRecords = false, int? width = null)
+            : this(new JqGridOptions<TModel>(id) { AfterInsertRow = afterInsertRow, AutoWidth = autoWidth, BeforeRequest = beforeRequest, BeforeSelectRow = beforeSelectRow, Caption = caption, CellEditingEnabled = cellEditingEnabled, CellEditingSubmitMode = cellEditingSubmitMode, CellEditingUrl = cellEditingUrl, DataString = dataString, DataType = dataType, DynamicScrollingMode = dynamicScrollingMode, DynamicScrollingTimeout = dynamicScrollingTimeout, EditingUrl = editingUrl, ExpandColumnClick = expandColumnClick, ExpandColumn = expandColumn, FooterEnabled = footerEnabled, GroupingEnabled = groupingEnabled, GroupingView = groupingView, Height = height, Hidden = hidden, HiddenEnabled = hiddenEnabled, JsonReader = (jsonReader != null) ? jsonReader : JqGridResponse.JsonReader, LoadBeforeSend = loadBeforeSend, LoadError = loadError, LoadComplete = loadComplete, MethodType = methodType, GridComplete = gridComplete, OnCellSelect = onCellSelect, OnDoubleClickRow = onDoubleClickRow, OnHeaderClick = onHeaderClick, OnPaging = onPaging, OnRightClickRow = onRightClickRow, OnSelectAll = onSelectAll, OnSelectRow = onSelectRow, OnSortCol = onSortCol, Pager = pager, ParametersNames = (parametersNames != null) ? parametersNames : JqGridRequest.ParameterNames, RowsList = rowsList, RowsNumber = rowsNumber, ScrollOffset = scrollOffset, SerializeGridData = serializeGridData, SortingName = sortingName, SortingOrder = sortingOrder, SubgridEnabled = subgridEnabled, SubgridModel = subgridModel, SubgridUrl = subgridUrl, SubgridColumnWidth = subgridColumnWidth, TreeGridEnabled = treeGridEnabled, TreeGridModel = treeGridModel, Url = url, UserDataOnFooter = userDataOnFooter, ViewRecords = viewRecords, Width = width })
         { }
 
         /// <summary>
@@ -507,8 +521,17 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
         private void AppendOptions(ref StringBuilder javaScriptBuilder)
         {
+            if (!String.IsNullOrWhiteSpace(_options.AfterInsertRow))
+                javaScriptBuilder.AppendFormat("afterInsertRow: {0},", _options.AfterInsertRow).AppendLine();
+
             if (_options.AutoWidth)
                 javaScriptBuilder.Append("autowidth: true,").AppendLine();
+
+            if (!String.IsNullOrWhiteSpace(_options.BeforeRequest))
+                javaScriptBuilder.AppendFormat("beforeRequest: {0},", _options.BeforeRequest).AppendLine();
+
+            if (!String.IsNullOrWhiteSpace(_options.BeforeSelectRow))
+                javaScriptBuilder.AppendFormat("beforeSelectRow: {0},", _options.BeforeSelectRow).AppendLine();
 
             if (_options.CellEditingEnabled)
             {
@@ -565,11 +588,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
             AppendJsonReader(ref javaScriptBuilder);
 
-            if (!String.IsNullOrWhiteSpace(_options.LoadError))
-                javaScriptBuilder.AppendFormat("loadError: {0},", _options.LoadError).AppendLine();
+            if (!String.IsNullOrWhiteSpace(_options.LoadBeforeSend))
+                javaScriptBuilder.AppendFormat("loadBeforeSend: {0},", _options.LoadBeforeSend).AppendLine();
 
             if (!String.IsNullOrWhiteSpace(_options.LoadComplete))
                 javaScriptBuilder.AppendFormat("loadComplete: {0},", _options.LoadComplete).AppendLine();
+
+            if (!String.IsNullOrWhiteSpace(_options.LoadError))
+                javaScriptBuilder.AppendFormat("loadError: {0},", _options.LoadError).AppendLine();
 
             if (_options.MethodType != JqGridMethodTypes.Get)
                 javaScriptBuilder.AppendFormat("mtype: 'POST',").AppendLine();
@@ -577,13 +603,40 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (!String.IsNullOrWhiteSpace(_options.GridComplete))
                 javaScriptBuilder.AppendFormat("gridComplete: {0},", _options.GridComplete).AppendLine();
 
+            if (!String.IsNullOrWhiteSpace(_options.OnCellSelect))
+                javaScriptBuilder.AppendFormat("onCellSelect: {0},", _options.OnCellSelect).AppendLine();
+
+            if (!String.IsNullOrWhiteSpace(_options.OnDoubleClickRow))
+                javaScriptBuilder.AppendFormat("ondblClickRow: {0},", _options.OnDoubleClickRow).AppendLine();
+
+            if (!String.IsNullOrWhiteSpace(_options.OnHeaderClick))
+                javaScriptBuilder.AppendFormat("onHeaderClick: {0},", _options.OnHeaderClick).AppendLine();
+
+            if (!String.IsNullOrWhiteSpace(_options.OnPaging))
+                javaScriptBuilder.AppendFormat("onPaging: {0},", _options.OnPaging).AppendLine();
+
+            if (!String.IsNullOrWhiteSpace(_options.OnRightClickRow))
+                javaScriptBuilder.AppendFormat("onRightClickRow: {0},", _options.OnRightClickRow).AppendLine();
+
+            if (!String.IsNullOrWhiteSpace(_options.OnSelectAll))
+                javaScriptBuilder.AppendFormat("onSelectAll: {0},", _options.OnSelectAll).AppendLine();
+
             if (!String.IsNullOrWhiteSpace(_options.OnSelectRow))
                 javaScriptBuilder.AppendFormat("onSelectRow: {0},", _options.OnSelectRow).AppendLine();
+
+            if (!String.IsNullOrWhiteSpace(_options.OnSortCol))
+                javaScriptBuilder.AppendFormat("onSortCol: {0},", _options.OnSortCol).AppendLine();
 
             if (_options.Pager)
                 javaScriptBuilder.AppendFormat("pager: '#{0}Pager',", _options.Id).AppendLine();
 
             AppendParametersNames(ref javaScriptBuilder);
+
+            if (!String.IsNullOrWhiteSpace(_options.ResizeStart))
+                javaScriptBuilder.AppendFormat("resizeStart: {0},", _options.ResizeStart).AppendLine();
+
+            if (!String.IsNullOrWhiteSpace(_options.ResizeStop))
+                javaScriptBuilder.AppendFormat("resizeStop: {0},", _options.ResizeStop).AppendLine();
 
             if (_options.RowsList != null && _options.RowsList.Count > 0)
             {
@@ -599,6 +652,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
             if (_options.ScrollOffset != 18)
                 javaScriptBuilder.AppendFormat("scrollOffset: {0},", _options.ScrollOffset).AppendLine();
+
+            if (!String.IsNullOrWhiteSpace(_options.SerializeGridData))
+                javaScriptBuilder.AppendFormat("serializeGridData: {0},", _options.SerializeGridData).AppendLine();
 
             if (!String.IsNullOrWhiteSpace(_options.SortingName))
                 javaScriptBuilder.AppendFormat("sortname: '{0}',", _options.SortingName).AppendLine();
