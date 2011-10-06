@@ -253,6 +253,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string SerializeGridData { get; set; }
 
         /// <summary>
+        /// Gets or sets the function for event which can serialize the data passed to the subgrid ajax request.
+        /// </summary>
+        public string SerializeSubGridData { get; set; }
+
+        /// <summary>
         /// Gets or sets the initial sorting column index, when  using data returned from server (default: String.Empty)
         /// </summary>
         public string SortingName { get; set; }
@@ -281,6 +286,21 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the width of subgrid expand/colapse column.
         /// </summary>
         public int SubgridColumnWidth { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised just before expanding the subgrid.
+        /// </summary>
+        public string SubGridBeforeExpand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised when the user clicks on the plus icon of the grid.
+        /// </summary>
+        public string SubGridRowExpanded { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised when the user clicks on the minus icon of the grid.
+        /// </summary>
+        public string SubGridRowColapsed { get; set; }
 
         /// <summary>
         /// Gets or sets the value which defines if TreeGrid is enabled.
@@ -368,12 +388,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             RowsNumber = 20;
             ScrollOffset = 18;
             SerializeGridData = null;
+            SerializeSubGridData = null;
             SortingName = String.Empty;
             SortingOrder = JqGridSortingOrders.Asc;
             SubgridColumnWidth = 20;
             SubgridEnabled = false;
             SubgridModel = null;
             SubgridUrl = String.Empty;
+            SubGridBeforeExpand = null;
+            SubGridRowColapsed = null;
+            SubGridRowExpanded = null;
             TreeGridEnabled = false;
             TreeGridModel = JqGridTreeGridModels.Nested;
             Url = null;
