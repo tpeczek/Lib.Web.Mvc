@@ -26,6 +26,26 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string AfterInsertRow { get; set; }
 
         /// <summary>
+        /// Gets or sets the function for event which is raised after the edited cell is edited.
+        /// </summary>
+        public string AfterEditCell { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised after calling the method restoreCell or the user press ESC leaving the changes.
+        /// </summary>
+        public string AfterRestoreCell { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised after the cell has been successfully saved.
+        /// </summary>
+        public string AfterSaveCell { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised after the cell and other data is posted to the server.
+        /// </summary>
+        public string AfterSubmitCell { get; set; }
+
+        /// <summary>
         /// Gets or sets the value indicating if the grid width will be recalculated automatically to the width of the parent element.
         /// </summary>
         public bool AutoWidth { get; set; }
@@ -39,6 +59,21 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the function for event which is raised when the user click on the row, but before selecting it.
         /// </summary>
         public string BeforeSelectRow { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised before editing the cell.
+        /// </summary>
+        public string BeforeEditCell { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised before validation of values if any.
+        /// </summary>
+        public string BeforeSaveCell { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised before submit the cell content to the server.
+        /// </summary>
+        public string BeforeSubmitCell { get; set; }
 
         /// <summary>
         /// Gets or sets the caption for the grid.
@@ -109,6 +144,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the name of column which should be used to expand the tree grid.
         /// </summary>
         public string ExpandColumn { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised when there is a server error while saving cell.
+        /// </summary>
+        public string ErrorCell { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which allows formatting the cell content before editing.
+        /// </summary>
+        public string FormatCell { get; set; }
 
         /// <summary>
         /// Gets or sets the value indicating if the footer table (with one row) will be placed below the grid records and above the pager. The number of columns equal of these from ColumnsModels.
@@ -203,6 +248,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string OnSelectAll { get; set; }
 
         /// <summary>
+        /// Gets or sets the function for event which is raised after the cell is selected for editing.
+        /// </summary>
+        public string OnSelectCell { get; set; }
+
+        /// <summary>
         /// Gets or sets the function for event which is raised immediately after row was clicked.
         /// </summary>
         public string OnSelectRow { get; set; }
@@ -246,6 +296,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the width of vertical scrollbar
         /// </summary>
         public int ScrollOffset { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which can serialize the data passed to the ajax request when the cell is being saved.
+        /// </summary>
+        public string SerializeCellData { get; set; }
 
         /// <summary>
         /// Gets or sets the function for event which can serialize the data passed to the ajax request.
@@ -345,9 +400,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             _columnsNames = new List<string>();
 
             AfterInsertRow = null;
+            AfterEditCell = null;
+            AfterRestoreCell = null;
+            AfterSaveCell = null;
+            AfterSubmitCell = null;
             AutoWidth = false;
             BeforeRequest = null;
             BeforeSelectRow = null;
+            BeforeEditCell = null;
+            BeforeSaveCell = null;
+            BeforeSubmitCell = null;
             Caption = String.Empty;
             CellEditingEnabled = false;
             CellEditingSubmitMode = JqGridCellEditingSubmitModes.Remote;
@@ -360,6 +422,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             EditingUrl = null;
             ExpandColumn = null;
             ExpandColumnClick = true;
+            ErrorCell = null;
+            FormatCell = null;
             FooterEnabled = false;
             GridComplete = null;
             GroupingEnabled = false;
@@ -378,6 +442,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             OnPaging = null;
             OnRightClickRow = null;
             OnSelectAll = null;
+            OnSelectCell = null;
             OnSelectRow = null;
             OnSortCol = null;
             Pager = false;
@@ -387,6 +452,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             RowsList = null;
             RowsNumber = 20;
             ScrollOffset = 18;
+            SerializeCellData = null;
             SerializeGridData = null;
             SerializeSubGridData = null;
             SortingName = String.Empty;
