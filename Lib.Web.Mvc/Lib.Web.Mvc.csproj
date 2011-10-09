@@ -115,6 +115,10 @@
     <Compile Include="JQuery\TreeView\TreeViewNode.cs" />
     <Compile Include="NoCacheAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RangeFileContentResult.cs" />
+    <Compile Include="RangeFilePathResult.cs" />
+    <Compile Include="RangeFileResult.cs" />
+    <Compile Include="RangeFileStreamResult.cs" />
     <Compile Include="XmlActionResult.cs" />
   </ItemGroup>
   <ItemGroup>
