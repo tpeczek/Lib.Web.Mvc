@@ -395,10 +395,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                     javaScriptBuilder.Append("integer: true, ");
 
                 if (rules.MaxValue.HasValue)
-                    javaScriptBuilder.AppendFormat("maxValue: {0},", rules.MaxValue.Value);
+                    javaScriptBuilder.AppendFormat("maxValue: {0}, ", rules.MaxValue.Value);
 
                 if (rules.MinValue.HasValue)
-                    javaScriptBuilder.AppendFormat("minValue: {0},", rules.MinValue.Value);
+                    javaScriptBuilder.AppendFormat("minValue: {0}, ", rules.MinValue.Value);
 
                 if (rules.Number)
                     javaScriptBuilder.Append("number: true, ");
