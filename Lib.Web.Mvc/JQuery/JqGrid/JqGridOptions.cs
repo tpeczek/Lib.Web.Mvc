@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
@@ -46,6 +47,21 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string AfterSubmitCell { get; set; }
 
         /// <summary>
+        /// Gets or sets the class that is used for alternate rows.
+        /// </summary>
+        public string AltClass { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value indicating if the grid should be "zebra-striped".
+        /// </summary>
+        public bool AltRows { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value indicating if the grid should auto encode/decode the data.
+        /// </summary>
+        public bool AutoEncode { get; set; }
+
+        /// <summary>
         /// Gets or sets the value indicating if the grid width will be recalculated automatically to the width of the parent element.
         /// </summary>
         public bool AutoWidth { get; set; }
@@ -79,6 +95,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the caption for the grid.
         /// </summary>
         public string Caption { get; set; }
+
+        /// <summary>
+        /// Gets or sets the padding plus border width of the cell.
+        /// </summary>
+        public int CellLayout { get; set; }
 
         /// <summary>
         /// Gets or sets the value indicating if cell editing is enabled
@@ -119,6 +140,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the type of information to expect to represent data in the grid (default JqGridDataTypes.Xml).
         /// </summary>
         public JqGridDataTypes DataType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value indicating if jqGrid should be using jQuery.empty for the the row and all its children elements.
+        /// </summary>
+        public bool DeepEmpty { get; set; }
+
+        /// <summary>
+        /// Gets or sets the language direction in grid.
+        /// </summary>
+        public JqGridLanguageDirections Direction { get; set; }
 
         /// <summary>
         /// Gets or sets the value which defines if dynamic scrolling is enabled.
@@ -213,6 +244,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string LoadError { get; set; }
 
         /// <summary>
+        /// Gets or sets the value which defines whether the grid should load the data only once and all further manipulationsshould be done on the client side.
+        /// </summary>
+        public bool LoadOnce { get; set; }
+
+        /// <summary>
         /// Gets or sets the type of request to make (default JqGridMethodTypes.Get).
         /// </summary>
         public JqGridMethodTypes MethodType { get; set; }
@@ -291,6 +327,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets how many records should be displayed in the grid (default 20).
         /// </summary>
         public int RowsNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value which defines whether the columns width should be recalculated to fit the width of the grid.
+        /// </summary>
+        public bool ShrinkToFit { get; set; }
 
         /// <summary>
         /// Gets or sets the width of vertical scrollbar
@@ -404,6 +445,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             AfterRestoreCell = null;
             AfterSaveCell = null;
             AfterSubmitCell = null;
+            AltClass = JqGridOptionsDefaults.AltClass;
+            AltRows = false;
+            AutoEncode = false;
             AutoWidth = false;
             BeforeRequest = null;
             BeforeSelectRow = null;
@@ -411,12 +455,15 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             BeforeSaveCell = null;
             BeforeSubmitCell = null;
             Caption = String.Empty;
+            CellLayout = JqGridOptionsDefaults.CellLayout;
             CellEditingEnabled = false;
             CellEditingSubmitMode = JqGridCellEditingSubmitModes.Remote;
             CellEditingUrl = null;
             ColumnsRemaping = null;
             DataString = null;
             DataType = JqGridDataTypes.Xml;
+            DeepEmpty = false;
+            Direction = JqGridLanguageDirections.Ltr;
             DynamicScrollingMode = JqGridDynamicScrollingModes.Disabled;
             DynamicScrollingTimeout = 200;
             EditingUrl = null;
@@ -435,6 +482,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             LoadBeforeSend = null;
             LoadComplete = null;
             LoadError = null;
+            LoadOnce = false;
             MethodType = JqGridMethodTypes.Get;
             OnCellSelect = null;
             OnDoubleClickRow = null;
@@ -452,6 +500,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             RowsList = null;
             RowsNumber = 20;
             ScrollOffset = 18;
+            ShrinkToFit = true;
             SerializeCellData = null;
             SerializeGridData = null;
             SerializeSubGridData = null;

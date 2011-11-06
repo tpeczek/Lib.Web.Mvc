@@ -116,7 +116,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (!String.IsNullOrWhiteSpace(id))
             {
                 JqGridOptions obj = new JqGridOptions(id);
+                obj.AltClass = GetStringFromSerializedObj(serializedObj, "altclass", JqGridOptionsDefaults.AltClass);
+                obj.AltRows = GetBooleanFromSerializedObj(serializedObj, "altRows", false);
+                obj.AutoEncode = GetBooleanFromSerializedObj(serializedObj, "autoencode", false);
                 obj.AutoWidth = GetBooleanFromSerializedObj(serializedObj, "autowidth", false);
+                obj.Caption = GetStringFromSerializedObj(serializedObj, "caption");
+                obj.CellLayout = GetInt32FromSerializedObj(serializedObj, "cellLayout", JqGridOptionsDefaults.CellLayout);
                 obj.CellEditingEnabled = GetBooleanFromSerializedObj(serializedObj, "cellEdit", false);
                 obj.CellEditingSubmitMode = GetEnumFromSerializedObj<JqGridCellEditingSubmitModes>(serializedObj, "cellsubmit", JqGridCellEditingSubmitModes.Remote);
                 obj.CellEditingUrl = GetStringFromSerializedObj(serializedObj, "cellurl");
@@ -140,10 +145,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                         obj.ColumnsNames.Add(innerSerializedObj.ToString());
                 }
 
-                obj.Caption = GetStringFromSerializedObj(serializedObj, "caption");
                 obj.DataString = GetStringFromSerializedObj(serializedObj, "datastr");
                 obj.DataType = GetEnumFromSerializedObj<JqGridDataTypes>(serializedObj, "datatype", JqGridDataTypes.Xml);
-
+                obj.DeepEmpty = GetBooleanFromSerializedObj(serializedObj, "deepempty", false);
+                obj.Direction = GetEnumFromSerializedObj<JqGridLanguageDirections>(serializedObj, "direction", JqGridLanguageDirections.Ltr);
                 obj.DynamicScrollingMode = JqGridDynamicScrollingModes.Disabled;
                 if (serializedObj.ContainsKey("scroll") && serializedObj["scroll"] != null)
                 {
@@ -167,6 +172,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.Height = GetInt32FromSerializedObj(serializedObj, "height");
                 obj.Hidden = GetBooleanFromSerializedObj(serializedObj, "hiddengrid", false);
                 obj.HiddenEnabled  = GetBooleanFromSerializedObj(serializedObj, "hidegrid", true);
+                obj.LoadOnce = GetBooleanFromSerializedObj(serializedObj, "loadonce", false);
                 obj.MethodType = GetEnumFromSerializedObj<JqGridMethodTypes>(serializedObj, "mtype", JqGridMethodTypes.Get);
                 
                 if (serializedObj.ContainsKey("pager") && serializedObj["pager"] != null)
@@ -185,6 +191,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.ColumnsRemaping = GetInt32ArrayFromSerializedObj(serializedObj, "remapColumns");
                 obj.RowsList = GetInt32ArrayFromSerializedObj(serializedObj, "rowList");
                 obj.RowsNumber = GetInt32FromSerializedObj(serializedObj, "rowNum", 20);
+                obj.ShrinkToFit = GetBooleanFromSerializedObj(serializedObj, "shrinkToFit", true);
                 obj.ScrollOffset = GetInt32FromSerializedObj(serializedObj, "scrollOffset", 18);
                 obj.SortingName = GetStringFromSerializedObj(serializedObj, "sortname");
                 obj.SortingOrder = GetEnumFromSerializedObj<JqGridSortingOrders>(serializedObj, "sortorder", JqGridSortingOrders.Asc);
@@ -211,8 +218,20 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
         {
             serializedObj.Add("id", obj.Id);
 
+            if (obj.AltClass != JqGridOptionsDefaults.AltClass)
+                serializedObj.Add("altclass", obj.AltClass);
+
+            if (obj.AltRows)
+                serializedObj.Add("altRows", true);
+
+            if (obj.AutoEncode)
+                serializedObj.Add("autoencode", true);
+
             if (obj.AutoWidth)
                 serializedObj.Add("autowidth", true);
+
+            if (obj.CellLayout != JqGridOptionsDefaults.CellLayout)
+                serializedObj.Add("cellLayout", obj.CellLayout);
 
             if (obj.CellEditingEnabled)
             {
@@ -244,6 +263,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             if (obj.DataType != JqGridDataTypes.Xml)
                 serializedObj.Add("datatype", obj.DataType.ToString().ToLower());
+
+            if (obj.DeepEmpty)
+                serializedObj.Add("deepempty", true);
+
+            if (obj.Direction != JqGridLanguageDirections.Ltr)
+                serializedObj.Add("direction", "rtl");
 
             if (obj.DynamicScrollingMode == JqGridDynamicScrollingModes.HoldAllRows)
                 serializedObj.Add("scroll", true);
@@ -277,6 +302,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             else
                 serializedObj.Add("height", "100%");
 
+            if (obj.LoadOnce)
+                serializedObj.Add("loadonce", true);
+
             if (obj.MethodType != JqGridMethodTypes.Get)
                 serializedObj.Add("mtype", "POST");
 
@@ -296,6 +324,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             if (obj.RowsNumber != 20)
                 serializedObj.Add("rowNum", obj.RowsNumber);
+
+            if (!obj.ShrinkToFit)
+                serializedObj.Add("shrinkToFit", false);
 
             if (obj.ScrollOffset != 18)
                 serializedObj.Add("scrollOffset", obj.ScrollOffset);

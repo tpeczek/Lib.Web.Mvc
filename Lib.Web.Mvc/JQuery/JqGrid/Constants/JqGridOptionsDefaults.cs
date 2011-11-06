@@ -159,5 +159,15 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Constants
         /// The default value for currency formatter.
         /// </summary>
         public const string CurrencyFormatterDefaultValue = "0.00";
+
+        /// <summary>
+        /// The class that is used for alternate rows.
+        /// </summary>
+        public const string  AltClass = "ui-priority-secondary";
+
+        /// <summary>
+        /// the padding plus border width of the cell.
+        /// </summary>
+        public const int CellLayout = 5;
     }
 }
