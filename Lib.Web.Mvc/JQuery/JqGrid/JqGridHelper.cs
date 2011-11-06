@@ -33,6 +33,23 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         private bool _footerDataUseFormatters = true;
         #endregion
 
+        #region Properties
+        /// <summary>
+        /// Gets the grid identifier.
+        /// </summary>
+        public string Id { get { return _options.Id; } }
+
+        /// <summary>
+        /// Gets the grid pager identifier.
+        /// </summary>
+        public string PagerId { get { return _options.Id + "Pager"; } }
+
+        /// <summary>
+        /// Gets the filter grid (div) placeholder identifier.
+        /// </summary>
+        public string FilterGridId { get { return _options.Id + "Search"; } }
+        #endregion
+
         #region Constructor
         /// <summary>
         /// Initializes a new instance of the JqGridHelper class.
@@ -137,7 +154,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <returns>The HTML that represents the table placeholder for jqGrid</returns>
         public MvcHtmlString GetTableHtml()
         {
-            return MvcHtmlString.Create(String.Format("<table id='{0}'></table>", _options.Id));
+            return MvcHtmlString.Create(String.Format("<table id='{0}'></table>", Id));
         }
 
         /// <summary>
@@ -146,7 +163,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <returns>The HTML that represents the pager (div) placeholder for jqGrid</returns>
         public MvcHtmlString GetPagerHtml()
         {
-            return MvcHtmlString.Create(String.Format("<div id='{0}Pager'></div>", _options.Id));
+            return MvcHtmlString.Create(String.Format("<div id='{0}'></div>", PagerId));
         }
 
         /// <summary>
@@ -155,7 +172,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <returns>The HTML that represents the filter grid (div) placeholder for jqGrid</returns>
         public MvcHtmlString GetFilterGridHtml()
         {
-            return MvcHtmlString.Create(String.Format("<div id='{0}Search'></div>", _options.Id));
+            return MvcHtmlString.Create(String.Format("<div id='{0}'></div>", FilterGridId));
         }
 
         /// <summary>
@@ -178,7 +195,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         {
             StringBuilder javaScriptBuilder = new StringBuilder();
 
-            javaScriptBuilder.AppendFormat("$('#{0}').jqGrid({{", _options.Id).AppendLine();
+            javaScriptBuilder.AppendFormat("$('#{0}').jqGrid({{", Id).AppendLine();
             AppendColumnsNames(ref javaScriptBuilder);
             AppendColumnsModels(ref javaScriptBuilder);
             AppendOptions(ref javaScriptBuilder);
@@ -702,7 +719,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.AppendFormat("onSortCol: {0},", _options.OnSortCol).AppendLine();
 
             if (_options.Pager)
-                javaScriptBuilder.AppendFormat("pager: '#{0}Pager',", _options.Id).AppendLine();
+                javaScriptBuilder.AppendFormat("pager: '#{0}',", PagerId).AppendLine();
 
             AppendParametersNames(ref javaScriptBuilder);
 
@@ -999,7 +1016,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
         private void AppendNavigator(ref StringBuilder javaScriptBuilder)
         {
-            javaScriptBuilder.AppendFormat(".jqGrid('navGrid', '#{0}Pager',", _options.Id).AppendLine();
+            javaScriptBuilder.AppendFormat(".jqGrid('navGrid', '#{0}',", PagerId).AppendLine();
             AppendNavigatorOptions(ref javaScriptBuilder);
 
             if (_navigatorEditActionOptions != null || _navigatorAddActionOptions != null || _navigatorDeleteActionOptions != null || _navigatorSearchActionOptions != null || _navigatorViewActionOptions != null)
@@ -1272,7 +1289,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
         private void AppendNavigatorButton(JqGridNavigatorButtonOptions buttonOptions, ref StringBuilder javaScriptBuilder)
         {
-            javaScriptBuilder.AppendFormat(".jqGrid('navButtonAdd', '#{0}Pager', {{ ", _options.Id);
+            javaScriptBuilder.AppendFormat(".jqGrid('navButtonAdd', '#{0}', {{ ", PagerId);
 
             if (buttonOptions.Caption != JqGridNavigatorDefaults.ButtonCaption)
                 javaScriptBuilder.AppendFormat("caption: '{0}', ", buttonOptions.Caption);
@@ -1309,7 +1326,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
         private void AppendNavigatorSeparator(JqGridNavigatorSeparatorOptions separatorOptions, ref StringBuilder javaScriptBuilder)
         {
-            javaScriptBuilder.AppendFormat(".jqGrid('navSeparatorAdd', '#{0}Pager', {{ ", _options.Id);
+            javaScriptBuilder.AppendFormat(".jqGrid('navSeparatorAdd', '#{0}', {{ ", PagerId);
 
             if (separatorOptions.Class != JqGridNavigatorDefaults.SeparatorClass)
                 javaScriptBuilder.AppendFormat("sepclass: '{0}', ", separatorOptions.Class);
@@ -1360,7 +1377,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
         private void AppendFilterGrid(ref StringBuilder javaScriptBuilder)
         {
-            javaScriptBuilder.AppendFormat("$('#{0}Search').jqGrid('filterGrid', '#{1}', {{", _options.Id, _options.Id).AppendLine();
+            javaScriptBuilder.AppendFormat("$('#{0}').jqGrid('filterGrid', '#{1}', {{", FilterGridId, Id).AppendLine();
             javaScriptBuilder.AppendLine("gridModel: false, gridNames: false,");
 
             javaScriptBuilder.AppendLine("filterModel: [");
