@@ -1105,6 +1105,17 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                     }
                 }
             }
+            if (serializedObj.ContainsKey("groups") && serializedObj["groups"] is ArrayList)
+            {
+                foreach (object innerSerializedObj in (ArrayList)serializedObj["groups"])
+                {
+                    if (innerSerializedObj is IDictionary<string, object>)
+                    {
+                        JqGridRequestSearchingFilters searchingFilters = DeserializeJqGridRequestSearchingFilters((IDictionary<string, object>)innerSerializedObj, serializer);
+                        obj.Groups.Add(searchingFilters);
+                    }
+                }
+            }
 
             return obj;
         }
