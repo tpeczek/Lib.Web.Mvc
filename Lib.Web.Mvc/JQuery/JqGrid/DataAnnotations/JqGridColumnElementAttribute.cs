@@ -158,6 +158,15 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             get { return Rules.Url; }
             set { Rules.Url = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the set of value:label pairs for select element.
+        /// </summary>
+        public string Value
+        {
+            get { return Options.Value; }
+            set { Options.Value = value; }
+        }
         #endregion
     }
 }

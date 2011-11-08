@@ -40,6 +40,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets a dictionary where keys should be valid attributes for the element.
         /// </summary>
         public IDictionary<string, object> HtmlAttributes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the set of value:label pairs for select element.
+        /// </summary>
+        public string Value { get; set; }
         #endregion
     }
 }

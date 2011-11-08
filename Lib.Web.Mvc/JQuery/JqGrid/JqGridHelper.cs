@@ -391,6 +391,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
             if (!String.IsNullOrWhiteSpace(elementOptions.DefaultValue))
                 javaScriptBuilder.AppendFormat("defaultValue: '{0}', ", elementOptions.DefaultValue);
+
+            if (!String.IsNullOrWhiteSpace(elementOptions.Value))
+                javaScriptBuilder.AppendFormat("value: '{0}', ", elementOptions.Value);
         }
 
         private static void AppendColumnRules(string rulesName, JqGridColumnRules rules, ref StringBuilder javaScriptBuilder)
