@@ -5,6 +5,7 @@ using System.Text;
 using System.Web.Routing;
 using System.Web.Mvc;
 using System.Web;
+using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
 {
@@ -103,13 +104,18 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         }
 
         /// <summary>
-        /// Gets or sets if the value should be valid ISO date.
+        /// Gets or sets if the value should be valid date.
         /// </summary>
         public bool DateValidation
         {
             get { return Rules.Date; }
             set { Rules.Date = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the expected date format for this column in case of date validation (default ISO date). 
+        /// </summary>
+        public string DateFormat { get; set; }
 
         /// <summary>
         /// Gets or sets the default value in the search input element.
@@ -165,6 +171,17 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         public virtual string Value{ get; set; }
         #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the JqGridColumnElementAttribute class.
+        /// </summary>
+        public JqGridColumnElementAttribute()
+        {
+            DateFormat = JqGridOptionsDefaults.DateFormat;
+            Rules = new JqGridColumnRules();
+        }
+        #endregion
+
         #region IMetadataAware
         /// <summary>
         /// Provides metadata to the model metadata creation process.
@@ -178,6 +195,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
                 Rules.Integer = true;
             else if ((metadata.ModelType == typeof(Decimal)) || (metadata.ModelType == typeof(Double)) || (metadata.ModelType == typeof(Single)))
                 Rules.Number = true;
+
+            metadata.SetColumnDateFormat(DateFormat);
 
             InternalOnMetadataCreated(metadata);
         }

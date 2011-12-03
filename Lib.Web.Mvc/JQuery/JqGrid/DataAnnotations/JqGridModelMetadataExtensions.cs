@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
 {
@@ -12,6 +13,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         private const string _alignmentKey = "JqGridColumnModel.Alignment";
         private const string _cellAttributesKey = "JqGridColumnModel.CellAttributes";
         private const string _classesKey = "JqGridColumnModel.Classes";
+        private const string _dateFormatKey = "JqGridColumnModel.DateFormat";
         private const string _fixedKey = "JqGridColumnModel.Fixed";
         private const string _resizableKey = "JqGridColumnModel.Resizable";
         private const string _titleKey = "JqGridColumnModel.Title";
@@ -76,6 +78,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
                 return (string)metadata.AdditionalValues[_classesKey];
             else
                 return String.Empty;
+        }
+
+        internal static void SetColumnDateFormat(this ModelMetadata metadata, string dateFormat)
+        {
+            metadata.AdditionalValues.Add(_dateFormatKey, dateFormat);
+        }
+
+        internal static string GetColumnDateFormat(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_dateFormatKey))
+                return (string)metadata.AdditionalValues[_dateFormatKey];
+            else
+                return JqGridOptionsDefaults.DateFormat;
         }
 
         internal static void SetColumnFixed(this ModelMetadata metadata, bool @fixed)

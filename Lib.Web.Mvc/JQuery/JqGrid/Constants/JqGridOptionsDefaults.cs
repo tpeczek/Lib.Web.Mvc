@@ -166,8 +166,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Constants
         public const string  AltClass = "ui-priority-secondary";
 
         /// <summary>
-        /// the padding plus border width of the cell.
+        /// The padding plus border width of the cell.
         /// </summary>
         public const int CellLayout = 5;
+
+        /// <summary>
+        /// The ISO date format.
+        /// </summary>
+        public const string DateFormat = "Y-m-d";
     }
 }

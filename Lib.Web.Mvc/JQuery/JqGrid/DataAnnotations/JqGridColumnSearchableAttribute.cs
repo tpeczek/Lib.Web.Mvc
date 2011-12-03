@@ -65,10 +65,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         /// <param name="searchable">If this column can be searched</param>
         public JqGridColumnSearchableAttribute(bool searchable)
+            : base()
         {
             Searchable = searchable;
             SearchOptions = new JqGridColumnSearchOptions();
-            Rules = new JqGridColumnRules();
             SearchType = JqGridColumnSearchTypes.Text;
         }
 

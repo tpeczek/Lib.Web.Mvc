@@ -121,10 +121,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         /// <param name="editable">If this column can be edited</param>
         public JqGridColumnEditableAttribute(bool editable)
+            : base()
         {
             Editable = editable;
             EditOptions = new JqGridColumnEditOptions();
-            Rules = new JqGridColumnRules();
             EditType = JqGridColumnEditTypes.Text;
             FormOptions = new JqGridColumnFormOptions();
         }

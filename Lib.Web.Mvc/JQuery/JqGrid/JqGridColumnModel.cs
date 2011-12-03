@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Web.Mvc;
 using Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations;
 using System.ComponentModel.DataAnnotations;
+using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
@@ -29,6 +30,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets additional CSS classes for the column (separated by space).
         /// </summary>
         public string Classes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the expected date format for this column in case of date validation (default ISO date). 
+        /// </summary>
+        public string DateFormat { get; set; }
 
         /// <summary>
         /// Gets or set the value defining if this column can be edited.
@@ -167,6 +173,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         {
             Alignment = JqGridAlignments.Left;
             CellAttributes = null;
+            DateFormat = JqGridOptionsDefaults.DateFormat;
             Editable = false;
             EditOptions = null;
             EditRules = null;
@@ -204,6 +211,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             Alignment = propertyMetadata.GetColumnAlignment();
             CellAttributes = propertyMetadata.GetColumnCellAttributes();
             Classes = propertyMetadata.GetColumnClasses();
+            DateFormat = propertyMetadata.GetColumnDateFormat();
             Fixed = propertyMetadata.GetColumnFixed();
             Resizable = propertyMetadata.GetColumnResizable();
             Title = propertyMetadata.GetColumnTitle();

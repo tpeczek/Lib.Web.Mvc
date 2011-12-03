@@ -259,6 +259,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (!String.IsNullOrWhiteSpace(columnModel.Classes))
                     javaScriptBuilder.AppendFormat("classes: '{0}', ", columnModel.Classes);
 
+                if (columnModel.DateFormat != JqGridOptionsDefaults.DateFormat)
+                    javaScriptBuilder.AppendFormat("datefmt: '{0}', ", columnModel.DateFormat);
+
                 if (columnModel.Editable)
                 {
                     javaScriptBuilder.Append("editable: true, ");

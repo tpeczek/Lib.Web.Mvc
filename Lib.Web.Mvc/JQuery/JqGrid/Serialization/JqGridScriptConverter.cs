@@ -379,6 +379,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 JqGridColumnModel obj = new JqGridColumnModel(name);
 
                 obj.Alignment = GetEnumFromSerializedObj<JqGridAlignments>(serializedObj, "align", obj.Alignment);
+                obj.DateFormat = GetStringFromSerializedObj(serializedObj, "datefmt", JqGridOptionsDefaults.DateFormat);
                 obj.Classes = GetStringFromSerializedObj(serializedObj, "classes");
                 obj.Editable = GetBooleanFromSerializedObj(serializedObj, "editable", false);
                 obj.EditType = GetEnumFromSerializedObj<JqGridColumnEditTypes>(serializedObj, "edittype", JqGridColumnEditTypes.Text);
@@ -438,6 +439,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             if (!String.IsNullOrWhiteSpace(obj.Classes))
                 serializedObj.Add("classes", obj.Classes);
+
+            if (obj.DateFormat != JqGridOptionsDefaults.DateFormat)
+                serializedObj.Add("datefmt", obj.DateFormat);
 
             if (obj.Editable)
             {
