@@ -10,10 +10,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
     {
         #region Fields
         private const string _alignmentKey = "JqGridColumnModel.Alignment";
+        private const string _cellAttributesKey = "JqGridColumnModel.CellAttributes";
         private const string _classesKey = "JqGridColumnModel.Classes";
         private const string _fixedKey = "JqGridColumnModel.Fixed";
         private const string _resizableKey = "JqGridColumnModel.Resizable";
+        private const string _titleKey = "JqGridColumnModel.Title";
         private const string _widthKey = "JqGridColumnModel.Width";
+        private const string _viewableKey = "JqGridColumnModel.Viewable";
         private const string _editableKey = "JqGridColumnModel.Editable";
         private const string _editOptionsKey = "JqGridColumnModel.EditOptions";
         private const string _editRulesKey = "JqGridColumnModel.EditRules";
@@ -47,6 +50,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
                 return (JqGridAlignments)metadata.AdditionalValues[_alignmentKey];
             else
                 return JqGridAlignments.Left;
+        }
+
+        internal static void SetColumnCellAttributes(this ModelMetadata metadata, string cellAttributes)
+        {
+            metadata.AdditionalValues.Add(_cellAttributesKey, cellAttributes);
+        }
+
+        internal static string GetColumnCellAttributes(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_cellAttributesKey))
+                return (string)metadata.AdditionalValues[_cellAttributesKey];
+            else
+                return null;
         }
 
         internal static void SetColumnClasses(this ModelMetadata metadata, string classes)
@@ -88,6 +104,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
                 return true;
         }
 
+        internal static void SetColumnTitle(this ModelMetadata metadata, bool title)
+        {
+            metadata.AdditionalValues.Add(_titleKey, title);
+        }
+
+        internal static bool GetColumnTitle(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_titleKey))
+                return (bool)metadata.AdditionalValues[_titleKey];
+            else
+                return true;
+        }
+
         internal static void SetColumnWidth(this ModelMetadata metadata, int width)
         {
             metadata.AdditionalValues.Add(_widthKey, width);
@@ -99,6 +128,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
                 return (int)metadata.AdditionalValues[_widthKey];
             else
                 return 150;
+        }
+
+        internal static void SetColumnViewable(this ModelMetadata metadata, bool viewable)
+        {
+            metadata.AdditionalValues.Add(_viewableKey, viewable);
+        }
+
+        internal static bool GetColumnViewable(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_viewableKey))
+                return (bool)metadata.AdditionalValues[_viewableKey];
+            else
+                return true;
         }
 
         internal static void SetColumnLabelOptions(this ModelMetadata metadata, JqGridColumnLabelOptions labelOptions)

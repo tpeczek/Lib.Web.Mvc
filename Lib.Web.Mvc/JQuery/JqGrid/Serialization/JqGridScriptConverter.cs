@@ -421,8 +421,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 if (serializedObj.ContainsKey("searchrules") && serializedObj["searchrules"] != null && serializedObj["searchrules"] is IDictionary<string, object>)
                     obj.SearchRules = DeserializeJqGridColumnRules((IDictionary<string, object>)serializedObj["searchrules"], serializer);
 
+                obj.Title = GetBooleanFromSerializedObj(serializedObj, "title", true);
                 obj.UnFormatter = GetStringFromSerializedObj(serializedObj, "unformat");
                 obj.Width = GetInt32FromSerializedObj(serializedObj, "width", 150);
+                obj.Viewable = GetBooleanFromSerializedObj(serializedObj, "viewable", true);
 
                 return obj;
             }
@@ -502,11 +504,17 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             serializedObj.Add("name", obj.Name);
 
+            if (!obj.Title)
+                serializedObj.Add("title", false);
+
             if (!String.IsNullOrWhiteSpace(obj.UnFormatter))
                 serializedObj.Add("unformat", obj.UnFormatter);
 
             if (obj.Width != 150)
                 serializedObj.Add("width", obj.Width);
+
+            if (!obj.Viewable)
+                serializedObj.Add("viewable", false);
         }
 
         private static JqGridColumnEditOptions DeserializeJqGridColumnEditOptions(IDictionary<string, object> serializedObj, JavaScriptSerializer serializer)

@@ -12,7 +12,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
     /// Specifies the editing options for column
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public sealed class JqGridColumnEditableAttribute : JqGridColumnElementAttribute, IMetadataAware
+    public sealed class JqGridColumnEditableAttribute : JqGridColumnElementAttribute
     {
         #region Properties
         /// <summary>
@@ -185,16 +185,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// Provides metadata to the model metadata creation process.
         /// </summary>
         /// <param name="metadata">The model metadata.</param>
-        public void OnMetadataCreated(ModelMetadata metadata)
+        protected override void InternalOnMetadataCreated(ModelMetadata metadata)
         {
             EditOptions.DataEvents = DataEvents;
             EditOptions.DataUrl = DataUrl;
             EditOptions.HtmlAttributes = HtmlAttributes;
-
-            if ((metadata.ModelType == typeof(Int16)) || (metadata.ModelType == typeof(Int32)) || (metadata.ModelType == typeof(Int64)) || (metadata.ModelType == typeof(UInt16)) || (metadata.ModelType == typeof(UInt32)) || (metadata.ModelType == typeof(UInt32)))
-                Rules.Integer = true;
-            else if ((metadata.ModelType == typeof(Decimal)) || (metadata.ModelType == typeof(Double)) || (metadata.ModelType == typeof(Single)))
-                Rules.Number = true;
 
             metadata.SetColumnEditable(Editable);
             metadata.SetColumnEditOptions(EditOptions);

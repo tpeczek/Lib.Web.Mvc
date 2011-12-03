@@ -253,6 +253,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (!String.IsNullOrWhiteSpace(columnModel.Index))
                     javaScriptBuilder.AppendFormat("index: '{0}', ", columnModel.Index);
 
+                if (!String.IsNullOrWhiteSpace(columnModel.CellAttributes))
+                    javaScriptBuilder.AppendFormat("cellattr: {0}, ", columnModel.CellAttributes);
+
                 if (!String.IsNullOrWhiteSpace(columnModel.Classes))
                     javaScriptBuilder.AppendFormat("classes: '{0}', ", columnModel.Classes);
 
@@ -313,8 +316,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (!columnModel.Sortable)
                     javaScriptBuilder.AppendFormat("sortable: false, ");
 
+                if (!columnModel.Title)
+                    javaScriptBuilder.AppendFormat("title: false, ");
+
                 if (columnModel.Width != 150)
                     javaScriptBuilder.AppendFormat("width: {0}, ", columnModel.Width);
+
+                if (!columnModel.Viewable)
+                    javaScriptBuilder.AppendFormat("viewable: false, ");
 
                 javaScriptBuilder.AppendFormat("name: '{0}' }}", columnModel.Name);
 

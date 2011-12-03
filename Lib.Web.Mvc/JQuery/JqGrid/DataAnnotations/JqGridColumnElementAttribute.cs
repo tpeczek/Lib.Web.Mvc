@@ -11,7 +11,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
     /// <summary>
     /// Base class which specifies the options for jqGrid editable or searchable column element
     /// </summary>
-    public abstract class JqGridColumnElementAttribute : Attribute
+    public abstract class JqGridColumnElementAttribute : Attribute, IMetadataAware
     {
         #region Properties
         internal string DataUrl
@@ -162,11 +162,31 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <summary>
         /// Gets or sets the set of value:label pairs for select element.
         /// </summary>
-        public string Value
+        public virtual string Value{ get; set; }
+        #endregion
+
+        #region IMetadataAware
+        /// <summary>
+        /// Provides metadata to the model metadata creation process.
+        /// </summary>
+        /// <param name="metadata">The model metadata.</param>
+        public void OnMetadataCreated(ModelMetadata metadata)
         {
-            get { return Options.Value; }
-            set { Options.Value = value; }
+            Options.Value = Value;
+
+            if ((metadata.ModelType == typeof(Int16)) || (metadata.ModelType == typeof(Int32)) || (metadata.ModelType == typeof(Int64)) || (metadata.ModelType == typeof(UInt16)) || (metadata.ModelType == typeof(UInt32)) || (metadata.ModelType == typeof(UInt32)))
+                Rules.Integer = true;
+            else if ((metadata.ModelType == typeof(Decimal)) || (metadata.ModelType == typeof(Double)) || (metadata.ModelType == typeof(Single)))
+                Rules.Number = true;
+
+            InternalOnMetadataCreated(metadata);
         }
+
+        /// <summary>
+        /// Provides metadata to the model metadata creation process in derivered class.
+        /// </summary>
+        /// <param name="metadata">The model metadata.</param>
+        protected abstract void InternalOnMetadataCreated(ModelMetadata metadata);
         #endregion
     }
 }

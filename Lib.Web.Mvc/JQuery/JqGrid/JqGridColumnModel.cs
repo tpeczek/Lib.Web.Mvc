@@ -21,6 +21,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridAlignments Alignment { get; set; }
 
         /// <summary>
+        /// Gets or sets the function which can add attributes to the cell during the creation of the data (dynamically).
+        /// </summary>
+        public string CellAttributes { get; set; }
+
+        /// <summary>
         /// Gets or sets additional CSS classes for the column (separated by space).
         /// </summary>
         public string Classes { get; set; }
@@ -133,6 +138,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string Name { get; private set; }
 
         /// <summary>
+        /// Gets or sets the value which defines if the title should be displayed in the column when user hovers a cell with the mouse.
+        /// </summary>
+        public bool Title { get; set; }
+
+        /// <summary>
         /// Gets or sets the custom function to "unformat" a value of the cell when used in editing or client-side sorting
         /// </summary>
         public string UnFormatter { get; set; }
@@ -141,6 +151,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the initial width in pixels of the column (default 150).
         /// </summary>
         public int Width { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value which defines if the column should appear in view form.
+        /// </summary>
+        public bool Viewable { get; set; }
         #endregion
 
         #region Constructor
@@ -151,6 +166,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridColumnModel(string name)
         {
             Alignment = JqGridAlignments.Left;
+            CellAttributes = null;
             Editable = false;
             EditOptions = null;
             EditRules = null;
@@ -173,8 +189,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             SummaryTemplate = "{0}";
             SummaryFunction = null;
             Sortable = true;
+            Title = true;
             UnFormatter = String.Empty;
             Width = 150;
+            Viewable = true;
         }
 
         internal JqGridColumnModel(ModelMetadata propertyMetadata)
@@ -184,10 +202,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             RangeAttribute rangeAttribute = customAttributes.OfType<RangeAttribute>().FirstOrDefault();
 
             Alignment = propertyMetadata.GetColumnAlignment();
+            CellAttributes = propertyMetadata.GetColumnCellAttributes();
             Classes = propertyMetadata.GetColumnClasses();
             Fixed = propertyMetadata.GetColumnFixed();
             Resizable = propertyMetadata.GetColumnResizable();
+            Title = propertyMetadata.GetColumnTitle();
             Width = propertyMetadata.GetColumnWidth();
+            Viewable = propertyMetadata.GetColumnViewable();
 
             Editable = propertyMetadata.GetColumnEditable();
             EditOptions = propertyMetadata.GetColumnEditOptions();

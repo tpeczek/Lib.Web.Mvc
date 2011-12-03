@@ -12,7 +12,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
     /// Specifies the searching options for column
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class JqGridColumnSearchableAttribute : JqGridColumnElementAttribute, IMetadataAware
+    public class JqGridColumnSearchableAttribute : JqGridColumnElementAttribute
     {
         #region Properties
         /// <summary>
@@ -128,16 +128,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// Provides metadata to the model metadata creation process.
         /// </summary>
         /// <param name="metadata">The model metadata.</param>
-        public void OnMetadataCreated(ModelMetadata metadata)
+        protected override void InternalOnMetadataCreated(ModelMetadata metadata)
         {
             SearchOptions.DataEvents = DataEvents;
             SearchOptions.DataUrl = DataUrl;
             SearchOptions.HtmlAttributes = HtmlAttributes;
-
-            if ((metadata.ModelType == typeof(Int16)) || (metadata.ModelType == typeof(Int32)) || (metadata.ModelType == typeof(Int64)) || (metadata.ModelType == typeof(UInt16)) || (metadata.ModelType == typeof(UInt32)) || (metadata.ModelType == typeof(UInt32)))
-                Rules.Integer = true;
-            else if ((metadata.ModelType == typeof(Decimal)) || (metadata.ModelType == typeof(Double)) || (metadata.ModelType == typeof(Single)))
-                Rules.Number = true;
 
             metadata.SetColumnSearchable(Searchable);
             metadata.SetColumnSearchOptions(SearchOptions);

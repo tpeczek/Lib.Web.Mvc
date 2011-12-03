@@ -19,6 +19,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         public JqGridAlignments Alignment { get; set; }
 
         /// <summary>
+        /// Gets or sets the function which can add attributes to the cell during the creation of the data (dynamically).
+        /// </summary>
+        public string CellAttributes { get; set; }
+
+        /// <summary>
         /// Gets or sets additional CSS classes for the column (separated by space).
         /// </summary>
         public string Classes { get; set; }
@@ -34,9 +39,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         public bool Resizable { get; set; }
 
         /// <summary>
+        /// Gets or sets the value which defines if the title should be displayed in the column when user hovers a cell with the mouse.
+        /// </summary>
+        public bool Title { get; set; }
+
+        /// <summary>
         /// Gets or sets the initial width in pixels of the column (default 150).
         /// </summary>
         public int Width { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value which defines if the column should appear in view form.
+        /// </summary>
+        public bool Viewable { get; set; }
         #endregion
 
         #region Constructor
@@ -46,9 +61,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         public JqGridColumnLayoutAttribute()
         {
             Alignment = JqGridAlignments.Left;
+            CellAttributes = null;
             Fixed = false;
             Resizable = true;
+            Title = true;
             Width = 150;
+            Viewable = true;
         }
         #endregion
 
@@ -60,9 +78,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         public void OnMetadataCreated(ModelMetadata metadata)
         {
             metadata.SetColumnAlignment(Alignment);
+            metadata.SetColumnCellAttributes(CellAttributes);
             metadata.SetColumnClasses(Classes);
             metadata.SetColumnFixed(Fixed);
             metadata.SetColumnResizable(Resizable);
+            metadata.SetColumnTitle(Title);
             metadata.SetColumnWidth(Width);
         }
         #endregion
