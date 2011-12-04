@@ -195,6 +195,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.ColumnsRemaping = GetInt32ArrayFromSerializedObj(serializedObj, "remapColumns");
                 obj.RowsList = GetInt32ArrayFromSerializedObj(serializedObj, "rowList");
                 obj.RowsNumber = GetInt32FromSerializedObj(serializedObj, "rowNum", 20);
+                obj.RowsNumbers = GetBooleanFromSerializedObj(serializedObj, "rownumbers", false);
+                obj.RowsNumbersWidth = GetInt32FromSerializedObj(serializedObj, "rownumWidth", 25);
                 obj.ShrinkToFit = GetBooleanFromSerializedObj(serializedObj, "shrinkToFit", true);
                 obj.ScrollOffset = GetInt32FromSerializedObj(serializedObj, "scrollOffset", 18);
                 obj.SortingName = GetStringFromSerializedObj(serializedObj, "sortname");
@@ -342,6 +344,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             if (obj.RowsNumber != 20)
                 serializedObj.Add("rowNum", obj.RowsNumber);
+
+            if (obj.RowsNumbers)
+                serializedObj.Add("rownumbers", true);
+
+            if (obj.RowsNumbersWidth != 25)
+                serializedObj.Add("rownumWidth", obj.RowsNumbersWidth);
 
             if (!obj.ShrinkToFit)
                 serializedObj.Add("shrinkToFit", false);

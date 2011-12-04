@@ -349,6 +349,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public int RowsNumber { get; set; }
 
         /// <summary>
+        /// Gets or sets the value which defines whether a new column, which purpose is to count the number of available rows, should be added at left of the grid.
+        /// </summary>
+        public bool RowsNumbers { get; set; }
+
+        /// <summary>
+        /// Gets or sets the width of the row number column.
+        /// </summary>
+        public int RowsNumbersWidth { get; set; }
+
+        /// <summary>
         /// Gets or sets the value which defines whether the columns width should be recalculated to fit the width of the grid.
         /// </summary>
         public bool ShrinkToFit { get; set; }
@@ -528,6 +538,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             ResizeStop = null;
             RowsList = null;
             RowsNumber = 20;
+            RowsNumbers = false;
+            RowsNumbersWidth = 25;
             ScrollOffset = 18;
             ShrinkToFit = true;
             SerializeCellData = null;
