@@ -127,14 +127,15 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <param name="subGridBeforeExpand">The function for event which is raised just before expanding the subgrid.</param>
         /// <param name="subGridRowColapsed">The function for event which is raised when the user clicks on the plus icon of the grid.</param>
         /// <param name="subGridRowExpanded">The function for event which is raised when the user clicks on the minus icon of the grid.</param>
+        /// <param name="topPager">The value indicating if jqGrid should place a pager element at top of the grid below the caption (if available).</param>
         /// <param name="treeGridEnabled">The value which defines if TreeGrid is enabled.</param>
         /// <param name="treeGridModel">The model for TreeGrid.</param>
         /// <param name="url">The url for data requests.</param>
         /// <param name="userDataOnFooter">The value indicating if the values from user data should be placed on footer.</param>
         /// <param name="viewRecords">If grid should display the beginning and ending record number out of the total number of records in the query.</param>
         /// <param name="width">The width of the grid in pixels.</param>
-        public JqGridHelper(string id, string afterInsertRow = null, string afterEditCell = null, string afterRestoreCell = null, string afterSaveCell = null, string afterSubmitCell = null, string altClass = JqGridOptionsDefaults.AltClass, bool altRows = false, bool autoEncode = false, bool autoWidth = false, string beforeRequest = null, string beforeSelectRow = null, string beforeEditCell = null, string beforeSaveCell = null, string beforeSubmitCell = null, string caption = null, int cellLayout = JqGridOptionsDefaults.CellLayout, bool cellEditingEnabled = false, JqGridCellEditingSubmitModes cellEditingSubmitMode = JqGridCellEditingSubmitModes.Remote, string cellEditingUrl = null, string dataString = null, JqGridDataTypes dataType = JqGridDataTypes.Xml, bool deepEmpty = false, JqGridLanguageDirections direction = JqGridLanguageDirections.Ltr, JqGridDynamicScrollingModes dynamicScrollingMode = JqGridDynamicScrollingModes.Disabled, int dynamicScrollingTimeout = 200, string editingUrl = null, bool expandColumnClick = true, string expandColumn = null, int? height = null, string errorCell = null, string formatCell = null, bool footerEnabled = false, bool groupingEnabled = false, JqGridGroupingView groupingView = null, bool hidden = false, bool hiddenEnabled = true, JqGridJsonReader jsonReader = null, string loadBeforeSend = null, string loadError = null, string loadComplete = null, bool loadOnce = false, JqGridMethodTypes methodType = JqGridMethodTypes.Get, string gridComplete = null, string onCellSelect = null, string onDoubleClickRow = null, string onHeaderClick = null, string onPaging = null, string onRightClickRow = null, string onSelectAll = null, string onSelectCell = null, string onSelectRow = null, string onSortCol = null, bool pager = false, JqGridParametersNames parametersNames = null, string resizeStart = null, string resizeStop = null, List<int> rowsList = null, int rowsNumber = 20, bool shrinkToFit = true, int scrollOffset = 18, string serializeCellData = null, string serializeGridData = null, string serializeSubGridData = null, string sortingName = "", JqGridSortingOrders sortingOrder = JqGridSortingOrders.Asc, bool subgridEnabled = false, JqGridSubgridModel subgridModel = null, string subgridUrl = null, int subgridColumnWidth = 20, string subGridBeforeExpand = null, string subGridRowColapsed = null, string subGridRowExpanded = null, bool treeGridEnabled = false, JqGridTreeGridModels treeGridModel = JqGridTreeGridModels.Nested, string url = null, bool userDataOnFooter = false, bool viewRecords = false, int? width = null)
-            : this(new JqGridOptions<TModel>(id) { AfterInsertRow = afterInsertRow, AfterEditCell = afterEditCell, AfterRestoreCell = afterRestoreCell, AfterSaveCell = afterSaveCell, AfterSubmitCell = afterSubmitCell, AltClass = altClass, AltRows = altRows, AutoEncode = autoEncode, AutoWidth = autoWidth, BeforeRequest = beforeRequest, BeforeSelectRow = beforeSelectRow, BeforeEditCell = beforeEditCell, BeforeSaveCell = beforeSaveCell, BeforeSubmitCell = beforeSubmitCell, Caption = caption, CellLayout = cellLayout, CellEditingEnabled = cellEditingEnabled, CellEditingSubmitMode = cellEditingSubmitMode, CellEditingUrl = cellEditingUrl, DataString = dataString, DataType = dataType, DeepEmpty = deepEmpty, Direction = direction, DynamicScrollingMode = dynamicScrollingMode, DynamicScrollingTimeout = dynamicScrollingTimeout, EditingUrl = editingUrl, ExpandColumnClick = expandColumnClick, ExpandColumn = expandColumn, ErrorCell = errorCell, FormatCell = formatCell, FooterEnabled = footerEnabled, GroupingEnabled = groupingEnabled, GroupingView = groupingView, Height = height, Hidden = hidden, HiddenEnabled = hiddenEnabled, JsonReader = (jsonReader != null) ? jsonReader : JqGridResponse.JsonReader, LoadBeforeSend = loadBeforeSend, LoadError = loadError, LoadComplete = loadComplete, LoadOnce = loadOnce, MethodType = methodType, GridComplete = gridComplete, OnCellSelect = onCellSelect, OnDoubleClickRow = onDoubleClickRow, OnHeaderClick = onHeaderClick, OnPaging = onPaging, OnRightClickRow = onRightClickRow, OnSelectAll = onSelectAll, OnSelectRow = onSelectRow, OnSelectCell = onSelectCell, OnSortCol = onSortCol, Pager = pager, ParametersNames = (parametersNames != null) ? parametersNames : JqGridRequest.ParameterNames, RowsList = rowsList, RowsNumber = rowsNumber, ShrinkToFit = shrinkToFit, ScrollOffset = scrollOffset, SerializeCellData = serializeCellData, SerializeGridData = serializeGridData, SerializeSubGridData = serializeSubGridData, SortingName = sortingName, SortingOrder = sortingOrder, SubgridEnabled = subgridEnabled, SubgridModel = subgridModel, SubgridUrl = subgridUrl, SubgridColumnWidth = subgridColumnWidth, SubGridBeforeExpand = subGridBeforeExpand, SubGridRowColapsed = subGridRowColapsed, SubGridRowExpanded = subGridRowExpanded, TreeGridEnabled = treeGridEnabled, TreeGridModel = treeGridModel, Url = url, UserDataOnFooter = userDataOnFooter, ViewRecords = viewRecords, Width = width })
+        public JqGridHelper(string id, string afterInsertRow = null, string afterEditCell = null, string afterRestoreCell = null, string afterSaveCell = null, string afterSubmitCell = null, string altClass = JqGridOptionsDefaults.AltClass, bool altRows = false, bool autoEncode = false, bool autoWidth = false, string beforeRequest = null, string beforeSelectRow = null, string beforeEditCell = null, string beforeSaveCell = null, string beforeSubmitCell = null, string caption = null, int cellLayout = JqGridOptionsDefaults.CellLayout, bool cellEditingEnabled = false, JqGridCellEditingSubmitModes cellEditingSubmitMode = JqGridCellEditingSubmitModes.Remote, string cellEditingUrl = null, string dataString = null, JqGridDataTypes dataType = JqGridDataTypes.Xml, bool deepEmpty = false, JqGridLanguageDirections direction = JqGridLanguageDirections.Ltr, JqGridDynamicScrollingModes dynamicScrollingMode = JqGridDynamicScrollingModes.Disabled, int dynamicScrollingTimeout = 200, string editingUrl = null, bool expandColumnClick = true, string expandColumn = null, int? height = null, string errorCell = null, string formatCell = null, bool footerEnabled = false, bool groupingEnabled = false, JqGridGroupingView groupingView = null, bool hidden = false, bool hiddenEnabled = true, JqGridJsonReader jsonReader = null, string loadBeforeSend = null, string loadError = null, string loadComplete = null, bool loadOnce = false, JqGridMethodTypes methodType = JqGridMethodTypes.Get, string gridComplete = null, string onCellSelect = null, string onDoubleClickRow = null, string onHeaderClick = null, string onPaging = null, string onRightClickRow = null, string onSelectAll = null, string onSelectCell = null, string onSelectRow = null, string onSortCol = null, bool pager = false, JqGridParametersNames parametersNames = null, string resizeStart = null, string resizeStop = null, List<int> rowsList = null, int rowsNumber = 20, bool shrinkToFit = true, int scrollOffset = 18, string serializeCellData = null, string serializeGridData = null, string serializeSubGridData = null, string sortingName = "", JqGridSortingOrders sortingOrder = JqGridSortingOrders.Asc, bool subgridEnabled = false, JqGridSubgridModel subgridModel = null, string subgridUrl = null, int subgridColumnWidth = 20, string subGridBeforeExpand = null, string subGridRowColapsed = null, string subGridRowExpanded = null, bool topPager = false, bool treeGridEnabled = false, JqGridTreeGridModels treeGridModel = JqGridTreeGridModels.Nested, string url = null, bool userDataOnFooter = false, bool viewRecords = false, int? width = null)
+            : this(new JqGridOptions<TModel>(id) { AfterInsertRow = afterInsertRow, AfterEditCell = afterEditCell, AfterRestoreCell = afterRestoreCell, AfterSaveCell = afterSaveCell, AfterSubmitCell = afterSubmitCell, AltClass = altClass, AltRows = altRows, AutoEncode = autoEncode, AutoWidth = autoWidth, BeforeRequest = beforeRequest, BeforeSelectRow = beforeSelectRow, BeforeEditCell = beforeEditCell, BeforeSaveCell = beforeSaveCell, BeforeSubmitCell = beforeSubmitCell, Caption = caption, CellLayout = cellLayout, CellEditingEnabled = cellEditingEnabled, CellEditingSubmitMode = cellEditingSubmitMode, CellEditingUrl = cellEditingUrl, DataString = dataString, DataType = dataType, DeepEmpty = deepEmpty, Direction = direction, DynamicScrollingMode = dynamicScrollingMode, DynamicScrollingTimeout = dynamicScrollingTimeout, EditingUrl = editingUrl, ExpandColumnClick = expandColumnClick, ExpandColumn = expandColumn, ErrorCell = errorCell, FormatCell = formatCell, FooterEnabled = footerEnabled, GroupingEnabled = groupingEnabled, GroupingView = groupingView, Height = height, Hidden = hidden, HiddenEnabled = hiddenEnabled, JsonReader = (jsonReader != null) ? jsonReader : JqGridResponse.JsonReader, LoadBeforeSend = loadBeforeSend, LoadError = loadError, LoadComplete = loadComplete, LoadOnce = loadOnce, MethodType = methodType, GridComplete = gridComplete, OnCellSelect = onCellSelect, OnDoubleClickRow = onDoubleClickRow, OnHeaderClick = onHeaderClick, OnPaging = onPaging, OnRightClickRow = onRightClickRow, OnSelectAll = onSelectAll, OnSelectRow = onSelectRow, OnSelectCell = onSelectCell, OnSortCol = onSortCol, Pager = pager, ParametersNames = (parametersNames != null) ? parametersNames : JqGridRequest.ParameterNames, RowsList = rowsList, RowsNumber = rowsNumber, ShrinkToFit = shrinkToFit, ScrollOffset = scrollOffset, SerializeCellData = serializeCellData, SerializeGridData = serializeGridData, SerializeSubGridData = serializeSubGridData, SortingName = sortingName, SortingOrder = sortingOrder, SubgridEnabled = subgridEnabled, SubgridModel = subgridModel, SubgridUrl = subgridUrl, SubgridColumnWidth = subgridColumnWidth, SubGridBeforeExpand = subGridBeforeExpand, SubGridRowColapsed = subGridRowColapsed, SubGridRowExpanded = subGridRowExpanded, TopPager = topPager, TreeGridEnabled = treeGridEnabled, TreeGridModel = treeGridModel, Url = url, UserDataOnFooter = userDataOnFooter, ViewRecords = viewRecords, Width = width })
         { }
 
         /// <summary>
@@ -808,6 +809,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                     javaScriptBuilder.AppendFormat("subGridRowColapsed: {0},", _options.SubGridRowExpanded).AppendLine();
             }
 
+            if (_options.TopPager)
+                javaScriptBuilder.AppendFormat("toppager: true,").AppendLine();
+
             if (_options.TreeGridEnabled)
             {
                 if (!_options.ExpandColumnClick)
@@ -1040,7 +1044,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
         private void AppendNavigator(ref StringBuilder javaScriptBuilder)
         {
-            javaScriptBuilder.AppendFormat(".jqGrid('navGrid', '#{0}',", PagerId).AppendLine();
+            string topPagerId = String.Format("#{0}_toppager", Id);
+            string navigatorPagerId = _navigatorOptions.Pager == JqGridNavigatorPagers.Top ? topPagerId : String.Format("#{0}", PagerId);
+            javaScriptBuilder.AppendFormat(".jqGrid('navGrid', '{0}',", navigatorPagerId).AppendLine();
             AppendNavigatorOptions(ref javaScriptBuilder);
 
             if (_navigatorEditActionOptions != null || _navigatorAddActionOptions != null || _navigatorDeleteActionOptions != null || _navigatorSearchActionOptions != null || _navigatorViewActionOptions != null)
@@ -1074,9 +1080,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             foreach (JqGridNavigatorControlOptions controlOptions in _navigatorControlsOptions)
             {
                 if (controlOptions is JqGridNavigatorButtonOptions)
-                    AppendNavigatorButton((JqGridNavigatorButtonOptions)controlOptions, ref javaScriptBuilder);
+                {
+                    JqGridNavigatorButtonOptions buttonOptions = (JqGridNavigatorButtonOptions)controlOptions;
+                    AppendNavigatorButton(navigatorPagerId, buttonOptions, ref javaScriptBuilder);
+                    if (_navigatorOptions.Pager == JqGridNavigatorPagers.Standard && controlOptions.CloneToTop)
+                        AppendNavigatorButton(topPagerId, buttonOptions, ref javaScriptBuilder);
+                }
                 else if (controlOptions is JqGridNavigatorSeparatorOptions)
-                    AppendNavigatorSeparator((JqGridNavigatorSeparatorOptions)controlOptions, ref javaScriptBuilder);
+                {
+                    JqGridNavigatorSeparatorOptions separatorOptions = (JqGridNavigatorSeparatorOptions)controlOptions;
+                    AppendNavigatorSeparator(navigatorPagerId, separatorOptions, ref javaScriptBuilder);
+                    if (_navigatorOptions.Pager == JqGridNavigatorPagers.Standard && controlOptions.CloneToTop)
+                        AppendNavigatorSeparator(topPagerId, separatorOptions, ref javaScriptBuilder);
+                }
             }
         }
 
@@ -1311,10 +1327,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.Append("}");
         }
 
-        private void AppendNavigatorButton(JqGridNavigatorButtonOptions buttonOptions, ref StringBuilder javaScriptBuilder)
+        private void AppendNavigatorButton(string navigatorPagerId, JqGridNavigatorButtonOptions buttonOptions, ref StringBuilder javaScriptBuilder)
         {
-            javaScriptBuilder.AppendFormat(".jqGrid('navButtonAdd', '#{0}', {{ ", PagerId);
-
+            javaScriptBuilder.AppendFormat(".jqGrid('navButtonAdd', '{0}', {{ ", navigatorPagerId);
             if (buttonOptions.Caption != JqGridNavigatorDefaults.ButtonCaption)
                 javaScriptBuilder.AppendFormat("caption: '{0}', ", buttonOptions.Caption);
 
@@ -1348,9 +1363,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private void AppendNavigatorSeparator(JqGridNavigatorSeparatorOptions separatorOptions, ref StringBuilder javaScriptBuilder)
+        private void AppendNavigatorSeparator(string navigatorPagerId, JqGridNavigatorSeparatorOptions separatorOptions, ref StringBuilder javaScriptBuilder)
         {
-            javaScriptBuilder.AppendFormat(".jqGrid('navSeparatorAdd', '#{0}', {{ ", PagerId);
+            javaScriptBuilder.AppendFormat(".jqGrid('navSeparatorAdd', '{0}', {{ ", navigatorPagerId);
 
             if (separatorOptions.Class != JqGridNavigatorDefaults.SeparatorClass)
                 javaScriptBuilder.AppendFormat("sepclass: '{0}', ", separatorOptions.Class);
@@ -1576,14 +1591,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <param name="position">The position where the button will be added.</param>
         /// <param name="toolTip">The tooltip for the button.</param>
         /// <param name="cursor">The value which determines the cursor when user mouseover the button.</param>
+        /// <param name="cloneToTop">The value which defines if the button added to the bottom pager should be coppied to the top pager.</param>
         /// <returns>JqGridHelper instance.</returns>
-        public JqGridHelper<TModel> AddNavigatorButton(string caption = JqGridNavigatorDefaults.ButtonCaption, string icon = JqGridNavigatorDefaults.ButtonIcon, string onClick = null, JqGridNavigatorButtonPositions position = JqGridNavigatorButtonPositions.Last, string toolTip = "", string cursor = JqGridNavigatorDefaults.ButtonCursor)
+        public JqGridHelper<TModel> AddNavigatorButton(string caption = JqGridNavigatorDefaults.ButtonCaption, string icon = JqGridNavigatorDefaults.ButtonIcon, string onClick = null, JqGridNavigatorButtonPositions position = JqGridNavigatorButtonPositions.Last, string toolTip = "", string cursor = JqGridNavigatorDefaults.ButtonCursor, bool cloneToTop = false)
         {
             if (_navigatorOptions == null)
                 throw new InvalidOperationException("In order to call AddNavigatorButton method you must call Navigator method first.");
 
             _navigatorControlsOptions.Add(new JqGridNavigatorButtonOptions()
             {
+                CloneToTop = cloneToTop,
                 Caption = caption,
                 Icon = icon,
                 OnClick = onClick,
@@ -1618,14 +1635,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         /// <param name="class">The class for the separator.</param>
         /// <param name="content">The content for the separator.</param>
+        /// <param name="cloneToTop">The value which defines if the separator added to the bottom pager should be coppied to the top pager.</param>
         /// <returns>JqGridHelper instance.</returns>
-        public JqGridHelper<TModel> AddNavigatorSeparator(string @class = JqGridNavigatorDefaults.SeparatorClass, string content = "")
+        public JqGridHelper<TModel> AddNavigatorSeparator(string @class = JqGridNavigatorDefaults.SeparatorClass, string content = "", bool cloneToTop = false)
         {
             if (_navigatorOptions == null)
                 throw new InvalidOperationException("In order to call AddNavigatorSeparator method you must call Navigator method first.");
 
             _navigatorControlsOptions.Add(new JqGridNavigatorSeparatorOptions()
             {
+                CloneToTop = cloneToTop,
                 Class = @class,
                 Content = content
             });

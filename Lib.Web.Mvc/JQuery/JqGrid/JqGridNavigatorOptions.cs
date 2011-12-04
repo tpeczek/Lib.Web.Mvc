@@ -13,6 +13,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
     {
         #region Properties
         /// <summary>
+        /// Gets or sets the pager to which the Navigator should be attached to (jqGrid can have only one Navigator).
+        /// </summary>
+        public JqGridNavigatorPagers Pager { get; set; }
+
+        /// <summary>
         /// Gets or set the value which defines if add action is enabled (default true).
         /// </summary>
         public bool Add { get; set; }
@@ -194,6 +199,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         public JqGridNavigatorOptions()
         {
+            Pager = JqGridNavigatorPagers.Standard;
             Add = true;
             AddIcon = JqGridNavigatorDefaults.AddIcon;
             AddText = String.Empty;

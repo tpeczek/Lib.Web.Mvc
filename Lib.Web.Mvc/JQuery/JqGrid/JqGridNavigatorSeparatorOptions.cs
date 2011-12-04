@@ -28,6 +28,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Initializes a new instance of the JqGridNavigatorSeparatorOptions class.
         /// </summary>
         public JqGridNavigatorSeparatorOptions()
+            : base()
         {
             Class = JqGridNavigatorDefaults.SeparatorClass;
             Content = String.Empty;

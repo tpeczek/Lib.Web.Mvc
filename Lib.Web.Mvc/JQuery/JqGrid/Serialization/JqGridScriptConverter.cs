@@ -202,6 +202,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
                 obj.SubgridUrl = GetStringFromSerializedObj(serializedObj, "subGridUrl");
                 obj.SubgridColumnWidth = GetInt32FromSerializedObj(serializedObj, "subGridWidth", 20);
+                obj.TopPager = GetBooleanFromSerializedObj(serializedObj, "toppager", false);
                 obj.TreeGridEnabled = GetBooleanFromSerializedObj(serializedObj, "treeGrid", false);
                 obj.TreeGridModel = GetEnumFromSerializedObj<JqGridTreeGridModels>(serializedObj, "treeGridModel", JqGridTreeGridModels.Nested);
                 obj.Url = GetStringFromSerializedObj(serializedObj, "url");
@@ -349,6 +350,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 if (obj.SubgridColumnWidth != 20)
                     serializedObj.Add("subGridWidth", obj.SubgridColumnWidth);
             }
+
+            if (obj.TopPager)
+                serializedObj.Add("toppager", true);
 
             if (obj.TreeGridEnabled)
             {

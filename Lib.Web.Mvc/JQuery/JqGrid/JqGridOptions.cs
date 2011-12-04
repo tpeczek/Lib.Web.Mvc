@@ -399,6 +399,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string SubGridRowColapsed { get; set; }
 
         /// <summary>
+        /// Gets or sets the value indicating if jqGrid should place a pager element at top of the grid below the caption (if available).
+        /// </summary>
+        public bool TopPager { get; set; }
+
+        /// <summary>
         /// Gets or sets the value which defines if TreeGrid is enabled.
         /// </summary>
         public bool TreeGridEnabled { get; set; }
@@ -513,6 +518,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             SubGridBeforeExpand = null;
             SubGridRowColapsed = null;
             SubGridRowExpanded = null;
+            TopPager = false;
             TreeGridEnabled = false;
             TreeGridModel = JqGridTreeGridModels.Nested;
             Url = null;

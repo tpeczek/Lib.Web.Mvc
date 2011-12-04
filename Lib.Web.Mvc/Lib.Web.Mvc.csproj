@@ -45,6 +45,7 @@
     <Compile Include="JQuery\JqGrid\Constants\JqGridColumnPredefinedFormatters.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridNavigatorDefaults.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridOptionsDefaults.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridNavigatorPagers.cs" />
     <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridColumnElementAttribute.cs" />
     <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridColumnLabelAttribute.cs" />
     <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridColumnMappingAttribute.cs" />

@@ -53,6 +53,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Initializes a new instance of the JqGridNavigatorButtonOptions class.
         /// </summary>
         public JqGridNavigatorButtonOptions()
+            : base()
         {
             Caption = JqGridNavigatorDefaults.ButtonCaption;
             Icon = JqGridNavigatorDefaults.ButtonIcon;
