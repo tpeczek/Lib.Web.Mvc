@@ -401,6 +401,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
                 obj.InitialSortingOrder = GetEnumFromSerializedObj<JqGridSortingOrders>(serializedObj, "firstsortorder", JqGridSortingOrders.Asc);
                 obj.Formatter = GetStringFromSerializedObj(serializedObj, "formatter");
+                obj.JsonMapping = GetStringFromSerializedObj(serializedObj, "jsonmap");
+                obj.Key = GetBooleanFromSerializedObj(serializedObj, "key", false);
                 obj.Resizable = GetBooleanFromSerializedObj(serializedObj, "resizable", true);
                 obj.SummaryType = GetEnumFromSerializedObj<JqGridColumnSummaryTypes>(serializedObj, "summaryType");
                 if (!obj.SummaryType.HasValue)
@@ -426,6 +428,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.UnFormatter = GetStringFromSerializedObj(serializedObj, "unformat");
                 obj.Width = GetInt32FromSerializedObj(serializedObj, "width", 150);
                 obj.Viewable = GetBooleanFromSerializedObj(serializedObj, "viewable", true);
+                obj.XmlMapping = GetStringFromSerializedObj(serializedObj, "xmlmap");
 
                 return obj;
             }
@@ -471,7 +474,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (!String.IsNullOrWhiteSpace(obj.Formatter))
                 serializedObj.Add("formatter", obj.Formatter);
 
-            serializedObj.Add("hidden", obj.Hidden);
+            if (obj.Hidden)
+                serializedObj.Add("hidden", true);
+
+            if (!String.IsNullOrWhiteSpace(obj.JsonMapping))
+                serializedObj.Add("jsonmap", obj.JsonMapping);
+
+            if (obj.Key)
+                serializedObj.Add("key", true);
 
             if (!obj.Resizable)
                 serializedObj.Add("resizable", false);
@@ -519,6 +529,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             if (!obj.Viewable)
                 serializedObj.Add("viewable", false);
+
+            if (!String.IsNullOrWhiteSpace(obj.XmlMapping))
+                serializedObj.Add("xmlmap", obj.XmlMapping);
         }
 
         private static JqGridColumnEditOptions DeserializeJqGridColumnEditOptions(IDictionary<string, object> serializedObj, JavaScriptSerializer serializer)

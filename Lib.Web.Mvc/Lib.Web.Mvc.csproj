@@ -47,6 +47,7 @@
     <Compile Include="JQuery\JqGrid\Constants\JqGridOptionsDefaults.cs" />
     <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridColumnElementAttribute.cs" />
     <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridColumnLabelAttribute.cs" />
+    <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridColumnMappingAttribute.cs" />
     <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridColumnSummaryAttribute.cs" />
     <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridModelMetadataExtensions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridColumnElementOptions.cs" />

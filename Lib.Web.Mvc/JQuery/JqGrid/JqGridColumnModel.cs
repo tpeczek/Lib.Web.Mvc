@@ -86,6 +86,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         public JqGridSortingOrders InitialSortingOrder { get; set; }
 
+        /// <summary>
+        /// Gets or sets the JSON mapping for the column in the incoming JSON string.
+        /// </summary>
+        public string JsonMapping { get; set; }
+
+        /// <summary>
+        /// Defines if this column value should be used as unique row id (in case there is no id from the server). 
+        /// </summary>
+        public bool Key { get; set; }
+
         internal JqGridColumnLabelOptions LabelOptions { get; set; }
 
         /// <summary>
@@ -162,6 +172,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the value which defines if the column should appear in view form.
         /// </summary>
         public bool Viewable { get; set; }
+
+        /// <summary>
+        /// Gets or sets the XML mapping for the column in the incomming XML file.
+        /// </summary>
+        public string XmlMapping { get; set; }
         #endregion
 
         #region Constructor
@@ -185,6 +200,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             InitialSortingOrder = JqGridSortingOrders.Asc;
             Hidden = false;
             Index = String.Empty;
+            JsonMapping = null;
+            Key = false;
             LabelOptions = null;
             Name = name;
             Resizable = true;
@@ -200,6 +217,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             UnFormatter = String.Empty;
             Width = 150;
             Viewable = true;
+            XmlMapping = null;
         }
 
         internal JqGridColumnModel(ModelMetadata propertyMetadata)
@@ -213,10 +231,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             Classes = propertyMetadata.GetColumnClasses();
             DateFormat = propertyMetadata.GetColumnDateFormat();
             Fixed = propertyMetadata.GetColumnFixed();
+            JsonMapping = propertyMetadata.GetColumnJsonMapping();
+            Key = propertyMetadata.GetColumnKey();
             Resizable = propertyMetadata.GetColumnResizable();
             Title = propertyMetadata.GetColumnTitle();
             Width = propertyMetadata.GetColumnWidth();
             Viewable = propertyMetadata.GetColumnViewable();
+            XmlMapping = propertyMetadata.GetColumnXmlMapping();
 
             Editable = propertyMetadata.GetColumnEditable();
             EditOptions = propertyMetadata.GetColumnEditOptions();

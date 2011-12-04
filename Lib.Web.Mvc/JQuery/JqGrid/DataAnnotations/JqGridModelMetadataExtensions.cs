@@ -38,6 +38,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         private const string _summaryTypeKey = "JqGridColumnModel.SummaryType";
         private const string _summaryTemplateKey = "JqGridColumnModel.SummaryTemplate";
         private const string _summaryFunctionKey = "JqGridColumnModel.SummaryFunction";
+        private const string _jsonMappingKey = "JqGridColumnModel.JsonMapping";
+        private const string _keyKey = "JqGridColumnModel.Key";
+        private const string _xmlMappingKey = "JqGridColumnModel.XmlMapping";
         #endregion
 
         #region Methods
@@ -403,6 +406,45 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
                 return (string)metadata.AdditionalValues[_summaryFunctionKey];
             else
                 return null;
+        }
+
+        internal static void SetColumnJsonMapping(this ModelMetadata metadata, string jsonMapping)
+        {
+            metadata.AdditionalValues.Add(_jsonMappingKey, jsonMapping);
+        }
+
+        internal static string GetColumnJsonMapping(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_jsonMappingKey))
+                return (string)metadata.AdditionalValues[_jsonMappingKey];
+            else
+                return null;
+        }
+
+        internal static void SetColumnKey(this ModelMetadata metadata, bool key)
+        {
+            metadata.AdditionalValues.Add(_keyKey, key);
+        }
+
+        internal static bool GetColumnKey(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_keyKey))
+                return (bool)metadata.AdditionalValues[_keyKey];
+            else
+                return false;
+        }
+
+        internal static void SetColumnXmlMapping(this ModelMetadata metadata, string xmlMapping)
+        {
+            metadata.AdditionalValues.Add(_xmlMappingKey, xmlMapping);
+        }
+
+        internal static string GetColumnXmlMapping(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_xmlMappingKey))
+                return (string)metadata.AdditionalValues[_xmlMappingKey];
+            else
+                return String.Empty;
         }
         #endregion
     }

@@ -289,6 +289,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (columnModel.Hidden)
                     javaScriptBuilder.Append("hidden: true, ");
 
+                if (!String.IsNullOrWhiteSpace(columnModel.JsonMapping))
+                    javaScriptBuilder.AppendFormat("jsonmap: '{0}', ", columnModel.JsonMapping);
+
+                if (columnModel.Key)
+                    javaScriptBuilder.Append("key: true, ");
+
                 if (!columnModel.Resizable)
                     javaScriptBuilder.Append("resizable: false, ");
 
@@ -327,6 +333,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
                 if (!columnModel.Viewable)
                     javaScriptBuilder.AppendFormat("viewable: false, ");
+
+                if (!String.IsNullOrWhiteSpace(columnModel.XmlMapping))
+                    javaScriptBuilder.AppendFormat("xmlmap: '{0}', ", columnModel.XmlMapping);
 
                 javaScriptBuilder.AppendFormat("name: '{0}' }}", columnModel.Name);
 
