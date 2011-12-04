@@ -254,6 +254,26 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridMethodTypes MethodType { get; set; }
 
         /// <summary>
+        /// Gets or sets the key which should be pressed when the user makes multiselection.
+        /// </summary>
+        public JqGridMultiKeys? MultiKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value which defines whether the multiselection is done only when the checkbox is clicked.
+        /// </summary>
+        public bool MultiBoxOnly { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value which defines whether the multiselection is enabled.
+        /// </summary>
+        public bool MultiSelect { get; set; }
+
+        /// <summary>
+        /// Gets or sets the width of the multiselect colum.
+        /// </summary>
+        public int MultiSelectWidth { get; set; }
+
+        /// <summary>
         /// Gets or sets the function for event which is raised when user clicks on particular cell in the grid.
         /// </summary>
         public string OnCellSelect { get; set; }
@@ -489,6 +509,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             LoadError = null;
             LoadOnce = false;
             MethodType = JqGridMethodTypes.Get;
+            MultiBoxOnly = false;
+            MultiKey = null;
+            MultiSelect = false;
+            MultiSelectWidth = 20;
             OnCellSelect = null;
             OnDoubleClickRow = null;
             OnHeaderClick = null;

@@ -174,6 +174,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.HiddenEnabled  = GetBooleanFromSerializedObj(serializedObj, "hidegrid", true);
                 obj.LoadOnce = GetBooleanFromSerializedObj(serializedObj, "loadonce", false);
                 obj.MethodType = GetEnumFromSerializedObj<JqGridMethodTypes>(serializedObj, "mtype", JqGridMethodTypes.Get);
+                obj.MultiKey = GetEnumFromSerializedObj<JqGridMultiKeys>(serializedObj, "multikey");
+                obj.MultiBoxOnly = GetBooleanFromSerializedObj(serializedObj, "multiboxonly", false);
+                obj.MultiSelect = GetBooleanFromSerializedObj(serializedObj, "multiselect", false);
+                obj.MultiSelectWidth = GetInt32FromSerializedObj(serializedObj, "multiselectWidth", 20);
                 
                 if (serializedObj.ContainsKey("pager") && serializedObj["pager"] != null)
                     obj.Pager = true;
@@ -308,6 +312,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             if (obj.MethodType != JqGridMethodTypes.Get)
                 serializedObj.Add("mtype", "POST");
+
+            if (obj.MultiKey.HasValue)
+                serializedObj.Add("multikey", String.Format("{0}Key", obj.MultiKey.Value.ToString().ToLower()));
+
+            if (obj.MultiBoxOnly)
+                serializedObj.Add("multiboxonly", true);
+
+            if (obj.MultiSelect)
+                serializedObj.Add("multiselect", true);
+
+            if (obj.MultiSelectWidth != 20)
+                serializedObj.Add("multiselectWidth", obj.MultiSelectWidth);
+
 
             if (obj.Pager)
                 serializedObj.Add("pager", String.Format("#{0}Pager", obj.Id));
