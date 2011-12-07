@@ -29,7 +29,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         {
             List<object> values = new List<object>();
 
-            IEnumerable<ModelMetadata> modelMetadata = ModelMetadataProviders.Current.GetMetadataForProperties(Value, typeof(TModel));
+            IEnumerable<ModelMetadata> modelMetadata = ModelMetadataProviders.Current.GetMetadataForProperties(Value, typeof(TModel)).OrderBy(m => m.Order);
             foreach (ModelMetadata propertyMetadata in modelMetadata.Where(p => p.ShowForDisplay && !p.IsComplexType))
             {
 
