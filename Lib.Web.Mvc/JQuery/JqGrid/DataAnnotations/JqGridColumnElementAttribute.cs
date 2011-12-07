@@ -5,7 +5,6 @@ using System.Text;
 using System.Web.Routing;
 using System.Web.Mvc;
 using System.Web;
-using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
 {
@@ -113,11 +112,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         }
 
         /// <summary>
-        /// Gets or sets the expected date format for this column in case of date validation (default ISO date). 
-        /// </summary>
-        public string DateFormat { get; set; }
-
-        /// <summary>
         /// Gets or sets the default value in the search input element.
         /// </summary>
         public string DefaultValue
@@ -177,7 +171,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public JqGridColumnElementAttribute()
         {
-            DateFormat = JqGridOptionsDefaults.DateFormat;
             Rules = new JqGridColumnRules();
         }
         #endregion
@@ -195,8 +188,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
                 Rules.Integer = true;
             else if ((metadata.ModelType == typeof(Decimal)) || (metadata.ModelType == typeof(Double)) || (metadata.ModelType == typeof(Single)))
                 Rules.Number = true;
-
-            metadata.SetColumnDateFormat(DateFormat);
 
             InternalOnMetadataCreated(metadata);
         }

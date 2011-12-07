@@ -5,6 +5,7 @@ using System.Text;
 using System.Web.Routing;
 using System.Web.Mvc;
 using System.Web;
+using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
 {
@@ -32,6 +33,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             get { return EditOptions.CustomValueFunction; }
             set { EditOptions.CustomValueFunction = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the expected date format for this column in case of date validation (default ISO date). 
+        /// </summary>
+        public string DateFormat { get; set; }
 
         /// <summary>
         /// Gets the value defining if this column can be edited.
@@ -123,6 +129,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         public JqGridColumnEditableAttribute(bool editable)
             : base()
         {
+            DateFormat = JqGridOptionsDefaults.DateFormat;
             Editable = editable;
             EditOptions = new JqGridColumnEditOptions();
             EditType = JqGridColumnEditTypes.Text;
@@ -191,6 +198,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             EditOptions.DataUrl = DataUrl;
             EditOptions.HtmlAttributes = HtmlAttributes;
 
+            metadata.SetColumnDateFormat(DateFormat);
             metadata.SetColumnEditable(Editable);
             metadata.SetColumnEditOptions(EditOptions);
             metadata.SetColumnEditRules(Rules);
