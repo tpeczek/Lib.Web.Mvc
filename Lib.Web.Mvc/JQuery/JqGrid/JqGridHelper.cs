@@ -31,6 +31,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         private JqGridFilterGridOptions _filterGridOptions;
         private IDictionary<string, object> _footerData = null;
         private bool _footerDataUseFormatters = true;
+        private bool _groupHeadersUseColSpanStyle = false;
+        private IEnumerable<JqGridGroupHeader> _groupHeaders = null;
         #endregion
 
         #region Properties
@@ -222,6 +224,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
             if (_filterToolbar)
                 AppendFilterToolbar(ref javaScriptBuilder);
+
+            if (_groupHeaders != null && _groupHeaders.Count() > 0)
+                AppendGroupHeaders(ref javaScriptBuilder);
 
             javaScriptBuilder.AppendLine(";");
 
@@ -1540,6 +1545,21 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             javaScriptBuilder.AppendFormat(" }}, {0})", _footerDataUseFormatters.ToString().ToLower());
         }
 
+        private void AppendGroupHeaders(ref StringBuilder javaScriptBuilder)
+        {
+            javaScriptBuilder.Append(".jqGrid('setGroupHeaders', { ");
+
+            if (_groupHeadersUseColSpanStyle)
+                javaScriptBuilder.Append("useColSpanStyle: true, ");
+
+            javaScriptBuilder.Append("groupHeaders: [ ");
+            foreach (JqGridGroupHeader groupHeader in _groupHeaders)
+                javaScriptBuilder.AppendFormat("{{ startColumnName: '{0}', numberOfColumns: {1}, titleText: '{2}' }}, ", groupHeader.StartColumn, groupHeader.NumberOfColumns, groupHeader.Title);
+            javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2).Append(" ]");
+
+            javaScriptBuilder.Append("})");
+        }
+
         private static void AppendColumnLabelOptions(string columnName, JqGridColumnLabelOptions options, ref StringBuilder javaScriptBuilder)
         {
             if (options != null)
@@ -1762,6 +1782,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         {
             _footerData = data;
             _footerDataUseFormatters = useFormatters;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets grouping headers for this JqGridHelper instance.
+        /// </summary>
+        /// <param name="groupHeaders">Settings for grouping headers.</param>
+        /// <param name="useColSpanStyle">The value which determines if the non grouping header cell should have cell above it (false), or the column should be treated as one combining boot (true).</param>
+        /// <returns>JqGridHelper instance with grouping header.</returns>
+        public JqGridHelper<TModel> SetGroupHeaders(IEnumerable<JqGridGroupHeader> groupHeaders, bool useColSpanStyle = false)
+        {
+            _groupHeaders = groupHeaders;
+            _groupHeadersUseColSpanStyle = useColSpanStyle;
             return this;
         }
         #endregion
