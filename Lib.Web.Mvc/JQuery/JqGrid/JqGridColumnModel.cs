@@ -62,6 +62,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public bool Fixed { get; set; }
 
         /// <summary>
+        /// Gets or sets the value which defines if column shouldn't scroll out of view when user is moving horizontally across the grid.
+        /// </summary>
+        public bool Frozen { get; set; }
+
+        /// <summary>
         /// Gets or sets the predefined formatter type ('' delimited string) or custom JavaScript formatting function name.
         /// </summary>
         public string Formatter { get; set; }
@@ -231,6 +236,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             Classes = propertyMetadata.GetColumnClasses();
             DateFormat = propertyMetadata.GetColumnDateFormat();
             Fixed = propertyMetadata.GetColumnFixed();
+            Frozen = propertyMetadata.GetColumnFrozen();
             JsonMapping = propertyMetadata.GetColumnJsonMapping();
             Key = propertyMetadata.GetColumnKey();
             Resizable = propertyMetadata.GetColumnResizable();

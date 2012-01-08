@@ -33,6 +33,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         private bool _footerDataUseFormatters = true;
         private bool _groupHeadersUseColSpanStyle = false;
         private IEnumerable<JqGridGroupHeader> _groupHeaders = null;
+        private bool _setFrozenColumns = false;
         #endregion
 
         #region Properties
@@ -228,6 +229,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (_groupHeaders != null && _groupHeaders.Count() > 0)
                 AppendGroupHeaders(ref javaScriptBuilder);
 
+            if (_setFrozenColumns)
+                javaScriptBuilder.Append(".jqGrid('setFrozenColumns')");
+
             javaScriptBuilder.AppendLine(";");
 
             if (_filterGridModel != null)
@@ -286,6 +290,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
                 if (columnModel.Fixed)
                     javaScriptBuilder.Append("fixed: true, ");
+
+                if (columnModel.Frozen)
+                    javaScriptBuilder.Append("frozen: true, ");
 
                 if (!String.IsNullOrWhiteSpace(columnModel.Formatter))
                 {
@@ -1795,6 +1802,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         {
             _groupHeaders = groupHeaders;
             _groupHeadersUseColSpanStyle = useColSpanStyle;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets frozen columns for this JqGridHelper instance.
+        /// </summary>
+        /// <returns>JqGridHelper instance with frozen columns.</returns>
+        public JqGridHelper<TModel> SetFrozenColumns()
+        {
+            _setFrozenColumns = true;
             return this;
         }
         #endregion

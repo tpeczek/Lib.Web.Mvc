@@ -34,6 +34,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         public bool Fixed { get; set; }
 
         /// <summary>
+        /// Gets or sets the value indicating if column shouldn't scroll out of view when user is moving horizontally across the grid.
+        /// </summary>
+        public bool Frozen { get; set; }
+
+        /// <summary>
         /// Gets or sets the value which defines if column can be resized (default true).
         /// </summary>
         public bool Resizable { get; set; }
@@ -63,6 +68,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             Alignment = JqGridAlignments.Left;
             CellAttributes = null;
             Fixed = false;
+            Frozen = false;
             Resizable = true;
             Title = true;
             Width = 150;
@@ -81,6 +87,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             metadata.SetColumnCellAttributes(CellAttributes);
             metadata.SetColumnClasses(Classes);
             metadata.SetColumnFixed(Fixed);
+            metadata.SetColumnFrozen(Frozen);
             metadata.SetColumnResizable(Resizable);
             metadata.SetColumnTitle(Title);
             metadata.SetColumnWidth(Width);

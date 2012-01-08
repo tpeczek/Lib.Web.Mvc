@@ -15,6 +15,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         private const string _classesKey = "JqGridColumnModel.Classes";
         private const string _dateFormatKey = "JqGridColumnModel.DateFormat";
         private const string _fixedKey = "JqGridColumnModel.Fixed";
+        private const string _frozenKey = "JqGridColumnModel.Frozen";
         private const string _resizableKey = "JqGridColumnModel.Resizable";
         private const string _titleKey = "JqGridColumnModel.Title";
         private const string _widthKey = "JqGridColumnModel.Width";
@@ -105,6 +106,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             if (metadata.AdditionalValues.ContainsKey(_fixedKey))
                 return (bool)metadata.AdditionalValues[_fixedKey];
+            else
+                return false;
+        }
+
+        internal static void SetColumnFrozen(this ModelMetadata metadata, bool frozen)
+        {
+            metadata.AdditionalValues.Add(_frozenKey, frozen);
+        }
+
+        internal static bool GetColumnFrozen(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_frozenKey))
+                return (bool)metadata.AdditionalValues[_frozenKey];
             else
                 return false;
         }

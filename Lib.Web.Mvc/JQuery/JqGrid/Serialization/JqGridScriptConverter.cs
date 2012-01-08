@@ -420,6 +420,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                     obj.EditRules = DeserializeJqGridColumnRules((IDictionary<string, object>)serializedObj["editrules"], serializer);
 
                 obj.Fixed = GetBooleanFromSerializedObj(serializedObj, "fixed", false);
+                obj.Frozen = GetBooleanFromSerializedObj(serializedObj, "frozen", false);
                 obj.Hidden = GetBooleanFromSerializedObj(serializedObj, "hidden", false);
 
                 if (serializedObj.ContainsKey("formatoptions") && serializedObj["formatoptions"] != null && serializedObj["formatoptions"] is IDictionary<string, object>)
@@ -493,6 +494,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             if (obj.Fixed)
                 serializedObj.Add("fixed", true);
+
+            if (obj.Frozen)
+                serializedObj.Add("frozen", true);
 
             if (obj.FormatterOptions != null)
                 serializedObj.Add("formatoptions", obj.FormatterOptions);
