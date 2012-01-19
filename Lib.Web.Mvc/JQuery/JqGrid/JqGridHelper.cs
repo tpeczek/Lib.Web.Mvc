@@ -415,9 +415,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 foreach (JqGridColumnDataEvent dataEvent in elementOptions.DataEvents)
                 {
                     if (dataEvent.Data == null)
-                        javaScriptBuilder.AppendFormat("{ type: '{0}', fn: {1} }, ", dataEvent.Type, dataEvent.Function);
+                        javaScriptBuilder.AppendFormat("{{ type: '{0}', fn: {1} }}, ", dataEvent.Type, dataEvent.Function);
                     else
-                        javaScriptBuilder.AppendFormat("{ type: '{0}', data: {1}, fn: {2} }, ", dataEvent.Type, serializer.Serialize(dataEvent.Data), dataEvent.Function);
+                        javaScriptBuilder.AppendFormat("{{ type: '{0}', data: {1}, fn: {2} }}, ", dataEvent.Type, serializer.Serialize(dataEvent.Data), dataEvent.Function);
                 }
                 javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
                 javaScriptBuilder.Append(" ], ");

@@ -13,7 +13,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
     /// Specifies the editing options for column
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public sealed class JqGridColumnEditableAttribute : JqGridColumnElementAttribute
+    public class JqGridColumnEditableAttribute : JqGridColumnElementAttribute
     {
         #region Properties
         /// <summary>
