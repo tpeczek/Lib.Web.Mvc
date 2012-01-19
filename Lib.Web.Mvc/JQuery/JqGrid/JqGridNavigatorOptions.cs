@@ -9,33 +9,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
     /// <summary>
     /// Class which represents options for jqGrid Navigator.
     /// </summary>
-    public class JqGridNavigatorOptions
+    public class JqGridNavigatorOptions : JqGridNavigatorOptionsBase
     {
         #region Properties
         /// <summary>
         /// Gets or sets the pager to which the Navigator should be attached to (jqGrid can have only one Navigator).
         /// </summary>
         public JqGridNavigatorPagers Pager { get; set; }
-
-        /// <summary>
-        /// Gets or set the value which defines if add action is enabled (default true).
-        /// </summary>
-        public bool Add { get; set; }
-
-        /// <summary>
-        /// Gets or sets the icon (form UI theme images) for add action.
-        /// </summary>
-        public string AddIcon { get; set; }
-
-        /// <summary>
-        /// Gets or sets the text for add action.
-        /// </summary>
-        public string AddText { get; set; }
-
-        /// <summary>
-        /// Gets or sets the tooltip for add action.
-        /// </summary>
-        public string AddToolTip { get; set; }
 
         /// <summary>
         /// Gets or sets the caption for warning which appears when user try to edit, delete or view a row without selecting it.
@@ -76,31 +56,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the tooltip for delete action.
         /// </summary>
         public string DeleteToolTip { get; set; }
-
-        /// <summary>
-        /// Gets or set the value which defines if edit action is enabled (default true).
-        /// </summary>
-        public bool Edit { get; set; }
-
-        /// <summary>
-        /// Gets or sets the icon (form UI theme images) for edit action.
-        /// </summary>
-        public string EditIcon { get; set; }
-
-        /// <summary>
-        /// Gets or sets the text for edit action.
-        /// </summary>
-        public string EditText { get; set; }
-
-        /// <summary>
-        /// Gets or sets the tooltip for edit action.
-        /// </summary>
-        public string EditToolTip { get; set; }
-
-        /// <summary>
-        /// Gets or sets the position of the Navigator buttons in the pager.
-        /// </summary>
-        public JqGridAlignments Position { get; set; }
 
         /// <summary>
         /// Gets or set the value which defines if refresh action is enabled (default true).
@@ -198,12 +153,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Initializes a new instance of the JqGridNavigatorOptions class.
         /// </summary>
         public JqGridNavigatorOptions()
+            : base()
         {
             Pager = JqGridNavigatorPagers.Standard;
-            Add = true;
-            AddIcon = JqGridNavigatorDefaults.AddIcon;
-            AddText = String.Empty;
-            AddToolTip = JqGridNavigatorDefaults.AddToolTip;
             AlertCaption = JqGridNavigatorDefaults.AlertCaption;
             AlertText = JqGridNavigatorDefaults.AlertText;
             CloneToTop = false;
@@ -212,11 +164,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             DeleteIcon = JqGridNavigatorDefaults.DeleteIcon;
             DeleteText = String.Empty;
             DeleteToolTip = JqGridNavigatorDefaults.DeleteToolTip;
-            Edit = true;
-            EditIcon = JqGridNavigatorDefaults.EditIcon;
-            EditText = String.Empty;
-            EditToolTip = JqGridNavigatorDefaults.EditToolTip;
-            Position = JqGridAlignments.Left;
             Refresh = true;
             RefreshIcon = JqGridNavigatorDefaults.RefreshIcon;
             RefreshText = String.Empty;

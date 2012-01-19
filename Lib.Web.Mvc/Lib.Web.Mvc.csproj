@@ -48,7 +48,11 @@
     <Compile Include="JQuery\JqGrid\Constants\JqGridNavigatorDefaults.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridOptionsDefaults.cs" />
     <Compile Include="JQuery\JqGrid\JqGridGroupHeader.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridInlineNavigatorActionOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridInlineNavigatorAddActionOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridInlineNavigatorOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridMultiKeys.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridNavigatorOptionsBase.cs" />
     <Compile Include="JQuery\JqGrid\JqGridNavigatorPagers.cs" />
     <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridColumnElementAttribute.cs" />
     <Compile Include="JQuery\JqGrid\DataAnnotations\JqGridColumnLabelAttribute.cs" />
@@ -70,6 +74,7 @@
     <Compile Include="JQuery\JqGrid\JqGridNavigatorButtonPositions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridNavigatorControlOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridNavigatorSeparatorOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridNewRowPositions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridParametersNames.cs" />
     <Compile Include="JQuery\JqGrid\JqGridColumnDataEvent.cs" />
     <Compile Include="JQuery\JqGrid\JqGridSearchOperators.cs" />

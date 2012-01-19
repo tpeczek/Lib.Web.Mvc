@@ -18,6 +18,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
     {
         #region Fields
         private JqGridOptions<TModel> _options;
+        private JqGridInlineNavigatorOptions _inlineNavigatorOptions;
         private JqGridNavigatorOptions _navigatorOptions;
         private JqGridNavigatorActionOptions _navigatorEditActionOptions;
         private JqGridNavigatorActionOptions _navigatorAddActionOptions;
@@ -222,6 +223,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
             if (_navigatorOptions != null)
                 AppendNavigator(ref javaScriptBuilder);
+
+            if (_inlineNavigatorOptions != null)
+                AppendInlineNavigator(ref javaScriptBuilder);
 
             if (_filterToolbar)
                 AppendFilterToolbar(ref javaScriptBuilder);
@@ -1132,21 +1136,41 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
+        private static void AppendBaseNavigatorOptions(JqGridNavigatorOptionsBase baseNavigatorOptions, ref StringBuilder javaScriptBuilder)
+        {
+            if (!baseNavigatorOptions.Add)
+                javaScriptBuilder.Append("add: false, ");
+
+            if (baseNavigatorOptions.AddIcon != JqGridNavigatorDefaults.AddIcon)
+                javaScriptBuilder.AppendFormat("addicon: '{0}', ", baseNavigatorOptions.AddIcon);
+
+            if (!String.IsNullOrEmpty(baseNavigatorOptions.AddText))
+                javaScriptBuilder.AppendFormat("addtext: '{0}', ", baseNavigatorOptions.AddText);
+
+            if (baseNavigatorOptions.AddToolTip != JqGridNavigatorDefaults.AddToolTip)
+                javaScriptBuilder.AppendFormat("addtitle: '{0}', ", baseNavigatorOptions.AddToolTip);
+
+            if (!baseNavigatorOptions.Edit)
+                javaScriptBuilder.Append("edit: false, ");
+
+            if (baseNavigatorOptions.EditIcon != JqGridNavigatorDefaults.EditIcon)
+                javaScriptBuilder.AppendFormat("editicon: '{0}', ", baseNavigatorOptions.EditIcon);
+
+            if (!String.IsNullOrEmpty(baseNavigatorOptions.EditText))
+                javaScriptBuilder.AppendFormat("edittext: '{0}', ", baseNavigatorOptions.EditText);
+
+            if (baseNavigatorOptions.EditToolTip != JqGridNavigatorDefaults.EditToolTip)
+                javaScriptBuilder.AppendFormat("edittitle: '{0}', ", baseNavigatorOptions.EditToolTip);
+
+            if (baseNavigatorOptions.Position != JqGridAlignments.Left)
+                javaScriptBuilder.AppendFormat("position: '{0}', ", baseNavigatorOptions.Position.ToString().ToLower());
+        }
+
         private void AppendNavigatorOptions(ref StringBuilder javaScriptBuilder)
         {
             javaScriptBuilder.Append("{ ");
 
-            if (!_navigatorOptions.Add)
-                javaScriptBuilder.Append("add: false, ");
-
-            if (_navigatorOptions.AddIcon != JqGridNavigatorDefaults.AddIcon)
-                javaScriptBuilder.AppendFormat("addicon: '{0}', ", _navigatorOptions.AddIcon);
-
-            if (!String.IsNullOrEmpty(_navigatorOptions.AddText))
-                javaScriptBuilder.AppendFormat("addtext: '{0}', ", _navigatorOptions.AddText);
-
-            if (_navigatorOptions.AddToolTip != JqGridNavigatorDefaults.AddToolTip)
-                javaScriptBuilder.AppendFormat("addtitle: '{0}', ", _navigatorOptions.AddToolTip);
+            AppendBaseNavigatorOptions(_navigatorOptions, ref javaScriptBuilder);
 
             if (_navigatorOptions.AlertCaption != JqGridNavigatorDefaults.AlertCaption)
                 javaScriptBuilder.AppendFormat("alertcap: '{0}', ", _navigatorOptions.AlertCaption);
@@ -1171,21 +1195,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
             if (_navigatorOptions.DeleteToolTip != JqGridNavigatorDefaults.DeleteToolTip)
                 javaScriptBuilder.AppendFormat("deltitle: '{0}', ", _navigatorOptions.DeleteToolTip);
-
-            if (!_navigatorOptions.Edit)
-                javaScriptBuilder.Append("edit: false, ");
-
-            if (_navigatorOptions.EditIcon != JqGridNavigatorDefaults.EditIcon)
-                javaScriptBuilder.AppendFormat("editicon: '{0}', ", _navigatorOptions.EditIcon);
-
-            if (!String.IsNullOrEmpty(_navigatorOptions.EditText))
-                javaScriptBuilder.AppendFormat("edittext: '{0}', ", _navigatorOptions.EditText);
-
-            if (_navigatorOptions.EditToolTip != JqGridNavigatorDefaults.EditToolTip)
-                javaScriptBuilder.AppendFormat("edittitle: '{0}', ", _navigatorOptions.EditToolTip);
-
-            if (_navigatorOptions.Position != JqGridAlignments.Left)
-                javaScriptBuilder.AppendFormat("position: '{0}', ", _navigatorOptions.Position.ToString().ToLower());
 
             if (!_navigatorOptions.Refresh)
                 javaScriptBuilder.Append("refresh: false, ");
@@ -1421,6 +1430,150 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
+        private void AppendInlineNavigator(ref StringBuilder javaScriptBuilder)
+        {
+            string topPagerId = String.Format("#{0}_toppager", Id);
+            string navigatorPagerId = _navigatorOptions.Pager == JqGridNavigatorPagers.Top ? topPagerId : String.Format("#{0}", PagerId);
+
+            javaScriptBuilder.AppendFormat(".jqGrid('inlineNav', '{0}', ", navigatorPagerId).AppendLine();
+
+            AppendInlineNavigatorOptions(ref javaScriptBuilder);
+
+            javaScriptBuilder.Append(")");
+        }
+
+        private void AppendInlineNavigatorOptions(ref StringBuilder javaScriptBuilder)
+        {
+            javaScriptBuilder.Append("{ ");
+
+            AppendBaseNavigatorOptions(_inlineNavigatorOptions, ref javaScriptBuilder);
+
+            if (!_inlineNavigatorOptions.Save)
+                javaScriptBuilder.Append("save: false, ");
+
+            if (_inlineNavigatorOptions.SaveIcon != JqGridNavigatorDefaults.SaveIcon)
+                javaScriptBuilder.AppendFormat("saveicon: '{0}', ", _inlineNavigatorOptions.SaveIcon);
+
+            if (!String.IsNullOrEmpty(_inlineNavigatorOptions.SaveText))
+                javaScriptBuilder.AppendFormat("savetext: '{0}', ", _inlineNavigatorOptions.SaveText);
+
+            if (_inlineNavigatorOptions.SaveToolTip != JqGridNavigatorDefaults.SaveToolTip)
+                javaScriptBuilder.AppendFormat("savetitle: '{0}', ", _inlineNavigatorOptions.SaveToolTip);
+
+            if (!_inlineNavigatorOptions.Cancel)
+                javaScriptBuilder.Append("cancel: false, ");
+
+            if (_inlineNavigatorOptions.CancelIcon != JqGridNavigatorDefaults.CancelIcon)
+                javaScriptBuilder.AppendFormat("cancelicon: '{0}', ", _inlineNavigatorOptions.CancelIcon);
+
+            if (!String.IsNullOrEmpty(_inlineNavigatorOptions.CancelText))
+                javaScriptBuilder.AppendFormat("canceltext: '{0}', ", _inlineNavigatorOptions.CancelText);
+
+            if (_inlineNavigatorOptions.CancelToolTip != JqGridNavigatorDefaults.CancelToolTip)
+                javaScriptBuilder.AppendFormat("canceltitle: '{0}', ", _inlineNavigatorOptions.CancelToolTip);
+
+            AppendInlineNavigatorAddActionOptions(_inlineNavigatorOptions.AddActionOptions, ref javaScriptBuilder);
+            AppendInlineNavigatorActionOptions("editParams", _inlineNavigatorOptions.ActionOptions, ref javaScriptBuilder);
+
+            if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
+            {
+                javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
+                javaScriptBuilder.Append(" }");
+            }
+            else
+                javaScriptBuilder.Append("}");
+        }
+
+        private static void AppendInlineNavigatorActionOptions(string actionName, JqGridInlineNavigatorActionOptions actionOptions, ref StringBuilder javaScriptBuilder)
+        {
+            if (actionOptions != null)
+            {
+                javaScriptBuilder.AppendFormat("{0}: {{ ", actionName);
+
+                if (actionOptions.Keys)
+                    javaScriptBuilder.Append("keys: true, ");
+
+                if (!String.IsNullOrWhiteSpace(actionOptions.OnEditFunction))
+                    javaScriptBuilder.AppendFormat("oneditfunc: {0}, ", actionOptions.OnEditFunction);
+
+                if (!String.IsNullOrWhiteSpace(actionOptions.SuccessFunction))
+                    javaScriptBuilder.AppendFormat("successfunc: {0}, ", actionOptions.SuccessFunction);
+
+                if (!String.IsNullOrWhiteSpace(actionOptions.Url))
+                    javaScriptBuilder.AppendFormat("url: '{0}', ", actionOptions.Url);
+
+                if (actionOptions.ExtraParam != null)
+                {
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    javaScriptBuilder.AppendFormat("extraparam: {0}, ", serializer.Serialize(actionOptions.ExtraParam));
+                }
+
+                if (!String.IsNullOrWhiteSpace(actionOptions.AfterSaveFunction))
+                    javaScriptBuilder.AppendFormat("aftersavefunc: {0}, ", actionOptions.AfterSaveFunction);
+
+                if (!String.IsNullOrWhiteSpace(actionOptions.ErrorFunction))
+                    javaScriptBuilder.AppendFormat("errorfunc: {0}, ", actionOptions.ErrorFunction);
+
+                if (!String.IsNullOrWhiteSpace(actionOptions.AfterRestoreFunction))
+                    javaScriptBuilder.AppendFormat("afterrestorefunc: {0}, ", actionOptions.AfterRestoreFunction);
+
+                if (!actionOptions.RestoreAfterError)
+                    javaScriptBuilder.Append("restoreAfterError: false, ");
+
+                if (actionOptions.MethodType != JqGridMethodTypes.Post)
+                    javaScriptBuilder.Append("mtype: 'GET', ");
+
+                if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
+                {
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
+                    javaScriptBuilder.Append(" }, ");
+                }
+                else
+                {
+                    int actionNameLength = actionName.Length + 4;
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - actionNameLength, actionNameLength);
+                }
+            } 
+        }
+
+        private static void AppendInlineNavigatorAddActionOptions(JqGridInlineNavigatorAddActionOptions actionOptions, ref StringBuilder javaScriptBuilder)
+        {
+            if (actionOptions != null)
+            {
+                javaScriptBuilder.Append("addParams: { ");
+
+                if (actionOptions.RowId != JqGridNavigatorDefaults.NewRowId)
+                    javaScriptBuilder.AppendFormat("rowID: '{0}', ", actionOptions.RowId);
+
+                if (actionOptions.InitData != null)
+                {
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    javaScriptBuilder.AppendFormat(": {0}, ", serializer.Serialize(actionOptions.InitData));
+                }
+
+                if (actionOptions.Position != JqGridNewRowPositions.First)
+                    javaScriptBuilder.AppendFormat("position: 'last', ");
+
+                if (actionOptions.UseDefaultValues)
+                    javaScriptBuilder.Append("useDefValues: true, ");
+
+                if (actionOptions.UseFormatter)
+                    javaScriptBuilder.Append("useFormatter: true, ");
+
+                AppendInlineNavigatorActionOptions("addRowParams", actionOptions.Options, ref javaScriptBuilder);
+
+                if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
+                {
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
+                    javaScriptBuilder.Append(" }, ");
+                }
+                else
+                {
+                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 13, 13);
+                }
+            }
+        }
+
         private void AppendFilterToolbar(ref StringBuilder javaScriptBuilder)
         {
             javaScriptBuilder.Append(".jqGrid('filterToolbar'");
@@ -1629,6 +1782,24 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             _navigatorDeleteActionOptions = deleteActionOptions;
             _navigatorSearchActionOptions = searchActionOptions;
             _navigatorViewActionOptions = viewActionOptions;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Enables Inline Navigator for this JqGridHelper instance.
+        /// </summary>
+        /// <param name="options">The options for the Inline Navigator.</param>
+        /// <returns>JqGridHelper instance with enabled Inline Navigator.</returns>
+        public JqGridHelper<TModel> InlineNavigator(JqGridInlineNavigatorOptions options)
+        {
+            if (_navigatorOptions == null)
+                throw new InvalidOperationException("In order to call InlineNavigator method you must call Navigator method first.");
+
+            if (options == null)
+                throw new ArgumentNullException("options");
+
+            _inlineNavigatorOptions = options;
 
             return this;
         }

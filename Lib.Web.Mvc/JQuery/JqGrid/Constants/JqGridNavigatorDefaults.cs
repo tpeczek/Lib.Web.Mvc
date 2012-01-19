@@ -31,6 +31,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Constants
         public const string AlertText = "Please, select row";
 
         /// <summary>
+        /// The icon (form UI theme images) for cancel action.
+        /// </summary>
+        public const string CancelIcon = "ui-icon-cancel";
+
+        /// <summary>
+        /// The tooltip for cancel action.
+        /// </summary>
+        public const string CancelToolTip = "Cancel row editing";
+
+        /// <summary>
         /// The icon (form UI theme images) for delete action.
         /// </summary>
         public const string DeleteIcon = "ui-icon-trash";
@@ -59,6 +69,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Constants
         /// The tooltip for refresh action.
         /// </summary>
         public const string RefreshToolTip = "Reload Grid";
+
+        /// <summary>
+        /// The icon (form UI theme images) for save action.
+        /// </summary>
+        public const string SaveIcon = "ui-icon-disk";
+
+        /// <summary>
+        /// The tooltip for save action.
+        /// </summary>
+        public const string SaveToolTip = "Save row";
 
         /// <summary>
         /// The icon (form UI theme images) for search action.
@@ -99,5 +119,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Constants
         /// The class for the separator.
         /// </summary>
         public const string SeparatorClass = "ui-separator";
+
+        /// <summary>
+        /// The row id for new row.
+        /// </summary>
+        public const string NewRowId = "new_row";
     }
 }
