@@ -52,6 +52,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridMethodTypes MethodType { get; set; }
 
         /// <summary>
+        /// Gets or sets the function for event which is raised after the data for the new row is loaded from the grid (if navigator buttons are enabled in edit mode).
+        /// </summary>
+        public string AfterClickPgButtons { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised fires immediately after all actions and events are completed and the row is inserted or updated in the grid.
+        /// </summary>
+        public string AfterComplete { get; set; }
+
+        /// <summary>
         /// Gets or sets the function for event which is raised after showing the form with the new data.
         /// </summary>
         public string AfterShowForm { get; set; }
@@ -62,9 +72,39 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string AfterSubmit { get; set; }
 
         /// <summary>
+        /// Gets or sets the function for event which is raised before checking the values (if checking is defined in colModel via editrules option).
+        /// </summary>
+        public string BeforeCheckValues { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised before initializing the new form data.
+        /// </summary>
+        public string BeforeInitData { get; set; }
+
+        /// <summary>
         /// Gets or sets the function for event which is raised before showing the form with the new data.
         /// </summary>
         public string BeforeShowForm { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised before the data is submitted to the server.
+        /// </summary>
+        public string BeforeSubmit { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised immediately after the previous or next button is clicked, before leaving the current row (if navigator buttons are enabled in edit mode).
+        /// </summary>
+        public string OnClickPgButtons { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised after the submit button is clicked and the postdata is constructed.
+        /// </summary>
+        public string OnClickSubmit { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised only once when creating the form for editing and adding.
+        /// </summary>
+        public string OnInitializeForm { get; set; }
 
         /// <summary>
         /// Gets or sets the function for event which is raised just before closing the form.
@@ -72,9 +112,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string OnClose { get; set; }
 
         /// <summary>
-        /// Gets or sets the function for event which is raised only once when creating the form for editing and adding.
+        /// Gets or sets the function for event which is raised when error occurs from the ajax call and can be used for better formatting of the error messages.
         /// </summary>
-        public string OnInitializeForm { get; set; }
+        public string ErrorTextFormat { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which can serialize the data passed to the ajax request from the form.
+        /// </summary>
+        public string SerializeEditData { get; set; }
 
         /// <summary>
         /// Gets or sets the value indicating if grid should be reloaded after submiting.

@@ -1289,20 +1289,47 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (actionOptions.MethodType != JqGridMethodTypes.Post)
                     javaScriptBuilder.Append("mtype: 'GET', ");
 
+                if (!String.IsNullOrWhiteSpace(actionOptions.AfterClickPgButtons))
+                    javaScriptBuilder.AppendFormat("afterclickPgButtons: {0}, ", actionOptions.AfterClickPgButtons);
+
+                if (!String.IsNullOrWhiteSpace(actionOptions.AfterComplete))
+                    javaScriptBuilder.AppendFormat("afterComplete: {0}, ", actionOptions.AfterComplete);
+
                 if (!String.IsNullOrWhiteSpace(actionOptions.AfterShowForm))
                     javaScriptBuilder.AppendFormat("afterShowForm: {0}, ", actionOptions.AfterShowForm);
 
                 if (!String.IsNullOrWhiteSpace(actionOptions.AfterSubmit))
                     javaScriptBuilder.AppendFormat("afterSubmit: {0}, ", actionOptions.AfterSubmit);
 
+                if (!String.IsNullOrWhiteSpace(actionOptions.BeforeCheckValues))
+                    javaScriptBuilder.AppendFormat("beforeCheckValues: {0}, ", actionOptions.BeforeCheckValues);
+
+                if (!String.IsNullOrWhiteSpace(actionOptions.BeforeInitData))
+                    javaScriptBuilder.AppendFormat("beforeInitData: {0}, ", actionOptions.BeforeInitData);
+
                 if (!String.IsNullOrWhiteSpace(actionOptions.BeforeShowForm))
                     javaScriptBuilder.AppendFormat("beforeShowForm: {0}, ", actionOptions.BeforeShowForm);
+
+                if (!String.IsNullOrWhiteSpace(actionOptions.BeforeSubmit))
+                    javaScriptBuilder.AppendFormat("beforeSubmit: {0}, ", actionOptions.BeforeSubmit);
+
+                if (!String.IsNullOrWhiteSpace(actionOptions.OnClickPgButtons))
+                    javaScriptBuilder.AppendFormat("onclickPgButtons: {0}, ", actionOptions.OnClickPgButtons);
+
+                if (!String.IsNullOrWhiteSpace(actionOptions.OnClickSubmit))
+                    javaScriptBuilder.AppendFormat("onclickSubmit: {0}, ", actionOptions.OnClickSubmit);
+
+                if (!String.IsNullOrWhiteSpace(actionOptions.OnInitializeForm))
+                    javaScriptBuilder.AppendFormat("onInitializeForm: {0}, ", actionOptions.OnInitializeForm);
 
                 if (!String.IsNullOrWhiteSpace(actionOptions.OnClose))
                     javaScriptBuilder.AppendFormat("onClose: {0}, ", actionOptions.OnClose);
 
-                if (!String.IsNullOrWhiteSpace(actionOptions.OnInitializeForm))
-                    javaScriptBuilder.AppendFormat("onInitializeForm: {0}, ", actionOptions.OnInitializeForm);
+                if (!String.IsNullOrWhiteSpace(actionOptions.ErrorTextFormat))
+                    javaScriptBuilder.AppendFormat("errorTextFormat: {0}, ", actionOptions.ErrorTextFormat);
+
+                if (!String.IsNullOrWhiteSpace(actionOptions.SerializeEditData))
+                    javaScriptBuilder.AppendFormat("serializeEditData: {0}, ", actionOptions.SerializeEditData);
 
                 if (!actionOptions.ReloadAfterSubmit)
                     javaScriptBuilder.Append("reloadAfterSubmit: false, ");
