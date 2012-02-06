@@ -6,6 +6,9 @@ using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
+    /// <summary>
+    /// Class which represents base options for jqGrid navigators.
+    /// </summary>
     public abstract class JqGridNavigatorOptionsBase
     {
         #region Properties

@@ -52,7 +52,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public bool AdvancedSearchingWithGroups { get; set; }
 
         /// <summary>
-        /// Gets or sets the value indicating if added row (in advanced searching) shoulb copied from previous row.
+        /// Gets or sets the value indicating if added row (in advanced searching) should be copied from previous row.
         /// </summary>
         public bool CloneSearchRowOnAdd { get; set; }
 
@@ -75,11 +75,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the value indicating if the query which is generated when the user defines the conditions for the search should be shown.
         /// </summary>
         public bool ShowQuery { get; set; }
-
-        /// <summary>
-        /// Gets or sets the value controling overlay in the grid.
-        /// </summary>
-        public int Overlay { get; set; }
         #endregion
 
         #region Constructor
@@ -89,6 +84,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridNavigatorSearchActionOptions()
             : base()
         {
+            Width = 450;
             AfterShowSearch = null;
             BeforeShowSearch = null;
             Caption = null;
@@ -102,7 +98,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             RecreateFilter = false;
             ResetText = null;
             ShowQuery = false;
-            Overlay = 10;
         }
         #endregion
     }

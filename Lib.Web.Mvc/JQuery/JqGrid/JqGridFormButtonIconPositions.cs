@@ -6,17 +6,17 @@ using System.Text;
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
     /// <summary>
-    /// Defines available position for new row (inline editing)
+    ///  Defines available position for form editing button icon.
     /// </summary>
-    public enum JqGridNewRowPositions
+    public enum JqGridFormButtonIconPositions
     {
         /// <summary>
-        /// Add new row as first.
+        /// Put the icon to left of the text.
         /// </summary>
-        First,
+        Left,
         /// <summary>
-        /// Add new row as last.
+        /// Put the icon to right of the text.
         /// </summary>
-        Last
+        Right
     }
 }
