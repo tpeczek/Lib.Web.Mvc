@@ -54,5 +54,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Constants
         /// Predefined select formater.
         /// </summary>
         public const string Select = "'select'";
+
+        internal const string Actions = "'actions'";
     }
 }

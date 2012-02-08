@@ -81,6 +81,18 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the thousands separator.
         /// </summary>
         public string ThousandsSeparator { get; set; }
+
+        internal bool EditButton { get; set; }
+        
+        internal bool DeleteButton { get; set; }
+        
+        internal bool UseFormEditing { get; set; }
+        
+        internal JqGridInlineNavigatorActionOptions InlineEditingOptions { get; set; }
+        
+        internal JqGridNavigatorEditActionOptions FormEditingOptions { get; set; }
+        
+        internal JqGridNavigatorDeleteActionOptions DeleteOptions { get; set; }
         #endregion
 
         #region Constructors
@@ -103,6 +115,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             AddParam = String.Empty;
             Target = String.Empty;
             IdName = String.Empty;
+            EditButton = true;
+            DeleteButton = true;
+            UseFormEditing = false;
+            InlineEditingOptions = null;
+            FormEditingOptions = null;
+            DeleteOptions = null;
         }
 
         /// <summary>
@@ -160,6 +178,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                     return (String.IsNullOrWhiteSpace(BaseLinkUrl) && String.IsNullOrWhiteSpace(ShowAction) && String.IsNullOrWhiteSpace(AddParam) && String.IsNullOrWhiteSpace(Target) && (IdName == JqGridOptionsDefaults.FormatterIdName));
                 case JqGridColumnPredefinedFormatters.CheckBox:
                     return Disabled;
+                case JqGridColumnPredefinedFormatters.Actions:
+                    return (EditButton && DeleteButton && !UseFormEditing && (InlineEditingOptions == null) && (FormEditingOptions == null) && (DeleteOptions == null));
                 default:
                     return true;
             }

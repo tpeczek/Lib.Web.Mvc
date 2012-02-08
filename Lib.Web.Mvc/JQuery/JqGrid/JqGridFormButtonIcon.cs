@@ -54,5 +54,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridFormButtonIcon()
         { }
         #endregion
+
+        #region Methods
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            JqGridFormButtonIcon objCasted = (JqGridFormButtonIcon)obj;
+            return (Enabled == objCasted.Enabled) && (Position == objCasted.Position) && (Class == objCasted.Class);
+        }
+        #endregion
     }
 }
