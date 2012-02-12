@@ -404,6 +404,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridSubgridModel SubgridModel { get; set; }
 
         /// <summary>
+        /// Gets or sets the subgrid options for "Subgrid as Grid" scenario. If this option has value, the SugridModel, SubgridUrl and SubGridRowExpanded options are ignored. It will also add additional parameter 'id' to the request.
+        /// </summary>
+        public JqGridOptions SubgridOptions { get; set; }
+
+        /// <summary>
         /// Gets or sets the url for subgrid data requests.
         /// </summary>
         public string SubgridUrl { get; set; }
