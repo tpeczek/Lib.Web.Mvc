@@ -324,6 +324,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public bool Pager { get; set; }
 
         /// <summary>
+        /// Gets or sets the additional data which will be added to the request.
+        /// </summary>
+        public object PostData { get; set; }
+
+        /// <summary>
+        /// Gets or sets the JavaScript which will dynamically generate the additional data which will be added to the request (this property takes precedence over PostData).
+        /// </summary>
+        public string PostDataScript { get; set; }
+
+        /// <summary>
         /// Gets or sets customized names for jqGrid request parameters.
         /// </summary>
         public JqGridParametersNames ParametersNames { get; set; }
