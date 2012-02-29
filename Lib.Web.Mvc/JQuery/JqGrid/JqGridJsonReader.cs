@@ -69,7 +69,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
     /// <summary>
     /// Class which represents JSON reader for jqGrid.
     /// </summary>
-    public class JqGridJsonReader : JqGridJsonRecordsReader
+    public class JqGridJsonReader : JqGridJsonRecordsReader, ICloneable
     {
         #region Fields
         private string _pageIndex;
@@ -175,6 +175,17 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         internal new bool IsDefault()
         {
             return (base.IsDefault() && (PageIndex == JqGridOptionsDefaults.ResponsePageIndex) && (RecordId == JqGridOptionsDefaults.ResponseRecordId) && (TotalPagesCount == JqGridOptionsDefaults.ResponseTotalPagesCount) && (TotalRecordsCount == JqGridOptionsDefaults.ResponseTotalRecordsCount) && (UserData == JqGridOptionsDefaults.ResponseUserData));
+        }
+        #endregion
+
+        #region ICloneable Members
+        /// <summary>
+        /// Creates a new object that is a shallow copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a shallow copy of this instance.</returns>
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
         #endregion
     }

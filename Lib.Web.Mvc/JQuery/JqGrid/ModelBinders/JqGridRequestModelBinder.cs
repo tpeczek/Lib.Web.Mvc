@@ -31,7 +31,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.ModelBinders
             if (model.Searching)
             {
                 ValueProviderResult searchingFiltersResult = bindingContext.ValueProvider.GetValue("filters");
-                if (searchingFiltersResult != null)
+                if (searchingFiltersResult != null && !String.IsNullOrWhiteSpace(searchingFiltersResult.AttemptedValue))
                 {
                     JavaScriptSerializer serializer = new JavaScriptSerializer();
                     serializer.RegisterConverters(new JavaScriptConverter[] { new Lib.Web.Mvc.JQuery.JqGrid.Serialization.JqGridScriptConverter() });

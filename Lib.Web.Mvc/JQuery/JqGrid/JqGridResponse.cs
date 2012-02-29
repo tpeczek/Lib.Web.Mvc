@@ -75,7 +75,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         {
             IsSubgridResponse = isSubgridResponse;
             Records = new List<JqGridRecord>();
-            Reader = JsonReader;
+            Reader = (JqGridJsonReader)JsonReader.Clone();
         }
         #endregion
     }
