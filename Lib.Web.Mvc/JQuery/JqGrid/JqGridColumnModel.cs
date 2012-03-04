@@ -149,6 +149,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public bool Sortable { get; set; }
 
         /// <summary>
+        /// Gets or sets the type of the column for appropriate sorting when datatype is local.
+        /// </summary>
+        public JqGridColumnSortTypes SortType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the custom sorting function when the SortType is set to JqGridColumnSortTypes.Function.
+        /// </summary>
+        public string SortFunction { get; set; }
+
+        /// <summary>
         /// Gets or sets the index name for sorting and searching (default String.Empty)
         /// </summary>
         public string Index { get; set; }
@@ -218,6 +228,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             SummaryTemplate = "{0}";
             SummaryFunction = null;
             Sortable = true;
+            SortType = JqGridColumnSortTypes.Text;
+            SortFunction = String.Empty;
             Title = true;
             UnFormatter = String.Empty;
             Width = 150;
@@ -296,6 +308,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
             InitialSortingOrder = propertyMetadata.GetColumnInitialSortingOrder();
             Sortable = propertyMetadata.GetColumnSortable();
+            SortType = propertyMetadata.GetColumnSortType();
+            SortFunction = propertyMetadata.GetColumnSortFunction();
             Index = propertyMetadata.GetColumnIndex();
 
             SummaryType = propertyMetadata.GetColumnSummaryType();

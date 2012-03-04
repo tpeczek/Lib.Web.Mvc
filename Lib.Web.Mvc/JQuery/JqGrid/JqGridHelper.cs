@@ -400,7 +400,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 }
 
                 if (!columnModel.Sortable)
+                {
                     javaScriptBuilder.AppendFormat("sortable: false, ");
+                }
+                else if (columnModel.SortType != JqGridColumnSortTypes.Text)
+                {
+                    if (columnModel.SortType == JqGridColumnSortTypes.Function && !String.IsNullOrEmpty(columnModel.SortFunction))
+                        javaScriptBuilder.AppendFormat("sorttype: {0}, ", columnModel.SortFunction);
+                    else if (columnModel.SortType != JqGridColumnSortTypes.Function)
+                        javaScriptBuilder.AppendFormat("sorttype: '{0}', ", columnModel.SortType.ToString().ToLower());
+                }
 
                 if (!columnModel.Title)
                     javaScriptBuilder.AppendFormat("title: false, ");

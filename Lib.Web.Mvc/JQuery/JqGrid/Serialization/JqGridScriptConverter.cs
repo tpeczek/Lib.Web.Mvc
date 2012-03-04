@@ -444,6 +444,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
                 obj.SummaryTemplate = GetStringFromSerializedObj(serializedObj, "summaryTpl", "{0}");
                 obj.Sortable = GetBooleanFromSerializedObj(serializedObj, "sortable", true);
+                obj.SortType = GetEnumFromSerializedObj<JqGridColumnSortTypes>(serializedObj, "sorttype", JqGridColumnSortTypes.Text);
                 obj.Index = GetStringFromSerializedObj(serializedObj, "index");
                 obj.Searchable = GetBooleanFromSerializedObj(serializedObj, "search", true);
                 obj.SearchType = GetEnumFromSerializedObj<JqGridColumnSearchTypes>(serializedObj, "stype", JqGridColumnSearchTypes.Text);
@@ -532,6 +533,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             if (!obj.Sortable)
                 serializedObj.Add("sortable", false);
+
+            if ((obj.SortType != JqGridColumnSortTypes.Text) && (obj.SortType != JqGridColumnSortTypes.Function))
+                serializedObj.Add("sorttype", obj.SortType.ToString().ToLower());
 
             serializedObj.Add("index", obj.Index);
 

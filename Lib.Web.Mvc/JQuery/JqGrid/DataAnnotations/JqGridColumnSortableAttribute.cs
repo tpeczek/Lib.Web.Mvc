@@ -19,6 +19,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         public bool Sortable { get; private set; }
 
         /// <summary>
+        /// Gets or sets the type of the column for appropriate sorting when datatype is local.
+        /// </summary>
+        public JqGridColumnSortTypes SortType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the custom sorting function when the SortType is set to JqGridColumnSortTypes.Function.
+        /// </summary>
+        public string SortFunction { get; set; }
+
+        /// <summary>
         /// Gets or sets the index name for sorting and searching.
         /// </summary>
         public string Index { get; set; }
@@ -37,6 +47,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         public JqGridColumnSortableAttribute(bool sortable)
         {
             Sortable = sortable;
+            SortType = JqGridColumnSortTypes.Text;
+            SortFunction = String.Empty;
             InitialSortingOrder = JqGridSortingOrders.Asc;
         }
         #endregion
@@ -51,6 +63,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             metadata.SetColumnIndex(Index);
             metadata.SetColumnInitialSortingOrder(InitialSortingOrder);
             metadata.SetColumnSortable(Sortable);
+            metadata.SetColumnSortType(SortType);
+            metadata.SetColumnSortFunction(SortFunction);
         }
         #endregion
     }

@@ -34,6 +34,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         private const string _searchRulesKey = "JqGridColumnModel.SearchRules";
         private const string _searchTypeKey = "JqGridColumnModel.SearchType";
         private const string _sortableKey = "JqGridColumnModel.Sortable";
+        private const string _sortTypeKey = "JqGridColumnModel.SortType";
+        private const string _sortFunctionKey = "JqGridColumnModel.SortFunction";
         private const string _indexKey = "JqGridColumnModel.Index";
         private const string _initialSortingOrderKey = "JqGridColumnModel.InitialSortingOrder";
         private const string _summaryTypeKey = "JqGridColumnModel.SummaryType";
@@ -355,6 +357,32 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
                 return (bool)metadata.AdditionalValues[_sortableKey];
             else
                 return true;
+        }
+
+        internal static void SetColumnSortType(this ModelMetadata metadata, JqGridColumnSortTypes sortType)
+        {
+            metadata.AdditionalValues.Add(_sortTypeKey, sortType);
+        }
+
+        internal static JqGridColumnSortTypes GetColumnSortType(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_sortTypeKey))
+                return (JqGridColumnSortTypes)metadata.AdditionalValues[_sortTypeKey];
+            else
+                return JqGridColumnSortTypes.Text;
+        }
+
+        internal static void SetColumnSortFunction(this ModelMetadata metadata, string sortFunction)
+        {
+            metadata.AdditionalValues.Add(_sortFunctionKey, sortFunction);
+        }
+
+        internal static string GetColumnSortFunction(this ModelMetadata metadata)
+        {
+            if (metadata.AdditionalValues.ContainsKey(_sortFunctionKey))
+                return (string)metadata.AdditionalValues[_sortFunctionKey];
+            else
+                return String.Empty;
         }
 
         internal static void SetColumnIndex(this ModelMetadata metadata, string index)
