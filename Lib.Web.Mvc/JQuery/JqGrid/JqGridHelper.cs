@@ -2062,6 +2062,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             JqGridColumnModel actionsColumnModel = new JqGridColumnModel(name);
             actionsColumnModel.Width = width;
             actionsColumnModel.Resizable = false;
+            actionsColumnModel.Searchable = false;
+            actionsColumnModel.Sortable = false;
+            actionsColumnModel.Viewable = false;
             actionsColumnModel.Formatter = JqGridColumnPredefinedFormatters.Actions;
             actionsColumnModel.FormatterOptions = new JqGridColumnFormatterOptions()
             {
