@@ -20,6 +20,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         Ne = 2,
         /// <summary>
+        /// Combines equal and not equal
+        /// </summary>
+        EqualOrNotEqual = JqGridSearchOperators.Eq | JqGridSearchOperators.Ne,
+        /// <summary>
         /// Less
         /// </summary>
         Lt = 4,
@@ -66,6 +70,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Does not contain
         /// </summary>
-        Nc = 8192
+        Nc = 8192,
+        /// <summary>
+        /// Combines equal, not equal, less, less or equal, greater, greater or equal
+        /// </summary>
+        NoTextOperators = JqGridSearchOperators.Eq | JqGridSearchOperators.Ne | JqGridSearchOperators.Lt | JqGridSearchOperators.Le | JqGridSearchOperators.Gt | JqGridSearchOperators.Ge,
+        /// <summary>
+        /// Combines equal, not equal, begins with, does not begin with, ends with, does not end with, contains and does not contain.
+        /// </summary>
+        TextOperators = JqGridSearchOperators.Eq | JqGridSearchOperators.Ne | JqGridSearchOperators.Bw | JqGridSearchOperators.Bn | JqGridSearchOperators.Ew | JqGridSearchOperators.En | JqGridSearchOperators.Cn | JqGridSearchOperators.Nc
     }
 }
