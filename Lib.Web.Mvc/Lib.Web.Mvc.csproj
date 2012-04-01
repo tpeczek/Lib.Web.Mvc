@@ -43,6 +43,8 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AcceptAjaxRequestAttribute.cs" />
+    <Compile Include="AjaxRequestAttribute.cs" />
     <Compile Include="Html\RenderXmlExtensions.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridColumnPredefinedFormatters.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridNavigatorDefaults.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="JQuery\JqGrid\Serialization\JqGridScriptConverter.cs" />
     <Compile Include="JQuery\TreeView\TreeViewNode.cs" />
     <Compile Include="NoCacheAttribute.cs" />
+    <Compile Include="NoAjaxRequestAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RangeFileContentResult.cs" />
     <Compile Include="RangeFilePathResult.cs" />
