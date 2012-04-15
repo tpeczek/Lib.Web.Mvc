@@ -160,6 +160,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
                 obj.DynamicScrollingTimeout = GetInt32FromSerializedObj(serializedObj, "scrollTimeout", 200);
                 obj.EditingUrl = GetStringFromSerializedObj(serializedObj, "editurl");
+                obj.EmptyRecords = GetStringFromSerializedObj(serializedObj, "emptyrecords", JqGridOptionsDefaults.EmptyRecords);
                 obj.ExpandColumnClick = GetBooleanFromSerializedObj(serializedObj, "ExpandColClick", true);
                 obj.ExpandColumn = GetStringFromSerializedObj(serializedObj, "ExpandColumn");
                 obj.FooterEnabled = GetBooleanFromSerializedObj(serializedObj, "footerrow", false);
@@ -285,6 +286,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 if (obj.DynamicScrollingTimeout != 200)
                     serializedObj.Add("scrollTimeout", obj.DynamicScrollingTimeout);
             }
+
+            if (obj.EmptyRecords != JqGridOptionsDefaults.EmptyRecords)
+                serializedObj.Add("emptyrecords", obj.EmptyRecords);
 
             if (!String.IsNullOrWhiteSpace(obj.EditingUrl))
                 serializedObj.Add("editurl", obj.EditingUrl);

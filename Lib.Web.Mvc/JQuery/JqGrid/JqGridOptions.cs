@@ -167,6 +167,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string EditingUrl { get; set; }
 
         /// <summary>
+        /// Gets or sets the information to be displayed when the returned (or the current) number of records is zero.
+        /// </summary>
+        public string EmptyRecords { get; set; }
+
+        /// <summary>
         /// Gets or sets the value which defines whether the tree is expanded and/or collapsed when user clicks on the text of the expanded column, not only on the image.
         /// </summary>
         public bool ExpandColumnClick { get; set; }
@@ -512,6 +517,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             DynamicScrollingMode = JqGridDynamicScrollingModes.Disabled;
             DynamicScrollingTimeout = 200;
             EditingUrl = null;
+            EmptyRecords = JqGridOptionsDefaults.EmptyRecords;
             ExpandColumn = null;
             ExpandColumnClick = true;
             ErrorCell = null;

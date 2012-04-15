@@ -174,5 +174,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Constants
         /// The ISO date format.
         /// </summary>
         public const string DateFormat = "Y-m-d";
+
+        /// <summary>
+        /// The information to be displayed when the returned (or the current) number of records is zero.
+        /// </summary>
+        public const string EmptyRecords = "No records to view";
     }
 }
