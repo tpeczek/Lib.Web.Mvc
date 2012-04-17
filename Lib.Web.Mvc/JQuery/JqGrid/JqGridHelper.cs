@@ -1964,19 +1964,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (options != null)
             {
                 if (!String.IsNullOrWhiteSpace(options.AfterClear))
-                    javaScriptBuilder.AppendFormat("afterClear: '{0}',", options.AfterClear);
+                    javaScriptBuilder.AppendFormat("afterClear: {0},", options.AfterClear);
 
                 if (!String.IsNullOrWhiteSpace(options.AfterSearch))
-                    javaScriptBuilder.AppendFormat("afterSearch: '{0}',", options.AfterSearch);
+                    javaScriptBuilder.AppendFormat("afterSearch: {0},", options.AfterSearch);
 
                 if (options.AutoSearch.HasValue)
                     javaScriptBuilder.AppendFormat("autosearch: {0},", options.AutoSearch.Value.ToString().ToLower());
 
                 if (!String.IsNullOrWhiteSpace(options.BeforeClear))
-                    javaScriptBuilder.AppendFormat("beforeClear: '{0}',", options.BeforeClear);
+                    javaScriptBuilder.AppendFormat("beforeClear: {0},", options.BeforeClear);
 
                 if (!String.IsNullOrWhiteSpace(options.BeforeSearch))
-                    javaScriptBuilder.AppendFormat("beforeSearch: '{0}',", options.BeforeSearch);
+                    javaScriptBuilder.AppendFormat("beforeSearch: {0},", options.BeforeSearch);
             }
         }
 
