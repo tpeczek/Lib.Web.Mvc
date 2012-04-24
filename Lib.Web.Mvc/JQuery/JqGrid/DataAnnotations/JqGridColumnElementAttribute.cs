@@ -18,7 +18,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             get
             {
-                if (!String.IsNullOrWhiteSpace(DataUrlRouteName) || DataUrlRouteData != null)
+                if ((HttpContext.Current != null) && (!String.IsNullOrWhiteSpace(DataUrlRouteName) || DataUrlRouteData != null))
                 {
                     RouteValueDictionary dataUrlRouteValueDictionary = DataUrlRouteData;
                     if (DataUrlRouteValues != null)
@@ -35,7 +35,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
                             }
                         }
                     }
-                    VirtualPathData dataUrlPathData = RouteTable.Routes.GetVirtualPathForArea(HttpContext.Current != null ? HttpContext.Current.Request.RequestContext : null, DataUrlRouteName, dataUrlRouteValueDictionary);
+                    VirtualPathData dataUrlPathData = RouteTable.Routes.GetVirtualPathForArea(HttpContext.Current.Request != null ? HttpContext.Current.Request.RequestContext : null, DataUrlRouteName, dataUrlRouteValueDictionary);
 
                     if (dataUrlPathData == null)
                         throw new InvalidOperationException("The DataUrl could not be resolved.");
