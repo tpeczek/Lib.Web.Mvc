@@ -689,17 +689,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (searchOptions.SearchHidden)
                     javaScriptBuilder.AppendFormat("searchhidden: true, ");
 
-                if (searchOptions.SearchOperators != (JqGridSearchOperators)16383)
-                {
-                    javaScriptBuilder.Append("sopt: [ ");
-                    foreach (JqGridSearchOperators searchOperator in Enum.GetValues(typeof(JqGridSearchOperators)))
-                    {
-                        if ((searchOptions.SearchOperators & searchOperator) == searchOperator)
-                            javaScriptBuilder.AppendFormat("'{0}',", Enum.GetName(typeof(JqGridSearchOperators), searchOperator).ToLower());
-                    }
-                    javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
-                    javaScriptBuilder.Append("], ");
-                }
+                AppendSearchOperators(searchOptions.SearchOperators, ref javaScriptBuilder);
 
                 if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
                 {
@@ -708,6 +698,21 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 }
                 else
                     javaScriptBuilder.Remove(javaScriptBuilder.Length - 17, 17);
+            }
+        }
+
+        private static void AppendSearchOperators(JqGridSearchOperators? searchOperators, ref StringBuilder javaScriptBuilder)
+        {
+            if (searchOperators.HasValue && searchOperators.Value != (JqGridSearchOperators)16383)
+            {
+                javaScriptBuilder.Append("sopt: [ ");
+                foreach (JqGridSearchOperators searchOperator in Enum.GetValues(typeof(JqGridSearchOperators)))
+                {
+                    if ((searchOperators.Value & searchOperator) == searchOperator)
+                        javaScriptBuilder.AppendFormat("'{0}',", Enum.GetName(typeof(JqGridSearchOperators), searchOperator).ToLower());
+                }
+                javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
+                javaScriptBuilder.Append("], ");
             }
         }
 
@@ -1619,11 +1624,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (searchActionOptions.Width != 450)
                     javaScriptBuilder.AppendFormat("width: {0}, ", searchActionOptions.Width);
 
+            if (!String.IsNullOrWhiteSpace(searchActionOptions.AfterRedraw))
+                javaScriptBuilder.AppendFormat("afterRedraw: {0}, ", searchActionOptions.AfterRedraw);
+
             if (!String.IsNullOrWhiteSpace(searchActionOptions.AfterShowSearch))
-                javaScriptBuilder.AppendFormat("afterShowSearch: '{0}', ", searchActionOptions.AfterShowSearch);
+                javaScriptBuilder.AppendFormat("afterShowSearch: {0}, ", searchActionOptions.AfterShowSearch);
 
             if (!String.IsNullOrWhiteSpace(searchActionOptions.BeforeShowSearch))
-                javaScriptBuilder.AppendFormat("beforeShowSearch: '{0}', ", searchActionOptions.BeforeShowSearch);
+                javaScriptBuilder.AppendFormat("beforeShowSearch: {0}, ", searchActionOptions.BeforeShowSearch);
 
             if (!String.IsNullOrEmpty(searchActionOptions.Caption))
                 javaScriptBuilder.AppendFormat("caption: '{0}', ", searchActionOptions.Caption);
@@ -1633,6 +1641,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
             if (searchActionOptions.CloseAfterReset)
                 javaScriptBuilder.Append("closeAfterReset: true, ");
+
+            if (!searchActionOptions.ErrorCheck)
+                javaScriptBuilder.Append("errorcheck: false, ");
 
             if (!String.IsNullOrEmpty(searchActionOptions.SearchText))
                 javaScriptBuilder.AppendFormat("Find: '{0}', ", searchActionOptions.SearchText);
@@ -1647,7 +1658,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.Append("cloneSearchRowOnAdd: false, ");
 
             if (!String.IsNullOrWhiteSpace(searchActionOptions.OnInitializeSearch))
-                javaScriptBuilder.AppendFormat("onInitializeSearch: '{0}', ", searchActionOptions.OnInitializeSearch);
+                javaScriptBuilder.AppendFormat("onInitializeSearch: {0}, ", searchActionOptions.OnInitializeSearch);
+
+            if (!String.IsNullOrWhiteSpace(searchActionOptions.OnReset))
+                javaScriptBuilder.AppendFormat("onReset: {0}, ", searchActionOptions.OnReset);
+
+            if (!String.IsNullOrWhiteSpace(searchActionOptions.OnSearch))
+                javaScriptBuilder.AppendFormat("onSearch: {0}, ", searchActionOptions.OnSearch);
 
             if (searchActionOptions.RecreateFilter)
                 javaScriptBuilder.Append("recreateFilter: true, ");
@@ -1655,8 +1672,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (!String.IsNullOrEmpty(searchActionOptions.ResetText))
                 javaScriptBuilder.AppendFormat("Reset: '{0}', ", searchActionOptions.ResetText);
 
+            AppendSearchOperators(searchActionOptions.SearchOperators, ref javaScriptBuilder);
+
+            if (searchActionOptions.ShowOnLoad)
+                javaScriptBuilder.Append("showOnLoad: true, ");
+
             if (searchActionOptions.ShowQuery)
                 javaScriptBuilder.Append("showQuery: true, ");
+
+            if (!String.IsNullOrEmpty(searchActionOptions.Layer))
+                javaScriptBuilder.AppendFormat("layer: '{0}', ", searchActionOptions.Layer);
         }
 
         private void AppendNavigatorButton(string navigatorPagerSelector, JqGridNavigatorButtonOptions buttonOptions, ref StringBuilder javaScriptBuilder)

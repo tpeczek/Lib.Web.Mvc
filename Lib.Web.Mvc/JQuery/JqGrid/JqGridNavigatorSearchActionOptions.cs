@@ -12,6 +12,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
     {
         #region Properties
         /// <summary>
+        /// Gets or sets the function for event which is raised every time the filter is redrawed .
+        /// </summary>
+        public string AfterRedraw { get; set; }
+
+        /// <summary>
         /// Gets or sets the function for event which is raised every time after the search dialog is shown.
         /// </summary>
         public string AfterShowSearch { get; set; }
@@ -35,6 +40,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the value indicating if search action dialog should be closed after reseting.
         /// </summary>
         public bool CloseAfterReset { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value indicating if the SearchRules should be validated.
+        /// </summary>
+        public bool ErrorCheck { get; set; }
 
         /// <summary>
         /// Gets or sets the text for search button.
@@ -62,6 +72,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string OnInitializeSearch { get; set; }
 
         /// <summary>
+        /// Gets or sets the function for event which is raised when the reset button is activated.
+        /// </summary>
+        public string OnReset { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function for event which is raised when the search button is activated.
+        /// </summary>
+        public string OnSearch { get; set; }
+
+        /// <summary>
         /// Gets or sets the value indicating if the entry filter should be destroyed unbinding all the events and then constructed again.
         /// </summary>
         public bool RecreateFilter { get; set; }
@@ -72,9 +92,24 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string ResetText { get; set; }
 
         /// <summary>
+        /// Gets or sets the available search operators for the searching (if not defined on column).
+        /// </summary>
+        public JqGridSearchOperators? SearchOperators { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value indicating if the dialog should appear automatically when the grid is constructed for first time.
+        /// </summary>
+        public bool ShowOnLoad { get; set; }
+
+        /// <summary>
         /// Gets or sets the value indicating if the query which is generated when the user defines the conditions for the search should be shown.
         /// </summary>
         public bool ShowQuery { get; set; }
+
+        /// <summary>
+        /// Gets or sets the valid DOM id of the element into which the filter is inserted as child.
+        /// </summary>
+        public string Layer { get; set; }
         #endregion
 
         #region Constructor
@@ -85,19 +120,26 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             : base()
         {
             Width = 450;
+            AfterRedraw = null;
             AfterShowSearch = null;
             BeforeShowSearch = null;
             Caption = null;
             CloseAfterSearch = false;
             CloseAfterReset = false;
+            ErrorCheck = true;
             SearchText = null;
             AdvancedSearching = false;
             AdvancedSearchingWithGroups = false;
             CloneSearchRowOnAdd = true;
             OnInitializeSearch = null;
+            OnReset = null;
+            OnSearch = null;
             RecreateFilter = false;
             ResetText = null;
+            SearchOperators = null;
+            ShowOnLoad = false;
             ShowQuery = false;
+            Layer = null;
         }
         #endregion
     }
