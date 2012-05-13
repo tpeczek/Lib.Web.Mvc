@@ -786,7 +786,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (_options.UseDataString())
                 javaScriptBuilder.AppendFormat("datastr: '{0}',", _options.DataString).AppendLine();
             else if (_asSubgrid)
-                javaScriptBuilder.AppendFormat("url: '{0}?id=' + rowId,", _options.Url).AppendLine();
+            {
+                if (_options.Url.Contains("?"))
+                    javaScriptBuilder.AppendFormat("url: '{0}&id=' + rowId,", _options.Url).AppendLine();
+                else
+                    javaScriptBuilder.AppendFormat("url: '{0}?id=' + rowId,", _options.Url).AppendLine();
+            }
             else
                 javaScriptBuilder.AppendFormat("url: '{0}',", _options.Url).AppendLine();
 
