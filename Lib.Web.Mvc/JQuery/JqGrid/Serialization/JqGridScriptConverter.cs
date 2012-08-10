@@ -426,6 +426,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.Fixed = GetBooleanFromSerializedObj(serializedObj, "fixed", false);
                 obj.Frozen = GetBooleanFromSerializedObj(serializedObj, "frozen", false);
                 obj.Hidden = GetBooleanFromSerializedObj(serializedObj, "hidden", false);
+                obj.HideInDialog = GetBooleanFromSerializedObj(serializedObj, "hidedlg", false); 
 
                 if (serializedObj.ContainsKey("formatoptions") && serializedObj["formatoptions"] != null && serializedObj["formatoptions"] is IDictionary<string, object>)
                     obj.FormatterOptions = DeserializeJqGridColumnFormatterOptions((IDictionary<string, object>)serializedObj["formatoptions"], serializer);
@@ -514,6 +515,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             if (obj.Hidden)
                 serializedObj.Add("hidden", true);
+
+            if (obj.HideInDialog) 
+                serializedObj.Add("hidedlg", true);
 
             if (!String.IsNullOrWhiteSpace(obj.JsonMapping))
                 serializedObj.Add("jsonmap", obj.JsonMapping);

@@ -367,6 +367,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (columnModel.Hidden)
                     javaScriptBuilder.Append("hidden: true, ");
 
+                if (columnModel.HideInDialog) 
+                    javaScriptBuilder.Append("hidedlg: true, "); 
+
                 if (!String.IsNullOrWhiteSpace(columnModel.JsonMapping))
                     javaScriptBuilder.AppendFormat("jsonmap: '{0}', ", columnModel.JsonMapping);
 
