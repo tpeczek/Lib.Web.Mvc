@@ -643,7 +643,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                                 if (!String.IsNullOrWhiteSpace(formatterOptions.InlineEditingOptions.Url))
                                     javaScriptBuilder.AppendFormat("url: '{0}', ", formatterOptions.InlineEditingOptions.Url);
 
-                                if (formatterOptions.InlineEditingOptions.ExtraParam != null)
+                                if (!String.IsNullOrWhiteSpace(formatterOptions.InlineEditingOptions.ExtraParamScript))
+                                    javaScriptBuilder.AppendFormat("extraparam: {0},", formatterOptions.InlineEditingOptions.ExtraParamScript).AppendLine();
+                                else if (formatterOptions.InlineEditingOptions.ExtraParam != null)
                                 {
                                     JavaScriptSerializer serializer = new JavaScriptSerializer();
                                     javaScriptBuilder.AppendFormat("extraparam: {0}, ", serializer.Serialize(formatterOptions.InlineEditingOptions.ExtraParam));
@@ -1529,7 +1531,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.AppendFormat("width: {0}, ", editActionOptions.Width);
 
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            if (editActionOptions.ExtraData != null)
+
+            if (!String.IsNullOrWhiteSpace(editActionOptions.ExtraDataScript))
+                javaScriptBuilder.AppendFormat("editData: {0},", editActionOptions.ExtraDataScript).AppendLine();
+            else if (editActionOptions.ExtraData != null)
                 javaScriptBuilder.AppendFormat("editData: {0}, ", serializer.Serialize(editActionOptions.ExtraData));
 
             if (editActionOptions.AjaxOptions != null)
@@ -1599,7 +1604,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.AppendFormat("width: {0}, ", deleteActionOptions.Width);
 
             JavaScriptSerializer serializer = new JavaScriptSerializer();
-            if (deleteActionOptions.ExtraData != null)
+
+            if (!String.IsNullOrWhiteSpace(deleteActionOptions.ExtraDataScript))
+                javaScriptBuilder.AppendFormat("delData: {0},", deleteActionOptions.ExtraDataScript).AppendLine();
+            else if (deleteActionOptions.ExtraData != null)
                 javaScriptBuilder.AppendFormat("delData: {0}, ", serializer.Serialize(deleteActionOptions.ExtraData));
 
             if (deleteActionOptions.AjaxOptions != null)
@@ -1821,7 +1829,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (!String.IsNullOrWhiteSpace(actionOptions.Url))
                     javaScriptBuilder.AppendFormat("url: '{0}', ", actionOptions.Url);
 
-                if (actionOptions.ExtraParam != null)
+                if (!String.IsNullOrWhiteSpace(actionOptions.ExtraParamScript))
+                    javaScriptBuilder.AppendFormat("extraparam: {0},", actionOptions.ExtraParamScript).AppendLine();
+                else if (actionOptions.ExtraParam != null)
                 {
                     JavaScriptSerializer serializer = new JavaScriptSerializer();
                     javaScriptBuilder.AppendFormat("extraparam: {0}, ", serializer.Serialize(actionOptions.ExtraParam));
