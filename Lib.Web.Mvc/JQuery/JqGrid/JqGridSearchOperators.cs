@@ -72,12 +72,20 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         Nc = 8192,
         /// <summary>
-        /// Combines equal, not equal, less, less or equal, greater, greater or equal
+        /// Is null
         /// </summary>
-        NoTextOperators = JqGridSearchOperators.Eq | JqGridSearchOperators.Ne | JqGridSearchOperators.Lt | JqGridSearchOperators.Le | JqGridSearchOperators.Gt | JqGridSearchOperators.Ge,
+        Nu = 16384,
         /// <summary>
-        /// Combines equal, not equal, begins with, does not begin with, ends with, does not end with, contains and does not contain.
+        /// Is not null
         /// </summary>
-        TextOperators = JqGridSearchOperators.Eq | JqGridSearchOperators.Ne | JqGridSearchOperators.Bw | JqGridSearchOperators.Bn | JqGridSearchOperators.Ew | JqGridSearchOperators.En | JqGridSearchOperators.Cn | JqGridSearchOperators.Nc
+        Nn = 32768,
+        /// <summary>
+        /// Combines equal, not equal, less, less or equal, greater, greater or equal, is null, is not null.
+        /// </summary>
+        NoTextOperators = JqGridSearchOperators.Eq | JqGridSearchOperators.Ne | JqGridSearchOperators.Lt | JqGridSearchOperators.Le | JqGridSearchOperators.Gt | JqGridSearchOperators.Ge | JqGridSearchOperators.Nu | JqGridSearchOperators.Nn,
+        /// <summary>
+        /// Combines equal, not equal, begins with, does not begin with, ends with, does not end with, contains and does not contain, is null, is not null
+        /// </summary>
+        TextOperators = JqGridSearchOperators.Eq | JqGridSearchOperators.Ne | JqGridSearchOperators.Bw | JqGridSearchOperators.Bn | JqGridSearchOperators.Ew | JqGridSearchOperators.En | JqGridSearchOperators.Cn | JqGridSearchOperators.Nc | JqGridSearchOperators.Nu | JqGridSearchOperators.Nn
     }
 }

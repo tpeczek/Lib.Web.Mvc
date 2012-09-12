@@ -708,7 +708,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
         private static void AppendSearchOperators(JqGridSearchOperators? searchOperators, ref StringBuilder javaScriptBuilder)
         {
-            if (searchOperators.HasValue && searchOperators.Value != (JqGridSearchOperators)16383)
+            if (searchOperators.HasValue && searchOperators.Value != (JqGridSearchOperators)32768)
             {
                 javaScriptBuilder.Append("sopt: [ ");
                 foreach (JqGridSearchOperators searchOperator in Enum.GetValues(typeof(JqGridSearchOperators)))

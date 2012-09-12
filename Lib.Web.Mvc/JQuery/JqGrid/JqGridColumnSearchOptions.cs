@@ -35,7 +35,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             DefaultValue = null;
             HtmlAttributes = null;
             SearchHidden = false;
-            SearchOperators = (JqGridSearchOperators)16383;
+            SearchOperators = (JqGridSearchOperators)32768;
         }
         #endregion
     }

@@ -996,7 +996,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (obj.SearchHidden)
                 serializedObj.Add("searchhidden", true);
 
-            if (obj.SearchOperators != (JqGridSearchOperators)16383)
+            if (obj.SearchOperators != (JqGridSearchOperators)32768)
             {
                 List<string> searchOperators = new List<string>();
                 foreach (JqGridSearchOperators searchOperator in Enum.GetValues(typeof(JqGridSearchOperators)))
