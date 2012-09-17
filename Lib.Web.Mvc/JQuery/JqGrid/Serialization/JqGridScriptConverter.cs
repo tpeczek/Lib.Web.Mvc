@@ -165,6 +165,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.ExpandColumn = GetStringFromSerializedObj(serializedObj, "ExpandColumn");
                 obj.FooterEnabled = GetBooleanFromSerializedObj(serializedObj, "footerrow", false);
                 obj.UserDataOnFooter = GetBooleanFromSerializedObj(serializedObj, "userDataOnFooter", false);
+                obj.GridView = GetBooleanFromSerializedObj(serializedObj, "gridview", false);
 
                 obj.GroupingEnabled = GetBooleanFromSerializedObj(serializedObj, "grouping", false);
                 if (serializedObj.ContainsKey("groupingView") && serializedObj["groupingView"] is IDictionary<string, object>)
@@ -200,6 +201,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.RowsNumbersWidth = GetInt32FromSerializedObj(serializedObj, "rownumWidth", 25);
                 obj.ShrinkToFit = GetBooleanFromSerializedObj(serializedObj, "shrinkToFit", true);
                 obj.ScrollOffset = GetInt32FromSerializedObj(serializedObj, "scrollOffset", 18);
+                obj.Sortable = GetBooleanFromSerializedObj(serializedObj, "sortable", false);
                 obj.SortingName = GetStringFromSerializedObj(serializedObj, "sortname");
                 obj.SortingOrder = GetEnumFromSerializedObj<JqGridSortingOrders>(serializedObj, "sortorder", JqGridSortingOrders.Asc);
                 obj.SubgridEnabled = GetBooleanFromSerializedObj(serializedObj, "subGrid", false);
@@ -300,6 +302,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                     serializedObj.Add("userDataOnFooter", true);
             }
 
+            if (obj.GridView)
+                serializedObj.Add("gridview", true);
+
             if (obj.GroupingEnabled)
             {
                 serializedObj.Add("grouping", true);
@@ -360,6 +365,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             if (obj.ScrollOffset != 18)
                 serializedObj.Add("scrollOffset", obj.ScrollOffset);
+
+            if (obj.Sortable)
+                serializedObj.Add("sortable", true);
 
             if (!String.IsNullOrWhiteSpace(obj.SortingName))
                 serializedObj.Add("sortname", obj.SortingName);

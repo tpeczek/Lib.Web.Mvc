@@ -202,6 +202,18 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string GridComplete { get; set; }
 
         /// <summary>
+        /// Gets or sets the value indicating if all the data should be inserted into DOM with one jQuery call (5 to 10 times faster).
+        /// </summary>
+        /// <remarks>Following features can not be used when this option is enabled:
+        /// <list type="bullet">
+        /// <item><description>TreeGrid</description></item>
+        /// <item><description>SubGrid</description></item>
+        /// <item><description>AfterInsertRow event.</description></item>
+        /// </list>
+        /// </remarks>
+        public bool GridView { get; set; }
+
+        /// <summary>
         /// Gets or sets the value indicating if the grouping is enabled.
         /// </summary>
         public bool GroupingEnabled { get; set; }
@@ -399,6 +411,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string SerializeSubGridData { get; set; }
 
         /// <summary>
+        /// Gets or sets the value which defines whether the columns can be reordered by dragging and dropping them with the mouse.
+        /// </summary>
+        /// <remarks>This option requires the jQuery UI sortable widget and the jQuery UI Addons module.</remarks>
+        public bool Sortable { get; set; }
+
+        /// <summary>
         /// Gets or sets the initial sorting column index, when  using data returned from server (default: String.Empty)
         /// </summary>
         public string SortingName { get; set; }
@@ -524,6 +542,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             FormatCell = null;
             FooterEnabled = false;
             GridComplete = null;
+            GridView = false;
             GroupingEnabled = false;
             GroupingView = null;
             Height = null;
@@ -561,6 +580,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             SerializeCellData = null;
             SerializeGridData = null;
             SerializeSubGridData = null;
+            Sortable = false;
             SortingName = String.Empty;
             SortingOrder = JqGridSortingOrders.Asc;
             SubgridColumnWidth = 20;
