@@ -694,6 +694,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
                                 if (!String.IsNullOrWhiteSpace(formatterOptions.InlineEditingOptions.AfterRestoreFunction))
                                     javaScriptBuilder.AppendFormat("afterRestore: {0}, ", formatterOptions.InlineEditingOptions.AfterRestoreFunction);
+
+                                if (!formatterOptions.InlineEditingOptions.RestoreAfterError)
+                                    javaScriptBuilder.Append("restoreAfterError: false, ");
+
+                                if (formatterOptions.InlineEditingOptions.MethodType != JqGridMethodTypes.Post)
+                                    javaScriptBuilder.Append("mtype: 'GET', ");
                             }
                             else if (formatterOptions.UseFormEditing && formatterOptions.FormEditingOptions != null)
                                 AppendNavigatorActionOptions("editOptions: ", formatterOptions.FormEditingOptions, ref javaScriptBuilder);
