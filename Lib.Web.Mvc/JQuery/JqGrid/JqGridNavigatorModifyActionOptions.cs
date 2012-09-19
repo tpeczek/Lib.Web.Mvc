@@ -32,11 +32,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public object ExtraData { get; set; }
 
         /// <summary>
-        /// Gets or sets the JavaScript which will dynamically generate the object which will be used to add content to the data posted to the server (this property takes precedence over ExtraData).
-        /// </summary>
-        public string ExtraDataScript { get; set; }
-
-        /// <summary>
         /// Gets or sets ajax settings for the request.
         /// </summary>
         public object AjaxOptions { get; set; }
@@ -77,7 +72,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             MethodType = JqGridMethodTypes.Post;
             ReloadAfterSubmit = true;
             ExtraData = null;
-            ExtraDataScript = null;
             AjaxOptions = null;
 
             AfterShowForm = null;

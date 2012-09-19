@@ -37,11 +37,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public object ExtraParam { get; set; }
 
         /// <summary>
-        /// Gets or sets the JavaScript which will dynamically generate the extra values that will be posted with row values to the server (this property takes precedence over ExtraParam).
-        /// </summary>
-        public string ExtraParamScript { get; set; }
-
-        /// <summary>
         /// Gets or sets the function for event which is raised after the data is saved to the server.
         /// </summary>
         public string AfterSaveFunction { get; set; }

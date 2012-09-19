@@ -16,7 +16,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         private const string _dateFormatKey = "JqGridColumnModel.DateFormat";
         private const string _fixedKey = "JqGridColumnModel.Fixed";
         private const string _frozenKey = "JqGridColumnModel.Frozen";
-        private const string _hideInDialogKey = "JqGridColumnModel.HideInDialog";
         private const string _resizableKey = "JqGridColumnModel.Resizable";
         private const string _titleKey = "JqGridColumnModel.Title";
         private const string _widthKey = "JqGridColumnModel.Width";
@@ -122,19 +121,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             if (metadata.AdditionalValues.ContainsKey(_frozenKey))
                 return (bool)metadata.AdditionalValues[_frozenKey];
-            else
-                return false;
-        }
-
-        internal static void SetColumnHideInDialog(this ModelMetadata metadata, bool hideInDialog)
-        {
-            metadata.AdditionalValues.Add(_hideInDialogKey, hideInDialog);
-        }
-
-        internal static bool GetColumnHideInDialog(this ModelMetadata metadata)
-        {
-            if (metadata.AdditionalValues.ContainsKey(_hideInDialogKey))
-                return (bool)metadata.AdditionalValues[_hideInDialogKey];
             else
                 return false;
         }

@@ -39,11 +39,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         public bool Frozen { get; set; }
 
         /// <summary>
-        /// Gets or sets the value which defines if column will appear in the modal dialog where users can choose which columns to show or hide.
-        /// </summary>
-        public bool HideInDialog { get; set; }
-
-        /// <summary>
         /// Gets or sets the value which defines if column can be resized (default true).
         /// </summary>
         public bool Resizable { get; set; }
@@ -74,7 +69,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             CellAttributes = null;
             Fixed = false;
             Frozen = false;
-            HideInDialog = false;
             Resizable = true;
             Title = true;
             Width = 150;
@@ -94,7 +88,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             metadata.SetColumnClasses(Classes);
             metadata.SetColumnFixed(Fixed);
             metadata.SetColumnFrozen(Frozen);
-            metadata.SetColumnHideInDialog(HideInDialog);
             metadata.SetColumnResizable(Resizable);
             metadata.SetColumnTitle(Title);
             metadata.SetColumnWidth(Width);

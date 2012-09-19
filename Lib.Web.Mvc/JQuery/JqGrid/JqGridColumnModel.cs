@@ -87,11 +87,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public bool Hidden { get; set; }
 
         /// <summary>
-        /// Gets or sets the value which defines if this column will appear in the modal dialog where users can choose which columns to show or hide.
-        /// </summary>
-        public bool HideInDialog { get; set; }
-
-        /// <summary>
         /// Gets or sets the sorting order for first column sorting.
         /// </summary>
         public JqGridSortingOrders InitialSortingOrder { get; set; }
@@ -219,7 +214,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             FormatterOptions = null;
             InitialSortingOrder = JqGridSortingOrders.Asc;
             Hidden = false;
-            HideInDialog = false;
             Index = String.Empty;
             JsonMapping = null;
             Key = false;
@@ -326,7 +320,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 Hidden = true;
             else
                 Hidden = false;
-            HideInDialog = propertyMetadata.GetColumnHideInDialog();
         }
         #endregion
     }
