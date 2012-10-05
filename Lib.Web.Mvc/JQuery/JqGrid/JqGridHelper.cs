@@ -1924,7 +1924,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (actionOptions.InitData != null)
                 {
                     JavaScriptSerializer serializer = new JavaScriptSerializer();
-                    javaScriptBuilder.AppendFormat(": {0}, ", serializer.Serialize(actionOptions.InitData));
+                    javaScriptBuilder.AppendFormat("initdata: {0}, ", serializer.Serialize(actionOptions.InitData));
                 }
 
                 if (actionOptions.Position != JqGridNewRowPositions.First)
