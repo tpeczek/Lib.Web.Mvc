@@ -247,86 +247,97 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             : this(propertyMetadata.PropertyName)
         {
             IEnumerable<object> customAttributes  = propertyMetadata.ContainerType.GetProperty(propertyMetadata.PropertyName).GetCustomAttributes(true).AsEnumerable();
-            RangeAttribute rangeAttribute = customAttributes.OfType<RangeAttribute>().FirstOrDefault();
 
-            Alignment = propertyMetadata.GetColumnAlignment();
-            CellAttributes = propertyMetadata.GetColumnCellAttributes();
-            Classes = propertyMetadata.GetColumnClasses();
-            DateFormat = propertyMetadata.GetColumnDateFormat();
-            Fixed = propertyMetadata.GetColumnFixed();
-            Frozen = propertyMetadata.GetColumnFrozen();
-            JsonMapping = propertyMetadata.GetColumnJsonMapping();
-            Key = propertyMetadata.GetColumnKey();
-            Resizable = propertyMetadata.GetColumnResizable();
-            Title = propertyMetadata.GetColumnTitle();
-            Width = propertyMetadata.GetColumnWidth();
-            Viewable = propertyMetadata.GetColumnViewable();
-            XmlMapping = propertyMetadata.GetColumnXmlMapping();
-
-            Editable = propertyMetadata.GetColumnEditable();
-            EditOptions = propertyMetadata.GetColumnEditOptions();
-            if (EditOptions != null)
+            TimestampAttribute timeStampAttribute = customAttributes.OfType<TimestampAttribute>().FirstOrDefault();
+            if (timeStampAttribute != null)
             {
-                StringLengthAttribute stringLengthAttribute = customAttributes.OfType<StringLengthAttribute>().FirstOrDefault();
-                if (stringLengthAttribute != null)
-                {
-                    if (EditOptions.HtmlAttributes == null)
-                        EditOptions.HtmlAttributes = new Dictionary<string, object>();
-
-                    if (EditOptions.HtmlAttributes.ContainsKey("maxlength"))
-                        EditOptions.HtmlAttributes["maxlength"] = stringLengthAttribute.MaximumLength;
-                    else
-                        EditOptions.HtmlAttributes.Add("maxlength", stringLengthAttribute.MaximumLength);
-                }
-            }
-            EditRules = propertyMetadata.GetColumnEditRules();
-            if (EditRules != null)
-            {
-                RequiredAttribute requiredAttribute = customAttributes.OfType<RequiredAttribute>().FirstOrDefault();
-                if (requiredAttribute != null)
-                    EditRules.Required = true;
-
-                if (rangeAttribute != null)
-                {
-                    EditRules.MaxValue = Convert.ToDouble(rangeAttribute.Maximum);
-                    EditRules.MinValue = Convert.ToDouble(rangeAttribute.Minimum);
-                }
-            }
-            EditType = propertyMetadata.GetColumnEditType();
-
-            Formatter = propertyMetadata.GetColumnFormatter();
-            FormatterOptions = propertyMetadata.GetColumnFormatterOptions();
-            UnFormatter = propertyMetadata.GetColumnUnFormatter();
-
-            FormOptions = propertyMetadata.GetColumnFormOptions();
-
-            LabelOptions = propertyMetadata.GetColumnLabelOptions();
-
-            Searchable = propertyMetadata.GetColumnSearchable();
-            SearchOptions = propertyMetadata.GetColumnSearchOptions();
-            SearchRules = propertyMetadata.GetColumnSearchRules();
-            if (SearchRules != null && rangeAttribute != null)
-            {
-                SearchRules.MaxValue = Convert.ToDouble(rangeAttribute.Maximum);
-                SearchRules.MinValue = Convert.ToDouble(rangeAttribute.Minimum);
-            }
-            SearchType = propertyMetadata.GetColumnSearchType();
-
-            InitialSortingOrder = propertyMetadata.GetColumnInitialSortingOrder();
-            Sortable = propertyMetadata.GetColumnSortable();
-            SortType = propertyMetadata.GetColumnSortType();
-            SortFunction = propertyMetadata.GetColumnSortFunction();
-            Index = propertyMetadata.GetColumnIndex();
-
-            SummaryType = propertyMetadata.GetColumnSummaryType();
-            SummaryTemplate = propertyMetadata.GetColumnSummaryTemplate();
-            SummaryFunction = propertyMetadata.GetColumnSummaryFunction();
-
-            if (!String.IsNullOrWhiteSpace(propertyMetadata.TemplateHint) && propertyMetadata.TemplateHint.Equals("HiddenInput"))
+                Editable = true;
                 Hidden = true;
+            }
             else
-                Hidden = false;
-            HideInDialog = propertyMetadata.GetColumnHideInDialog();
+            {
+                RangeAttribute rangeAttribute = customAttributes.OfType<RangeAttribute>().FirstOrDefault();
+
+                Alignment = propertyMetadata.GetColumnAlignment();
+                CellAttributes = propertyMetadata.GetColumnCellAttributes();
+                Classes = propertyMetadata.GetColumnClasses();
+                DateFormat = propertyMetadata.GetColumnDateFormat();
+                Fixed = propertyMetadata.GetColumnFixed();
+                Frozen = propertyMetadata.GetColumnFrozen();
+                Key = propertyMetadata.GetColumnKey();
+                Resizable = propertyMetadata.GetColumnResizable();
+                Title = propertyMetadata.GetColumnTitle();
+                Width = propertyMetadata.GetColumnWidth();
+                Viewable = propertyMetadata.GetColumnViewable();
+
+                Editable = propertyMetadata.GetColumnEditable();
+                EditOptions = propertyMetadata.GetColumnEditOptions();
+                if (EditOptions != null)
+                {
+                    StringLengthAttribute stringLengthAttribute = customAttributes.OfType<StringLengthAttribute>().FirstOrDefault();
+                    if (stringLengthAttribute != null)
+                    {
+                        if (EditOptions.HtmlAttributes == null)
+                            EditOptions.HtmlAttributes = new Dictionary<string, object>();
+
+                        if (EditOptions.HtmlAttributes.ContainsKey("maxlength"))
+                            EditOptions.HtmlAttributes["maxlength"] = stringLengthAttribute.MaximumLength;
+                        else
+                            EditOptions.HtmlAttributes.Add("maxlength", stringLengthAttribute.MaximumLength);
+                    }
+                }
+                EditRules = propertyMetadata.GetColumnEditRules();
+                if (EditRules != null)
+                {
+                    RequiredAttribute requiredAttribute = customAttributes.OfType<RequiredAttribute>().FirstOrDefault();
+                    if (requiredAttribute != null)
+                        EditRules.Required = true;
+
+                    if (rangeAttribute != null)
+                    {
+                        EditRules.MaxValue = Convert.ToDouble(rangeAttribute.Maximum);
+                        EditRules.MinValue = Convert.ToDouble(rangeAttribute.Minimum);
+                    }
+                }
+                EditType = propertyMetadata.GetColumnEditType();
+
+                Formatter = propertyMetadata.GetColumnFormatter();
+                FormatterOptions = propertyMetadata.GetColumnFormatterOptions();
+                UnFormatter = propertyMetadata.GetColumnUnFormatter();
+
+                FormOptions = propertyMetadata.GetColumnFormOptions();
+
+                LabelOptions = propertyMetadata.GetColumnLabelOptions();
+
+                Searchable = propertyMetadata.GetColumnSearchable();
+                SearchOptions = propertyMetadata.GetColumnSearchOptions();
+                SearchRules = propertyMetadata.GetColumnSearchRules();
+                if (SearchRules != null && rangeAttribute != null)
+                {
+                    SearchRules.MaxValue = Convert.ToDouble(rangeAttribute.Maximum);
+                    SearchRules.MinValue = Convert.ToDouble(rangeAttribute.Minimum);
+                }
+                SearchType = propertyMetadata.GetColumnSearchType();
+
+                InitialSortingOrder = propertyMetadata.GetColumnInitialSortingOrder();
+                Sortable = propertyMetadata.GetColumnSortable();
+                SortType = propertyMetadata.GetColumnSortType();
+                SortFunction = propertyMetadata.GetColumnSortFunction();
+                Index = propertyMetadata.GetColumnIndex();
+
+                SummaryType = propertyMetadata.GetColumnSummaryType();
+                SummaryTemplate = propertyMetadata.GetColumnSummaryTemplate();
+                SummaryFunction = propertyMetadata.GetColumnSummaryFunction();
+
+                if (!String.IsNullOrWhiteSpace(propertyMetadata.TemplateHint) && propertyMetadata.TemplateHint.Equals("HiddenInput"))
+                    Hidden = true;
+                else
+                    Hidden = false;
+                HideInDialog = propertyMetadata.GetColumnHideInDialog();
+            }
+
+            JsonMapping = propertyMetadata.GetColumnJsonMapping();
+            XmlMapping = propertyMetadata.GetColumnXmlMapping();
         }
         #endregion
     }
