@@ -98,6 +98,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                     SerializeJqGridSubgridModel((JqGridSubgridModel)obj, serializer, ref serializedObj);
                 else if (obj is JqGridResponse)
                     SerializeJqGridResponse((JqGridResponse)obj, serializer, ref serializedObj);
+                else if (obj is JqGridRequestSearchingFilters)
+                    SerializeJqGridRequestSearchingFilters((JqGridRequestSearchingFilters)obj, serializer, ref serializedObj);
+                else if (obj is JqGridRequestSearchingFilter)
+                    SerializeJqGridRequestSearchingFilter((JqGridRequestSearchingFilter)obj, serializer, ref serializedObj);
             }
 
             return serializedObj;
@@ -1204,6 +1208,17 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             return obj;
         }
 
+        private static void SerializeJqGridRequestSearchingFilters(JqGridRequestSearchingFilters obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        {
+            serializedObj.Add("groupOp", obj.GroupingOperator.ToString().ToUpper());
+
+            if (obj.Filters != null && obj.Filters.Count > 0)
+                serializedObj.Add("rules", obj.Filters);
+
+            if (obj.Groups != null && obj.Groups.Count > 0)
+                serializedObj.Add("groups", obj.Groups);
+        }
+
         private static JqGridRequestSearchingFilter DeserializeJqGridRequestSearchingFilter(IDictionary<string, object> serializedObj, JavaScriptSerializer serializer)
         {
             JqGridRequestSearchingFilter obj = new JqGridRequestSearchingFilter();
@@ -1212,6 +1227,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             obj.SearchingOperator = GetEnumFromSerializedObj<JqGridSearchOperators>(serializedObj, "op", JqGridSearchOperators.Eq);
             obj.SearchingValue = GetStringFromSerializedObj(serializedObj, "data");
             return obj;
+        }
+
+        private static void SerializeJqGridRequestSearchingFilter(JqGridRequestSearchingFilter obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        {
+            serializedObj.Add("field", obj.SearchingName);
+            serializedObj.Add("op", obj.SearchingOperator.ToString().ToLower());
+            serializedObj.Add("data", obj.SearchingValue);
         }
 
         private static bool? GetBooleanFromSerializedObj(IDictionary<string, object> serializedObj, string key)

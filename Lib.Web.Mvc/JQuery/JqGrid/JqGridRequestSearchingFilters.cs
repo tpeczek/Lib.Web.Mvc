@@ -19,12 +19,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets the list of filters.
         /// </summary>
-        public List<JqGridRequestSearchingFilter> Filters { get; private set; }
+        public List<JqGridRequestSearchingFilter> Filters { get; set; }
 
         /// <summary>
         /// Gets the list of filters sub groups.
         /// </summary>
-        public List<JqGridRequestSearchingFilters> Groups { get; private set; }
+        public List<JqGridRequestSearchingFilters> Groups { get; set; }
         #endregion
 
         #region Constructor

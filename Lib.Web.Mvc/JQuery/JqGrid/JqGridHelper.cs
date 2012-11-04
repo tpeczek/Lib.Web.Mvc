@@ -1745,6 +1745,25 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
             if (!String.IsNullOrEmpty(searchActionOptions.Layer))
                 javaScriptBuilder.AppendFormat("layer: '{0}', ", searchActionOptions.Layer);
+
+            if (searchActionOptions.Templates != null && searchActionOptions.Templates.Count > 0)
+            {
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                serializer.RegisterConverters(new JavaScriptConverter[] { new Lib.Web.Mvc.JQuery.JqGrid.Serialization.JqGridScriptConverter() });
+
+                javaScriptBuilder.Append("tmplNames: [],");
+                int templateNameIndex = javaScriptBuilder.Length - 2;
+                javaScriptBuilder.Append("tmplFilters: [");
+                foreach (KeyValuePair<string, JqGridRequestSearchingFilters> template in searchActionOptions.Templates)
+                {
+                    javaScriptBuilder.Insert(templateNameIndex, "'" + template.Key + "', ");
+                    templateNameIndex += template.Key.Length + 4;
+                    javaScriptBuilder.Append(serializer.Serialize(template.Value) + ", ");
+                }
+                javaScriptBuilder.Remove(templateNameIndex - 2, 2);
+                javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);
+                javaScriptBuilder.Append("],");
+            }
         }
 
         private void AppendNavigatorButton(string navigatorPagerSelector, JqGridNavigatorButtonOptions buttonOptions, ref StringBuilder javaScriptBuilder)

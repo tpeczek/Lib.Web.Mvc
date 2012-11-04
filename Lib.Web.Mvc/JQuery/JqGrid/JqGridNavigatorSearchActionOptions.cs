@@ -107,6 +107,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public bool ShowQuery { get; set; }
 
         /// <summary>
+        /// Gets or sets the filters templates for advanced searching and avanced searching with groups.
+        /// </summary>
+        public IDictionary<string, JqGridRequestSearchingFilters> Templates { get; set; }
+
+        /// <summary>
         /// Gets or sets the valid DOM id of the element into which the filter is inserted as child.
         /// </summary>
         public string Layer { get; set; }
@@ -139,6 +144,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             SearchOperators = null;
             ShowOnLoad = false;
             ShowQuery = false;
+            Templates = null;
             Layer = null;
         }
         #endregion
