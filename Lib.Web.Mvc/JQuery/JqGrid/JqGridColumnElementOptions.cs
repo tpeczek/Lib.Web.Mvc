@@ -42,9 +42,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public IDictionary<string, object> HtmlAttributes { get; set; }
 
         /// <summary>
-        /// Gets or sets the set of value:label pairs for select element.
+        /// Gets or sets the set of value:label pairs for select element (takes precedence over ValueDictionary property).
         /// </summary>
         public string Value { get; set; }
+
+        /// <summary>
+        /// Gets or sets the dictionary which will be serialized into set of value:label pairs for select element.
+        /// </summary>
+        public IDictionary<string, string> ValueDictionary { get; set; }
         #endregion
     }
 }

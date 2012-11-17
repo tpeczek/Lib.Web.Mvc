@@ -5,6 +5,7 @@ using System.Text;
 using System.Web.Routing;
 using System.Web.Mvc;
 using System.Web;
+using System.Reflection;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
 {
@@ -163,6 +164,34 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// Gets or sets the set of value:label pairs for select element.
         /// </summary>
         public virtual string Value{ get; set; }
+
+        internal Type ValueProviderType { get; set; }
+
+        internal string ValueProviderMethodName { get; set; }
+
+        internal IDictionary<string, string> ValueDictionary
+        {
+            get
+            {
+                if (ValueProviderType != null && !String.IsNullOrWhiteSpace(ValueProviderMethodName))
+                {
+                    MethodInfo valueProviderMethodInfo = ValueProviderType.GetMethod(ValueProviderMethodName);
+                    if (valueProviderMethodInfo == null)
+                        throw new InvalidOperationException("The method specified by ValueProviderType and ValueProviderMethodName could not be found.");
+
+                    ConstructorInfo valueProviderConstructorInfo = ValueProviderType.GetConstructor(Type.EmptyTypes);
+                    if (valueProviderConstructorInfo == null)
+                        throw new InvalidOperationException("The type specified by ValueProviderType does not have parameterless constructor.");
+
+                    object valueProvider = valueProviderConstructorInfo.Invoke(null);
+                    if (typeof(IDictionary<string, string>).IsAssignableFrom(valueProviderMethodInfo.ReturnType))
+                        return (IDictionary<string, string>)valueProviderMethodInfo.Invoke(valueProvider, null);
+                    else
+                        throw new InvalidOperationException("The method specified by ValueProviderType and ValueProviderMethodName does not return IDictionary<string, string>.");
+                }
+                return null;
+            }
+        }
         #endregion
 
         #region Constructor

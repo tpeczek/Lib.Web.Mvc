@@ -121,6 +121,25 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             if (!String.IsNullOrWhiteSpace(dataUrlAreaName))
                 DataUrlRouteData["area"] = dataUrlAreaName;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the JqGridColumnSearchableAttribute class.
+        /// </summary>
+        /// <param name="searchable">If this column can be searched</param>
+        /// <param name="valueProviderType">The type of class which contains a method which will provide data for select element (if is JqGridColumnSearchTypes.Select). This class must have public parameterless constructor.</param>
+        /// <param name="valueProviderMethodName">The name of method which will provide data for select element (if is JqGridColumnSearchTypes.Select). This method must return an object which implements IDictionary&lt;string, string&gt;.</param>
+        public JqGridColumnSearchableAttribute(bool searchable, Type valueProviderType, string valueProviderMethodName)
+            : this(searchable)
+        {
+            if (valueProviderType == null)
+                throw new ArgumentNullException("valueProviderType");
+
+            if (String.IsNullOrWhiteSpace(valueProviderMethodName))
+                throw new ArgumentNullException("valueProviderMethodName");
+
+            ValueProviderType = valueProviderType;
+            ValueProviderMethodName = valueProviderMethodName;
+        }
         #endregion
 
         #region IMetadataAware
@@ -133,6 +152,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             SearchOptions.DataEvents = DataEvents;
             SearchOptions.DataUrl = DataUrl;
             SearchOptions.HtmlAttributes = HtmlAttributes;
+            SearchOptions.ValueDictionary = ValueDictionary;
 
             metadata.SetColumnSearchable(Searchable);
             metadata.SetColumnSearchOptions(SearchOptions);

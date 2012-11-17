@@ -603,8 +603,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             serializedObj.Remove("dataUrl");
             obj.DefaultValue = GetStringFromSerializedObj(serializedObj, "defaultValue");
             serializedObj.Remove("defaultValue");
-            obj.Value = GetStringFromSerializedObj(serializedObj, "value");
+
+            if (serializedObj["value"] != null && serializedObj["value"] is IDictionary<string, object>)
+                obj.ValueDictionary = ((IDictionary<string, object>)serializedObj["value"]).ToDictionary(k => k.Key, v => v.Value.ToString());
+            else
+                obj.Value = GetStringFromSerializedObj(serializedObj, "value");
             serializedObj.Remove("value");
+
             obj.NullIfEmpty = GetBooleanFromSerializedObj(serializedObj, "NullIfEmpty", false);
             serializedObj.Remove("NullIfEmpty");
             obj.HtmlAttributes = serializedObj;
@@ -961,6 +966,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             if (!String.IsNullOrWhiteSpace(obj.Value))
                 serializedObj.Add("value", obj.Value);
+            else if (obj.ValueDictionary != null)
+                serializedObj.Add("value", obj.ValueDictionary);
         }
 
         private static JqGridColumnSearchOptions DeserializeJqGridColumnSearchOptions(IDictionary<string, object> serializedObj, JavaScriptSerializer serializer)
@@ -969,7 +976,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             obj.DataUrl = GetStringFromSerializedObj(serializedObj, "dataUrl");
             obj.DefaultValue = GetStringFromSerializedObj(serializedObj, "defaultValue");
-            obj.Value = GetStringFromSerializedObj(serializedObj, "value");
+
+            if (serializedObj["value"] != null && serializedObj["value"] is IDictionary<string, object>)
+                obj.ValueDictionary = ((IDictionary<string, object>)serializedObj["value"]).ToDictionary(k => k.Key, v => v.Value.ToString());
+            else
+                obj.Value = GetStringFromSerializedObj(serializedObj, "value");
 
             if (serializedObj.ContainsKey("attr") && serializedObj["attr"] != null && serializedObj["attr"] is IDictionary<string, object>)
                 obj.HtmlAttributes = (IDictionary<string, object>)serializedObj["attr"];
