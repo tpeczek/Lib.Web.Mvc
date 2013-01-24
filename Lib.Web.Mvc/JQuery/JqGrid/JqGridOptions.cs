@@ -241,6 +241,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public bool HiddenEnabled { get; set; }
 
         /// <summary>
+        /// Gets or sets the value which defines whether the local searching is case-sensitive.
+        /// </summary>
+        public bool IgnoreCase { get; set; }
+
+        /// <summary>
         /// Gets or sets the JSON reader for the grid.
         /// </summary>
         public JqGridJsonReader JsonReader { get; set; }
@@ -548,6 +553,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             Height = null;
             Hidden = false;
             HiddenEnabled = true;
+            IgnoreCase = false;
             JsonReader = JqGridResponse.JsonReader;
             LoadBeforeSend = null;
             LoadComplete = null;
