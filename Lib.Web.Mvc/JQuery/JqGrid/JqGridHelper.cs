@@ -757,7 +757,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.Append("sopt: [ ");
                 foreach (JqGridSearchOperators searchOperator in Enum.GetValues(typeof(JqGridSearchOperators)))
                 {
-                    if ((searchOperators.Value & searchOperator) == searchOperator)
+                    if (searchOperator != JqGridSearchOperators.EqualOrNotEqual && searchOperator != JqGridSearchOperators.NoTextOperators && searchOperator != JqGridSearchOperators.TextOperators && (searchOperators.Value & searchOperator) == searchOperator)
                         javaScriptBuilder.AppendFormat("'{0}',", Enum.GetName(typeof(JqGridSearchOperators), searchOperator).ToLower());
                 }
                 javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);

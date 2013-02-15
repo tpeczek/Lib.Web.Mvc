@@ -76,7 +76,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// Initializes a new instance of the JqGridColumnSearchableAttribute class.
         /// </summary>
         /// <param name="searchable">If this column can be searched</param>
-        /// <param name="dataUrlRouteName">Route name for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select)</param>
+        /// <param name="dataUrlRouteName">Route name for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select) or jQuery UI Autocomplete widget (if SearchType is JqGridColumnSearchTypes.Autocomplete).</param>
         public JqGridColumnSearchableAttribute(bool searchable, string dataUrlRouteName)
             : this(searchable)
         {
@@ -92,8 +92,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// Initializes a new instance of the JqGridColumnSearchableAttribute class.
         /// </summary>
         /// <param name="searchable">If this column can be searched</param>
-        /// <param name="dataUrlAction">Action for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select)</param>
-        /// <param name="dataUrlController">Controller for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select)</param>
+        /// <param name="dataUrlAction">Action for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select) or jQuery UI Autocomplete widget (if SearchType is JqGridColumnSearchTypes.Autocomplete).</param>
+        /// <param name="dataUrlController">Controller for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select) or jQuery UI Autocomplete widget (if SearchType is JqGridColumnSearchTypes.Autocomplete).</param>
         public JqGridColumnSearchableAttribute(bool searchable, string dataUrlAction, string dataUrlController) :
             this(searchable, dataUrlAction, dataUrlController, null)
         { }
@@ -102,9 +102,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// Initializes a new instance of the JqGridColumnSearchableAttribute class.
         /// </summary>
         /// <param name="searchable">If this column can be searched</param>
-        /// <param name="dataUrlAction">Action for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select)</param>
-        /// <param name="dataUrlController">Controller for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select)</param>
-        /// <param name="dataUrlAreaName">Area for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select)</param>
+        /// <param name="dataUrlAction">Action for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select) or jQuery UI Autocomplete widget (if SearchType is JqGridColumnSearchTypes.Autocomplete).</param>
+        /// <param name="dataUrlController">Controller for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select) or jQuery UI Autocomplete widget (if SearchType is JqGridColumnSearchTypes.Autocomplete).</param>
+        /// <param name="dataUrlAreaName">Area for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select) or jQuery UI Autocomplete widget (if SearchType is JqGridColumnSearchTypes.Autocomplete).</param>
         public JqGridColumnSearchableAttribute(bool searchable, string dataUrlAction, string dataUrlController, string dataUrlAreaName)
             : this(searchable)
         {
@@ -153,6 +153,22 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             SearchOptions.DataUrl = DataUrl;
             SearchOptions.HtmlAttributes = HtmlAttributes;
             SearchOptions.ValueDictionary = ValueDictionary;
+
+            if (SearchType == JqGridColumnSearchTypes.JQueryUIAutocomplete)
+            {
+                SearchType = JqGridColumnSearchTypes.Text;
+                SearchOptions.ConfigureJQueryUIAutocomplete();
+            }
+            else if (SearchType == JqGridColumnSearchTypes.JQueryUIDatepicker)
+            {
+                SearchType = JqGridColumnSearchTypes.Text;
+                SearchOptions.ConfigureJQueryUIDatepicker(metadata);
+            }
+            else if (SearchType == JqGridColumnSearchTypes.JQueryUISpinner)
+            {
+                SearchType = JqGridColumnSearchTypes.Text;
+                SearchOptions.ConfigureJQueryUISpinner();
+            }
 
             metadata.SetColumnSearchable(Searchable);
             metadata.SetColumnSearchOptions(SearchOptions);

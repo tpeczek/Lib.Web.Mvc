@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lib.Web.Mvc.JQuery.JqGrid.Constants;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -153,6 +154,31 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             get { return Options.ThousandsSeparator; }
             set { Options.ThousandsSeparator = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the primary icon class (form UI theme icons) for jQuery UI Button widget.
+        /// </summary>
+        public string PrimaryIcon { get; set; }
+
+        /// <summary>
+        /// Gets or sets the secondary icon class (form UI theme icons) for jQuery UI Button widget.
+        /// </summary>
+        public string SecondaryIcon { get; set; }
+
+        /// <summary>
+        /// Gets or sets the text to show in the button for jQuery UI Button widget.
+        /// </summary>
+        public string Label { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value whether to show the label in jQuery UI Button widget.
+        /// </summary>
+        public bool Text { get; set; }
+
+        /// <summary>
+        /// Gets or sets the click handler (JavaScript) for jQuery UI Button widget.
+        /// </summary>
+        public string OnClick { get; set; }
         #endregion
 
         #region Constructor
@@ -166,6 +192,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
                 throw new ArgumentNullException("formatter");
             Formatter = formatter;
             Options = new JqGridColumnFormatterOptions(formatter);
+            PrimaryIcon = String.Empty;
+            SecondaryIcon = String.Empty;
+            Label = String.Empty;
+            Text = true;
         }
         #endregion
 
@@ -176,9 +206,56 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <param name="metadata">The model metadata.</param>
         public void OnMetadataCreated(ModelMetadata metadata)
         {
-            metadata.SetColumnFormatter(Formatter);
-            metadata.SetColumnFormatterOptions(Options);
-            metadata.SetColumnUnFormatter(UnFormatter);
+            if (Formatter == JqGridColumnPredefinedFormatters.JQueryUIButton)
+                metadata.SetColumnFormatter(GetJQueryUIButtonFormatter());
+            else
+            {
+                metadata.SetColumnFormatter(Formatter);
+                metadata.SetColumnFormatterOptions(Options);
+                metadata.SetColumnUnFormatter(UnFormatter);
+            }
+        }
+        #endregion
+
+        #region Methods
+        internal string GetJQueryUIButtonFormatter()
+        {
+            StringBuilder formatterBuilder = new StringBuilder(80);
+            formatterBuilder.Append("function(cellValue, options, rowObject) { setTimeout(function() { $('#' + options.rowId + '_JQueryUIButton').attr('data-cell-value', cellValue).button({ ");
+
+            if (!String.IsNullOrEmpty(Label))
+                formatterBuilder.AppendFormat("label: '{0}', ", Label);
+
+            if (!String.IsNullOrWhiteSpace(PrimaryIcon) || !String.IsNullOrWhiteSpace(SecondaryIcon))
+            {
+                formatterBuilder.Append("icons: { ");
+
+                if (!String.IsNullOrWhiteSpace(PrimaryIcon))
+                    formatterBuilder.AppendFormat("primary: '{0}', ", PrimaryIcon);
+
+                if (!String.IsNullOrWhiteSpace(SecondaryIcon))
+                    formatterBuilder.AppendFormat("secondary: '{0}', ", SecondaryIcon);
+
+                formatterBuilder.Remove(formatterBuilder.Length - 2, 2);
+                formatterBuilder.Append(" }, ");
+            }
+
+            if (!Text)
+                formatterBuilder.Append("text: false, ");
+
+            formatterBuilder.Remove(formatterBuilder.Length - 2, 2);
+            if (formatterBuilder[formatterBuilder.Length - 1] == '(')
+                formatterBuilder.Append(")");
+            else
+                formatterBuilder.Append(" })");
+
+            if (String.IsNullOrWhiteSpace(OnClick))
+                formatterBuilder.Append(";");
+            else
+                formatterBuilder.AppendFormat(".click({0});", OnClick);
+            formatterBuilder.Append(" }, 0); return '<button id=\"' + options.rowId + '_JQueryUIButton\" />'; }");
+
+            return formatterBuilder.ToString();
         }
         #endregion
     }

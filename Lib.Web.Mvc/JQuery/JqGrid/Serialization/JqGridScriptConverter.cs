@@ -1028,7 +1028,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 List<string> searchOperators = new List<string>();
                 foreach (JqGridSearchOperators searchOperator in Enum.GetValues(typeof(JqGridSearchOperators)))
                 {
-                    if ((obj.SearchOperators & searchOperator) == searchOperator)
+                    if (searchOperator != JqGridSearchOperators.EqualOrNotEqual && searchOperator != JqGridSearchOperators.NoTextOperators && searchOperator != JqGridSearchOperators.TextOperators && (obj.SearchOperators & searchOperator) == searchOperator)
                         searchOperators.Add(Enum.GetName(typeof(JqGridSearchOperators), searchOperator).ToLower());
                 }
                 serializedObj.Add("sopt", searchOperators);

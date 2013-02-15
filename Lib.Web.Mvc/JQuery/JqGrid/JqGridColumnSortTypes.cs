@@ -14,22 +14,18 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Sorting as integers.
         /// </summary>
         Integer,
-
         /// <summary>
         /// Sorting as decimal numbers.
         /// </summary>
         Float,
-
         /// <summary>
         /// Sorting as date.
         /// </summary>
         Date,
-
         /// <summary>
         /// Sorting as text.
         /// </summary>
         Text,
-
         /// <summary>
         /// Sorting using custom function (this option is not supported in configuration import/export).
         /// </summary>

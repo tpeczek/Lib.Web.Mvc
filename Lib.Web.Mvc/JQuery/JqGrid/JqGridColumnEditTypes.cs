@@ -45,6 +45,18 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Custom editable element
         /// </summary>
-        Custom
+        Custom,
+        /// <summary>
+        /// jQuery UI Autocomplete widget
+        /// </summary>
+        JQueryUIAutocomplete,
+        /// <summary>
+        /// jQuery UI Datepicker widget
+        /// </summary>
+        JQueryUIDatepicker,
+        /// <summary>
+        /// jQuery UI Spinner widget
+        /// </summary>
+        JQueryUISpinner
     }
 }

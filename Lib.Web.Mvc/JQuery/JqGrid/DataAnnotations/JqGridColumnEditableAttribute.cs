@@ -140,7 +140,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// Initializes a new instance of the JqGridColumnEditableAttribute class.
         /// </summary>
         /// <param name="editable">If this column can be edited</param>
-        /// <param name="dataUrlRouteName">Route name for the URL to get the AJAX data for the select element (if is JqGridColumnEditTypes.Select)</param>
+        /// <param name="dataUrlRouteName">Route name for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
         public JqGridColumnEditableAttribute(bool editable, string dataUrlRouteName)
             : this(editable)
         {
@@ -156,8 +156,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// Initializes a new instance of the JqGridColumnEditableAttribute class.
         /// </summary>
         /// <param name="editable">If this column can be edited</param>
-        /// <param name="dataUrlAction">Action for the URL to get the AJAX data for the select element (if is JqGridColumnEditTypes.Select)</param>
-        /// <param name="dataUrlController">Controller for the URL to get the AJAX data for the select element (if is JqGridColumnEditTypes.Select)</param>
+        /// <param name="dataUrlAction">Action for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
+        /// <param name="dataUrlController">Controller for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
         public JqGridColumnEditableAttribute(bool editable, string dataUrlAction, string dataUrlController) :
             this(editable, dataUrlAction, dataUrlController, null)
         { }
@@ -166,9 +166,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// Initializes a new instance of the JqGridColumnEditableAttribute class.
         /// </summary>
         /// <param name="editable">If this column can be edited</param>
-        /// <param name="dataUrlAction">Action for the URL to get the AJAX data for the select element (if is JqGridColumnEditTypes.Select)</param>
-        /// <param name="dataUrlController">Controller for the URL to get the AJAX data for the select element (if is JqGridColumnEditTypes.Select)</param>
-        /// <param name="dataUrlAreaName">Area for the URL to get the AJAX data for the select element (if is JqGridColumnEditTypes.Select)</param>
+        /// <param name="dataUrlAction">Action for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
+        /// <param name="dataUrlController">Controller for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
+        /// <param name="dataUrlAreaName">Area for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
         public JqGridColumnEditableAttribute(bool editable, string dataUrlAction, string dataUrlController, string dataUrlAreaName)
             : this(editable)
         {
@@ -217,6 +217,22 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             EditOptions.DataUrl = DataUrl;
             EditOptions.HtmlAttributes = HtmlAttributes;
             EditOptions.ValueDictionary = ValueDictionary;
+
+            if (EditType == JqGridColumnEditTypes.JQueryUIAutocomplete)
+            {
+                EditType = JqGridColumnEditTypes.Text;
+                EditOptions.ConfigureJQueryUIAutocomplete();
+            }
+            else if (EditType == JqGridColumnEditTypes.JQueryUIDatepicker)
+            {
+                EditType = JqGridColumnEditTypes.Text;
+                EditOptions.ConfigureJQueryUIDatepicker(metadata);
+            }
+            else if (EditType == JqGridColumnEditTypes.JQueryUISpinner)
+            {
+                EditType = JqGridColumnEditTypes.Text;
+                EditOptions.ConfigureJQueryUISpinner();
+            }
 
             metadata.SetColumnDateFormat(DateFormat);
             metadata.SetColumnEditable(Editable);

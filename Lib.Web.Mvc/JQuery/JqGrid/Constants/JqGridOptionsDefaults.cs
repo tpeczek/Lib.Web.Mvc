@@ -133,7 +133,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Constants
         /// <summary>
         /// The date output format for formatter.
         /// </summary>
-        public const string FormatterOutputFormat = "d/m/Y";
+        public const string FormatterOutputFormat = "n/j/Y";
 
         /// <summary>
         /// The thousands separator for formatter.
