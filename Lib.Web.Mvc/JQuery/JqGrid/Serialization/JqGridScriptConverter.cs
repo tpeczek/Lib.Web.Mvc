@@ -75,33 +75,33 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (obj != null)
             {
                 if (obj is JqGridOptions)
-                    SerializeJqGridOptions((JqGridOptions)obj, serializer, ref serializedObj);
+                    SerializeJqGridOptions((JqGridOptions)obj, serializer, serializedObj);
                 else if (obj is JqGridColumnModel)
-                    SerializeJqGridColumnModel((JqGridColumnModel)obj, serializer, ref serializedObj);
+                    SerializeJqGridColumnModel((JqGridColumnModel)obj, serializer, serializedObj);
                 else if (obj is JqGridJsonReader)
-                    SerializeJqGridJsonReader((JqGridJsonReader)obj, serializer, ref serializedObj);
+                    SerializeJqGridJsonReader((JqGridJsonReader)obj, serializer, serializedObj);
                 else if (obj is JqGridParametersNames)
-                    SerializeJqGridParametersNames((JqGridParametersNames)obj, serializer, ref serializedObj);
+                    SerializeJqGridParametersNames((JqGridParametersNames)obj, serializer, serializedObj);
                 else if (obj is JqGridGroupingView)
-                    SerializeJqGridGroupingView((JqGridGroupingView)obj, serializer, ref serializedObj);
+                    SerializeJqGridGroupingView((JqGridGroupingView)obj, serializer, serializedObj);
                 else if (obj is JqGridColumnEditOptions)
-                    SerializeJqGridColumnEditOptions((JqGridColumnEditOptions)obj, serializer, ref serializedObj);
+                    SerializeJqGridColumnEditOptions((JqGridColumnEditOptions)obj, serializer, serializedObj);
                 else if (obj is JqGridColumnRules)
-                    SerializeJqGridColumnRules((JqGridColumnRules)obj, serializer, ref serializedObj);
+                    SerializeJqGridColumnRules((JqGridColumnRules)obj, serializer, serializedObj);
                 else if (obj is JqGridColumnFormatterOptions)
-                    SerializeJqGridColumnFormatterOptions((JqGridColumnFormatterOptions)obj, serializer, ref serializedObj);
+                    SerializeJqGridColumnFormatterOptions((JqGridColumnFormatterOptions)obj, serializer, serializedObj);
                 else if (obj is JqGridColumnFormOptions)
-                    SerializeJqGridColumnFormOptions((JqGridColumnFormOptions)obj, serializer, ref serializedObj);
+                    SerializeJqGridColumnFormOptions((JqGridColumnFormOptions)obj, serializer, serializedObj);
                 else if (obj is JqGridColumnSearchOptions)
-                    SerializeJqGridColumnSearchOptions((JqGridColumnSearchOptions)obj, serializer, ref serializedObj);
+                    SerializeJqGridColumnSearchOptions((JqGridColumnSearchOptions)obj, serializer, serializedObj);
                 else if (obj is JqGridSubgridModel)
-                    SerializeJqGridSubgridModel((JqGridSubgridModel)obj, serializer, ref serializedObj);
+                    SerializeJqGridSubgridModel((JqGridSubgridModel)obj, serializer, serializedObj);
                 else if (obj is JqGridResponse)
-                    SerializeJqGridResponse((JqGridResponse)obj, serializer, ref serializedObj);
+                    SerializeJqGridResponse((JqGridResponse)obj, serializer, serializedObj);
                 else if (obj is JqGridRequestSearchingFilters)
-                    SerializeJqGridRequestSearchingFilters((JqGridRequestSearchingFilters)obj, serializer, ref serializedObj);
+                    SerializeJqGridRequestSearchingFilters((JqGridRequestSearchingFilters)obj, serializer, serializedObj);
                 else if (obj is JqGridRequestSearchingFilter)
-                    SerializeJqGridRequestSearchingFilter((JqGridRequestSearchingFilter)obj, serializer, ref serializedObj);
+                    SerializeJqGridRequestSearchingFilter((JqGridRequestSearchingFilter)obj, serializer, serializedObj);
             }
 
             return serializedObj;
@@ -229,7 +229,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 return null;
         }
 
-        private static void SerializeJqGridOptions(JqGridOptions obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        private static void SerializeJqGridOptions(JqGridOptions obj, JavaScriptSerializer serializer, Dictionary<string, object> serializedObj)
         {
             serializedObj.Add("id", obj.Id);
 
@@ -442,16 +442,20 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.Fixed = GetBooleanFromSerializedObj(serializedObj, "fixed", false);
                 obj.Frozen = GetBooleanFromSerializedObj(serializedObj, "frozen", false);
                 obj.Hidden = GetBooleanFromSerializedObj(serializedObj, "hidden", false);
-                obj.HideInDialog = GetBooleanFromSerializedObj(serializedObj, "hidedlg", false); 
+                obj.HideInDialog = GetBooleanFromSerializedObj(serializedObj, "hidedlg", false);
+
+                obj.Formatter = GetStringFromSerializedObj(serializedObj, "formatter");
+                if (!String.IsNullOrWhiteSpace(obj.Formatter))
+                    obj.Formatter = '\'' + obj.Formatter + '\'';
 
                 if (serializedObj.ContainsKey("formatoptions") && serializedObj["formatoptions"] != null && serializedObj["formatoptions"] is IDictionary<string, object>)
                     obj.FormatterOptions = DeserializeJqGridColumnFormatterOptions((IDictionary<string, object>)serializedObj["formatoptions"], serializer);
+                //obj.UnFormatter = GetStringFromSerializedObj(serializedObj, "unformat");
 
                 if (serializedObj.ContainsKey("formoptions") && serializedObj["formoptions"] != null && serializedObj["formoptions"] is IDictionary<string, object>)
                     obj.FormOptions = DeserializeJqGridColumnFormOptions((IDictionary<string, object>)serializedObj["formoptions"], serializer);
 
                 obj.InitialSortingOrder = GetEnumFromSerializedObj<JqGridSortingOrders>(serializedObj, "firstsortorder", JqGridSortingOrders.Asc);
-                obj.Formatter = GetStringFromSerializedObj(serializedObj, "formatter");
                 obj.JsonMapping = GetStringFromSerializedObj(serializedObj, "jsonmap");
                 obj.Key = GetBooleanFromSerializedObj(serializedObj, "key", false);
                 obj.Resizable = GetBooleanFromSerializedObj(serializedObj, "resizable", true);
@@ -477,7 +481,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                     obj.SearchRules = DeserializeJqGridColumnRules((IDictionary<string, object>)serializedObj["searchrules"], serializer);
 
                 obj.Title = GetBooleanFromSerializedObj(serializedObj, "title", true);
-                obj.UnFormatter = GetStringFromSerializedObj(serializedObj, "unformat");
                 obj.Width = GetInt32FromSerializedObj(serializedObj, "width", 150);
                 obj.Viewable = GetBooleanFromSerializedObj(serializedObj, "viewable", true);
                 obj.XmlMapping = GetStringFromSerializedObj(serializedObj, "xmlmap");
@@ -488,7 +491,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 return null;
         }
 
-        private static void SerializeJqGridColumnModel(JqGridColumnModel obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        private static void SerializeJqGridColumnModel(JqGridColumnModel obj, JavaScriptSerializer serializer, Dictionary<string, object> serializedObj)
         {
             serializedObj.Add("align", obj.Alignment.ToString().ToLower());
 
@@ -520,14 +523,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (obj.Frozen)
                 serializedObj.Add("frozen", true);
 
-            if (obj.FormatterOptions != null)
-                serializedObj.Add("formatoptions", obj.FormatterOptions);
-
             if (obj.InitialSortingOrder != JqGridSortingOrders.Asc)
                 serializedObj.Add("firstsortorder", "desc");
 
-            if (!String.IsNullOrWhiteSpace(obj.Formatter))
-                serializedObj.Add("formatter", obj.Formatter);
+            if (!String.IsNullOrWhiteSpace(obj.Formatter) && obj.Formatter[0] == '\'' && obj.Formatter[obj.Formatter.Length - 1] == '\'')
+            {
+                serializedObj.Add("formatter", obj.Formatter.Substring(1, obj.Formatter.Length - 2));
+
+                if (obj.FormatterOptions != null)
+                    serializedObj.Add("formatoptions", obj.FormatterOptions);
+            }
+
+            //if (!String.IsNullOrWhiteSpace(obj.UnFormatter))
+            //    serializedObj.Add("unformat", obj.UnFormatter);
 
             if (obj.Hidden)
                 serializedObj.Add("hidden", true);
@@ -582,9 +590,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (!obj.Title)
                 serializedObj.Add("title", false);
 
-            if (!String.IsNullOrWhiteSpace(obj.UnFormatter))
-                serializedObj.Add("unformat", obj.UnFormatter);
-
             if (obj.Width != 150)
                 serializedObj.Add("width", obj.Width);
 
@@ -621,7 +626,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             return obj;
         }
 
-        private static void SerializeJqGridColumnEditOptions(JqGridColumnEditOptions obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        private static void SerializeJqGridColumnEditOptions(JqGridColumnEditOptions obj, JavaScriptSerializer serializer, Dictionary<string, object> serializedObj)
         {
             if (!String.IsNullOrWhiteSpace(obj.CustomElementFunction))
                 serializedObj.Add("custom_element", obj.CustomElementFunction);
@@ -629,7 +634,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (!String.IsNullOrWhiteSpace(obj.CustomValueFunction))
                 serializedObj.Add("custom_value", obj.CustomValueFunction);
 
-            SerializeJqGridColumnElementOptions(obj, serializer, ref serializedObj);
+            SerializeJqGridColumnElementOptions(obj, serializer, serializedObj);
 
             if (obj.NullIfEmpty)
                 serializedObj.Add("NullIfEmpty", true);
@@ -663,7 +668,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             return obj;
         }
 
-        private static void SerializeJqGridJsonReader(JqGridJsonReader obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        private static void SerializeJqGridJsonReader(JqGridJsonReader obj, JavaScriptSerializer serializer, Dictionary<string, object> serializedObj)
         {
             if (obj.Records != JqGridOptionsDefaults.ResponseRecords)
                 serializedObj.Add("root", obj.Records);
@@ -727,7 +732,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             return obj;
         }
 
-        private static void SerializeJqGridParametersNames(JqGridParametersNames obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        private static void SerializeJqGridParametersNames(JqGridParametersNames obj, JavaScriptSerializer serializer, Dictionary<string, object> serializedObj)
         {
             if (obj.PageIndex != JqGridOptionsDefaults.RequestPageIndex)
                 serializedObj.Add("page", obj.PageIndex);
@@ -797,7 +802,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             return obj;
         }
 
-        private static void SerializeJqGridGroupingView(JqGridGroupingView obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        private static void SerializeJqGridGroupingView(JqGridGroupingView obj, JavaScriptSerializer serializer, Dictionary<string, object> serializedObj)
         {
             if (obj.Fields != null && obj.Fields.Length > 0)
                 serializedObj.Add("groupField", obj.Fields);
@@ -850,7 +855,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             return obj;
         }
 
-        private static void SerializeJqGridColumnRules(JqGridColumnRules obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        private static void SerializeJqGridColumnRules(JqGridColumnRules obj, JavaScriptSerializer serializer, Dictionary<string, object> serializedObj)
         {
             if (obj.Custom)
                 serializedObj.Add("custom", true);
@@ -902,7 +907,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             return obj;
         }
 
-        private static void SerializeJqGridColumnFormOptions(JqGridColumnFormOptions obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        private static void SerializeJqGridColumnFormOptions(JqGridColumnFormOptions obj, JavaScriptSerializer serializer, Dictionary<string, object> serializedObj)
         {
             if (obj.ColumnPosition.HasValue)
                 serializedObj.Add("colpos", obj.ColumnPosition.Value);
@@ -942,7 +947,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             return obj;
         }
 
-        private static void SerializeJqGridColumnFormatterOptions(JqGridColumnFormatterOptions obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        private static void SerializeJqGridColumnFormatterOptions(JqGridColumnFormatterOptions obj, JavaScriptSerializer serializer, Dictionary<string, object> serializedObj)
         {
             serializedObj.Add("addParam", obj.AddParam);
             serializedObj.Add("baseLinkUrl", obj.BaseLinkUrl);
@@ -960,7 +965,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             serializedObj.Add("thousandsSeparator", obj.ThousandsSeparator);
         }
 
-        private static void SerializeJqGridColumnElementOptions(JqGridColumnElementOptions obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        private static void SerializeJqGridColumnElementOptions(JqGridColumnElementOptions obj, JavaScriptSerializer serializer, Dictionary<string, object> serializedObj)
         {
             if (!String.IsNullOrWhiteSpace(obj.DataUrl))
                 serializedObj.Add("dataUrl", obj.DataUrl);
@@ -1013,9 +1018,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             return obj;
         }
 
-        private static void SerializeJqGridColumnSearchOptions(JqGridColumnSearchOptions obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        private static void SerializeJqGridColumnSearchOptions(JqGridColumnSearchOptions obj, JavaScriptSerializer serializer, Dictionary<string, object> serializedObj)
         {
-            SerializeJqGridColumnElementOptions(obj, serializer, ref serializedObj);
+            SerializeJqGridColumnElementOptions(obj, serializer, serializedObj);
 
             if (obj.HtmlAttributes != null && obj.HtmlAttributes.Count > 0)
                 serializedObj.Add("attr", obj.HtmlAttributes);
@@ -1067,7 +1072,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             return obj;
         }
 
-        private static void SerializeJqGridSubgridModel(JqGridSubgridModel obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        private static void SerializeJqGridSubgridModel(JqGridSubgridModel obj, JavaScriptSerializer serializer, Dictionary<string, object> serializedObj)
         {
             serializedObj.Add("name", obj.ColumnsNames);
 
@@ -1079,7 +1084,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             serializedObj.Add("width", obj.ColumnsWidths);
         }
 
-        private static void SerializeJqGridResponse(JqGridResponse obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        private static void SerializeJqGridResponse(JqGridResponse obj, JavaScriptSerializer serializer, Dictionary<string, object> serializedObj)
         {
             JqGridJsonReader jsonReader = (obj.Reader == null) ? JqGridResponse.JsonReader : obj.Reader;
 
@@ -1223,7 +1228,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             return obj;
         }
 
-        private static void SerializeJqGridRequestSearchingFilters(JqGridRequestSearchingFilters obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        private static void SerializeJqGridRequestSearchingFilters(JqGridRequestSearchingFilters obj, JavaScriptSerializer serializer, Dictionary<string, object> serializedObj)
         {
             serializedObj.Add("groupOp", obj.GroupingOperator.ToString().ToUpper());
 
@@ -1244,7 +1249,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             return obj;
         }
 
-        private static void SerializeJqGridRequestSearchingFilter(JqGridRequestSearchingFilter obj, JavaScriptSerializer serializer, ref Dictionary<string, object> serializedObj)
+        private static void SerializeJqGridRequestSearchingFilter(JqGridRequestSearchingFilter obj, JavaScriptSerializer serializer, Dictionary<string, object> serializedObj)
         {
             serializedObj.Add("field", obj.SearchingName);
             serializedObj.Add("op", obj.SearchingOperator.ToString().ToLower());

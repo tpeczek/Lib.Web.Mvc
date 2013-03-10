@@ -249,31 +249,31 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             StringBuilder javaScriptBuilder = new StringBuilder();
 
             javaScriptBuilder.AppendFormat("$({0}).jqGrid({{", GridSelector).AppendLine();
-            AppendColumnsNames(ref javaScriptBuilder);
-            AppendColumnsModels(ref javaScriptBuilder);
-            AppendOptions(ref javaScriptBuilder);
+            AppendColumnsNames(javaScriptBuilder);
+            AppendColumnsModels(javaScriptBuilder);
+            AppendOptions(javaScriptBuilder);
             javaScriptBuilder.Append("})");
 
             foreach (JqGridColumnModel columnModel in _options.ColumnsModels)
             {
                 if (columnModel.LabelOptions != null)
-                    AppendColumnLabelOptions(columnModel.Name, columnModel.LabelOptions, ref javaScriptBuilder);
+                    AppendColumnLabelOptions(columnModel.Name, columnModel.LabelOptions, javaScriptBuilder);
             }
 
             if (_options.FooterEnabled && _footerData != null && _footerData.Count > 0)
-                AppendFooterData(ref javaScriptBuilder);
+                AppendFooterData(javaScriptBuilder);
 
             if (_navigatorOptions != null)
-                AppendNavigator(ref javaScriptBuilder);
+                AppendNavigator(javaScriptBuilder);
 
             if (_inlineNavigatorOptions != null)
-                AppendInlineNavigator(ref javaScriptBuilder);
+                AppendInlineNavigator(javaScriptBuilder);
 
             if (_filterToolbar)
-                AppendFilterToolbar(ref javaScriptBuilder);
+                AppendFilterToolbar(javaScriptBuilder);
 
             if (_groupHeaders != null && _groupHeaders.Count() > 0)
-                AppendGroupHeaders(ref javaScriptBuilder);
+                AppendGroupHeaders(javaScriptBuilder);
 
             if (_setFrozenColumns)
                 javaScriptBuilder.Append(".jqGrid('setFrozenColumns')");
@@ -281,7 +281,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             javaScriptBuilder.AppendLine(";");
 
             if (_filterGridModel != null)
-                AppendFilterGrid(ref javaScriptBuilder);
+                AppendFilterGrid(javaScriptBuilder);
 
             return MvcHtmlString.Create(javaScriptBuilder.ToString());
         }
@@ -335,7 +335,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 throw new InvalidOperationException("AfterInsertRow event and GridView can not be enabled at the same time.");
         }
 
-        private void AppendColumnsNames(ref StringBuilder javaScriptBuilder)
+        private void AppendColumnsNames(StringBuilder javaScriptBuilder)
         {
             javaScriptBuilder.Append("colNames: [");
 
@@ -348,7 +348,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             javaScriptBuilder.AppendLine("],");
         }
 
-        private void AppendColumnsModels(ref StringBuilder javaScriptBuilder)
+        private void AppendColumnsModels(StringBuilder javaScriptBuilder)
         {
             javaScriptBuilder.AppendLine("colModel: [");
 
@@ -378,9 +378,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                     javaScriptBuilder.Append("editable: true, ");
                     if (columnModel.EditType != JqGridColumnEditTypes.Text)
                         javaScriptBuilder.AppendFormat("edittype: '{0}', ", columnModel.EditType.ToString().ToLower());
-                    AppendEditOptions(columnModel.EditOptions, ref javaScriptBuilder);
-                    AppendColumnRules("editrules", columnModel.EditRules, ref javaScriptBuilder);
-                    AppendFormOptions(columnModel.FormOptions, ref javaScriptBuilder);
+                    AppendEditOptions(columnModel.EditOptions, javaScriptBuilder);
+                    AppendColumnRules("editrules", columnModel.EditRules, javaScriptBuilder);
+                    AppendFormOptions(columnModel.FormOptions, javaScriptBuilder);
                 }
 
                 if (columnModel.Fixed)
@@ -392,7 +392,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (!String.IsNullOrWhiteSpace(columnModel.Formatter))
                 {
                     javaScriptBuilder.AppendFormat("formatter: {0}, ", columnModel.Formatter);
-                    AppendFormatterOptions(columnModel.Formatter, columnModel.FormatterOptions, ref javaScriptBuilder);
+                    AppendFormatterOptions(columnModel.Formatter, columnModel.FormatterOptions, javaScriptBuilder);
                     if (!String.IsNullOrWhiteSpace(columnModel.UnFormatter))
                         javaScriptBuilder.AppendFormat("unformat: {0}, ", columnModel.UnFormatter);
                 }
@@ -419,8 +419,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 {
                     if (columnModel.SearchType != JqGridColumnSearchTypes.Text)
                         javaScriptBuilder.AppendFormat("stype: '{0}', ", columnModel.SearchType.ToString().ToLower());
-                    AppendSearchOptions(columnModel.SearchOptions, ref javaScriptBuilder);
-                    AppendColumnRules("searchrules", columnModel.SearchRules, ref javaScriptBuilder);
+                    AppendSearchOptions(columnModel.SearchOptions, javaScriptBuilder);
+                    AppendColumnRules("searchrules", columnModel.SearchRules, javaScriptBuilder);
                 }
                 else
                     javaScriptBuilder.AppendFormat("search: false, ");
@@ -477,7 +477,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             javaScriptBuilder.AppendLine("],");
         }
 
-        private static void AppendEditOptions(JqGridColumnEditOptions editOptions, ref StringBuilder javaScriptBuilder)
+        private static void AppendEditOptions(JqGridColumnEditOptions editOptions, StringBuilder javaScriptBuilder)
         {
             if (editOptions != null)
             {
@@ -490,7 +490,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (!String.IsNullOrWhiteSpace(editOptions.CustomValueFunction))
                     javaScriptBuilder.AppendFormat("custom_value: {0}, ", editOptions.CustomValueFunction);
 
-                AppendElementOptions(editOptions, serializer, ref javaScriptBuilder);
+                AppendElementOptions(editOptions, serializer, javaScriptBuilder);
 
                 if (editOptions.NullIfEmpty)
                     javaScriptBuilder.AppendFormat("NullIfEmpty: true, ", editOptions.CustomValueFunction);
@@ -511,7 +511,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private static void AppendElementOptions(JqGridColumnElementOptions elementOptions, JavaScriptSerializer serializer, ref StringBuilder javaScriptBuilder)
+        private static void AppendElementOptions(JqGridColumnElementOptions elementOptions, JavaScriptSerializer serializer, StringBuilder javaScriptBuilder)
         {
             if (!String.IsNullOrWhiteSpace(elementOptions.BuildSelect))
                 javaScriptBuilder.AppendFormat("buildSelect: {0}, ", elementOptions.BuildSelect);
@@ -545,7 +545,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.AppendFormat("value: {0}, ", serializer.Serialize(elementOptions.ValueDictionary));
         }
 
-        private static void AppendColumnRules(string rulesName, JqGridColumnRules rules, ref StringBuilder javaScriptBuilder)
+        private static void AppendColumnRules(string rulesName, JqGridColumnRules rules, StringBuilder javaScriptBuilder)
         {
             if (rules != null)
             {
@@ -602,7 +602,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private static void AppendFormOptions(JqGridColumnFormOptions formOptions, ref StringBuilder javaScriptBuilder)
+        private static void AppendFormOptions(JqGridColumnFormOptions formOptions, StringBuilder javaScriptBuilder)
         {
             if (formOptions != null)
             {
@@ -633,7 +633,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private static void AppendFormatterOptions(string formatter, JqGridColumnFormatterOptions formatterOptions, ref StringBuilder javaScriptBuilder)
+        private static void AppendFormatterOptions(string formatter, JqGridColumnFormatterOptions formatterOptions, StringBuilder javaScriptBuilder)
         {
             if (formatterOptions != null && !formatterOptions.IsDefault(formatter))
             { 
@@ -705,11 +705,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                                     javaScriptBuilder.Append("mtype: 'GET', ");
                             }
                             else if (formatterOptions.UseFormEditing && formatterOptions.FormEditingOptions != null)
-                                AppendNavigatorActionOptions("editOptions: ", formatterOptions.FormEditingOptions, ref javaScriptBuilder);
+                                AppendNavigatorActionOptions("editOptions: ", formatterOptions.FormEditingOptions, javaScriptBuilder);
                         }
 
                         if (formatterOptions.DeleteButton && formatterOptions.DeleteOptions != null)
-                            AppendNavigatorActionOptions("delOptions: ", formatterOptions.DeleteOptions, ref javaScriptBuilder);
+                            AppendNavigatorActionOptions("delOptions: ", formatterOptions.DeleteOptions, javaScriptBuilder);
                         break;
                 }
 
@@ -723,14 +723,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private static void AppendSearchOptions(JqGridColumnSearchOptions searchOptions, ref StringBuilder javaScriptBuilder)
+        private static void AppendSearchOptions(JqGridColumnSearchOptions searchOptions, StringBuilder javaScriptBuilder)
         {
             if (searchOptions != null)
             {
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 javaScriptBuilder.Append("searchoptions: { ");
 
-                AppendElementOptions(searchOptions, serializer, ref javaScriptBuilder);
+                AppendElementOptions(searchOptions, serializer, javaScriptBuilder);
 
                 if (searchOptions.HtmlAttributes != null && searchOptions.HtmlAttributes.Count > 0)
                     javaScriptBuilder.AppendFormat("attr: {0}, ", serializer.Serialize(searchOptions.HtmlAttributes));
@@ -738,7 +738,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (searchOptions.SearchHidden)
                     javaScriptBuilder.AppendFormat("searchhidden: true, ");
 
-                AppendSearchOperators(searchOptions.SearchOperators, ref javaScriptBuilder);
+                AppendSearchOperators(searchOptions.SearchOperators, javaScriptBuilder);
 
                 if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
                 {
@@ -750,7 +750,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private static void AppendSearchOperators(JqGridSearchOperators? searchOperators, ref StringBuilder javaScriptBuilder)
+        private static void AppendSearchOperators(JqGridSearchOperators? searchOperators, StringBuilder javaScriptBuilder)
         {
             if (searchOperators.HasValue && searchOperators.Value != (JqGridSearchOperators)32768)
             {
@@ -765,7 +765,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private void AppendOptions(ref StringBuilder javaScriptBuilder)
+        private void AppendOptions(StringBuilder javaScriptBuilder)
         {
             if (!String.IsNullOrWhiteSpace(_options.AfterInsertRow))
                 javaScriptBuilder.AppendFormat("afterInsertRow: {0},", _options.AfterInsertRow).AppendLine();
@@ -887,13 +887,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (_options.GroupingEnabled)
             {
                 javaScriptBuilder.Append("grouping: true,").AppendLine();
-                AppendGroupingView(ref javaScriptBuilder);
+                AppendGroupingView(javaScriptBuilder);
             }
 
             if (_options.IgnoreCase)
                 javaScriptBuilder.Append("ignoreCase: true,").AppendLine();
 
-            AppendJsonReader(ref javaScriptBuilder);
+            AppendJsonReader(javaScriptBuilder);
 
             if (!String.IsNullOrWhiteSpace(_options.LoadBeforeSend))
                 javaScriptBuilder.AppendFormat("loadBeforeSend: {0},", _options.LoadBeforeSend).AppendLine();
@@ -955,7 +955,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (_options.Pager)
                 javaScriptBuilder.AppendFormat("pager: {0},", PagerSelector).AppendLine();
 
-            AppendParametersNames(ref javaScriptBuilder);
+            AppendParametersNames(javaScriptBuilder);
 
             if (!String.IsNullOrWhiteSpace(_options.PostDataScript))
                 javaScriptBuilder.AppendFormat("postData: {0},", _options.PostDataScript).AppendLine();
@@ -1030,7 +1030,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 }
                 else
                 {
-                    AppendSubgridModel(ref javaScriptBuilder);
+                    AppendSubgridModel(javaScriptBuilder);
 
                     if (!String.IsNullOrWhiteSpace(_options.SubgridUrl))
                         javaScriptBuilder.AppendFormat("subGridUrl: '{0}',", _options.SubgridUrl).AppendLine();
@@ -1073,7 +1073,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.AppendLine("height: '100%'");
         }
 
-        private void AppendJsonReader(ref StringBuilder javaScriptBuilder)
+        private void AppendJsonReader(StringBuilder javaScriptBuilder)
         {
             if (!_options.JsonReader.IsDefault())
             {
@@ -1125,7 +1125,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private void AppendParametersNames(ref StringBuilder javaScriptBuilder)
+        private void AppendParametersNames(StringBuilder javaScriptBuilder)
         {
             if (!_options.ParametersNames.IsDefault())
             {
@@ -1175,7 +1175,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private void AppendGroupingView(ref StringBuilder javaScriptBuilder)
+        private void AppendGroupingView(StringBuilder javaScriptBuilder)
         {
             if (_options.GroupingView != null)
             {
@@ -1246,7 +1246,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private void AppendSubgridModel(ref StringBuilder javaScriptBuilder)
+        private void AppendSubgridModel(StringBuilder javaScriptBuilder)
         {
             if (_options.SubgridModel != null)
             {
@@ -1277,32 +1277,32 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private void AppendNavigator(ref StringBuilder javaScriptBuilder)
+        private void AppendNavigator(StringBuilder javaScriptBuilder)
         {
             string navigatorPagerSelector = _navigatorOptions.Pager == JqGridNavigatorPagers.Top ? TopPagerSelector : PagerSelector;
             javaScriptBuilder.AppendFormat(".jqGrid('navGrid', {0},", navigatorPagerSelector).AppendLine();
-            AppendNavigatorOptions(ref javaScriptBuilder);
+            AppendNavigatorOptions(javaScriptBuilder);
 
             if (_navigatorEditActionOptions != null || _navigatorAddActionOptions != null || _navigatorDeleteActionOptions != null || _navigatorSearchActionOptions != null || _navigatorViewActionOptions != null)
             {
                 javaScriptBuilder.AppendLine(",");
-                AppendNavigatorActionOptions(String.Empty, _navigatorEditActionOptions, ref javaScriptBuilder);
+                AppendNavigatorActionOptions(String.Empty, _navigatorEditActionOptions, javaScriptBuilder);
                 if (_navigatorAddActionOptions != null || _navigatorDeleteActionOptions != null || _navigatorSearchActionOptions != null || _navigatorViewActionOptions != null)
                 {
                     javaScriptBuilder.AppendLine(",");
-                    AppendNavigatorActionOptions(String.Empty, _navigatorAddActionOptions, ref javaScriptBuilder);
+                    AppendNavigatorActionOptions(String.Empty, _navigatorAddActionOptions, javaScriptBuilder);
                     if (_navigatorDeleteActionOptions != null || _navigatorSearchActionOptions != null || _navigatorViewActionOptions != null)
                     {
                         javaScriptBuilder.AppendLine(",");
-                        AppendNavigatorActionOptions(String.Empty, _navigatorDeleteActionOptions, ref javaScriptBuilder);
+                        AppendNavigatorActionOptions(String.Empty, _navigatorDeleteActionOptions, javaScriptBuilder);
                         if (_navigatorSearchActionOptions != null || _navigatorViewActionOptions != null)
                         {
                             javaScriptBuilder.AppendLine(",");
-                            AppendNavigatorActionOptions(String.Empty, _navigatorSearchActionOptions, ref javaScriptBuilder);
+                            AppendNavigatorActionOptions(String.Empty, _navigatorSearchActionOptions, javaScriptBuilder);
                             if (_navigatorViewActionOptions != null)
                             {
                                 javaScriptBuilder.AppendLine(",");
-                                AppendNavigatorActionOptions(String.Empty, _navigatorViewActionOptions, ref javaScriptBuilder);
+                                AppendNavigatorActionOptions(String.Empty, _navigatorViewActionOptions, javaScriptBuilder);
                             }
                         }
                     }
@@ -1316,21 +1316,21 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (controlOptions is JqGridNavigatorButtonOptions)
                 {
                     JqGridNavigatorButtonOptions buttonOptions = (JqGridNavigatorButtonOptions)controlOptions;
-                    AppendNavigatorButton(navigatorPagerSelector, buttonOptions, ref javaScriptBuilder);
+                    AppendNavigatorButton(navigatorPagerSelector, buttonOptions, javaScriptBuilder);
                     if (_navigatorOptions.Pager == JqGridNavigatorPagers.Standard && controlOptions.CloneToTop)
-                        AppendNavigatorButton(TopPagerSelector, buttonOptions, ref javaScriptBuilder);
+                        AppendNavigatorButton(TopPagerSelector, buttonOptions, javaScriptBuilder);
                 }
                 else if (controlOptions is JqGridNavigatorSeparatorOptions)
                 {
                     JqGridNavigatorSeparatorOptions separatorOptions = (JqGridNavigatorSeparatorOptions)controlOptions;
-                    AppendNavigatorSeparator(navigatorPagerSelector, separatorOptions, ref javaScriptBuilder);
+                    AppendNavigatorSeparator(navigatorPagerSelector, separatorOptions, javaScriptBuilder);
                     if (_navigatorOptions.Pager == JqGridNavigatorPagers.Standard && controlOptions.CloneToTop)
-                        AppendNavigatorSeparator(TopPagerSelector, separatorOptions, ref javaScriptBuilder);
+                        AppendNavigatorSeparator(TopPagerSelector, separatorOptions, javaScriptBuilder);
                 }
             }
         }
 
-        private static void AppendBaseNavigatorOptions(JqGridNavigatorOptionsBase baseNavigatorOptions, ref StringBuilder javaScriptBuilder)
+        private static void AppendBaseNavigatorOptions(JqGridNavigatorOptionsBase baseNavigatorOptions, StringBuilder javaScriptBuilder)
         {
             if (!baseNavigatorOptions.Add)
                 javaScriptBuilder.Append("add: false, ");
@@ -1360,11 +1360,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.AppendFormat("position: '{0}', ", baseNavigatorOptions.Position.ToString().ToLower());
         }
 
-        private void AppendNavigatorOptions(ref StringBuilder javaScriptBuilder)
+        private void AppendNavigatorOptions(StringBuilder javaScriptBuilder)
         {
             javaScriptBuilder.Append("{ ");
 
-            AppendBaseNavigatorOptions(_navigatorOptions, ref javaScriptBuilder);
+            AppendBaseNavigatorOptions(_navigatorOptions, javaScriptBuilder);
 
             if (_navigatorOptions.AlertCaption != JqGridNavigatorDefaults.AlertCaption)
                 javaScriptBuilder.AppendFormat("alertcap: '{0}', ", _navigatorOptions.AlertCaption);
@@ -1453,7 +1453,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.Append("}");
         }
 
-        private static void AppendNavigatorActionOptions(string optionsName, JqGridNavigatorActionOptions actionOptions, ref StringBuilder javaScriptBuilder)
+        private static void AppendNavigatorActionOptions(string optionsName, JqGridNavigatorActionOptions actionOptions, StringBuilder javaScriptBuilder)
         {
             javaScriptBuilder.AppendFormat("{0}{{ ", optionsName);
 
@@ -1495,27 +1495,27 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 JqGridNavigatorFormActionOptions formActionOptions = actionOptions as JqGridNavigatorFormActionOptions;
                 if (formActionOptions != null)
                 {
-                    AppendNavigatorFormActionOptions(formActionOptions, ref javaScriptBuilder);
+                    AppendNavigatorFormActionOptions(formActionOptions, javaScriptBuilder);
 
                     IJqGridNavigatorPageableFormActionOptions pageableFormActionOptions = formActionOptions as IJqGridNavigatorPageableFormActionOptions;
                     if (pageableFormActionOptions != null)
-                        AppendNavigatorPageableFormActionOptions(pageableFormActionOptions, ref javaScriptBuilder);
+                        AppendNavigatorPageableFormActionOptions(pageableFormActionOptions, javaScriptBuilder);
 
                     JqGridNavigatorModifyActionOptions modifyActionOptions = formActionOptions as JqGridNavigatorModifyActionOptions;
                     if (modifyActionOptions != null)
                     {
-                        AppendNavigatorModifyActionOptions(modifyActionOptions, ref javaScriptBuilder);
+                        AppendNavigatorModifyActionOptions(modifyActionOptions, javaScriptBuilder);
                         JqGridNavigatorEditActionOptions editActionOptions = modifyActionOptions as JqGridNavigatorEditActionOptions;
                         if (editActionOptions != null)
-                            AppendNavigatorEditActionOptions(editActionOptions, ref javaScriptBuilder);
+                            AppendNavigatorEditActionOptions(editActionOptions, javaScriptBuilder);
                         else
-                            AppendNavigatorDeleteActionOptions(modifyActionOptions as JqGridNavigatorDeleteActionOptions, ref javaScriptBuilder);
+                            AppendNavigatorDeleteActionOptions(modifyActionOptions as JqGridNavigatorDeleteActionOptions, javaScriptBuilder);
                     }
                     else
-                        AppendNavigatorViewActionOptions(formActionOptions as JqGridNavigatorViewActionOptions, ref javaScriptBuilder);
+                        AppendNavigatorViewActionOptions(formActionOptions as JqGridNavigatorViewActionOptions, javaScriptBuilder);
                 }
                 else
-                    AppendNavigatorSearchActionOptions(actionOptions as JqGridNavigatorSearchActionOptions, ref javaScriptBuilder);
+                    AppendNavigatorSearchActionOptions(actionOptions as JqGridNavigatorSearchActionOptions, javaScriptBuilder);
                 
             }
 
@@ -1536,7 +1536,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.Append("}");
         }
 
-        private static void AppendNavigatorFormActionOptions(JqGridNavigatorFormActionOptions formActionOptions, ref StringBuilder javaScriptBuilder)
+        private static void AppendNavigatorFormActionOptions(JqGridNavigatorFormActionOptions formActionOptions, StringBuilder javaScriptBuilder)
         {
             if (!String.IsNullOrWhiteSpace(formActionOptions.BeforeInitData))
                 javaScriptBuilder.AppendFormat("beforeInitData: {0}, ", formActionOptions.BeforeInitData);
@@ -1545,7 +1545,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.AppendFormat("beforeShowForm: {0}, ", formActionOptions.BeforeShowForm);
         }
 
-        private static void AppendNavigatorPageableFormActionOptions(IJqGridNavigatorPageableFormActionOptions pageableFormActionOptions, ref StringBuilder javaScriptBuilder)
+        private static void AppendNavigatorPageableFormActionOptions(IJqGridNavigatorPageableFormActionOptions pageableFormActionOptions, StringBuilder javaScriptBuilder)
         {
             if (!pageableFormActionOptions.NavigationKeys.IsDefault())
                 javaScriptBuilder.AppendFormat("navkeys: [{0}, {1}, {2}], ", pageableFormActionOptions.NavigationKeys.Enabled.ToString().ToLower(), (int)pageableFormActionOptions.NavigationKeys.RecordUp, (int)pageableFormActionOptions.NavigationKeys.RecordDown);
@@ -1554,7 +1554,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.Append("viewPagerButtons: false, ");
         }
 
-        private static void AppendNavigatorModifyActionOptions(JqGridNavigatorModifyActionOptions modifyActionOptions, ref StringBuilder javaScriptBuilder)
+        private static void AppendNavigatorModifyActionOptions(JqGridNavigatorModifyActionOptions modifyActionOptions, StringBuilder javaScriptBuilder)
         {
             if (!String.IsNullOrWhiteSpace(modifyActionOptions.Url))
                 javaScriptBuilder.AppendFormat("url: '{0}', ", modifyActionOptions.Url);
@@ -1578,7 +1578,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.AppendFormat("onclickSubmit: {0}, ", modifyActionOptions.OnClickSubmit);
         }
 
-        private static void AppendNavigatorEditActionOptions(JqGridNavigatorEditActionOptions editActionOptions, ref StringBuilder javaScriptBuilder)
+        private static void AppendNavigatorEditActionOptions(JqGridNavigatorEditActionOptions editActionOptions, StringBuilder javaScriptBuilder)
         {
             if (editActionOptions.Width != 300)
                 javaScriptBuilder.AppendFormat("width: {0}, ", editActionOptions.Width);
@@ -1651,7 +1651,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.AppendFormat("errorTextFormat: {0}, ", editActionOptions.ErrorTextFormat);
         }
 
-        private static void AppendNavigatorDeleteActionOptions(JqGridNavigatorDeleteActionOptions deleteActionOptions, ref StringBuilder javaScriptBuilder)
+        private static void AppendNavigatorDeleteActionOptions(JqGridNavigatorDeleteActionOptions deleteActionOptions, StringBuilder javaScriptBuilder)
         {
             if (deleteActionOptions.Width != 240)
                 javaScriptBuilder.AppendFormat("width: {0}, ", deleteActionOptions.Width);
@@ -1676,7 +1676,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.AppendFormat("cancelicon: [{0}, '{1}', '{2}'], ", deleteActionOptions.CancelButtonIcon.Enabled.ToString().ToLower(), deleteActionOptions.CancelButtonIcon.Position.ToString().ToLower(), deleteActionOptions.CancelButtonIcon.Class);
         }
 
-        private static void AppendNavigatorViewActionOptions(JqGridNavigatorViewActionOptions viewActionOptions, ref StringBuilder javaScriptBuilder)
+        private static void AppendNavigatorViewActionOptions(JqGridNavigatorViewActionOptions viewActionOptions, StringBuilder javaScriptBuilder)
         {
             if (viewActionOptions.Width != 0)
                 javaScriptBuilder.AppendFormat("width: {0}, ", viewActionOptions.Width);
@@ -1688,7 +1688,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.AppendFormat("closeicon: [{0}, '{1}', '{2}'], ", viewActionOptions.CloseButtonIcon.Enabled.ToString().ToLower(), viewActionOptions.CloseButtonIcon.Position.ToString().ToLower(), viewActionOptions.CloseButtonIcon.Class);
         }
 
-        private static void AppendNavigatorSearchActionOptions(JqGridNavigatorSearchActionOptions searchActionOptions, ref StringBuilder javaScriptBuilder)
+        private static void AppendNavigatorSearchActionOptions(JqGridNavigatorSearchActionOptions searchActionOptions, StringBuilder javaScriptBuilder)
         {
             if (searchActionOptions.Width != 450)
                     javaScriptBuilder.AppendFormat("width: {0}, ", searchActionOptions.Width);
@@ -1741,7 +1741,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (!String.IsNullOrEmpty(searchActionOptions.ResetText))
                 javaScriptBuilder.AppendFormat("Reset: '{0}', ", searchActionOptions.ResetText);
 
-            AppendSearchOperators(searchActionOptions.SearchOperators, ref javaScriptBuilder);
+            AppendSearchOperators(searchActionOptions.SearchOperators, javaScriptBuilder);
 
             if (searchActionOptions.ShowOnLoad)
                 javaScriptBuilder.Append("showOnLoad: true, ");
@@ -1772,7 +1772,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private void AppendNavigatorButton(string navigatorPagerSelector, JqGridNavigatorButtonOptions buttonOptions, ref StringBuilder javaScriptBuilder)
+        private void AppendNavigatorButton(string navigatorPagerSelector, JqGridNavigatorButtonOptions buttonOptions, StringBuilder javaScriptBuilder)
         {
             javaScriptBuilder.AppendFormat(".jqGrid('navButtonAdd', {0}, {{ ", navigatorPagerSelector);
             if (buttonOptions.Caption != JqGridNavigatorDefaults.ButtonCaption)
@@ -1808,7 +1808,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private void AppendNavigatorSeparator(string navigatorPagerSelector, JqGridNavigatorSeparatorOptions separatorOptions, ref StringBuilder javaScriptBuilder)
+        private void AppendNavigatorSeparator(string navigatorPagerSelector, JqGridNavigatorSeparatorOptions separatorOptions, StringBuilder javaScriptBuilder)
         {
             javaScriptBuilder.AppendFormat(".jqGrid('navSeparatorAdd', {0}, {{ ", navigatorPagerSelector);
 
@@ -1830,22 +1830,22 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private void AppendInlineNavigator(ref StringBuilder javaScriptBuilder)
+        private void AppendInlineNavigator(StringBuilder javaScriptBuilder)
         {
             string navigatorPagerSelector = _navigatorOptions.Pager == JqGridNavigatorPagers.Top ? TopPagerSelector : PagerSelector;
 
             javaScriptBuilder.AppendFormat(".jqGrid('inlineNav', {0}, ", navigatorPagerSelector).AppendLine();
 
-            AppendInlineNavigatorOptions(ref javaScriptBuilder);
+            AppendInlineNavigatorOptions(javaScriptBuilder);
 
             javaScriptBuilder.Append(")");
         }
 
-        private void AppendInlineNavigatorOptions(ref StringBuilder javaScriptBuilder)
+        private void AppendInlineNavigatorOptions(StringBuilder javaScriptBuilder)
         {
             javaScriptBuilder.Append("{ ");
 
-            AppendBaseNavigatorOptions(_inlineNavigatorOptions, ref javaScriptBuilder);
+            AppendBaseNavigatorOptions(_inlineNavigatorOptions, javaScriptBuilder);
 
             if (!_inlineNavigatorOptions.Save)
                 javaScriptBuilder.Append("save: false, ");
@@ -1871,8 +1871,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (_inlineNavigatorOptions.CancelToolTip != JqGridNavigatorDefaults.CancelToolTip)
                 javaScriptBuilder.AppendFormat("canceltitle: '{0}', ", _inlineNavigatorOptions.CancelToolTip);
 
-            AppendInlineNavigatorAddActionOptions(_inlineNavigatorOptions.AddActionOptions, ref javaScriptBuilder);
-            AppendInlineNavigatorActionOptions("editParams", _inlineNavigatorOptions.ActionOptions, ref javaScriptBuilder);
+            AppendInlineNavigatorAddActionOptions(_inlineNavigatorOptions.AddActionOptions, javaScriptBuilder);
+            AppendInlineNavigatorActionOptions("editParams", _inlineNavigatorOptions.ActionOptions, javaScriptBuilder);
 
             if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
             {
@@ -1883,7 +1883,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.Append("}");
         }
 
-        private static void AppendInlineNavigatorActionOptions(string actionName, JqGridInlineNavigatorActionOptions actionOptions, ref StringBuilder javaScriptBuilder)
+        private static void AppendInlineNavigatorActionOptions(string actionName, JqGridInlineNavigatorActionOptions actionOptions, StringBuilder javaScriptBuilder)
         {
             if (actionOptions != null)
             {
@@ -1937,7 +1937,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             } 
         }
 
-        private static void AppendInlineNavigatorAddActionOptions(JqGridInlineNavigatorAddActionOptions actionOptions, ref StringBuilder javaScriptBuilder)
+        private static void AppendInlineNavigatorAddActionOptions(JqGridInlineNavigatorAddActionOptions actionOptions, StringBuilder javaScriptBuilder)
         {
             if (actionOptions != null)
             {
@@ -1961,7 +1961,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (actionOptions.UseFormatter)
                     javaScriptBuilder.Append("useFormatter: true, ");
 
-                AppendInlineNavigatorActionOptions("addRowParams", actionOptions.Options, ref javaScriptBuilder);
+                AppendInlineNavigatorActionOptions("addRowParams", actionOptions.Options, javaScriptBuilder);
 
                 if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
                 {
@@ -1975,7 +1975,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private void AppendFilterToolbar(ref StringBuilder javaScriptBuilder)
+        private void AppendFilterToolbar(StringBuilder javaScriptBuilder)
         {
             javaScriptBuilder.Append(".jqGrid('filterToolbar'");
 
@@ -1983,7 +1983,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             {
                 javaScriptBuilder.Append(", { ");
 
-                AppendFilterOptions(_filterToolbarOptions, ref javaScriptBuilder);
+                AppendFilterOptions(_filterToolbarOptions, javaScriptBuilder);
 
                 if (_filterToolbarOptions.DefaultSearchOperator.HasValue)
                     javaScriptBuilder.AppendFormat("defaultSearch: '{0}',", _filterToolbarOptions.DefaultSearchOperator.Value.ToString().ToLower());
@@ -2004,7 +2004,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             javaScriptBuilder.Append(")");
         }
 
-        private void AppendFilterGrid(ref StringBuilder javaScriptBuilder)
+        private void AppendFilterGrid(StringBuilder javaScriptBuilder)
         {
             javaScriptBuilder.AppendFormat("$({0}).jqGrid('filterGrid', {1}, {{", FilterGridSelector, GridSelector).AppendLine();
             javaScriptBuilder.AppendLine("gridModel: false, gridNames: false,");
@@ -2036,7 +2036,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (_filterGridOptions != null)
             {
                 javaScriptBuilder.AppendLine(",");
-                AppendFilterOptions(_filterGridOptions, ref javaScriptBuilder);
+                AppendFilterOptions(_filterGridOptions, javaScriptBuilder);
 
                 if (!String.IsNullOrWhiteSpace(_filterGridOptions.ButtonsClass))
                     javaScriptBuilder.AppendFormat("buttonclass: '{0}',", _filterGridOptions.ButtonsClass);
@@ -2074,7 +2074,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             javaScriptBuilder.AppendLine("});");
         }
 
-        private static void AppendFilterOptions(JqGridFilterOptions options, ref StringBuilder javaScriptBuilder)
+        private static void AppendFilterOptions(JqGridFilterOptions options, StringBuilder javaScriptBuilder)
         {
             if (options != null)
             {
@@ -2095,7 +2095,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             }
         }
 
-        private void AppendFooterData(ref StringBuilder javaScriptBuilder)
+        private void AppendFooterData(StringBuilder javaScriptBuilder)
         {
             javaScriptBuilder.Append(".jqGrid('footerData', 'set', { ");
 
@@ -2106,7 +2106,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             javaScriptBuilder.AppendFormat(" }}, {0})", _footerDataUseFormatters.ToString().ToLower());
         }
 
-        private void AppendGroupHeaders(ref StringBuilder javaScriptBuilder)
+        private void AppendGroupHeaders(StringBuilder javaScriptBuilder)
         {
             javaScriptBuilder.Append(".jqGrid('setGroupHeaders', { ");
 
@@ -2121,7 +2121,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             javaScriptBuilder.Append("})");
         }
 
-        private static void AppendColumnLabelOptions(string columnName, JqGridColumnLabelOptions options, ref StringBuilder javaScriptBuilder)
+        private static void AppendColumnLabelOptions(string columnName, JqGridColumnLabelOptions options, StringBuilder javaScriptBuilder)
         {
             if (options != null)
             {
