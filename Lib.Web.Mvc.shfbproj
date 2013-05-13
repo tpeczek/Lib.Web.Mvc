@@ -20,9 +20,8 @@
     <Language>en-US</Language>
     <DocumentationSources>
       <DocumentationSource sourceFile="Lib.Web.Mvc\bin\Release\Lib.Web.Mvc.dll" />
-      <DocumentationSource sourceFile="Lib.Web.Mvc\bin\Release\Lib.Web.Mvc.xml" />
-    </DocumentationSources>
-    <CopyrightText>Copyright &amp;#169%3b  2009 - 2012 Tomasz Pęczek</CopyrightText>
+<DocumentationSource sourceFile="Lib.Web.Mvc\bin\Release\Lib.Web.Mvc.xml" /></DocumentationSources>
+    <CopyrightText>Copyright &amp;#169%3b  2009 - 2013 Tomasz Pęczek</CopyrightText>
     <HelpTitle>Lib.Web.Mvc Documentation</HelpTitle>
     <SyntaxFilters>CSharp, VisualBasic</SyntaxFilters>
     <ProjectSummary>Lib.Web.Mvc is a library which contains some helper classes for ASP.NET MVC such as strongly typed jqGrid helper, XSLT transformation HtmlHelper extension and ActionResult, custom attributes and more.</ProjectSummary>

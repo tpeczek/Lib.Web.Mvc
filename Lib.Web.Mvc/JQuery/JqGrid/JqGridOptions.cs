@@ -371,6 +371,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string ResizeStop { get; set; }
 
         /// <summary>
+        /// Gets or sets the function which can add attributes to the row during the creation of the data (dynamically).
+        /// </summary>
+        public string RowAttributes { get; set; }
+
+        /// <summary>
         /// Gets or sets an array to construct a select box element in the pager in which user can change the number of the visible rows.
         /// </summary>
         public List<int> RowsList { get; set; }
