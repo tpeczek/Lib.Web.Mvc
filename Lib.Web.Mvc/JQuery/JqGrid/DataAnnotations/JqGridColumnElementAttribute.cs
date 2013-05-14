@@ -170,10 +170,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// Gets or sets the format for parsed and displayed dates (jQuery UI Datepicker widget).
         /// </summary>
         /// <remarks>If the value for this property is not provided, but there is a JqGridColumnFormatterAttribute with JqGridColumnPredefinedFormatters.Date formatter the helper will try to provide the value based on JqGridColumnFormatterAttribute.OutputFormat.</remarks> 
-        public string DateFormat
+        public string DatepickerDateFormat
         {
-            get { return Options.DateFormat; }
-            set { Options.DateFormat = value; }
+            get { return Options.DatePickerDateFormat; }
+            set { Options.DatePickerDateFormat = value; }
         }
 
         /// <summary>

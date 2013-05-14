@@ -311,6 +311,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string OnHeaderClick { get; set; }
 
         /// <summary>
+        /// Gets or sets the function for event which is raised only once before populating the data.
+        /// </summary>
+        public string OnInitGrid { get; set; }
+
+        /// <summary>
         /// Gets or sets the function for event which is raised before populating the data after page index/size change.
         /// </summary>
         public string OnPaging { get; set; }

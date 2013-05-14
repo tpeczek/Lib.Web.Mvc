@@ -82,7 +82,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the format for parsed and displayed dates (jQuery UI Datepicker widget).
         /// </summary>
         /// <remarks>If the value for this property is not provided, but there is a JqGridColumnFormatterAttribute with JqGridColumnPredefinedFormatters.Date formatter the helper will try to provide the value based on JqGridColumnFormatterAttribute.OutputFormat.</remarks> 
-        public string DateFormat { get; set; }
+        public string DatePickerDateFormat { get; set; }
 
         /// <summary>
         /// Gets or sets the default value in the search input element.
@@ -242,7 +242,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             ChangeYear = false;
             ConstrainInput = true;
             Culture = null;
-            DateFormat = JQueryUIWidgetsDefaults.DatepickerDateFormat;
+            DatePickerDateFormat = JQueryUIWidgetsDefaults.DatepickerDateFormat;
             Delay = 300;
             FirstDay = 0;
             GotoCurrent = false;
@@ -306,18 +306,18 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (!ConstrainInput)
                 dataInitBuilder.Append("constrainInput: true, ");
 
-            if (DateFormat == JQueryUIWidgetsDefaults.DatepickerDateFormat)
+            if (DatePickerDateFormat == JQueryUIWidgetsDefaults.DatepickerDateFormat)
             {
                 IEnumerable<object> customAttributes = propertyMetadata.ContainerType.GetProperty(propertyMetadata.PropertyName).GetCustomAttributes(true).AsEnumerable();
                 JqGridColumnFormatterAttribute formatterAttribute = customAttributes.OfType<JqGridColumnFormatterAttribute>().FirstOrDefault();
 
                 if (formatterAttribute != null && formatterAttribute.Formatter == JqGridColumnPredefinedFormatters.Date && formatterAttribute.OutputFormat != JqGridOptionsDefaults.FormatterOutputFormat && formatterAttribute.OutputFormat.IndexOfAny(_invalidDateFormatTokens) == -1)
                 {
-                    DateFormat = Regex.Replace(formatterAttribute.OutputFormat, _ignoredDateFormatTokensRegexExpression, String.Empty);
-                    DateFormat = _dateFormatTokensRegex.Replace(formatterAttribute.OutputFormat, match => { return _dateFormatTokensReplecements[match.Value]; });
+                    DatePickerDateFormat = Regex.Replace(formatterAttribute.OutputFormat, _ignoredDateFormatTokensRegexExpression, String.Empty);
+                    DatePickerDateFormat = _dateFormatTokensRegex.Replace(DatePickerDateFormat, match => { return _dateFormatTokensReplecements[match.Value]; });
                 }
             }
-            dataInitBuilder.AppendFormat("dateFormat: '{0}', dayNames: $.jgrid.formatter.date.dayNames.slice(7), dayNamesMin: $.jgrid.formatter.date.dayNames.slice(0, 7), dayNamesShort: $.jgrid.formatter.date.dayNames.slice(0, 7), ", DateFormat);
+            dataInitBuilder.AppendFormat("dateFormat: '{0}', dayNames: $.jgrid.formatter.date.dayNames.slice(7), dayNamesMin: $.jgrid.formatter.date.dayNames.slice(0, 7), dayNamesShort: $.jgrid.formatter.date.dayNames.slice(0, 7), ", DatePickerDateFormat);
 
             if (FirstDay != 0)
                 dataInitBuilder.AppendFormat("firstDay: {0}, ", FirstDay);
