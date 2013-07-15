@@ -26,7 +26,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         #endregion
 
         #region Methods
-        internal override List<object> GetValuesAsList()
+        protected internal override List<object> GetValuesAsList()
         {
             List<object> values = new List<object>();
 
@@ -37,7 +37,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             return values;
         }
 
-        internal override Dictionary<string, object> GetValuesAsDictionary()
+        protected internal override Dictionary<string, object> GetValuesAsDictionary()
         {
             Dictionary<string, object> values = new Dictionary<string, object>();
 

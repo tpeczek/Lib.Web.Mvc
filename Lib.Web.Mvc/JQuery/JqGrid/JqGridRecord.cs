@@ -55,7 +55,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         #endregion
 
         #region Methods
-        internal virtual List<object> GetValuesAsList()
+        protected internal virtual List<object> GetValuesAsList()
         {
             List<object> values = new List<object>();
 
@@ -68,7 +68,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             return values;
         }
 
-        internal virtual Dictionary<string, object> GetValuesAsDictionary()
+        protected internal virtual Dictionary<string, object> GetValuesAsDictionary()
         {
             Dictionary<string, object> values = new Dictionary<string, object>();
 
