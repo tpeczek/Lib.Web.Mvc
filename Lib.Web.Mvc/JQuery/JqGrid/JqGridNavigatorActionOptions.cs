@@ -42,6 +42,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public int Width { get; set; }
 
         /// <summary>
+        /// Gets or sets the width of the scrolling content.
+        /// </summary>
+        public int? DataWidth { get; set; }
+
+        /// <summary>
         /// Gets or sets the entry height of confirmation dialog.
         /// </summary>
         public int? Height { get; set; }

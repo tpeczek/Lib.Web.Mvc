@@ -1473,6 +1473,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (actionOptions.Top != 0)
                     javaScriptBuilder.AppendFormat("top: {0}, ", actionOptions.Top);
 
+                if (actionOptions.DataWidth.HasValue)
+                    javaScriptBuilder.AppendFormat("datawidth: {0}, ", actionOptions.DataWidth.Value);
+
                 if (actionOptions.Height.HasValue)
                     javaScriptBuilder.AppendFormat("height: {0}, ", actionOptions.Height.Value);
 
