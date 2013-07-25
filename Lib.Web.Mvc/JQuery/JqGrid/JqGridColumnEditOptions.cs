@@ -25,6 +25,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the value which defines if null value should be send to server if the field is empty.
         /// </summary>
         public bool NullIfEmpty { get; set; }
+
+        /// <summary>
+        /// Gets or sets the additional data which will be added to the AJAX request to get the data for the select element (if EditType is JqGridColumnEditTypes.Select).
+        /// </summary>
+        public object PostData { get; set; }
+
+        /// <summary>
+        /// Gets or sets the JavaScript which will dynamically generate the additional data which will be added to the AJAX request to get the data for the select element (if EditType is JqGridColumnEditTypes.Select). This property takes precedence over PostData.
+        /// </summary>
+        public string PostDataScript { get; set; }
         #endregion
 
         #region Constructor
@@ -42,6 +52,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             CustomElementFunction = null;
             CustomValueFunction = null;
             NullIfEmpty = false;
+            PostData = null;
+            PostDataScript = null;
         }
         #endregion
     }

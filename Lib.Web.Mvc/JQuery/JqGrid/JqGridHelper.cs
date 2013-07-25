@@ -503,6 +503,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                     javaScriptBuilder.AppendFormat("{0}, ", htmlAttributesSerialized.Substring(1, htmlAttributesSerialized.Length - 2));
                 }
 
+                if (!String.IsNullOrWhiteSpace(editOptions.PostDataScript))
+                    javaScriptBuilder.AppendFormat("postData: {0}, ", editOptions.PostDataScript).AppendLine();
+                else if (editOptions.PostData != null)
+                {
+                    serializer = new JavaScriptSerializer();
+                    javaScriptBuilder.AppendFormat("postData: {0}, ", serializer.Serialize(editOptions.PostData));
+                }
+
                 if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
                 {
                     javaScriptBuilder.Remove(javaScriptBuilder.Length - 2, 2);

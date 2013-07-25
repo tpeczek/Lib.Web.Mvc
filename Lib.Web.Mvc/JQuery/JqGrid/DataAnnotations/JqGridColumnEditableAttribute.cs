@@ -119,6 +119,23 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             get { return EditOptions.NullIfEmpty; }
             set { EditOptions.NullIfEmpty = value; }
         }
+
+        /// <summary>
+        /// When overriden in delivered class, provides additional data which will be added to the AJAX request to get the data for the select element (if EditType is JqGridColumnEditTypes.Select).
+        /// </summary>
+        protected virtual object PostData
+        {
+            get { return null; }
+        }
+
+        /// <summary>
+        /// Gets or sets the JavaScript which will dynamically generate the additional data which will be added to the AJAX request to get the data for the select element (if EditType is JqGridColumnEditTypes.Select). This property takes precedence over PostData.
+        /// </summary>
+        public string PostDataScript
+        {
+            get { return EditOptions.PostDataScript; }
+            set { EditOptions.PostDataScript = value; }
+        }
         #endregion
 
         #region Constructor
@@ -216,6 +233,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             EditOptions.DataEvents = DataEvents;
             EditOptions.DataUrl = DataUrl;
             EditOptions.HtmlAttributes = HtmlAttributes;
+            EditOptions.PostData = PostData;
             EditOptions.ValueDictionary = ValueDictionary;
 
             if (EditType == JqGridColumnEditTypes.JQueryUIAutocomplete)
