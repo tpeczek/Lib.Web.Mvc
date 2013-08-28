@@ -86,6 +86,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Combines equal, not equal, begins with, does not begin with, ends with, does not end with, contains and does not contain, is null, is not null
         /// </summary>
-        TextOperators = JqGridSearchOperators.Eq | JqGridSearchOperators.Ne | JqGridSearchOperators.Bw | JqGridSearchOperators.Bn | JqGridSearchOperators.Ew | JqGridSearchOperators.En | JqGridSearchOperators.Cn | JqGridSearchOperators.Nc | JqGridSearchOperators.Nu | JqGridSearchOperators.Nn
+        TextOperators = JqGridSearchOperators.Eq | JqGridSearchOperators.Ne | JqGridSearchOperators.Bw | JqGridSearchOperators.Bn | JqGridSearchOperators.Ew | JqGridSearchOperators.En | JqGridSearchOperators.Cn | JqGridSearchOperators.Nc | JqGridSearchOperators.Nu | JqGridSearchOperators.Nn,
+        /// <summary>
+        /// Combines is null, is not null
+        /// </summary>
+        NullOperators = JqGridSearchOperators.Nu | JqGridSearchOperators.Nn
     }
 }

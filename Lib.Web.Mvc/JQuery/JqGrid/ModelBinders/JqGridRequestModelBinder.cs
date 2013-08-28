@@ -54,7 +54,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.ModelBinders
                     if (searchingOperatorResult != null)
                         Enum.TryParse<JqGridSearchOperators>((string)searchingOperatorResult.ConvertTo(typeof(String)), true, out searchingOperator);
 
-                    if (!String.IsNullOrWhiteSpace(searchingName) && !String.IsNullOrWhiteSpace(searchingValue))
+                    if (!String.IsNullOrWhiteSpace(searchingName) && (!String.IsNullOrWhiteSpace(searchingValue) || ((searchingOperator & JqGridSearchOperators.NullOperators) != 0)))
                         model.SearchingFilter = new JqGridRequestSearchingFilter() { SearchingName = searchingName, SearchingOperator = searchingOperator, SearchingValue = searchingValue };
                 }
             }
