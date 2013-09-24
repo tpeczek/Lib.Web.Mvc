@@ -1924,7 +1924,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                     javaScriptBuilder.AppendFormat("url: '{0}', ", actionOptions.Url);
 
                 if (!String.IsNullOrWhiteSpace(actionOptions.ExtraParamScript))
-                    javaScriptBuilder.AppendFormat("extraparam: {0},", actionOptions.ExtraParamScript).AppendLine();
+                    javaScriptBuilder.AppendFormat("extraparam: {0}, ", actionOptions.ExtraParamScript);
                 else if (actionOptions.ExtraParam != null)
                 {
                     JavaScriptSerializer serializer = new JavaScriptSerializer();
