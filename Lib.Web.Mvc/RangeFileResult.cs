@@ -154,7 +154,6 @@ namespace Lib.Web.Mvc
                                 WriteEntityRange(context.HttpContext.Response, RangesStartIndexes[i], RangesEndIndexes[i]);
                                 if (MultipartRequest)
                                     context.HttpContext.Response.Write("\r\n");
-                                context.HttpContext.Response.Flush();
                             }
                             else
                                 return;
