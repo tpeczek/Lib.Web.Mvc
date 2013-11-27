@@ -26,6 +26,11 @@ namespace Lib.Web.Mvc
         /// <param name="contentType">The content type to use for the response.</param>
         /// <param name="fileName">The file name to use for the response.</param>
         /// <param name="modificationDate">The file modification date to use for the response.</param>
+        /**
+         * <remarks>
+         * The <paramref name="modificationDate"/> parameter is used internally while creating ETag and Last-Modified headers. Those headers might by used by client in order to verify that the same entity is being requested in separated partial requests and for caching purposes. Because of that it is important that the value passed to this parameter is consitant and reflects the actual state of entity during its entire lifetime.
+         * </remarks>
+         */
         public RangeFileContentResult(byte[] fileContents, string contentType, string fileName, DateTime modificationDate)
             : base(contentType, fileName, modificationDate, fileContents.Length)
         {

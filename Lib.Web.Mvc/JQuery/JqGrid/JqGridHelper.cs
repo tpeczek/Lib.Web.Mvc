@@ -507,7 +507,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 }
 
                 if (!String.IsNullOrWhiteSpace(editOptions.PostDataScript))
-                    javaScriptBuilder.AppendFormat("postData: {0}, ", editOptions.PostDataScript).AppendLine();
+                    javaScriptBuilder.AppendFormat("postData: {0}, ", editOptions.PostDataScript);
                 else if (editOptions.PostData != null)
                 {
                     serializer = new JavaScriptSerializer();
