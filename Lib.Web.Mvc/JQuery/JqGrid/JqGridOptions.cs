@@ -224,6 +224,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridGroupingView GroupingView { get; set; }
 
         /// <summary>
+        /// Gets or sets the value indicating if the title attribute is added to the column headers.
+        /// </summary>
+        public bool HeaderTitles { get; set; }
+
+        /// <summary>
         /// Gets or sets the height of the grid in pixels (default 'auto').
         /// </summary>
         public int? Height { get; set; }
@@ -560,6 +565,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             GridView = false;
             GroupingEnabled = false;
             GroupingView = null;
+            HeaderTitles = false;
             Height = null;
             Hidden = false;
             HiddenEnabled = true;
