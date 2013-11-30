@@ -20,6 +20,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the value indicating if the pager buttons should appear on the form.
         /// </summary>
         bool ViewPagerButtons { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value indicating if the form should be recreated every time the dialog is activeted with the new options from colModel (if they are changed).
+        /// </summary>
+        bool RecreateForm { get; set; }
         #endregion
     }
 }

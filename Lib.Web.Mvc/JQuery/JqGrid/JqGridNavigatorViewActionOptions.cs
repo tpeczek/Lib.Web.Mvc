@@ -22,6 +22,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public bool ViewPagerButtons { get; set; }
 
         /// <summary>
+        /// Gets or sets the value indicating if the form should be recreated every time the dialog is activeted with the new options from colModel (if they are changed).
+        /// </summary>
+        public bool RecreateForm { get; set; }
+
+        /// <summary>
         /// Gets or sets the value which defines how much width is needed for the labels.
         /// </summary>
         public string LabelsWidth { get; set; }
@@ -41,6 +46,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             Width = 0;
             NavigationKeys = new JqGridFormKeyboardNavigation();
             ViewPagerButtons = true;
+            RecreateForm = false;
             LabelsWidth = "30%";
             CloseButtonIcon = JqGridFormButtonIcon.CloseIcon;
         }

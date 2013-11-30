@@ -696,7 +696,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                                     javaScriptBuilder.AppendFormat("url: '{0}', ", formatterOptions.InlineEditingOptions.Url);
 
                                 if (!String.IsNullOrWhiteSpace(formatterOptions.InlineEditingOptions.ExtraParamScript))
-                                    javaScriptBuilder.AppendFormat("extraparam: {0},", formatterOptions.InlineEditingOptions.ExtraParamScript).AppendLine();
+                                    javaScriptBuilder.AppendFormat("extraparam: {0}, ", formatterOptions.InlineEditingOptions.ExtraParamScript);
                                 else if (formatterOptions.InlineEditingOptions.ExtraParam != null)
                                 {
                                     JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -1578,6 +1578,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
             if (!pageableFormActionOptions.ViewPagerButtons)
                 javaScriptBuilder.Append("viewPagerButtons: false, ");
+
+            if (pageableFormActionOptions.RecreateForm)
+                javaScriptBuilder.Append("recreateForm: true, ");
         }
 
         private static void AppendNavigatorModifyActionOptions(JqGridNavigatorModifyActionOptions modifyActionOptions, StringBuilder javaScriptBuilder)
@@ -1621,9 +1624,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
             if (!String.IsNullOrWhiteSpace(editActionOptions.SerializeData))
                 javaScriptBuilder.AppendFormat("serializeEditData: {0}, ", editActionOptions.SerializeData);
-
-            if (editActionOptions.RecreateForm)
-                javaScriptBuilder.Append("recreateForm: true, ");
 
             if (editActionOptions.AddedRowPosition != JqGridNewRowPositions.First)
                 javaScriptBuilder.Append("addedrow: 'last', ");
