@@ -38,6 +38,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public bool[] Summary { get; set; }
 
         /// <summary>
+        /// Gets or sets the array of callbacks which allow "not exact" grouping.
+        /// </summary>
+        public string[] IsInTheSameGroupCallbacks { get; set; }
+
+        /// <summary>
+        /// Gets or sets the array of callbacks for formatting group display values.
+        /// </summary>
+        public string[] FormatDisplayFieldCallbacks { get; set; }
+
+        /// <summary>
         /// Gets or sets the value indicating if summary row is visible when the group is collapsed.
         /// </summary>
         public bool SummaryOnHide { get; set; }
@@ -74,6 +84,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             Texts = null;
             ColumnShow = null;
             Summary = null;
+            IsInTheSameGroupCallbacks = null;
+            FormatDisplayFieldCallbacks = null;
             SummaryOnHide = false;
             DataSorted = false;
             Collapse = false;

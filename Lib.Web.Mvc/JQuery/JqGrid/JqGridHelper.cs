@@ -1244,6 +1244,22 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                     javaScriptBuilder.Insert(javaScriptBuilder.Length - 2, ']');
                 }
 
+                if (_options.GroupingView.IsInTheSameGroupCallbacks != null && _options.GroupingView.IsInTheSameGroupCallbacks.Length > 0)
+                {
+                    javaScriptBuilder.Append("isInTheSameGroup: [");
+                    foreach (string isInTheSameGroupCallback in _options.GroupingView.IsInTheSameGroupCallbacks)
+                        javaScriptBuilder.AppendFormat("{0}, ", isInTheSameGroupCallback);
+                    javaScriptBuilder.Insert(javaScriptBuilder.Length - 2, ']');
+                }
+
+                if (_options.GroupingView.FormatDisplayFieldCallbacks != null && _options.GroupingView.FormatDisplayFieldCallbacks.Length > 0)
+                {
+                    javaScriptBuilder.Append("formatDisplayField: [");
+                    foreach (string formatDisplayFieldCallback in _options.GroupingView.FormatDisplayFieldCallbacks)
+                        javaScriptBuilder.AppendFormat("{0}, ", formatDisplayFieldCallback);
+                    javaScriptBuilder.Insert(javaScriptBuilder.Length - 2, ']');
+                }
+
                 if (_options.GroupingView.SummaryOnHide)
                     javaScriptBuilder.Append("showSummaryOnHide: true, ");
 
