@@ -60,10 +60,18 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.ModelBinders
             }
 
             if (!String.IsNullOrWhiteSpace(JqGridRequest.ParameterNames.SortingName))
-                model.SortingName = (string)bindingContext.ValueProvider.GetValue(JqGridRequest.ParameterNames.SortingName).ConvertTo(typeof(String));
+            {
+                ValueProviderResult sortingName = bindingContext.ValueProvider.GetValue(JqGridRequest.ParameterNames.SortingName);
+                if (sortingName != null && !String.IsNullOrWhiteSpace(sortingName.AttemptedValue))
+                    model.SortingName = (string)sortingName.ConvertTo(typeof(String));
+            }
 
             if (!String.IsNullOrWhiteSpace(JqGridRequest.ParameterNames.SortingOrder))
-                model.SortingOrder = (JqGridSortingOrders)bindingContext.ValueProvider.GetValue(JqGridRequest.ParameterNames.SortingOrder).ConvertTo(typeof(JqGridSortingOrders));
+            {
+                ValueProviderResult sortingOrder = bindingContext.ValueProvider.GetValue(JqGridRequest.ParameterNames.SortingOrder);
+                if (sortingOrder != null && !String.IsNullOrWhiteSpace(sortingOrder.AttemptedValue))
+                    model.SortingOrder = (JqGridSortingOrders)sortingOrder.ConvertTo(typeof(JqGridSortingOrders));
+            }
 
             if (!String.IsNullOrWhiteSpace(JqGridRequest.ParameterNames.PageIndex))
                 model.PageIndex = (int)bindingContext.ValueProvider.GetValue(JqGridRequest.ParameterNames.PageIndex).ConvertTo(typeof(Int32)) - 1;

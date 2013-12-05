@@ -296,6 +296,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public bool MultiSelect { get; set; }
 
         /// <summary>
+        /// Gets or sets the value which defines whether the sorting by multiple columns is enabled.
+        /// </summary>
+        public bool MultiSort { get; set; }
+
+        /// <summary>
         /// Gets or sets the width of the multiselect colum.
         /// </summary>
         public int MultiSelectWidth { get; set; }
@@ -580,6 +585,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             MultiKey = null;
             MultiSelect = false;
             MultiSelectWidth = 20;
+            MultiSort = false;
             OnCellSelect = null;
             OnDoubleClickRow = null;
             OnHeaderClick = null;
