@@ -57,6 +57,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// jQuery UI Spinner widget
         /// </summary>
-        JQueryUISpinner
+        JQueryUISpinner,
+        /// <summary>
+        /// Select element performing parent role in selects cascade
+        /// </summary>
+        /// <remarks>
+        /// This value is only valid in case of form and inline editing.
+        /// </remarks>
+        SelectsCascadeParent
     }
 }

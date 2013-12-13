@@ -484,7 +484,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             javaScriptBuilder.AppendLine("],");
         }
 
-        private static void AppendEditOptions(JqGridColumnEditOptions editOptions, StringBuilder javaScriptBuilder)
+        private void AppendEditOptions(JqGridColumnEditOptions editOptions, StringBuilder javaScriptBuilder)
         {
             if (editOptions != null)
             {
@@ -497,6 +497,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (!String.IsNullOrWhiteSpace(editOptions.CustomValueFunction))
                     javaScriptBuilder.AppendFormat("custom_value: {0}, ", editOptions.CustomValueFunction);
 
+                if (editOptions.InternalDataEvents != null)
+                {
+                    if (editOptions.DataEvents == null)
+                        editOptions.DataEvents = new List<JqGridColumnDataEvent>();
+
+                    foreach (JqGridColumnDataEvent dataEvent in editOptions.InternalDataEvents)
+                        editOptions.DataEvents.Add(new JqGridColumnDataEvent(dataEvent.Type, String.Format(dataEvent.Function, _options.Id)));
+                }
                 AppendElementOptions(editOptions, serializer, javaScriptBuilder);
 
                 if (editOptions.NullIfEmpty)

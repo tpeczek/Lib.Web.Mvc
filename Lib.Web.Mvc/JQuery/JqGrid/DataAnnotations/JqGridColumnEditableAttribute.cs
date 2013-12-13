@@ -136,6 +136,15 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             get { return EditOptions.PostDataScript; }
             set { EditOptions.PostDataScript = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the child property name if this element performs parent role in selects cascade.
+        /// </summary>
+        public string ChildName
+        {
+            get { return EditOptions.ChildName; }
+            set { EditOptions.ChildName = value; }
+        }
         #endregion
 
         #region Constructor
@@ -250,6 +259,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             {
                 EditType = JqGridColumnEditTypes.Text;
                 EditOptions.ConfigureJQueryUISpinner();
+            }
+            else if (EditType == JqGridColumnEditTypes.SelectsCascadeParent)
+            {
+                EditType = JqGridColumnEditTypes.Select;
+                EditOptions.ConfigureSelectsCascadeParent();
             }
 
             metadata.SetColumnDateFormat(DateFormat);
