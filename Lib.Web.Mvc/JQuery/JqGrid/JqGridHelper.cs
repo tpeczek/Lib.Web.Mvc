@@ -14,7 +14,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
     /// Helper class for generating jqGrid HMTL and JavaScript
     /// </summary>
     /// <typeparam name="TModel">Type of model for this grid</typeparam>
-    public class JqGridHelper<TModel>
+    public class JqGridHelper<TModel> : IJqGridHelper
     {
         #region Fields
         private JqGridOptions<TModel> _options;

@@ -50,6 +50,7 @@
     <Compile Include="JQuery\JqGrid\Constants\JqGridNavigatorDefaults.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridOptionsDefaults.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JQueryUIWidgetsDefaults.cs" />
+    <Compile Include="JQuery\JqGrid\IJqGridHelper.cs" />
     <Compile Include="JQuery\JqGrid\IJqGridNavigatorPageableFormActionOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridColumnSortTypes.cs" />
     <Compile Include="JQuery\JqGrid\JqGridFormButtonIcon.cs" />
