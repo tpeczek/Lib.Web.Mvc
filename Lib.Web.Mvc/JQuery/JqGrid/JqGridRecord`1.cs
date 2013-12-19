@@ -31,7 +31,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             List<object> values = new List<object>();
 
             IEnumerable<ModelMetadata> modelMetadata = ModelMetadataProviders.Current.GetMetadataForProperties(Value, typeof(TModel)).OrderBy(m => m.Order);
-            foreach (ModelMetadata propertyMetadata in modelMetadata.Where(p => JqGridUtility.IsValidForColumn(p)))
+            foreach (ModelMetadata propertyMetadata in modelMetadata.Where(p => p.IsValidForColumn()))
                 values.Add(GetFormattedValue(propertyMetadata));
 
             return values;
@@ -42,7 +42,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             Dictionary<string, object> values = new Dictionary<string, object>();
 
             IEnumerable<ModelMetadata> modelMetadata = ModelMetadataProviders.Current.GetMetadataForProperties(Value, typeof(TModel));
-            foreach (ModelMetadata propertyMetadata in modelMetadata.Where(p => JqGridUtility.IsValidForColumn(p)))
+            foreach (ModelMetadata propertyMetadata in modelMetadata.Where(p => p.IsValidForColumn()))
                 values.Add(propertyMetadata.PropertyName, GetFormattedValue(propertyMetadata));
 
             return values;

@@ -2039,17 +2039,42 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
                 AppendFilterOptions(_filterToolbarOptions, javaScriptBuilder);
 
-                if (_filterToolbarOptions.DefaultSearchOperator.HasValue)
-                    javaScriptBuilder.AppendFormat("defaultSearch: '{0}',", _filterToolbarOptions.DefaultSearchOperator.Value.ToString().ToLower());
+                if (_filterToolbarOptions.DefaultSearchOperator != JqGridSearchOperators.Bw)
+                    javaScriptBuilder.AppendFormat("defaultSearch: '{0}',", _filterToolbarOptions.DefaultSearchOperator.ToString().ToLower());
 
-                if (_filterToolbarOptions.GroupingOperator.HasValue)
-                    javaScriptBuilder.AppendFormat("groupOp: '{0}',", _filterToolbarOptions.GroupingOperator.Value.ToString().ToUpper());
+                if (_filterToolbarOptions.GroupingOperator != JqGridSearchGroupingOperators.And)
+                    javaScriptBuilder.Append("groupOp: 'OR',");
 
-                if (_filterToolbarOptions.SearchOnEnter.HasValue)
-                    javaScriptBuilder.AppendFormat("searchOnEnter: {0},", _filterToolbarOptions.SearchOnEnter.Value.ToString().ToLower());
+                if (!_filterToolbarOptions.SearchOnEnter)
+                    javaScriptBuilder.Append("searchOnEnter: false,");
 
-                if (_filterToolbarOptions.StringResult.HasValue)
-                    javaScriptBuilder.AppendFormat("stringResult: {0},", _filterToolbarOptions.StringResult.Value.ToString().ToLower());
+                if (_filterToolbarOptions.SearchOperators)
+                    javaScriptBuilder.Append("searchOperators: true,");
+
+                if (_filterToolbarOptions.OperandToolTip != JqGridFilterToolbarDefaults.OperandToolTip)
+                    javaScriptBuilder.AppendFormat("operandTitle: '{0}',", _filterToolbarOptions.OperandToolTip );
+
+                if (_filterToolbarOptions.Operands != null && _filterToolbarOptions.Operands.Count > 0 && _filterToolbarOptions.Operands != JqGridFilterToolbarDefaults.Operands)
+                {
+                    int javaScriptBuilderPosition = javaScriptBuilder.Length;
+
+                    foreach (KeyValuePair<JqGridSearchOperators, string> operand in _filterToolbarOptions.Operands)
+                    {
+                        string defaultShortText;
+                        if (JqGridFilterToolbarDefaults.Operands.TryGetValue(operand.Key, out defaultShortText) && operand.Value != defaultShortText)
+                            javaScriptBuilder.AppendFormat("'{0}':'{1}',", operand.Key.ToString().ToLower(), operand.Value);
+                    }
+
+                    if (javaScriptBuilderPosition != javaScriptBuilder.Length)
+                    {
+                        javaScriptBuilder.Insert(javaScriptBuilderPosition, "operands: {");
+                        javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
+                        javaScriptBuilder.Append("},");
+                    }
+                }
+
+                if (_filterToolbarOptions.StringResult)
+                    javaScriptBuilder.Append("stringResult: true,");
                 
                 javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
                 javaScriptBuilder.Append(" }");

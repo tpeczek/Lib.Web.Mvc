@@ -47,6 +47,7 @@
     <Compile Include="AjaxRequestAttribute.cs" />
     <Compile Include="Html\RenderXmlExtensions.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridColumnPredefinedFormatters.cs" />
+    <Compile Include="JQuery\JqGrid\Constants\JqGridFilterToolbarDefaults.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridNavigatorDefaults.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridOptionsDefaults.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JQueryUIWidgetsDefaults.cs" />

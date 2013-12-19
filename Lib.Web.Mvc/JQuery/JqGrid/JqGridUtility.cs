@@ -11,7 +11,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
     internal static class JqGridUtility
     {
         #region Methods
-        internal static bool IsValidForColumn(ModelMetadata metadata)
+        internal static bool IsValidForColumn(this ModelMetadata metadata)
         {
             return
                 metadata.ShowForDisplay

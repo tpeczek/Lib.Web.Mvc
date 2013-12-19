@@ -25,7 +25,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             : base (id)
         {
             JqGridModelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(TModel));
-            foreach (ModelMetadata propertyMetadata in JqGridModelMetadata.Properties.Where(p => JqGridUtility.IsValidForColumn(p)))
+            foreach (ModelMetadata propertyMetadata in JqGridModelMetadata.Properties.Where(p => p.IsValidForColumn()))
             {
                 JqGridColumnModel columnModel = new JqGridColumnModel(propertyMetadata);
                 ColumnsModels.Add(columnModel);
