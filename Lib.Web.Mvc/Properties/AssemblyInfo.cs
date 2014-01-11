@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Tomasz Pęczek")]
 [assembly: AssemblyProduct("Lib.Web.Mvc")]
-[assembly: AssemblyCopyright("Copyright © 2009 - 2013 Tomasz Pęczek")]
+[assembly: AssemblyCopyright("Copyright © 2009 - 2014 Tomasz Pęczek")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -18,5 +18,5 @@ using System.Runtime.InteropServices;
 // to COM components.  If you need to access a type in this assembly from 
 [assembly: ComVisible(false)]
 [assembly: Guid("68e6372a-38aa-427a-b5f8-1952175d5ccd")]
-[assembly: AssemblyVersion("6.3.4.0")]
-[assembly: AssemblyFileVersion("6.3.4.0")]
+[assembly: AssemblyVersion("6.4.0.0")]
+[assembly: AssemblyFileVersion("6.4.0.0")]
