@@ -118,7 +118,7 @@ namespace Lib.Web.Mvc
 
             if (ValidateRanges(context.HttpContext.Response) && ValidateModificationDate(context.HttpContext.Request, context.HttpContext.Response) && ValidateEntityTag(context.HttpContext.Request, context.HttpContext.Response))
             {
-                context.HttpContext.Response.AddHeader("Last-Modified", FileModificationDate.ToString("r"));
+                context.HttpContext.Response.AddHeader("Last-Modified", HttpModificationDate.ToString("r"));
                 context.HttpContext.Response.AddHeader("ETag", String.Format("\"{0}\"", EntityTag));
                 context.HttpContext.Response.AddHeader("Accept-Ranges", "bytes");
 
@@ -262,7 +262,7 @@ namespace Lib.Web.Mvc
             if (!String.IsNullOrEmpty(modifiedSinceHeader))
             {
                 DateTime modifiedSinceDate;
-                DateTime.TryParseExact(modifiedSinceHeader, _httpDateFormats, null, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out modifiedSinceDate);
+                bool modifiedSinceDateParsed = DateTime.TryParseExact(modifiedSinceHeader, _httpDateFormats, null, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out modifiedSinceDate);
 
                 if (HttpModificationDate <= modifiedSinceDate)
                 {
