@@ -209,7 +209,7 @@ namespace Lib.Web.Mvc
 
                     if (String.IsNullOrEmpty(currentRange[0]))
                     {
-                        RangesStartIndexes[i] = FileLength - 1 - RangesEndIndexes[i];
+                        RangesStartIndexes[i] = FileLength - RangesEndIndexes[i];
                         RangesEndIndexes[i] = FileLength - 1;
                     }
                     else
