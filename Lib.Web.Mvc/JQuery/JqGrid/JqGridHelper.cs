@@ -1009,9 +1009,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (_options.RowsList != null && _options.RowsList.Count > 0)
             {
                 javaScriptBuilder.Append("rowList: [");
-                foreach (int rowsNumber in _options.RowsList)
-                    javaScriptBuilder.AppendFormat("{0},", rowsNumber);
-                javaScriptBuilder.Remove(javaScriptBuilder.Length - 1, 1);
+                javaScriptBuilder.Append(String.Join(",", _options.RowsList));
                 javaScriptBuilder.Append("],").AppendLine();
             }
 
@@ -1023,6 +1021,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
             if (_options.RowsNumbersWidth != 25)
                 javaScriptBuilder.AppendFormat("rownumWidth: {0},", _options.RowsNumbersWidth).AppendLine();
+
+            if (_options.ColumnsRemaping != null && _options.ColumnsRemaping.Count > 0)
+            {
+                javaScriptBuilder.Append("remapColumns: [");
+                javaScriptBuilder.Append(String.Join(",", _options.ColumnsRemaping));
+                javaScriptBuilder.Append("],").AppendLine();
+            }
 
             if (!_options.ShrinkToFit)
                 javaScriptBuilder.Append("shrinkToFit: false,").AppendLine();
