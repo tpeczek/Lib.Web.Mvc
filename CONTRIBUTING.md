@@ -5,14 +5,14 @@ Please read these guidelines before contributing to Lib.Web.Mvc.
 
 ## Question or Issue
 
-Questions about how to use Lib.Web.Mvc, should be asked on [Stack Overflow](http://stackoverflow.com/). Please tag your question with [lib.web.mvc tag](http://stackoverflow.com/questions/tagged/lib.web.mvc) which has been created specially for this purpose and it is being monitored daily by the library author.
+Questions about how to use Lib.Web.Mvc should be asked on [Stack Overflow](http://stackoverflow.com/). Please tag your question with [lib.web.mvc tag](http://stackoverflow.com/questions/tagged/lib.web.mvc) which has been created specially for this purpose and it is being monitored daily by the library author.
 
 GitHub issues are only for reporting bugs and feature requests, not
 questions or help.
 
 ## Issues
 
-Any bug found in the source code or a mistake in the documentation, you can help by should be submited as an issue to the [repository](https://github.com/tpeczek/Lib.Web.Mvc). You are also encouraged to submit a Pull Request with a fix.
+Any bug found in the source code or a mistake in the documentation should be submited as an issue to the [repository](https://github.com/tpeczek/Lib.Web.Mvc). You are also encouraged to submit a Pull Request with a fix.
 
 When submitting an issue please include the following information:
 
