@@ -246,6 +246,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public bool HiddenEnabled { get; set; }
 
         /// <summary>
+        /// Gets or sets a value which defines whether mouse hovering over the grid data rows is enabled.
+        /// </summary>
+        public bool HoverRows { get; set; }
+
+        /// <summary>
         /// Gets or sets the value which defines whether the local searching is case-sensitive.
         /// </summary>
         public bool IgnoreCase { get; set; }
@@ -519,7 +524,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets or sets the width of the grid in pixels (default 'auto').
         /// </summary>
-		public int? Width { get; set; }
+        public int? Width { get; set; }
         #endregion
 
         #region Constructor
