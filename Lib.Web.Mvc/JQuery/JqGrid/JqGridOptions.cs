@@ -579,6 +579,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             Height = null;
             Hidden = false;
             HiddenEnabled = true;
+            HoverRows = true;
             IgnoreCase = false;
             JsonReader = JqGridResponse.JsonReader;
             LoadBeforeSend = null;

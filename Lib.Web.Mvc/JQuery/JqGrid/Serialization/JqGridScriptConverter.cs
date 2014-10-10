@@ -178,6 +178,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.Height = GetInt32FromSerializedObj(serializedObj, "height");
                 obj.Hidden = GetBooleanFromSerializedObj(serializedObj, "hiddengrid", false);
                 obj.HiddenEnabled  = GetBooleanFromSerializedObj(serializedObj, "hidegrid", true);
+                obj.HoverRows = GetBooleanFromSerializedObj(serializedObj, "hoverrows", true);
                 obj.IgnoreCase = GetBooleanFromSerializedObj(serializedObj, "ignoreCase", false);
                 obj.LoadOnce = GetBooleanFromSerializedObj(serializedObj, "loadonce", false);
                 obj.MethodType = GetEnumFromSerializedObj<JqGridMethodTypes>(serializedObj, "mtype", JqGridMethodTypes.Get);
@@ -323,6 +324,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 serializedObj.Add("height", obj.Height.Value);
             else
                 serializedObj.Add("height", "100%");
+
+            if (!obj.HoverRows)
+                serializedObj.Add("hoverrows", false);
 
             if (obj.IgnoreCase)
                 serializedObj.Add("ignoreCase", true);
