@@ -1,5 +1,6 @@
 Lib.Web.Mvc
 ===============
+[![NuGet version](https://badge.fury.io/nu/Lib.Web.Mvc.svg)](http://badge.fury.io/nu/Lib.Web.Mvc)
 
 Lib.Web.Mvc is a library which contains some helper classes for ASP.NET MVC such as strongly typed jqGrid helper, XSL transformation HtmlHelper/ActionResult, FileResult with range request support, custom attributes and more.
 
