@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Tomasz Pęczek")]
 [assembly: AssemblyProduct("Lib.Web.Mvc")]
-[assembly: AssemblyCopyright("Copyright © 2009 - 2014 Tomasz Pęczek")]
+[assembly: AssemblyCopyright("Copyright © 2009 - 2015 Tomasz Pęczek")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
