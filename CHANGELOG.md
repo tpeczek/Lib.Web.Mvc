@@ -1,3 +1,7 @@
+## Lib.Web.Mvc 6.5.0
+### Additions and Changes
+- Added HoverRows to JqGridOptions/JqGridHelper (thanks to @tascogin)
+
 ## Lib.Web.Mvc 6.4.2
 ### Bug Fixes
 - Fix for suffix-byte-range-spec support in RangeFileResult (Work Item #13267)
