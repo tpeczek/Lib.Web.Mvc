@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="AcceptAjaxRequestAttribute.cs" />
     <Compile Include="AjaxRequestAttribute.cs" />
+    <Compile Include="ContentSecurityPolicyAttribute.cs" />
+    <Compile Include="Html\ContentSecurityPolicyExtensions.cs" />
     <Compile Include="Html\RenderXmlExtensions.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridColumnPredefinedFormatters.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridFilterToolbarDefaults.cs" />
