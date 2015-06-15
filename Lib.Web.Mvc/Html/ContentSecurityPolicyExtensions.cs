@@ -32,7 +32,7 @@ namespace Lib.Web.Mvc.Html
         /// <returns></returns>
         public static IDisposable BeginCspScript(this HtmlHelper htmlHelper, object htmlAttributes)
         {
-            return new ContentSecurityPolicyScript(htmlHelper.ViewContext, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+            return BeginCspScript(htmlHelper, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
         /// <summary>

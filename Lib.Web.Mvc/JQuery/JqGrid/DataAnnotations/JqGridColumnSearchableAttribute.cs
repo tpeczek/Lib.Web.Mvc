@@ -118,7 +118,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             DataUrlRouteData["controller"] = dataUrlController;
             DataUrlRouteData["action"] = dataUrlAction;
 
-            if (!String.IsNullOrWhiteSpace(dataUrlAreaName))
+            if (dataUrlAreaName != null)
                 DataUrlRouteData["area"] = dataUrlAreaName;
         }
 
