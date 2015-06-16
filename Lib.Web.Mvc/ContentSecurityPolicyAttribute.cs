@@ -42,8 +42,10 @@ namespace Lib.Web.Mvc
         private const string _scriptHashListPlaceholder = "<ScriptHashListPlaceholder>";
 
         private const string _contentSecurityPolicyHeader = "Content-Security-Policy";
+        private const string _contentSecurityPolicyReportOnlyHeader = "Content-Security-Policy-Report-Only";
         private const string _directivesDelimiter = ";";
         private const string _scriptDirective = "script-src";
+        private const string _reportDirectiveFormat = "report-uri {0};";
         private const string _unsafeInlineSource = " 'unsafe-inline'";
         private const string _nonceSourceFormat = " 'nonce-{0}'";
         #endregion
@@ -58,6 +60,21 @@ namespace Lib.Web.Mvc
         /// Gets or sets the inline execution mode for scripts
         /// </summary>
         public ContentSecurityPolicyInlineExecution ScriptInlineExecution { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value indicating if this is report only policy
+        /// </summary>
+        public bool ReportOnly { get; set; }
+
+        /// <summary>
+        /// Gets or sets the URL to which the user agent should send reports about policy violations
+        /// </summary>
+        public string ReportUri { get; set; }
+
+        private string ContentSecurityPolicyHeader
+        {
+            get { return ReportOnly ? _contentSecurityPolicyReportOnlyHeader : _contentSecurityPolicyHeader; }
+        }
         #endregion
 
         #region Constructor
@@ -66,6 +83,7 @@ namespace Lib.Web.Mvc
         /// </summary>
         public ContentSecurityPolicyAttribute()
         {
+            ReportOnly = false;
             ScriptInlineExecution = ContentSecurityPolicyInlineExecution.Refuse;
         }
         #endregion
@@ -117,9 +135,14 @@ namespace Lib.Web.Mvc
                 policyBuilder.Append(_directivesDelimiter);
             }
 
+            if (!String.IsNullOrWhiteSpace(ReportUri))
+            {
+                policyBuilder.AppendFormat(_reportDirectiveFormat, ReportUri);
+            }
+
             if (policyBuilder.Length > 0)
             {
-                filterContext.HttpContext.Response.AppendHeader(_contentSecurityPolicyHeader, policyBuilder.ToString());
+                filterContext.HttpContext.Response.AppendHeader(ContentSecurityPolicyHeader, policyBuilder.ToString());
             }
         }
         #endregion
@@ -133,7 +156,7 @@ namespace Lib.Web.Mvc
         {
             if (ScriptInlineExecution == ContentSecurityPolicyInlineExecution.Hash)
             {
-                filterContext.HttpContext.Response.Headers[_contentSecurityPolicyHeader] = filterContext.HttpContext.Response.Headers[_contentSecurityPolicyHeader].Replace(_scriptHashListPlaceholder, ((StringBuilder)filterContext.HttpContext.Items[ScriptHashListBuilderContextKey]).ToString());
+                filterContext.HttpContext.Response.Headers[ContentSecurityPolicyHeader] = filterContext.HttpContext.Response.Headers[ContentSecurityPolicyHeader].Replace(_scriptHashListPlaceholder, ((StringBuilder)filterContext.HttpContext.Items[ScriptHashListBuilderContextKey]).ToString());
             }
         }
 
