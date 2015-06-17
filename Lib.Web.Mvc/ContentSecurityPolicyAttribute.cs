@@ -44,6 +44,7 @@ namespace Lib.Web.Mvc
         private const string _contentSecurityPolicyHeader = "Content-Security-Policy";
         private const string _contentSecurityPolicyReportOnlyHeader = "Content-Security-Policy-Report-Only";
         private const string _directivesDelimiter = ";";
+        private const string _defaultDirectiveFormat = "default-src {0};";
         private const string _scriptDirective = "script-src";
         private const string _reportDirectiveFormat = "report-uri {0};";
         private const string _unsafeInlineSource = " 'unsafe-inline'";
@@ -51,6 +52,11 @@ namespace Lib.Web.Mvc
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Gets or sets the default source list for directives which can fall back to the default sources.
+        /// </summary>
+        public string DefaultSource { get; set; }
+
         /// <summary>
         /// Gets or sets the source list for script-src directive.
         /// </summary>
@@ -103,6 +109,11 @@ namespace Lib.Web.Mvc
         public void OnActionExecuting(ActionExecutingContext filterContext)
         {
             StringBuilder policyBuilder = new StringBuilder();
+
+            if (!String.IsNullOrWhiteSpace(DefaultSource))
+            {
+                policyBuilder.AppendFormat(_defaultDirectiveFormat, DefaultSource);
+            }
 
             if (!String.IsNullOrWhiteSpace(ScriptSource) || (ScriptInlineExecution != ContentSecurityPolicyInlineExecution.Refuse))
             {
