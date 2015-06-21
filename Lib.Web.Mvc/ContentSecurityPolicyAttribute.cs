@@ -35,20 +35,38 @@ namespace Lib.Web.Mvc
     public sealed class ContentSecurityPolicyAttribute : FilterAttribute, IActionFilter, IResultFilter
     {
         #region Constants
-        internal const string ScriptInlineExecutionContextKey = "Lib.Web.Mvc.ContentSecurityPolicy.ScriptInlineExecution";
-        internal const string NonceRandomContextKey = "Lib.Web.Mvc.ContentSecurityPolicy.NonceRandom";
-        internal const string ScriptHashListBuilderContextKey = "Lib.Web.Mvc.ContentSecurityPolicy.ScriptHashListBuilder";
+        internal const string ScriptDirective = "script-src";
+        internal const string StyleDirective = "style-src";
 
-        private const string _scriptHashListPlaceholder = "<ScriptHashListPlaceholder>";
+        internal const string NonceRandomContextKey = "Lib.Web.Mvc.ContentSecurityPolicy.NonceRandom";
 
         private const string _contentSecurityPolicyHeader = "Content-Security-Policy";
         private const string _contentSecurityPolicyReportOnlyHeader = "Content-Security-Policy-Report-Only";
         private const string _directivesDelimiter = ";";
         private const string _defaultDirectiveFormat = "default-src {0};";
-        private const string _scriptDirective = "script-src";
         private const string _reportDirectiveFormat = "report-uri {0};";
         private const string _unsafeInlineSource = " 'unsafe-inline'";
         private const string _nonceSourceFormat = " 'nonce-{0}'";
+        #endregion
+
+        #region Fields
+        internal static IDictionary<string, string> InlineExecutionContextKeys = new Dictionary<string, string>
+        {
+            { ScriptDirective, "Lib.Web.Mvc.ContentSecurityPolicy.ScriptInlineExecution" },
+            { StyleDirective, "Lib.Web.Mvc.ContentSecurityPolicy.StyleInlineExecution" }
+        };
+
+        internal static IDictionary<string, string> HashListBuilderContextKeys = new Dictionary<string, string>
+        {
+            { ScriptDirective, "Lib.Web.Mvc.ContentSecurityPolicy.ScriptHashListBuilder" },
+            { StyleDirective, "Lib.Web.Mvc.ContentSecurityPolicy.StyleHashListBuilder" }
+        };
+
+        private static IDictionary<string, string> _hashListPlaceholders = new Dictionary<string, string>
+        {
+            { ScriptDirective, "<ScriptHashListPlaceholder>" },
+            { StyleDirective, "<StyleHashListPlaceholder>" }
+        };
         #endregion
 
         #region Properties
@@ -66,6 +84,16 @@ namespace Lib.Web.Mvc
         /// Gets or sets the inline execution mode for scripts
         /// </summary>
         public ContentSecurityPolicyInlineExecution ScriptInlineExecution { get; set; }
+
+        /// <summary>
+        /// Gets or sets the source list for style-src directive.
+        /// </summary>
+        public string StyleSource { get; set; }
+
+        /// <summary>
+        /// Gets or sets the inline execution mode for styles
+        /// </summary>
+        public ContentSecurityPolicyInlineExecution StyleInlineExecution { get; set; }
 
         /// <summary>
         /// Gets or sets the value indicating if this is report only policy
@@ -91,6 +119,7 @@ namespace Lib.Web.Mvc
         {
             ReportOnly = false;
             ScriptInlineExecution = ContentSecurityPolicyInlineExecution.Refuse;
+            StyleInlineExecution = ContentSecurityPolicyInlineExecution.Refuse;
         }
         #endregion
 
@@ -110,46 +139,10 @@ namespace Lib.Web.Mvc
         {
             StringBuilder policyBuilder = new StringBuilder();
 
-            if (!String.IsNullOrWhiteSpace(DefaultSource))
-            {
-                policyBuilder.AppendFormat(_defaultDirectiveFormat, DefaultSource);
-            }
-
-            if (!String.IsNullOrWhiteSpace(ScriptSource) || (ScriptInlineExecution != ContentSecurityPolicyInlineExecution.Refuse))
-            {
-                policyBuilder.Append(_scriptDirective);
-
-                if (!String.IsNullOrWhiteSpace(ScriptSource))
-                {
-                    policyBuilder.AppendFormat(" {0}", ScriptSource);
-                }
-
-                filterContext.HttpContext.Items[ScriptInlineExecutionContextKey] = ScriptInlineExecution;
-                switch (ScriptInlineExecution)
-                {
-                    case ContentSecurityPolicyInlineExecution.Unsafe:
-                        policyBuilder.Append(_unsafeInlineSource);
-                        break;
-                    case ContentSecurityPolicyInlineExecution.Nonce:
-                        string nonceRandom = Guid.NewGuid().ToString("N");
-                        filterContext.HttpContext.Items[NonceRandomContextKey] = nonceRandom;
-                        policyBuilder.AppendFormat(_nonceSourceFormat, nonceRandom);
-                        break;
-                    case ContentSecurityPolicyInlineExecution.Hash:
-                        filterContext.HttpContext.Items[ScriptHashListBuilderContextKey] = new StringBuilder();
-                        policyBuilder.Append(_scriptHashListPlaceholder);
-                        break;
-                    default:
-                        break;
-                }
-
-                policyBuilder.Append(_directivesDelimiter);
-            }
-
-            if (!String.IsNullOrWhiteSpace(ReportUri))
-            {
-                policyBuilder.AppendFormat(_reportDirectiveFormat, ReportUri);
-            }
+            AppendDirective(policyBuilder, _defaultDirectiveFormat, DefaultSource);
+            AppendDirectiveWithInlineExecution(filterContext, policyBuilder, ScriptDirective, ScriptSource, ScriptInlineExecution);
+            AppendDirectiveWithInlineExecution(filterContext, policyBuilder, StyleDirective, StyleSource, StyleInlineExecution);
+            AppendDirective(policyBuilder, _reportDirectiveFormat, ReportUri);
 
             if (policyBuilder.Length > 0)
             {
@@ -165,9 +158,21 @@ namespace Lib.Web.Mvc
         /// <param name="filterContext">The filter context.</param>
         public void OnResultExecuted(ResultExecutedContext filterContext)
         {
-            if (ScriptInlineExecution == ContentSecurityPolicyInlineExecution.Hash)
+            string contentSecurityPolicyHeaderValue = filterContext.HttpContext.Response.Headers[ContentSecurityPolicyHeader];
+
+            if (!String.IsNullOrWhiteSpace(contentSecurityPolicyHeaderValue))
             {
-                filterContext.HttpContext.Response.Headers[ContentSecurityPolicyHeader] = filterContext.HttpContext.Response.Headers[ContentSecurityPolicyHeader].Replace(_scriptHashListPlaceholder, ((StringBuilder)filterContext.HttpContext.Items[ScriptHashListBuilderContextKey]).ToString());
+                if (ScriptInlineExecution == ContentSecurityPolicyInlineExecution.Hash)
+                {
+                    contentSecurityPolicyHeaderValue = contentSecurityPolicyHeaderValue.Replace(_hashListPlaceholders[ScriptDirective], ((StringBuilder)filterContext.HttpContext.Items[HashListBuilderContextKeys[ScriptDirective]]).ToString());
+                }
+
+                if (StyleInlineExecution == ContentSecurityPolicyInlineExecution.Hash)
+                {
+                    contentSecurityPolicyHeaderValue = contentSecurityPolicyHeaderValue.Replace(_hashListPlaceholders[StyleDirective], ((StringBuilder)filterContext.HttpContext.Items[HashListBuilderContextKeys[StyleDirective]]).ToString());
+                }
+
+                filterContext.HttpContext.Response.Headers[ContentSecurityPolicyHeader] = contentSecurityPolicyHeaderValue;
             }
         }
 
@@ -177,6 +182,66 @@ namespace Lib.Web.Mvc
         /// <param name="filterContext">The filter context.</param>
         public void OnResultExecuting(ResultExecutingContext filterContext)
         { }
+        #endregion
+
+        #region Private Methods
+        private void AppendDirective(StringBuilder policyBuilder, string directiveFormat, string source)
+        {
+            if (!String.IsNullOrWhiteSpace(source))
+            {
+                policyBuilder.AppendFormat(directiveFormat, source);
+            }
+        }
+
+        private void AppendDirectiveWithInlineExecution(ActionExecutingContext filterContext, StringBuilder policyBuilder, string directive, string source, ContentSecurityPolicyInlineExecution inlineExecution)
+        {
+            if (!String.IsNullOrWhiteSpace(source) || (inlineExecution != ContentSecurityPolicyInlineExecution.Refuse))
+            {
+                policyBuilder.Append(directive);
+
+                if (!String.IsNullOrWhiteSpace(source))
+                {
+                    policyBuilder.AppendFormat(" {0}", source);
+                }
+
+                filterContext.HttpContext.Items[InlineExecutionContextKeys[directive]] = inlineExecution;
+                switch (inlineExecution)
+                {
+                    case ContentSecurityPolicyInlineExecution.Unsafe:
+                        policyBuilder.Append(_unsafeInlineSource);
+                        break;
+                    case ContentSecurityPolicyInlineExecution.Nonce:
+                        string nonceRandom = GetNonceRandom(filterContext);
+                        policyBuilder.AppendFormat(_nonceSourceFormat, nonceRandom);
+                        break;
+                    case ContentSecurityPolicyInlineExecution.Hash:
+                        filterContext.HttpContext.Items[HashListBuilderContextKeys[directive]] = new StringBuilder();
+                        policyBuilder.Append(_hashListPlaceholders[directive]);
+                        break;
+                    default:
+                        break;
+                }
+
+                policyBuilder.Append(_directivesDelimiter);
+            }
+        }
+
+        private string GetNonceRandom(ActionExecutingContext filterContext)
+        {
+            string nonceRandom;
+
+            if (filterContext.HttpContext.Items.Contains(NonceRandomContextKey))
+            {
+                nonceRandom = (string)filterContext.HttpContext.Items[NonceRandomContextKey];
+            }
+            else
+            {
+                nonceRandom = Guid.NewGuid().ToString("N");
+                filterContext.HttpContext.Items[NonceRandomContextKey] = nonceRandom;
+            }
+
+            return nonceRandom;
+        }
         #endregion
     }
 }
