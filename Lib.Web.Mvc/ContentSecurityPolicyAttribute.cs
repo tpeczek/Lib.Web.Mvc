@@ -44,6 +44,9 @@ namespace Lib.Web.Mvc
         private const string _contentSecurityPolicyReportOnlyHeader = "Content-Security-Policy-Report-Only";
         private const string _directivesDelimiter = ";";
         private const string _defaultDirectiveFormat = "default-src {0};";
+        private const string _imageDirectiveFormat = "img-src {0};";
+        private const string _mediaDirectiveFormat = "media-src {0};";
+        private const string _objectDirectiveFormat = "object-src {0};";
         private const string _reportDirectiveFormat = "report-uri {0};";
         private const string _unsafeInlineSource = " 'unsafe-inline'";
         private const string _nonceSourceFormat = " 'nonce-{0}'";
@@ -73,12 +76,27 @@ namespace Lib.Web.Mvc
         /// <summary>
         /// Gets or sets the default source list for directives which can fall back to the default sources.
         /// </summary>
-        public string DefaultSource { get; set; }
+        public string DefaultSources { get; set; }
+
+        /// <summary>
+        /// Gets or sets the default source list for img-src directive.
+        /// </summary>
+        public string ImageSources { get; set; }
+
+        /// <summary>
+        /// Gets or sets the default source list for media-src directive.
+        /// </summary>
+        public string MediaSources { get; set; }
+
+        /// <summary>
+        /// Gets or sets the default source list for object-src directive.
+        /// </summary>
+        public string ObjectSources { get; set; }
 
         /// <summary>
         /// Gets or sets the source list for script-src directive.
         /// </summary>
-        public string ScriptSource { get; set; }
+        public string ScriptSources { get; set; }
 
         /// <summary>
         /// Gets or sets the inline execution mode for scripts
@@ -88,7 +106,7 @@ namespace Lib.Web.Mvc
         /// <summary>
         /// Gets or sets the source list for style-src directive.
         /// </summary>
-        public string StyleSource { get; set; }
+        public string StyleSources { get; set; }
 
         /// <summary>
         /// Gets or sets the inline execution mode for styles
@@ -139,9 +157,12 @@ namespace Lib.Web.Mvc
         {
             StringBuilder policyBuilder = new StringBuilder();
 
-            AppendDirective(policyBuilder, _defaultDirectiveFormat, DefaultSource);
-            AppendDirectiveWithInlineExecution(filterContext, policyBuilder, ScriptDirective, ScriptSource, ScriptInlineExecution);
-            AppendDirectiveWithInlineExecution(filterContext, policyBuilder, StyleDirective, StyleSource, StyleInlineExecution);
+            AppendDirective(policyBuilder, _defaultDirectiveFormat, DefaultSources);
+            AppendDirective(policyBuilder, _imageDirectiveFormat, ImageSources);
+            AppendDirective(policyBuilder, _mediaDirectiveFormat, MediaSources);
+            AppendDirective(policyBuilder, _objectDirectiveFormat, ObjectSources);
+            AppendDirectiveWithInlineExecution(filterContext, policyBuilder, ScriptDirective, ScriptSources, ScriptInlineExecution);
+            AppendDirectiveWithInlineExecution(filterContext, policyBuilder, StyleDirective, StyleSources, StyleInlineExecution);
             AppendDirective(policyBuilder, _reportDirectiveFormat, ReportUri);
 
             if (policyBuilder.Length > 0)
