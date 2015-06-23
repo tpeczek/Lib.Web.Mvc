@@ -44,6 +44,9 @@ namespace Lib.Web.Mvc
         private const string _contentSecurityPolicyReportOnlyHeader = "Content-Security-Policy-Report-Only";
         private const string _directivesDelimiter = ";";
         private const string _defaultDirectiveFormat = "default-src {0};";
+        private const string _childDirectiveFormat = "child-src {0};";
+        private const string _formDirectiveFormat = "form-action {0};";
+        private const string _ancestorsDirectiveFormat = "frame-ancestors {0};";
         private const string _imageDirectiveFormat = "img-src {0};";
         private const string _mediaDirectiveFormat = "media-src {0};";
         private const string _objectDirectiveFormat = "object-src {0};";
@@ -77,6 +80,21 @@ namespace Lib.Web.Mvc
         /// Gets or sets the default source list for directives which can fall back to the default sources.
         /// </summary>
         public string DefaultSources { get; set; }
+
+        /// <summary>
+        /// Gets or sets the default source list for child-src directive.
+        /// </summary>
+        public string ChildSources { get; set; }
+
+        /// <summary>
+        /// Gets or sets the default source list for form-action directive.
+        /// </summary>
+        public string FormSources { get; set; }
+
+        /// <summary>
+        /// Gets or sets the default source list for frame-ancestors directive.
+        /// </summary>
+        public string AncestorsSources { get; set; }
 
         /// <summary>
         /// Gets or sets the default source list for img-src directive.
@@ -158,6 +176,9 @@ namespace Lib.Web.Mvc
             StringBuilder policyBuilder = new StringBuilder();
 
             AppendDirective(policyBuilder, _defaultDirectiveFormat, DefaultSources);
+            AppendDirective(policyBuilder, _childDirectiveFormat, ChildSources);
+            AppendDirective(policyBuilder, _formDirectiveFormat, FormSources);
+            AppendDirective(policyBuilder, _ancestorsDirectiveFormat, AncestorsSources);
             AppendDirective(policyBuilder, _imageDirectiveFormat, ImageSources);
             AppendDirective(policyBuilder, _mediaDirectiveFormat, MediaSources);
             AppendDirective(policyBuilder, _objectDirectiveFormat, ObjectSources);
