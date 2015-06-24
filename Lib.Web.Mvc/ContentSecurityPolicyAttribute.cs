@@ -45,6 +45,8 @@ namespace Lib.Web.Mvc
         private const string _directivesDelimiter = ";";
         private const string _defaultDirectiveFormat = "default-src {0};";
         private const string _childDirectiveFormat = "child-src {0};";
+        private const string _connectDirectiveFormat = "connect-src {0};";
+        private const string _fontDirectiveFormat = "font-src {0};";
         private const string _formDirectiveFormat = "form-action {0};";
         private const string _ancestorsDirectiveFormat = "frame-ancestors {0};";
         private const string _imageDirectiveFormat = "img-src {0};";
@@ -82,32 +84,42 @@ namespace Lib.Web.Mvc
         public string DefaultSources { get; set; }
 
         /// <summary>
-        /// Gets or sets the default source list for child-src directive.
+        /// Gets or sets the source list for child-src directive.
         /// </summary>
         public string ChildSources { get; set; }
 
         /// <summary>
-        /// Gets or sets the default source list for form-action directive.
+        /// Gets or sets the source list for connect-src directive.
+        /// </summary>
+        public string ConnectSources { get; set; }
+
+        /// <summary>
+        /// Gets or sets the source list for font-src directive.
+        /// </summary>
+        public string FontSources { get; set; }
+
+        /// <summary>
+        /// Gets or sets the source list for form-action directive.
         /// </summary>
         public string FormSources { get; set; }
 
         /// <summary>
-        /// Gets or sets the default source list for frame-ancestors directive.
+        /// Gets or sets the source list for frame-ancestors directive.
         /// </summary>
         public string AncestorsSources { get; set; }
 
         /// <summary>
-        /// Gets or sets the default source list for img-src directive.
+        /// Gets or sets the source list for img-src directive.
         /// </summary>
         public string ImageSources { get; set; }
 
         /// <summary>
-        /// Gets or sets the default source list for media-src directive.
+        /// Gets or sets the source list for media-src directive.
         /// </summary>
         public string MediaSources { get; set; }
 
         /// <summary>
-        /// Gets or sets the default source list for object-src directive.
+        /// Gets or sets the source list for object-src directive.
         /// </summary>
         public string ObjectSources { get; set; }
 
@@ -177,6 +189,8 @@ namespace Lib.Web.Mvc
 
             AppendDirective(policyBuilder, _defaultDirectiveFormat, DefaultSources);
             AppendDirective(policyBuilder, _childDirectiveFormat, ChildSources);
+            AppendDirective(policyBuilder, _connectDirectiveFormat, ConnectSources);
+            AppendDirective(policyBuilder, _fontDirectiveFormat, FontSources);
             AppendDirective(policyBuilder, _formDirectiveFormat, FormSources);
             AppendDirective(policyBuilder, _ancestorsDirectiveFormat, AncestorsSources);
             AppendDirective(policyBuilder, _imageDirectiveFormat, ImageSources);
