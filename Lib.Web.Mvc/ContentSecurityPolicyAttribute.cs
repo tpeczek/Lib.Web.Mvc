@@ -43,6 +43,7 @@ namespace Lib.Web.Mvc
         private const string _contentSecurityPolicyHeader = "Content-Security-Policy";
         private const string _contentSecurityPolicyReportOnlyHeader = "Content-Security-Policy-Report-Only";
         private const string _directivesDelimiter = ";";
+        private const string _baseDirectiveFormat = "base-uri {0};";
         private const string _defaultDirectiveFormat = "default-src {0};";
         private const string _childDirectiveFormat = "child-src {0};";
         private const string _connectDirectiveFormat = "connect-src {0};";
@@ -78,6 +79,11 @@ namespace Lib.Web.Mvc
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Gets or sets the list of URLs that can be used to specify the document base URL.
+        /// </summary>
+        public string BaseUri { get; set; }
+
         /// <summary>
         /// Gets or sets the default source list for directives which can fall back to the default sources.
         /// </summary>
@@ -187,6 +193,7 @@ namespace Lib.Web.Mvc
         {
             StringBuilder policyBuilder = new StringBuilder();
 
+            AppendDirective(policyBuilder, _baseDirectiveFormat, BaseUri);
             AppendDirective(policyBuilder, _defaultDirectiveFormat, DefaultSources);
             AppendDirective(policyBuilder, _childDirectiveFormat, ChildSources);
             AppendDirective(policyBuilder, _connectDirectiveFormat, ConnectSources);
