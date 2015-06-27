@@ -30,6 +30,42 @@ namespace Lib.Web.Mvc
     }
 
     /// <summary>
+    /// Content Security Policy Level 2 sandbox flags
+    /// </summary>
+    [Flags]
+    public enum ContentSecurityPolicySandboxFlags
+    {
+        /// <summary>
+        /// Set no sandbox flags
+        /// </summary>
+        None = 0,
+        /// <summary>
+        /// Set allow-forms sandbox flag
+        /// </summary>
+        AllowForms = 1,
+        /// <summary>
+        /// Set allow-pointer-lock sandbox flag
+        /// </summary>
+        AllowPointerLock = 2,
+        /// <summary>
+        /// Set allow-popups sandbox flag
+        /// </summary>
+        AllowPopups = 4,
+        /// <summary>
+        /// Set allow-same-origin sandbox flag
+        /// </summary>
+        AllowSameOrigin = 8,
+        /// <summary>
+        /// Set allow-scripts sandbox flag
+        /// </summary>
+        AllowScripts = 16,
+        /// <summary>
+        /// Set allow-top-navigation sandbox flag
+        /// </summary>
+        AllowTopNavigation = 32
+    }
+
+    /// <summary>
     /// Action filter for defining Content Security Policy Level 2 policies
     /// </summary>
     public sealed class ContentSecurityPolicyAttribute : FilterAttribute, IActionFilter, IResultFilter
@@ -53,9 +89,16 @@ namespace Lib.Web.Mvc
         private const string _imageDirectiveFormat = "img-src {0};";
         private const string _mediaDirectiveFormat = "media-src {0};";
         private const string _objectDirectiveFormat = "object-src {0};";
+        private const string _sandboxDirective = "sandbox";
         private const string _reportDirectiveFormat = "report-uri {0};";
         private const string _unsafeInlineSource = " 'unsafe-inline'";
         private const string _nonceSourceFormat = " 'nonce-{0}'";
+        private const string _allowFormsSandboxFlag = " allow-forms";
+        private const string _allowPointerLockSandboxFlag = " allow-pointer-lock";
+        private const string _allowPopupsSandboxFlag = " allow-popups";
+        private const string _allowSameOriginSandboxFlag = " allow-same-origin";
+        private const string _allowScriptsSandboxFlag = " allow-scripts";
+        private const string _allowTopNavigationSandboxFlag = " allow-top-navigation";
         #endregion
 
         #region Fields
@@ -150,6 +193,16 @@ namespace Lib.Web.Mvc
         public ContentSecurityPolicyInlineExecution StyleInlineExecution { get; set; }
 
         /// <summary>
+        /// Gets or sets the value indicating if sandbox policy should be applied
+        /// </summary>
+        public bool Sandbox { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sandboxing flags (only used when Sandbox is true)
+        /// </summary>
+        public ContentSecurityPolicySandboxFlags SandboxFlags { get; set; }
+
+        /// <summary>
         /// Gets or sets the value indicating if this is report only policy
         /// </summary>
         public bool ReportOnly { get; set; }
@@ -171,9 +224,11 @@ namespace Lib.Web.Mvc
         /// </summary>
         public ContentSecurityPolicyAttribute()
         {
-            ReportOnly = false;
             ScriptInlineExecution = ContentSecurityPolicyInlineExecution.Refuse;
             StyleInlineExecution = ContentSecurityPolicyInlineExecution.Refuse;
+            Sandbox = false;
+            SandboxFlags = ContentSecurityPolicySandboxFlags.None;
+            ReportOnly = false;
         }
         #endregion
 
@@ -205,6 +260,7 @@ namespace Lib.Web.Mvc
             AppendDirective(policyBuilder, _objectDirectiveFormat, ObjectSources);
             AppendDirectiveWithInlineExecution(filterContext, policyBuilder, ScriptDirective, ScriptSources, ScriptInlineExecution);
             AppendDirectiveWithInlineExecution(filterContext, policyBuilder, StyleDirective, StyleSources, StyleInlineExecution);
+            AppendSandboxDirective(policyBuilder);
             AppendDirective(policyBuilder, _reportDirectiveFormat, ReportUri);
 
             if (policyBuilder.Length > 0)
@@ -304,6 +360,34 @@ namespace Lib.Web.Mvc
             }
 
             return nonceRandom;
+        }
+
+        private void AppendSandboxDirective(StringBuilder policyBuilder)
+        {
+            if (Sandbox)
+            {
+                policyBuilder.Append(_sandboxDirective);
+
+                if (SandboxFlags != ContentSecurityPolicySandboxFlags.None)
+                {
+                    AppendSandboxFlag(policyBuilder, ContentSecurityPolicySandboxFlags.AllowForms, _allowFormsSandboxFlag);
+                    AppendSandboxFlag(policyBuilder, ContentSecurityPolicySandboxFlags.AllowPointerLock, _allowPointerLockSandboxFlag);
+                    AppendSandboxFlag(policyBuilder, ContentSecurityPolicySandboxFlags.AllowPopups, _allowPopupsSandboxFlag);
+                    AppendSandboxFlag(policyBuilder, ContentSecurityPolicySandboxFlags.AllowSameOrigin, _allowSameOriginSandboxFlag);
+                    AppendSandboxFlag(policyBuilder, ContentSecurityPolicySandboxFlags.AllowScripts, _allowScriptsSandboxFlag);
+                    AppendSandboxFlag(policyBuilder, ContentSecurityPolicySandboxFlags.AllowTopNavigation, _allowTopNavigationSandboxFlag);
+                }
+
+                policyBuilder.Append(_directivesDelimiter);
+            }
+        }
+
+        private void AppendSandboxFlag(StringBuilder policyBuilder, ContentSecurityPolicySandboxFlags flag, string flagValue)
+        {
+            if (SandboxFlags.HasFlag(flag))
+            {
+                policyBuilder.Append(flagValue);
+            }
         }
         #endregion
     }
