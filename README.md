@@ -2,7 +2,7 @@ Lib.Web.Mvc
 ===============
 [![NuGet version](https://badge.fury.io/nu/Lib.Web.Mvc.svg)](http://badge.fury.io/nu/Lib.Web.Mvc)
 
-Lib.Web.Mvc is a library which contains some helper classes for ASP.NET MVC such as strongly typed jqGrid helper, XSL transformation HtmlHelper/ActionResult, FileResult with range request support, custom attributes and more.
+Lib.Web.Mvc is a library which contains some helper classes for ASP.NET MVC such as strongly typed jqGrid helper, XSL transformation HtmlHelper/ActionResult, FileResult with range request support, action filter and helpers for Content Security Policy Level 2, custom attributes and more.
 
 ## Getting Started
 
@@ -23,7 +23,8 @@ There is also a series of blog posts describing key features of the library:
 - [jqGrid Strongly Typed Helper - Introduction](http://tpeczek.blogspot.com/2011/03/jqgrid-and-aspnet-mvc-strongly-typed.html)
 - [jqGrid Strongly Typed Helper - Caption layer, dynamic scrolling and grouping](http://tpeczek.blogspot.com/2011/07/jqgrid-strongly-typed-helper-caption.html)
 - [jqGrid Strongly Typed Helper - jQuery UI Integrations](http://tpeczek.blogspot.com/2013/02/jqgrid-strongly-typed-helper-jquery-ui.html)
-- [Range Requests in ASP.NET MVC – RangeFileResult](http://tpeczek.blogspot.com/2011/10/range-requests-in-aspnet-mvc.html)
+- [Range Requests in ASP.NET MVC – RangeFileResult](http://tpeczek.blogspot.com/2011/10/range-requests-in-aspnet-mvc.html) (How RangeFileResult works)
+- [Content Security Policy in ASP.NET MVC - Scripts](http://tpeczek.blogspot.com/2015/06/content-security-policy-in-aspnet-mvc.html) (How ContentSecurityPolicyAttribute and ContentSecurityPolicyExtensions work)
 
 ## Usage examples
 

@@ -1,3 +1,8 @@
+## Lib.Web.Mvc 6.6.0
+### Additions and Changes
+- Added support for Content Security Policy Level 2 via ContentSecurityPolicyAttribute and ContentSecurityPolicyExtensions
+- Added support for empty area names in JqGridColumnSearchableAttribute and JqGridColumnEditableAttribute
+
 ## Lib.Web.Mvc 6.5.0
 ### Additions and Changes
 - Added HoverRows to JqGridOptions/JqGridHelper (thanks to @tascogin)
