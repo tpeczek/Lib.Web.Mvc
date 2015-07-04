@@ -68,7 +68,8 @@ namespace Lib.Web.Mvc
     /// <summary>
     /// Action filter for defining Content Security Policy Level 2 policies
     /// </summary>
-    public sealed class ContentSecurityPolicyAttribute : FilterAttribute, IActionFilter, IResultFilter
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
+    public class ContentSecurityPolicyAttribute : FilterAttribute, IActionFilter, IResultFilter
     {
         #region Constants
         internal const string ScriptDirective = "script-src";
@@ -193,7 +194,7 @@ namespace Lib.Web.Mvc
         public ContentSecurityPolicyInlineExecution StyleInlineExecution { get; set; }
 
         /// <summary>
-        /// Gets or sets the value indicating if sandbox policy should be applied
+        /// Gets or sets the value indicating if sandbox policy should be applied.
         /// </summary>
         public bool Sandbox { get; set; }
 
@@ -203,7 +204,7 @@ namespace Lib.Web.Mvc
         public ContentSecurityPolicySandboxFlags SandboxFlags { get; set; }
 
         /// <summary>
-        /// Gets or sets the value indicating if this is report only policy
+        /// Gets or sets the value indicating if this is report only policy.
         /// </summary>
         public bool ReportOnly { get; set; }
 
@@ -246,6 +247,11 @@ namespace Lib.Web.Mvc
         /// <param name="filterContext"></param>
         public void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            if (filterContext == null)
+            {
+                throw new ArgumentNullException("filterContext");
+            }
+
             StringBuilder policyBuilder = new StringBuilder();
 
             AppendDirective(policyBuilder, _baseDirectiveFormat, BaseUri);
@@ -277,6 +283,11 @@ namespace Lib.Web.Mvc
         /// <param name="filterContext">The filter context.</param>
         public void OnResultExecuted(ResultExecutedContext filterContext)
         {
+            if (filterContext == null)
+            {
+                throw new ArgumentNullException("filterContext");
+            }
+
             string contentSecurityPolicyHeaderValue = filterContext.HttpContext.Response.Headers[ContentSecurityPolicyHeader];
 
             if (!String.IsNullOrWhiteSpace(contentSecurityPolicyHeaderValue))
