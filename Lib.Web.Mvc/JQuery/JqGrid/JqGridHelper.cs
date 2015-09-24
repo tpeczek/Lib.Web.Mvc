@@ -846,6 +846,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                     javaScriptBuilder.AppendFormat("cellurl: '{0}',", _options.CellEditingUrl).AppendLine();
             }
 
+            var styleui_options = Enum.GetValues(typeof(JqGridStyleUIOptions)).Cast<JqGridStyleUIOptions>().ToList();
+            if( styleui_options.Contains( _options.StyleUI) )
+            {
+                javaScriptBuilder.AppendFormat("styleUI: '{0}',", _options.StyleUI.ToString() ).AppendLine();
+            }
+
             if (!String.IsNullOrEmpty(_options.Caption))
             {
                 javaScriptBuilder.AppendFormat("caption: '{0}',", _options.Caption).AppendLine();

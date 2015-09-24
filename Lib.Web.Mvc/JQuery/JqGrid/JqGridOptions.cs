@@ -116,6 +116,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         public string CellEditingUrl { get; set; }
 
+
+        /// <summary>
+        /// Gets or set the StyleUI option (new in JqGrid 5.0)
+        /// </summary>
+        public JqGridStyleUIOptions StyleUI { get; set; }
+
         /// <summary>
         /// Gets the list of columns parameters descriptions.
         /// </summary>

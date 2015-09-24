@@ -8,6 +8,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 {
     /// <summary>
     /// jqGrid options
+    /// See http://stackoverflow.com/questions/2611639/what-should-i-name-my-files-with-generic-class-definitions for file name explanation
     /// </summary>
     /// <typeparam name="TModel">Type of model for grid</typeparam>
     public sealed class JqGridOptions<TModel> : JqGridOptions
