@@ -129,6 +129,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.CellEditingEnabled = GetBooleanFromSerializedObj(serializedObj, "cellEdit", false);
                 obj.CellEditingSubmitMode = GetEnumFromSerializedObj<JqGridCellEditingSubmitModes>(serializedObj, "cellsubmit", JqGridCellEditingSubmitModes.Remote);
                 obj.CellEditingUrl = GetStringFromSerializedObj(serializedObj, "cellurl");
+                obj.StyleUI = GetEnumFromSerializedObj<JqGridStyleUIOptions>(serializedObj, "styleUI", JqGridStyleUIOptions.jQueryUI);
+                    
 
                 if (serializedObj.ContainsKey("colModel") && serializedObj["colModel"] is ArrayList)
                 {
@@ -250,6 +252,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (obj.CellLayout != JqGridOptionsDefaults.CellLayout)
                 serializedObj.Add("cellLayout", obj.CellLayout);
 
+
+            serializedObj.Add("styleUI", obj.StyleUI.ToString());
+            
             if (obj.CellEditingEnabled)
             {
                 serializedObj.Add("cellEdit", true);
@@ -298,6 +303,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             if (obj.EmptyRecords != JqGridOptionsDefaults.EmptyRecords)
                 serializedObj.Add("emptyrecords", obj.EmptyRecords);
+
+
+         
+
 
             if (!String.IsNullOrWhiteSpace(obj.EditingUrl))
                 serializedObj.Add("editurl", obj.EditingUrl);

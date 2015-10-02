@@ -65,6 +65,7 @@
     <Compile Include="JQuery\JqGrid\JqGridInlineNavigatorActionOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridInlineNavigatorAddActionOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridInlineNavigatorOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridStyleUIOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridMultiKeys.cs" />
     <Compile Include="JQuery\JqGrid\JqGridNavigatorDeleteActionOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridNavigatorEditActionOptions.cs" />
