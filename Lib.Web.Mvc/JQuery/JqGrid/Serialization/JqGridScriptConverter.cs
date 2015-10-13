@@ -127,7 +127,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.Caption = GetStringFromSerializedObj(serializedObj, "caption");
                 obj.CellLayout = GetInt32FromSerializedObj(serializedObj, "cellLayout", JqGridOptionsDefaults.CellLayout);
                 obj.CellEditingEnabled = GetBooleanFromSerializedObj(serializedObj, "cellEdit", false);
-                obj.CellEditingSubmitMode = GetEnumFromSerializedObj<JqGridCellEditingSubmitModes>(serializedObj, "cellsubmit", JqGridCellEditingSubmitModes.Remote);
+                obj.CellEditingSubmitMode = GetEnumFromSerializedObj(serializedObj, "cellsubmit", JqGridCellEditingSubmitModes.Remote);
                 obj.CellEditingUrl = GetStringFromSerializedObj(serializedObj, "cellurl");
 
                 if (serializedObj.ContainsKey("colModel") && serializedObj["colModel"] is ArrayList)
@@ -150,9 +150,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 }
 
                 obj.DataString = GetStringFromSerializedObj(serializedObj, "datastr");
-                obj.DataType = GetEnumFromSerializedObj<JqGridDataTypes>(serializedObj, "datatype", JqGridDataTypes.Xml);
+                obj.DataType = GetEnumFromSerializedObj(serializedObj, "datatype", JqGridDataTypes.Xml);
                 obj.DeepEmpty = GetBooleanFromSerializedObj(serializedObj, "deepempty", false);
-                obj.Direction = GetEnumFromSerializedObj<JqGridLanguageDirections>(serializedObj, "direction", JqGridLanguageDirections.Ltr);
+                obj.Direction = GetEnumFromSerializedObj(serializedObj, "direction", JqGridLanguageDirections.Ltr);
                 obj.DynamicScrollingMode = JqGridDynamicScrollingModes.Disabled;
                 if (serializedObj.ContainsKey("scroll") && serializedObj["scroll"] != null)
                 {
@@ -181,7 +181,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.HoverRows = GetBooleanFromSerializedObj(serializedObj, "hoverrows", true);
                 obj.IgnoreCase = GetBooleanFromSerializedObj(serializedObj, "ignoreCase", false);
                 obj.LoadOnce = GetBooleanFromSerializedObj(serializedObj, "loadonce", false);
-                obj.MethodType = GetEnumFromSerializedObj<JqGridMethodTypes>(serializedObj, "mtype", JqGridMethodTypes.Get);
+                obj.MethodType = GetEnumFromSerializedObj(serializedObj, "mtype", JqGridMethodTypes.Get);
                 obj.MultiKey = GetEnumFromSerializedObj<JqGridMultiKeys>(serializedObj, "multikey");
                 obj.MultiBoxOnly = GetBooleanFromSerializedObj(serializedObj, "multiboxonly", false);
                 obj.MultiSelect = GetBooleanFromSerializedObj(serializedObj, "multiselect", false);
@@ -210,7 +210,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.ScrollOffset = GetInt32FromSerializedObj(serializedObj, "scrollOffset", 18);
                 obj.Sortable = GetBooleanFromSerializedObj(serializedObj, "sortable", false);
                 obj.SortingName = GetStringFromSerializedObj(serializedObj, "sortname");
-                obj.SortingOrder = GetEnumFromSerializedObj<JqGridSortingOrders>(serializedObj, "sortorder", JqGridSortingOrders.Asc);
+                obj.SortingOrder = GetEnumFromSerializedObj(serializedObj, "sortorder", JqGridSortingOrders.Asc);
+                obj.StyleUI = GetEnumFromSerializedObj(serializedObj, "styleUI", JqGridStyleUIOptions.jQueryUI);
                 obj.SubgridEnabled = GetBooleanFromSerializedObj(serializedObj, "subGrid", false);
 
                 if (serializedObj.ContainsKey("subGridModel") && serializedObj["subGridModel"] != null && serializedObj["subGridModel"] is IDictionary<string, object>)
@@ -220,7 +221,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.SubgridColumnWidth = GetInt32FromSerializedObj(serializedObj, "subGridWidth", 20);
                 obj.TopPager = GetBooleanFromSerializedObj(serializedObj, "toppager", false);
                 obj.TreeGridEnabled = GetBooleanFromSerializedObj(serializedObj, "treeGrid", false);
-                obj.TreeGridModel = GetEnumFromSerializedObj<JqGridTreeGridModels>(serializedObj, "treeGridModel", JqGridTreeGridModels.Nested);
+                obj.TreeGridModel = GetEnumFromSerializedObj(serializedObj, "treeGridModel", JqGridTreeGridModels.Nested);
                 obj.Url = GetStringFromSerializedObj(serializedObj, "url");
                 obj.ViewRecords = GetBooleanFromSerializedObj(serializedObj, "viewrecords", false);
                 obj.Width = GetInt32FromSerializedObj(serializedObj, "width");
@@ -390,6 +391,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (obj.SortingOrder != JqGridSortingOrders.Asc)
                 serializedObj.Add("sortorder", "desc");
 
+            if (obj.StyleUI != JqGridStyleUIOptions.jQueryUI)
+                serializedObj.Add("styleUI", obj.StyleUI.ToString());
+
             if (obj.SubgridEnabled)
             {
                 serializedObj.Add("subGrid", true);
@@ -434,11 +438,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             {
                 JqGridColumnModel obj = new JqGridColumnModel(name);
 
-                obj.Alignment = GetEnumFromSerializedObj<JqGridAlignments>(serializedObj, "align", obj.Alignment);
+                obj.Alignment = GetEnumFromSerializedObj(serializedObj, "align", obj.Alignment);
                 obj.DateFormat = GetStringFromSerializedObj(serializedObj, "datefmt", JqGridOptionsDefaults.DateFormat);
                 obj.Classes = GetStringFromSerializedObj(serializedObj, "classes");
                 obj.Editable = GetBooleanFromSerializedObj(serializedObj, "editable", false);
-                obj.EditType = GetEnumFromSerializedObj<JqGridColumnEditTypes>(serializedObj, "edittype", JqGridColumnEditTypes.Text);
+                obj.EditType = GetEnumFromSerializedObj(serializedObj, "edittype", JqGridColumnEditTypes.Text);
 
                 if (serializedObj.ContainsKey("editoptions") && serializedObj["editoptions"] != null && serializedObj["editoptions"] is IDictionary<string, object>)
                     obj.EditOptions = DeserializeJqGridColumnEditOptions((IDictionary<string, object>)serializedObj["editoptions"], serializer);
@@ -462,7 +466,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 if (serializedObj.ContainsKey("formoptions") && serializedObj["formoptions"] != null && serializedObj["formoptions"] is IDictionary<string, object>)
                     obj.FormOptions = DeserializeJqGridColumnFormOptions((IDictionary<string, object>)serializedObj["formoptions"], serializer);
 
-                obj.InitialSortingOrder = GetEnumFromSerializedObj<JqGridSortingOrders>(serializedObj, "firstsortorder", JqGridSortingOrders.Asc);
+                obj.InitialSortingOrder = GetEnumFromSerializedObj(serializedObj, "firstsortorder", JqGridSortingOrders.Asc);
                 obj.JsonMapping = GetStringFromSerializedObj(serializedObj, "jsonmap");
                 obj.Key = GetBooleanFromSerializedObj(serializedObj, "key", false);
                 obj.Resizable = GetBooleanFromSerializedObj(serializedObj, "resizable", true);
@@ -476,10 +480,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
                 obj.SummaryTemplate = GetStringFromSerializedObj(serializedObj, "summaryTpl", "{0}");
                 obj.Sortable = GetBooleanFromSerializedObj(serializedObj, "sortable", true);
-                obj.SortType = GetEnumFromSerializedObj<JqGridColumnSortTypes>(serializedObj, "sorttype", JqGridColumnSortTypes.Text);
+                obj.SortType = GetEnumFromSerializedObj(serializedObj, "sorttype", JqGridColumnSortTypes.Text);
                 obj.Index = GetStringFromSerializedObj(serializedObj, "index");
                 obj.Searchable = GetBooleanFromSerializedObj(serializedObj, "search", true);
-                obj.SearchType = GetEnumFromSerializedObj<JqGridColumnSearchTypes>(serializedObj, "stype", JqGridColumnSearchTypes.Text);
+                obj.SearchType = GetEnumFromSerializedObj(serializedObj, "stype", JqGridColumnSearchTypes.Text);
 
                 if (serializedObj.ContainsKey("searchoptions") && serializedObj["searchoptions"] != null && serializedObj["searchoptions"] is IDictionary<string, object>)
                     obj.SearchOptions = DeserializeJqGridColumnSearchOptions((IDictionary<string, object>)serializedObj["searchoptions"], serializer);
@@ -1009,7 +1013,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 foreach (object innerSerializedObj in (ArrayList)serializedObj["sopt"])
                 {
                     JqGridSearchOperators searchOperator = JqGridSearchOperators.Eq;
-                    if (Enum.TryParse<JqGridSearchOperators>(innerSerializedObj.ToString(), true, out searchOperator))
+                    if (Enum.TryParse(innerSerializedObj.ToString(), true, out searchOperator))
                     {
                         if (searchOperators.HasValue)
                             searchOperators = searchOperators | searchOperator;
@@ -1062,7 +1066,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 foreach (object innerSerializedObj in (ArrayList)serializedObj["align"])
                 {
                     JqGridAlignments alignment = JqGridAlignments.Left;
-                    Enum.TryParse<JqGridAlignments>(innerSerializedObj.ToString(), true, out alignment);
+                    Enum.TryParse(innerSerializedObj.ToString(), true, out alignment);
                     obj.ColumnsAlignments.Add(alignment);
                 }
             }
@@ -1251,7 +1255,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             JqGridRequestSearchingFilter obj = new JqGridRequestSearchingFilter();
 
             obj.SearchingName = GetStringFromSerializedObj(serializedObj, "field");
-            obj.SearchingOperator = GetEnumFromSerializedObj<JqGridSearchOperators>(serializedObj, "op", JqGridSearchOperators.Eq);
+            obj.SearchingOperator = GetEnumFromSerializedObj(serializedObj, "op", JqGridSearchOperators.Eq);
             obj.SearchingValue = GetStringFromSerializedObj(serializedObj, "data");
             return obj;
         }

@@ -135,6 +135,7 @@
     <Compile Include="JQuery\JqGrid\JqGridRecord.cs" />
     <Compile Include="JQuery\JqGrid\JqGridSearchGroupingOperators.cs" />
     <Compile Include="JQuery\JqGrid\JqGridSortingOrders.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridStyleUIOptions.cs" />
     <Compile Include="JQuery\JqGrid\JqGridSubgridModel.cs" />
     <Compile Include="JQuery\JqGrid\JqGridSubgridModel`1.cs" />
     <Compile Include="JQuery\JqGrid\JqGridTreeGridModels.cs" />

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web.Mvc;
 using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
@@ -457,6 +456,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridSortingOrders SortingOrder { get; set; }
 
         /// <summary>
+        /// Gets or set the CSS framework  
+        /// </summary>
+        /// <remarks>
+        /// Available since Guriddo jqGrid 5.0
+        /// </remarks>
+        public JqGridStyleUIOptions StyleUI { get; set; }
+
+        /// <summary>
         /// Gets or sets the value which defines if subgrid is enabled.
         /// </summary>
         public bool SubgridEnabled { get; set; }
@@ -617,6 +624,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             Sortable = false;
             SortingName = String.Empty;
             SortingOrder = JqGridSortingOrders.Asc;
+            StyleUI = JqGridStyleUIOptions.jQueryUI;
             SubgridColumnWidth = 20;
             SubgridEnabled = false;
             SubgridModel = null;
