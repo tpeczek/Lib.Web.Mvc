@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Routing;
 using System.Web.Mvc;
-using System.Web;
+using System.Web.Routing;
+using JetBrains.Annotations;
 using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
@@ -145,6 +143,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             get { return EditOptions.ChildName; }
             set { EditOptions.ChildName = value; }
         }
+				
+        /// <summary>Select should have multiple choice.</summary>
+        public bool Multiple { get; set; }
+
         #endregion
 
         #region Constructor
@@ -153,7 +155,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         /// <param name="editable">If this column can be edited</param>
         public JqGridColumnEditableAttribute(bool editable)
-            : base()
         {
             DateFormat = JqGridOptionsDefaults.DateFormat;
             Editable = editable;
@@ -167,14 +168,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         /// <param name="editable">If this column can be edited</param>
         /// <param name="dataUrlRouteName">Route name for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
-        public JqGridColumnEditableAttribute(bool editable, string dataUrlRouteName)
-            : this(editable)
+        public JqGridColumnEditableAttribute(bool editable, string dataUrlRouteName) : this(editable)
         {
             if (String.IsNullOrWhiteSpace(dataUrlRouteName))
                 throw new ArgumentNullException("dataUrlRouteName");
             
-
-            DataUrlRouteName = dataUrlRouteName;
+						DataUrlRouteName = dataUrlRouteName;
             DataUrlRouteData = new RouteValueDictionary();
         }
 
@@ -184,8 +183,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <param name="editable">If this column can be edited</param>
         /// <param name="dataUrlAction">Action for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
         /// <param name="dataUrlController">Controller for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
-        public JqGridColumnEditableAttribute(bool editable, string dataUrlAction, string dataUrlController) :
-            this(editable, dataUrlAction, dataUrlController, null)
+        public JqGridColumnEditableAttribute(bool editable, [AspMvcAction] string dataUrlAction
+					, [AspMvcController] string dataUrlController) : this(editable, dataUrlAction, dataUrlController, null)
         { }
 
         /// <summary>
@@ -195,8 +194,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <param name="dataUrlAction">Action for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
         /// <param name="dataUrlController">Controller for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
         /// <param name="dataUrlAreaName">Area for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
-        public JqGridColumnEditableAttribute(bool editable, string dataUrlAction, string dataUrlController, string dataUrlAreaName)
-            : this(editable)
+        public JqGridColumnEditableAttribute(bool editable, [AspMvcAction] string dataUrlAction
+					, [AspMvcController] string dataUrlController, [AspMvcArea]string dataUrlAreaName) : this(editable)
         {
             if (String.IsNullOrWhiteSpace(dataUrlAction))
                 throw new ArgumentNullException("dataUrlAction");
@@ -273,6 +272,22 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             metadata.SetColumnEditType(EditType);
             metadata.SetColumnFormOptions(FormOptions);
         }
+        #endregion
+
+        #region Overrides of JqGridColumnElementAttribute
+
+        /// <summary>
+        /// When overriden in delivered class, provides a dictionary where keys should be valid attributes for the element.
+        /// </summary>
+        protected override IDictionary<string, object> HtmlAttributes
+        {
+          get
+          {
+	          return Multiple && (EditType == JqGridColumnEditTypes.Select | EditType == JqGridColumnEditTypes.SelectsCascadeParent)
+		          ? new Dictionary<string, object> {{"multiple", true}} : base.HtmlAttributes;
+          }
+        }
+
         #endregion
     }
 }
