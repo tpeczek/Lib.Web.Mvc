@@ -762,7 +762,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (searchOptions.SearchHidden)
                     javaScriptBuilder.AppendFormat("searchhidden: true, ");
 
-                AppendSearchOperators(searchOptions.SearchOperators, javaScriptBuilder);
+								if (searchOptions.SearchOrderedOperators != null) // Was raised as an ordered composition of filters
+										AppendSearchOperators( searchOptions.SearchOrderedOperators, javaScriptBuilder );
+								else
+										AppendSearchOperators(searchOptions.SearchOperators, javaScriptBuilder);
+
+								if  ( !searchOptions.ClearSearch )
+									javaScriptBuilder.Append( "clearSearch: false, " );
 
                 if (javaScriptBuilder[javaScriptBuilder.Length - 2] == ',')
                 {
@@ -779,7 +785,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (searchOperators.HasValue && searchOperators.Value != (JqGridSearchOperators)32768)
             {
                 javaScriptBuilder.Append("sopt: [ ");
-                foreach (JqGridSearchOperators searchOperator in Enum.GetValues(typeof(JqGridSearchOperators)))
+								foreach (JqGridSearchOperators searchOperator in Enum.GetValues(typeof(JqGridSearchOperators)))
                 {
                     if (searchOperator != JqGridSearchOperators.EqualOrNotEqual && searchOperator != JqGridSearchOperators.NoTextOperators && searchOperator != JqGridSearchOperators.TextOperators && (searchOperators.Value & searchOperator) == searchOperator)
                         javaScriptBuilder.AppendFormat("'{0}',", Enum.GetName(typeof(JqGridSearchOperators), searchOperator).ToLower());
@@ -788,6 +794,22 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.Append("], ");
             }
         }
+
+				// Allows consider the order searchOperators set in SearchOrderedOperators
+				private static void AppendSearchOperators( JqGridSearchOperators[] searchOperators, StringBuilder javaScriptBuilder )
+				{
+					if ( searchOperators != null && searchOperators.Length > 0 && !searchOperators.All( o => o == (JqGridSearchOperators)32768) )
+					{
+						javaScriptBuilder.Append( "sopt: [ " );
+						foreach ( JqGridSearchOperators searchOperator in searchOperators )
+						{
+							if ( searchOperator != JqGridSearchOperators.EqualOrNotEqual && searchOperator != JqGridSearchOperators.NoTextOperators && searchOperator != JqGridSearchOperators.TextOperators )
+								javaScriptBuilder.AppendFormat( "'{0}',", searchOperator.ToString("G").ToLower() );
+						}
+						javaScriptBuilder.Remove( javaScriptBuilder.Length - 1, 1 );
+						javaScriptBuilder.Append( "], " );
+					}
+				}
 
         private void AppendOptions(StringBuilder javaScriptBuilder)
         {

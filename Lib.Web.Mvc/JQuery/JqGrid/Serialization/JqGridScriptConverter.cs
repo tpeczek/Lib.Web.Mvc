@@ -326,7 +326,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             else
                 serializedObj.Add("height", "100%");
 
-            if (!obj.HoverRows)
+						if (!obj.HoverRows)
                 serializedObj.Add("hoverrows", false);
 
             if (obj.IgnoreCase)
@@ -391,7 +391,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (obj.SortingOrder != JqGridSortingOrders.Asc)
                 serializedObj.Add("sortorder", "desc");
 
-            if (obj.StyleUI != JqGridStyleUIOptions.jQueryUI)
+						if (obj.StyleUI != JqGridStyleUIOptions.jQueryUI)
                 serializedObj.Add("styleUI", obj.StyleUI.ToString());
 
             if (obj.SubgridEnabled)
@@ -624,7 +624,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             obj.DefaultValue = GetStringFromSerializedObj(serializedObj, "defaultValue");
             serializedObj.Remove("defaultValue");
 
-            if (serializedObj["value"] != null && serializedObj["value"] is IDictionary<string, object>)
+						if ( serializedObj.ContainsKey( "value" ) && serializedObj["value"] is IDictionary<string, object>)
                 obj.ValueDictionary = ((IDictionary<string, object>)serializedObj["value"]).ToDictionary(k => k.Key, v => v.Value.ToString());
             else
                 obj.Value = GetStringFromSerializedObj(serializedObj, "value");
@@ -997,7 +997,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             obj.DataUrl = GetStringFromSerializedObj(serializedObj, "dataUrl");
             obj.DefaultValue = GetStringFromSerializedObj(serializedObj, "defaultValue");
 
-            if (serializedObj["value"] != null && serializedObj["value"] is IDictionary<string, object>)
+						if ( serializedObj.ContainsKey( "value" ) && serializedObj["value"] is IDictionary<string, object> )
                 obj.ValueDictionary = ((IDictionary<string, object>)serializedObj["value"]).ToDictionary(k => k.Key, v => v.Value.ToString());
             else
                 obj.Value = GetStringFromSerializedObj(serializedObj, "value");
@@ -1010,20 +1010,32 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (serializedObj.ContainsKey("sopt") && serializedObj["sopt"] is ArrayList)
             {
                 JqGridSearchOperators? searchOperators = null;
-                foreach (object innerSerializedObj in (ArrayList)serializedObj["sopt"])
+								// Added the ability searchOperators consider the order specified in SearchOrderedOperators 
+								ArrayList raw = (ArrayList) serializedObj["sopt"];
+								List<JqGridSearchOperators> searchOrderedOperators = null;
+                foreach (object innerSerializedObj in raw)
                 {
                     JqGridSearchOperators searchOperator = JqGridSearchOperators.Eq;
                     if (Enum.TryParse(innerSerializedObj.ToString(), true, out searchOperator))
                     {
-                        if (searchOperators.HasValue)
-                            searchOperators = searchOperators | searchOperator;
-                        else
-                            searchOperators = searchOperator;
+	                    if (searchOperators.HasValue)
+	                    {
+		                    searchOperators = searchOperators | searchOperator;
+												searchOrderedOperators.Add( searchOperator );
+	                    }
+	                    else
+	                    {
+		                    searchOperators = searchOperator;
+												searchOrderedOperators = new List<JqGridSearchOperators>( raw.Count );
+	                    }
                     }
                 }
 
-                if (searchOperators.HasValue)
-                    obj.SearchOperators = searchOperators.Value;
+	            if (searchOperators.HasValue)
+	            {
+		            obj.SearchOperators = searchOperators.Value;
+								obj.SearchOrderedOperators = searchOrderedOperators.ToArray();
+	            }
             }
             
             return obj;
@@ -1039,16 +1051,33 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (obj.SearchHidden)
                 serializedObj.Add("searchhidden", true);
 
-            if (obj.SearchOperators != (JqGridSearchOperators)32768)
-            {
-                List<string> searchOperators = new List<string>();
-                foreach (JqGridSearchOperators searchOperator in Enum.GetValues(typeof(JqGridSearchOperators)))
-                {
-                    if (searchOperator != JqGridSearchOperators.EqualOrNotEqual && searchOperator != JqGridSearchOperators.NoTextOperators && searchOperator != JqGridSearchOperators.TextOperators && (obj.SearchOperators & searchOperator) == searchOperator)
-                        searchOperators.Add(Enum.GetName(typeof(JqGridSearchOperators), searchOperator).ToLower());
-                }
-                serializedObj.Add("sopt", searchOperators);
-            }
+						// Added the ability searchOperators consider the order specified in SearchOrderedOperators
+						if ( obj.SearchOrderedOperators != null && obj.SearchOrderedOperators.Length > 0)
+						{
+							if ( !obj.SearchOrderedOperators.All( o => o == (JqGridSearchOperators)32768 ) )
+							{
+								List<string> searchOperators = new List<string>();
+								foreach ( JqGridSearchOperators searchOperator in obj.SearchOrderedOperators )
+								{
+									if ( searchOperator != JqGridSearchOperators.EqualOrNotEqual && searchOperator != JqGridSearchOperators.NoTextOperators && searchOperator != JqGridSearchOperators.TextOperators )
+										searchOperators.Add( Enum.GetName( typeof( JqGridSearchOperators ), searchOperator ).ToLower() );
+								}
+								serializedObj.Add( "sopt", searchOperators );
+							}
+						}
+						else
+						{
+								if ( obj.SearchOperators != (JqGridSearchOperators)32768 )
+								{
+										List<string> searchOperators = new List<string>();
+										foreach ( JqGridSearchOperators searchOperator in Enum.GetValues( typeof( JqGridSearchOperators ) ) )
+										{
+												if ( searchOperator != JqGridSearchOperators.EqualOrNotEqual && searchOperator != JqGridSearchOperators.NoTextOperators && searchOperator != JqGridSearchOperators.TextOperators && ( obj.SearchOperators & searchOperator ) == searchOperator )
+													searchOperators.Add( Enum.GetName( typeof( JqGridSearchOperators ), searchOperator ).ToLower() );
+										}
+										serializedObj.Add( "sopt", searchOperators );
+								}
+						}
         }
 
         private static JqGridSubgridModel DeserializeJqGridSubgridModel(IDictionary<string, object> serializedObj, JavaScriptSerializer serializer)

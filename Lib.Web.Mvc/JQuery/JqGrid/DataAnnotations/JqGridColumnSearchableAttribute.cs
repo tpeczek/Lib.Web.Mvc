@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Web.Routing;
 using System.Web.Mvc;
-using System.Web;
+using System.Web.Routing;
+using JetBrains.Annotations;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
 {
@@ -47,7 +46,55 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             set { SearchOptions.SearchOperators = value; }
         }
 
-        private JqGridColumnSearchOptions SearchOptions
+				/// <summary>
+				/// Available search operators for the column with the ability to specify their order.
+				/// (default SearchOp.Eq).
+				/// </summary>
+				public string SearchOrderedOperators { 
+					get
+					{
+						if (SearchOptions.SearchOrderedOperators != null && SearchOptions.SearchOrderedOperators.Any())
+							return string.Join( ", ", SearchOptions.SearchOrderedOperators.Select( o => o.ToString() ) );
+						else
+							return null;
+					}
+					set
+					{
+						string[] stringOperators = value.Split( ',' );
+						JqGridSearchOperators[] operators = new JqGridSearchOperators[stringOperators.Length];
+						for ( int i = 0; i < stringOperators.Length; i++ )
+						{
+							JqGridSearchOperators singleOperator;
+							if ( Enum.TryParse( stringOperators[i], true, out singleOperator ) )
+							{
+								int numberOperator = (int)singleOperator;
+								if (( numberOperator != 0 ) && ( numberOperator & ( numberOperator - 1 ) ) == 0)
+								{
+									operators[i] = singleOperator;
+									continue;
+								}
+							}
+							throw new InvalidOperationException("Все элементы массива должны быть одиночными именами элементов перечисления JqGridSearchOperators.");
+						}
+						SearchOptions.SearchOrderedOperators = operators;
+						JqGridSearchOperators sum = 0;
+						foreach (var op in operators)
+							sum |= op;
+						SearchOptions.SearchOperators = sum;
+					}
+				}
+
+				/// <summary>
+				/// When set to false the X icon at end of search field which is responsible to clear
+				/// the search data is disabled. the default value is true.
+				/// </summary>
+				public bool ClearSearch
+				{
+					get { return SearchOptions.ClearSearch; }
+					set { SearchOptions.ClearSearch = value; }
+				}
+
+				private JqGridColumnSearchOptions SearchOptions
         {
             get { return (base.Options as JqGridColumnSearchOptions); }
             set { base.Options = value; }
@@ -57,6 +104,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// Gets or sets the type of the search field (default JqGridColumnSearchTypes.Text).
         /// </summary>
         public JqGridColumnSearchTypes SearchType { get; set; }
+
+        /// <summary>Immediately applying the filter criteria</summary>
+        public bool Immediately { get; set; }
         #endregion
 
         #region Constructor
@@ -94,7 +144,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <param name="searchable">If this column can be searched</param>
         /// <param name="dataUrlAction">Action for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select) or jQuery UI Autocomplete widget (if SearchType is JqGridColumnSearchTypes.Autocomplete).</param>
         /// <param name="dataUrlController">Controller for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select) or jQuery UI Autocomplete widget (if SearchType is JqGridColumnSearchTypes.Autocomplete).</param>
-        public JqGridColumnSearchableAttribute(bool searchable, string dataUrlAction, string dataUrlController) :
+        public JqGridColumnSearchableAttribute(bool searchable, [AspMvcAction] string dataUrlAction, [AspMvcController] string dataUrlController) :
             this(searchable, dataUrlAction, dataUrlController, null)
         { }
 
@@ -105,8 +155,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <param name="dataUrlAction">Action for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select) or jQuery UI Autocomplete widget (if SearchType is JqGridColumnSearchTypes.Autocomplete).</param>
         /// <param name="dataUrlController">Controller for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select) or jQuery UI Autocomplete widget (if SearchType is JqGridColumnSearchTypes.Autocomplete).</param>
         /// <param name="dataUrlAreaName">Area for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select) or jQuery UI Autocomplete widget (if SearchType is JqGridColumnSearchTypes.Autocomplete).</param>
-        public JqGridColumnSearchableAttribute(bool searchable, string dataUrlAction, string dataUrlController, string dataUrlAreaName)
-            : this(searchable)
+        public JqGridColumnSearchableAttribute(bool searchable, [AspMvcAction] string dataUrlAction
+					, [AspMvcController] string dataUrlController, [AspMvcArea] string dataUrlAreaName) : this(searchable)
         {
             if (String.IsNullOrWhiteSpace(dataUrlAction))
                 throw new ArgumentNullException("dataUrlAction");
@@ -175,6 +225,25 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             metadata.SetColumnSearchRules(Rules);
             metadata.SetColumnSearchType(SearchType);
         }
+        #endregion
+
+        #region Overrides of JqGridColumnElementAttribute
+
+        /// <summary>When overriden in delivered class, provides a list of events to apply to the element.</summary>
+        protected override IList<JqGridColumnDataEvent> DataEvents
+        {
+          get
+          {
+            if ( Immediately )
+              return new List<JqGridColumnDataEvent>
+              {
+                new JqGridColumnDataEvent("change", "function(e) { $('table.ui-jqgrid-btable', $(this).parents('div.ui-jqgrid'))[0].triggerToolbar(); }"),
+              };
+						else
+              return base.DataEvents;
+          }
+        }
+			        
         #endregion
     }
 }

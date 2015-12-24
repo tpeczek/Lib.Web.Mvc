@@ -280,7 +280,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (MinLength != 1)
                 dataInitBuilder.AppendFormat("minLength: {0}, ", MinLength);
             dataInitBuilder.Remove(dataInitBuilder.Length - 2, 2);
-            dataInitBuilder.Append(" }); }, 0); }");
+						dataInitBuilder.Append( " }); $('.ui-autocomplete').css('z-index',950); }, 0); }" );//to menu was in the level editor dialog.
 
             DataInit = dataInitBuilder.ToString();
             DataUrl = String.Empty;

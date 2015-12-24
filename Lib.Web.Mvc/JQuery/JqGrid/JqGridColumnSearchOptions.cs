@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Lib.Web.Mvc.JQuery.JqGrid
+﻿namespace Lib.Web.Mvc.JQuery.JqGrid
 {
     /// <summary>
     /// Class which represents options for jqGrid searchable column
@@ -20,6 +15,17 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the available search operators for the column.
         /// </summary>
         public JqGridSearchOperators SearchOperators { get; set; }
+
+				/// <summary>
+				/// Available search operators for the column with the ability to specify their order.
+				/// </summary>
+				public JqGridSearchOperators[] SearchOrderedOperators { get; set; }
+				
+				/// <summary>
+				/// When set to false the X icon at end of search field which is responsible to clear
+				/// the search data is disabled. the default value is true.
+				/// </summary>
+				public bool ClearSearch { get; set; }
         #endregion
 
         #region Constructor
@@ -35,6 +41,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             DefaultValue = null;
             HtmlAttributes = null;
             SearchHidden = false;
+						ClearSearch = true;
             SearchOperators = (JqGridSearchOperators)32768;
         }
         #endregion
