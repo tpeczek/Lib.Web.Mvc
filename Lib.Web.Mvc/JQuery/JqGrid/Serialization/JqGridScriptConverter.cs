@@ -624,7 +624,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             obj.DefaultValue = GetStringFromSerializedObj(serializedObj, "defaultValue");
             serializedObj.Remove("defaultValue");
 
-            if (serializedObj["value"] != null && serializedObj["value"] is IDictionary<string, object>)
+            if (serializedObj.ContainsKey("value") && serializedObj["value"] != null && serializedObj["value"] is IDictionary<string, object>)
                 obj.ValueDictionary = ((IDictionary<string, object>)serializedObj["value"]).ToDictionary(k => k.Key, v => v.Value.ToString());
             else
                 obj.Value = GetStringFromSerializedObj(serializedObj, "value");
@@ -997,7 +997,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             obj.DataUrl = GetStringFromSerializedObj(serializedObj, "dataUrl");
             obj.DefaultValue = GetStringFromSerializedObj(serializedObj, "defaultValue");
 
-            if (serializedObj["value"] != null && serializedObj["value"] is IDictionary<string, object>)
+            if (serializedObj.ContainsKey("value") && serializedObj["value"] != null && serializedObj["value"] is IDictionary<string, object>)
                 obj.ValueDictionary = ((IDictionary<string, object>)serializedObj["value"]).ToDictionary(k => k.Key, v => v.Value.ToString());
             else
                 obj.Value = GetStringFromSerializedObj(serializedObj, "value");
