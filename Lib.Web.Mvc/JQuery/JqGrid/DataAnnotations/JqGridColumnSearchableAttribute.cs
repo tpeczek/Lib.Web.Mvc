@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Routing;
 using System.Web.Mvc;
-using System.Web;
+using System.Web.Routing;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
 {
@@ -15,6 +11,15 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
     public class JqGridColumnSearchableAttribute : JqGridColumnElementAttribute
     {
         #region Properties
+        /// <summary>
+        /// Gets or sets the value which defines if Clear ("X") button is available at the end of search field for this column in jqGrid filter toolbar.
+        /// </summary>
+        public bool ClearSearch
+        {
+            get { return SearchOptions.ClearSearch; }
+            set { SearchOptions.ClearSearch = value; }
+        }
+
         /// <summary>
         /// Gets or sets if the value is required while searching.
         /// </summary>

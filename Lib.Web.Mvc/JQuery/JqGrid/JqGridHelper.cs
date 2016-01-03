@@ -759,6 +759,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 if (searchOptions.HtmlAttributes != null && searchOptions.HtmlAttributes.Count > 0)
                     javaScriptBuilder.AppendFormat("attr: {0}, ", serializer.Serialize(searchOptions.HtmlAttributes));
 
+                if (!searchOptions.ClearSearch)
+                    javaScriptBuilder.AppendFormat("clearSearch: false, ");
+
                 if (searchOptions.SearchHidden)
                     javaScriptBuilder.AppendFormat("searchhidden: true, ");
 

@@ -994,6 +994,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
         {
             JqGridColumnSearchOptions obj = new JqGridColumnSearchOptions();
 
+            obj.ClearSearch = GetBooleanFromSerializedObj(serializedObj, "clearSearch", true);
             obj.DataUrl = GetStringFromSerializedObj(serializedObj, "dataUrl");
             obj.DefaultValue = GetStringFromSerializedObj(serializedObj, "defaultValue");
 
@@ -1035,6 +1036,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
             if (obj.HtmlAttributes != null && obj.HtmlAttributes.Count > 0)
                 serializedObj.Add("attr", obj.HtmlAttributes);
+
+            if (!obj.ClearSearch)
+                serializedObj.Add("clearSearch", false);
 
             if (obj.SearchHidden)
                 serializedObj.Add("searchhidden", true);

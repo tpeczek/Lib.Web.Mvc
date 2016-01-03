@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Lib.Web.Mvc.JQuery.JqGrid
+﻿namespace Lib.Web.Mvc.JQuery.JqGrid
 {
     /// <summary>
     /// Class which represents options for jqGrid searchable column
@@ -11,6 +6,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
     public class JqGridColumnSearchOptions: JqGridColumnElementOptions
     {
         #region Properties
+        /// <summary>
+        /// Gets or sets the value which defines if Clear ("X") button is available at the end of search field in jqGrid filter toolbar.
+        /// </summary>
+        public bool ClearSearch { get; set; }
+
         /// <summary>
         /// Gets or sets the value which defines if hidden column can be searched.
         /// </summary>
@@ -29,6 +29,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridColumnSearchOptions()
         {
             BuildSelect = null;
+            ClearSearch = true;
             DataEvents = null;
             DataInit = null;
             DataUrl = null;
