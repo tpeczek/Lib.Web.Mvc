@@ -91,6 +91,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public string BeforeSubmitCell { get; set; }
 
         /// <summary>
+        /// Gets or sets the function for event which is raised before responce of the server is processed.
+        /// </summary>
+        public string BeforeProcessing { get; set; }
+
+        /// <summary>
         /// Gets or sets the caption for the grid.
         /// </summary>
         public string Caption { get; set; }
