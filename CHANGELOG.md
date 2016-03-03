@@ -1,3 +1,11 @@
+## Lib.Web.Mvc 6.7.0
+### Bug Fixes
+- Fix for bug in DeserializeJqGridColumnSearchOptions and DeserializeJqGridColumnEditOptions (thanks to @glazkovalex)
+### Additions and Changes
+- Added support for Bootstrap in jqGrid via StyleUI property on JqGridOptions (thanks to @DH0)
+- Added ClearSearch to JqGridColumnSearchOptions/JqGridColumnSearchableAttribute (thanks to @glazkovalex)
+- Added BeforeProcessing to JqGridOptions and JqGridHelper (thanks to @NeoBelerophon)
+
 ## Lib.Web.Mvc 6.6.0
 ### Additions and Changes
 - Added support for Content Security Policy Level 2 via ContentSecurityPolicyAttribute and ContentSecurityPolicyExtensions
