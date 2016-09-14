@@ -4,6 +4,12 @@ Lib.Web.Mvc
 
 Lib.Web.Mvc is a library which contains some helper classes for ASP.NET MVC such as strongly typed jqGrid helper, XSL transformation HtmlHelper/ActionResult, FileResult with range request support, action filter and helpers for Content Security Policy Level 2, custom attributes and more.
 
+## ASP.NET Core
+
+The ASP.NET Core version of this library has been splitted into several independent libraries:
+- **[Lib.AspNetCore.Mvc.Security](https://github.com/tpeczek/Lib.AspNetCore.Mvc.Security)** - security features like Content Security Policy and Strict Transport Security
+- **[Lib.AspNetCore.Mvc.JqGrid](https://github.com/tpeczek/Lib.AspNetCore.Mvc.JqGrid)** - support for jqGrid usage in ASP.NET Core
+
 ## Getting Started
 
 Lib.Web.Mvc is available on [NuGet](https://www.nuget.org/packages/Lib.Web.Mvc/).
