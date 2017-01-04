@@ -51,6 +51,10 @@
     <Compile Include="Html\ContentSecurityPolicyExtensions.cs" />
     <Compile Include="Html\RenderXmlExtensions.cs" />
     <Compile Include="Html\PushPromiseExtensions.cs" />
+    <Compile Include="Http\CacheDigestHashAlgorithm.cs" />
+    <Compile Include="Http\CacheDigestHeaderValue.cs" />
+    <Compile Include="Http\CacheDigestValue.cs" />
+    <Compile Include="Http\RequestHeaders.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridColumnPredefinedFormatters.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridFilterToolbarDefaults.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridNavigatorDefaults.cs" />
