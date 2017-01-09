@@ -1,3 +1,7 @@
+## Lib.Web.Mvc 6.8.0
+### Additions and Changes
+- Added support for HTTP/2 Server Push (with Cache Digest) via PushPromiseAttribute and PushPromiseExtensions
+
 ## Lib.Web.Mvc 6.7.0
 ### Bug Fixes
 - Fix for bug in DeserializeJqGridColumnSearchOptions and DeserializeJqGridColumnEditOptions (thanks to @glazkovalex)
