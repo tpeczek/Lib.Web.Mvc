@@ -20,6 +20,20 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         private static Regex _dateFormatTokensRegex = new Regex("d|j|l|z|F|m|n|Y|U", RegexOptions.Compiled);
         private static Dictionary<string, string> _dateFormatTokensReplecements = new Dictionary<string, string> { { "d", "dd" }, { "j", "d" }, { "l", "DD" }, { "z", "o" }, { "F", "MM" }, { "m", "mm" }, { "n", "m" }, { "Y", "yy" }, { "U", "@" } };
         private static DateTime _unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        private readonly static IDictionary<JqGridCompatibilityModes, string> _jqueryUIDatepickerDaysNamesLocalizationOptions = new Dictionary<JqGridCompatibilityModes, string>
+        {
+            { JqGridCompatibilityModes.JqGrid, "dayNames: $.jgrid.formatter.date.dayNames.slice(7), dayNamesMin: $.jgrid.formatter.date.dayNames.slice(0, 7), dayNamesShort: $.jgrid.formatter.date.dayNames.slice(0, 7), " },
+            { JqGridCompatibilityModes.GuriddoJqGrid, "dayNames: $.jgrid.getRegional($({0})[0], 'formatter.date.dayNames').slice(7), dayNamesMin: $.jgrid.getRegional($({0})[0], 'formatter.date.dayNames').slice(0, 7), dayNamesShort: $.jgrid.getRegional($({0})[0], 'formatter.date.dayNames').slice(0, 7), " },
+            { JqGridCompatibilityModes.FreeJqGrid, "dayNames: $({0}).jqGrid('getGridRes', 'formatter.date.dayNames').slice(7), dayNamesMin: $({0}).jqGrid('getGridRes', 'formatter.date.dayNames').slice(0, 7), dayNamesShort: $({0}).jqGrid('getGridRes', 'formatter.date.dayNames').slice(0, 7), " }
+        };
+
+        private readonly static IDictionary<JqGridCompatibilityModes, string> _jqueryUIDatepickerMonthsNamesLocalizationOptions = new Dictionary<JqGridCompatibilityModes, string>
+        {
+            { JqGridCompatibilityModes.JqGrid, "monthNames: $.jgrid.formatter.date.monthNames.slice(12), monthNamesShort: $.jgrid.formatter.date.monthNames.slice(0, 12), " },
+            { JqGridCompatibilityModes.GuriddoJqGrid, "monthNames: $.jgrid.getRegional($({0})[0], 'formatter.date.monthNames').slice(12), monthNamesShort: $.jgrid.getRegional($({0})[0], 'formatter.date.monthNames').slice(0, 12), " },
+            { JqGridCompatibilityModes.FreeJqGrid, "monthNames: $({0}).jqGrid('getGridRes', 'formatter.date.monthNames').slice(12), monthNamesShort: $({0}).jqGrid('getGridRes', 'formatter.date.monthNames').slice(0, 12), " }
+        };
         #endregion
 
         #region Properties
@@ -72,6 +86,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the function which will be called once when the element is created. This property is ignored in case of jQuery UI widgets.
         /// </summary>
         public string DataInit { get; set; }
+
+        internal Func<JqGridCompatibilityModes, string, string> JQueryUIWidgetDataInitRenderer { get; private set; }
 
         /// <summary>
         /// Gets or sets the URL to get the AJAX data for the select element (if type is JqGridColumnSearchTypes/JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if type is JqGridColumnSearchTypes/JqGridColumnEditTypes.Autocomplete).
@@ -242,11 +258,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             ChangeYear = false;
             ConstrainInput = true;
             Culture = null;
+            DataInit = null;
             DatePickerDateFormat = JQueryUIWidgetsDefaults.DatepickerDateFormat;
             Delay = 300;
             FirstDay = 0;
             GotoCurrent = false;
             Incremental = true;
+            JQueryUIWidgetDataInitRenderer = null;
             Max = null;
             Min = null;
             MinLength = 1;
@@ -269,24 +287,36 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         #endregion
 
         #region Methods
-        internal void ConfigureJQueryUIAutocomplete()
+        private string JQueryUIAutocompleteDataInitRenderer(JqGridCompatibilityModes compatibilityMode, string gridSelector, string dataUrl)
         {
             StringBuilder dataInitBuilder = new StringBuilder(100 + DataUrl.Length);
-            dataInitBuilder.AppendFormat("function(element) {{ setTimeout(function() {{ $(element).autocomplete({{ source: '{0}', ", DataUrl);
+            dataInitBuilder.AppendFormat("function(element) {{ setTimeout(function() {{ $(element).autocomplete({{ source: '{0}', ", dataUrl);
+
             if (AutoFocus)
                 dataInitBuilder.Append("autoFocus: true, ");
+
             if (Delay != 300)
                 dataInitBuilder.AppendFormat("delay: {0}, ", Delay);
+
             if (MinLength != 1)
                 dataInitBuilder.AppendFormat("minLength: {0}, ", MinLength);
+
             dataInitBuilder.Remove(dataInitBuilder.Length - 2, 2);
             dataInitBuilder.Append(" }); }, 0); }");
 
-            DataInit = dataInitBuilder.ToString();
-            DataUrl = String.Empty;
+            return dataInitBuilder.ToString();
         }
 
-        internal void ConfigureJQueryUIDatepicker(ModelMetadata propertyMetadata)
+        internal void ConfigureJQueryUIAutocomplete()
+        {
+            string dataUrl = DataUrl;
+            JQueryUIWidgetDataInitRenderer = (JqGridCompatibilityModes compatibilityMode, string gridSelector) => { return JQueryUIAutocompleteDataInitRenderer(compatibilityMode, gridSelector, dataUrl); };
+
+            DataUrl = String.Empty;
+            DataInit = null;
+        }
+
+        private string JQueryUIDatepickerDataInitRenderer(JqGridCompatibilityModes compatibilityMode, string gridSelector, ModelMetadata propertyMetadata)
         {
             StringBuilder dataInitBuilder = new StringBuilder(80);
             dataInitBuilder.Append("function(element) { setTimeout(function() { $(element).datepicker({ ");
@@ -294,7 +324,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (!String.IsNullOrEmpty(AppendText))
                 dataInitBuilder.AppendFormat("appendText: '{0}', ", AppendText);
 
-            if(AutoSize)
+            if (AutoSize)
                 dataInitBuilder.Append("autoSize: true, ");
 
             if (ChangeMonth)
@@ -317,7 +347,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                     DatePickerDateFormat = _dateFormatTokensRegex.Replace(DatePickerDateFormat, match => { return _dateFormatTokensReplecements[match.Value]; });
                 }
             }
-            dataInitBuilder.AppendFormat("dateFormat: '{0}', dayNames: $.jgrid.formatter.date.dayNames.slice(7), dayNamesMin: $.jgrid.formatter.date.dayNames.slice(0, 7), dayNamesShort: $.jgrid.formatter.date.dayNames.slice(0, 7), ", DatePickerDateFormat);
+            dataInitBuilder.AppendFormat("dateFormat: '{0}', ", DatePickerDateFormat);
+            dataInitBuilder.AppendFormat(_jqueryUIDatepickerDaysNamesLocalizationOptions[compatibilityMode], gridSelector);
 
             if (FirstDay != 0)
                 dataInitBuilder.AppendFormat("firstDay: {0}, ", FirstDay);
@@ -331,7 +362,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             if (!String.IsNullOrEmpty(MinDate))
                 dataInitBuilder.AppendFormat("minDate: '{0}', ", MinDate);
 
-            dataInitBuilder.Append("monthNames: $.jgrid.formatter.date.monthNames.slice(12), monthNamesShort: $.jgrid.formatter.date.monthNames.slice(0, 12), ");
+            dataInitBuilder.AppendFormat(_jqueryUIDatepickerMonthsNamesLocalizationOptions[compatibilityMode], gridSelector);
 
             if (NumberOfMonths != 1)
                 dataInitBuilder.AppendFormat("numberOfMonths: {0}, ", NumberOfMonths);
@@ -366,10 +397,17 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             dataInitBuilder.Remove(dataInitBuilder.Length - 2, 2);
             dataInitBuilder.Append(" }); }, 0); }");
 
-            DataInit = dataInitBuilder.ToString();
+            return dataInitBuilder.ToString();
         }
 
-        internal void ConfigureJQueryUISpinner()
+        internal void ConfigureJQueryUIDatepicker(ModelMetadata propertyMetadata)
+        {
+            JQueryUIWidgetDataInitRenderer = (JqGridCompatibilityModes compatibilityMode, string gridSelector) => { return JQueryUIDatepickerDataInitRenderer(compatibilityMode, gridSelector, propertyMetadata); };
+
+            DataInit = null;
+        }
+
+        private string JQueryUISpinnerDataInitRenderer(JqGridCompatibilityModes compatibilityMode, string gridSelector)
         {
             StringBuilder dataInitBuilder = new StringBuilder(80);
             dataInitBuilder.Append("function(element) { setTimeout(function() { $(element).spinner({ ");
@@ -415,7 +453,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             else
                 dataInitBuilder.Append(" }); }, 0); }");
 
-            DataInit = dataInitBuilder.ToString();
+            return dataInitBuilder.ToString();
+        }
+
+        internal void ConfigureJQueryUISpinner()
+        {
+            JQueryUIWidgetDataInitRenderer = JQueryUISpinnerDataInitRenderer;
+
+            DataInit = null;
         }
         #endregion
     }
