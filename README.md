@@ -44,9 +44,9 @@ There are several sample projects available, showing different features of the l
 - [XSL Transformation in ASP.NET MVC](http://tpeczek.codeplex.com/releases/view/45199)
 
 ## Donating
-Support this and my [other projects](https://github.com/tpeczek/) via [Gittip](https://www.gittip.com/tpeczek/).
+Lib.Web.Mvc is a personal open source project. If Lib.Web.Mvc has been helpful to you, consider donating. Donating helps support Lib.Web.Mvc.
 
-[![Support via Gittip](https://2.bp.blogspot.com/-hfTLKixXGvw/U-PmH5hGK4I/AAAAAAAAAf8/o94Go42VeZU/s1600/gittip.png)](https://www.gittip.com/tpeczek/)
+<a href='https://pledgie.com/campaigns/33546'><img alt='Click here to lend your support to: Lib.Web.Mvc and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/33546.png?skin_name=chrome' border='0' ></a>
 
 ## Questions
 You are encouraged to ask questions related to Lib.Web.Mvc on [Stack Overflow](http://stackoverflow.com/).
