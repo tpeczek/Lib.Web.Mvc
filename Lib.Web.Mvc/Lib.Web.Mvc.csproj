@@ -54,6 +54,7 @@
     <Compile Include="Http\CacheDigestHashAlgorithm.cs" />
     <Compile Include="Http\CacheDigestHeaderValue.cs" />
     <Compile Include="Http\CacheDigestValue.cs" />
+    <Compile Include="Http\EntityTagGenerator.cs" />
     <Compile Include="Http\RequestHeaders.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridColumnPredefinedFormatters.cs" />
     <Compile Include="JQuery\JqGrid\Constants\JqGridFilterToolbarDefaults.cs" />

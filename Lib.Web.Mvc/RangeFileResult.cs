@@ -1,20 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
 using System.Web;
 using System.Web.Mvc;
-using System.Text;
-using System.Security.Cryptography;
-using System.Globalization;
+using Lib.Web.Mvc.Http;
 
 namespace Lib.Web.Mvc
 {
+    /// <summary>
+    /// The <see cref="RangeFileResult"/> ETag generation modes.
+    /// </summary>
+    public enum RangeFileResultEntityTagMode
+    {
+        /// <summary>
+        /// The file modification date and length based XOR.
+        /// </summary>
+        XOR,
+        /// <summary>
+        /// The file name and modification date based MD5 hash.
+        /// </summary>
+        /// <remarks>
+        /// This mode is obsolete and not FIPS compliant. It is present only for backward compatibility.
+        /// </remarks>
+        [Obsolete("This mode is not FIPS compliant.")]
+        MD5
+    }
+
     /// <summary>
     /// Represents a base class that is used to send binary file content to the range response.
     /// </summary>
     public abstract class RangeFileResult : ActionResult
     {
         #region Fields
+        
+#pragma warning disable 618
+        private static RangeFileResultEntityTagMode _defaultEntityTagMode = RangeFileResultEntityTagMode.MD5;
+#pragma warning restore 618
+
         private static char[] _commaSplitArray = new char[] { ',' };
         private static char[] _dashSplitArray = new char[] { '-' };
         private static string[] _httpDateFormats = new string[] { "r", "dddd, dd-MMM-yy HH':'mm':'ss 'GMT'", "ddd MMM d HH':'mm':'ss yyyy" };
@@ -43,6 +64,14 @@ namespace Lib.Web.Mvc
         /// </summary>
         public long FileLength { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the entity tag (ETag) generation mode.
+        /// </summary>
+        /// <remarks>
+        /// The default value is <see cref="RangeFileResultEntityTagMode.MD5"/> for backward compatibility, but it is not FIPS complaint. There is an internal fallback but if FIPS compliance is a requirement usage of differen mode should be considered.
+        /// </remarks>
+        public RangeFileResultEntityTagMode EntityTagMode { get; set; }
+
         private string EntityTag { get; set; }
 
         private long[] RangesStartIndexes { get; set; }
@@ -62,15 +91,16 @@ namespace Lib.Web.Mvc
         /// <param name="fileName">The file name to use for the response.</param>
         /// <param name="modificationDate">The file modification date to use for the response.</param>
         /// <param name="fileLength">The file length to use for the response.</param>
-        /**
-         * <remarks>
-         * The <paramref name="modificationDate"/> parameter is used internally while creating ETag and Last-Modified headers. Those headers might by used by client in order to verify that the same entity is being requested in separated partial requests and for caching purposes. Because of that it is important that the value passed to this parameter is consitant and reflects the actual state of entity during its entire lifetime.
-         * </remarks>
-         */
+        /// <remarks>
+        /// <para>The <paramref name="modificationDate"/> parameter is used internally while creating ETag and Last-Modified headers. Those headers might by used by client in order to verify that the same entity is being requested in separated partial requests and for caching purposes. Because of that it is important that the value passed to this parameter is consitant and reflects the actual state of entity during its entire lifetime.</para>
+        /// <para>The default <see cref="EntityTagMode"/> is <see cref="RangeFileResultEntityTagMode.MD5"/> for backward compatibility, but it is not FIPS complaint. There is an internal fallback but if FIPS compliance is a requirement usage of differen mode should be considered.</para>
+        /// </remarks>
         protected RangeFileResult(string contentType, string fileName, DateTime modificationDate, long fileLength)
         {
             if (String.IsNullOrEmpty(contentType))
-                throw new ArgumentNullException("contentType");
+            {
+                throw new ArgumentNullException(nameof(contentType));
+            }
 
             ContentType = contentType;
             FileName = fileName;
@@ -78,6 +108,7 @@ namespace Lib.Web.Mvc
             HttpModificationDate = modificationDate.ToUniversalTime();
             HttpModificationDate = new DateTime(HttpModificationDate.Year, HttpModificationDate.Month, HttpModificationDate.Day, HttpModificationDate.Hour, HttpModificationDate.Minute, HttpModificationDate.Second, DateTimeKind.Utc);
             FileLength = fileLength;
+            EntityTagMode = _defaultEntityTagMode;
         }
         #endregion
 
@@ -89,8 +120,25 @@ namespace Lib.Web.Mvc
         /// <returns></returns>
         protected virtual string GenerateEntityTag(ControllerContext context)
         {
-            byte[] entityTagBytes = Encoding.ASCII.GetBytes(String.Format("{0}|{1}", FileName, FileModificationDate));
-            return Convert.ToBase64String(new MD5CryptoServiceProvider().ComputeHash(entityTagBytes));
+            switch (EntityTagMode)
+            {
+                case RangeFileResultEntityTagMode.XOR:
+                    return EntityTagGenerator.GenerateModificationDateAndLengthXOREntityTag(FileModificationDate, FileLength);
+#pragma warning disable 618
+                case RangeFileResultEntityTagMode.MD5:
+                    try
+                    {
+                        return EntityTagGenerator.GenerateNameAndModificationDateMD5EntityTag(FileName, FileModificationDate);
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        _defaultEntityTagMode = RangeFileResultEntityTagMode.XOR;
+                        return EntityTagGenerator.GenerateModificationDateAndLengthXOREntityTag(FileModificationDate, FileLength);
+                    }
+#pragma warning restore 618
+                default:
+                    throw new NotSupportedException($"Not supported {nameof(EntityTagMode)}.");
+            }
         }
 
         /// <summary>
