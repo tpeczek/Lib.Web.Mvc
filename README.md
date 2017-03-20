@@ -1,58 +1,21 @@
 Lib.Web.Mvc
 ===============
-[![NuGet version](https://badge.fury.io/nu/Lib.Web.Mvc.svg)](http://badge.fury.io/nu/Lib.Web.Mvc)
-
 Lib.Web.Mvc is a library which contains some helper classes for ASP.NET MVC such as strongly typed jqGrid helper, XSL transformation HtmlHelper/ActionResult, FileResult with range request support, action filter and helpers for Content Security Policy Level 2, custom attributes and more.
 
-## Getting Started
+## v6.7.x Branch
 
-Lib.Web.Mvc is available on [NuGet](https://www.nuget.org/packages/Lib.Web.Mvc/).
+This is a fix-only branch for [v6.7.0 release](https://github.com/tpeczek/Lib.Web.Mvc/releases/tag/v6.7.0) which is the last release for .NET 4.0+. Since [v6.8.0 release](https://github.com/tpeczek/Lib.Web.Mvc/releases/tag/v6.8.0) .NET 4.6+ is required. There are no new features planned in this branch, only important bug fixes.
 
-```
-PM> Install-Package Lib.Web.Mvc
-```
-
-Alpha packages are available on [MyGet](http://tpeczek.blogspot.com/2013/01/using-alpha-libwebmvc-nuget-packages.html).
-
-## Documentation
-
-The library documentation is available on [NuDoq](http://www.nudoq.org/#!/Projects/Lib.Web.Mvc) or as a part of the release (chm file).
-
-There is also a series of blog posts describing key features of the library:
-
-- [jqGrid Strongly Typed Helper - Introduction](http://tpeczek.blogspot.com/2011/03/jqgrid-and-aspnet-mvc-strongly-typed.html)
-- [jqGrid Strongly Typed Helper - Caption layer, dynamic scrolling and grouping](http://tpeczek.blogspot.com/2011/07/jqgrid-strongly-typed-helper-caption.html)
-- [jqGrid Strongly Typed Helper - jQuery UI Integrations](http://tpeczek.blogspot.com/2013/02/jqgrid-strongly-typed-helper-jquery-ui.html)
-- [Range Requests in ASP.NET MVC – RangeFileResult](http://tpeczek.blogspot.com/2011/10/range-requests-in-aspnet-mvc.html) (How RangeFileResult works)
-- [Content Security Policy in ASP.NET MVC - Scripts](http://tpeczek.blogspot.com/2015/06/content-security-policy-in-aspnet-mvc.html) (How ContentSecurityPolicyAttribute and ContentSecurityPolicyExtensions work)
-
-## Usage examples
-
-There are several sample projects available, showing different features of the library:
-
-- [jqGrid in ASP.NET MVC - Strongly typed helper](http://tpeczek.codeplex.com/releases/view/62741)
-- [jqGrid in ASP.NET MVC 3 and Razor](http://tpeczek.codeplex.com/releases/view/61796)
-- [VideoJS in ASP.NET MVC](http://tpeczek.codeplex.com/releases/view/74711)
-- [XSL Transformation in ASP.NET MVC](http://tpeczek.codeplex.com/releases/view/45199)
+For information regarding documentation, questions, demos and contributing please refer to the [master branch](https://github.com/tpeczek/Lib.Web.Mvc).
 
 ## Donating
-Support this and my [other projects](https://github.com/tpeczek/) via [Gittip](https://www.gittip.com/tpeczek/).
+Lib.Web.Mvc is a personal open source project. If Lib.Web.Mvc has been helpful to you, consider donating. Donating helps support Lib.Web.Mvc.
 
-[![Support via Gittip](https://2.bp.blogspot.com/-hfTLKixXGvw/U-PmH5hGK4I/AAAAAAAAAf8/o94Go42VeZU/s1600/gittip.png)](https://www.gittip.com/tpeczek/)
-
-## Questions
-You are encouraged to ask questions related to Lib.Web.Mvc on [Stack Overflow](http://stackoverflow.com/).
-
-The [lib.web.mvc tag](http://stackoverflow.com/questions/tagged/lib.web.mvc) has been created specially for this purpose and it is being monitored daily by the library author.
-
-
-## Contribute
-
-Visit the [Contributor Guidelines](https://github.com/tpeczek/Lib.Web.Mvc/blob/master/CONTRIBUTING.md) for more details.
+<a href='https://pledgie.com/campaigns/33546'><img alt='Click here to lend your support to: Lib.Web.Mvc and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/33546.png?skin_name=chrome' border='0' ></a>
 
 ## Copyright and License
 
-Copyright © 2009 - 2016 Tomasz Pęczek
+Copyright © 2009 - 2017 Tomasz Pęczek
 
 From October 2009 to August 2014 licensed under the Ms-PL License.
 
