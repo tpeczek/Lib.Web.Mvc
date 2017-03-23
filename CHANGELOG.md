@@ -1,3 +1,7 @@
+## Lib.Web.Mvc 6.7.1
+### Bug Fixes
+- Fix for ETag generation in RangeFileResult on FIPS compliant environments
+
 ## Lib.Web.Mvc 6.7.0
 ### Bug Fixes
 - Fix for bug in DeserializeJqGridColumnSearchOptions and DeserializeJqGridColumnEditOptions (thanks to @glazkovalex)
