@@ -35,7 +35,7 @@
       <NamespaceSummaryItem name="Lib.Web.Mvc.JQuery.JqGrid" isDocumented="True">The Lib.Web.Mvc.JQuery.JqGrid namespace contains classes that help using jqGrid plugin in ASP.NET MVC application.
 
 Notice: For all the properties that represent options for jqGrid, if the value for the property is not set, the default jqGrid value will be used (unless stated otherwise).</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Lib.Web.Mvc" isDocumented="True">Lib.Web.Mvc is a library which contains some helper classes for ASP.NET MVC such as:
+      <NamespaceSummaryItem name="Lib.Web.Mvc" isDocumented="True">Lib.Web.Mvc is a library which contains some helper classes for ASP.NET MVC such as:
 &lt;ul&gt;
 &lt;li&gt;Strongly typed jqGrid helper&lt;/li&gt;
 &lt;li&gt;Attribute and helper providing support for HTTP/2 Server Push with Cache Digest&lt;/li&gt;
@@ -43,18 +43,19 @@ Notice: For all the properties that represent options for jqGrid, if the value f
 &lt;li&gt;FileResult providing support for Range Requests&lt;/li&gt;
 &lt;li&gt;Action result and helper providing support for XSL transformation&lt;/li&gt;
 &lt;/ul&gt;</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Lib.Web.Mvc.Html" isDocumented="True">The Lib.Web.Mvc.Html namespace contains classes that help render HTML in ASP.NET MVC application.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Lib.Web.Mvc.JQuery.JqGrid.Constants" isDocumented="True">The Lib.Web.Mvc.JQuery.JqGrid.Constants namespace  provides classes with constants values which will be used by Lib.Web.Mvc.JQuery.JqGrid.JqGridHelper in ASP.NET MVC application.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations" isDocumented="True">The Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations namespace  provides attribute classes that are used to define additonal metadata which will be used by Lib.Web.Mvc.JQuery.JqGrid.JqGridHelper in ASP.NET MVC application.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Lib.Web.Mvc.JQuery.TreeView" isDocumented="True">The Lib.Web.Mvc.JQuery.TreeView namespace contains classes that help using jQuery TreeView plugin in ASP.NET MVC application.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Lib.Web.Mvc.Http" isDocumented="True">The Lib.Web.Mvc.Http namespace contains classes that provide additonal features regarding HTTP protocol in ASP.NET MVC application.</NamespaceSummaryItem></NamespaceSummaries>
+      <NamespaceSummaryItem name="Lib.Web.Mvc.Html" isDocumented="True">The Lib.Web.Mvc.Html namespace contains classes that help render HTML in ASP.NET MVC application.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Lib.Web.Mvc.JQuery.JqGrid.Constants" isDocumented="True">The Lib.Web.Mvc.JQuery.JqGrid.Constants namespace  provides classes with constants values which will be used by Lib.Web.Mvc.JQuery.JqGrid.JqGridHelper in ASP.NET MVC application.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations" isDocumented="True">The Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations namespace  provides attribute classes that are used to define additonal metadata which will be used by Lib.Web.Mvc.JQuery.JqGrid.JqGridHelper in ASP.NET MVC application.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Lib.Web.Mvc.JQuery.TreeView" isDocumented="True">The Lib.Web.Mvc.JQuery.TreeView namespace contains classes that help using jQuery TreeView plugin in ASP.NET MVC application.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Lib.Web.Mvc.Http" isDocumented="True">The Lib.Web.Mvc.Http namespace contains classes that provide additonal features regarding HTTP protocol in ASP.NET MVC application.</NamespaceSummaryItem>
+    </NamespaceSummaries>
     <FeedbackEMailAddress>
     </FeedbackEMailAddress>
     <HelpFileFormat>HtmlHelp1</HelpFileFormat>
     <PresentationStyle>VS2010</PresentationStyle>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <IndentHtml>False</IndentHtml>
-    <FrameworkVersion>.NET Framework 4.0</FrameworkVersion>
+    <FrameworkVersion>.NET Framework 4.6</FrameworkVersion>
     <KeepLogFile>False</KeepLogFile>
     <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
     <CppCommentsFixup>False</CppCommentsFixup>
