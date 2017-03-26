@@ -1,8 +1,7 @@
 ## Lib.Web.Mvc 6.8.1
 ### Bug Fixes
 - Fix for ETag generation in RangeFileResult on FIPS compliant environments
-### Additions and Changes
-- Added CompatibilityMode to JqGridHelper in order to support differences between Guriddo jqGrid and free jqGrid
+- Fix for different dates and months localization between Guriddo jqGrid and free jqGrid
 
 ## Lib.Web.Mvc 6.8.0
 ### Additions and Changes
