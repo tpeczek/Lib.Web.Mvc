@@ -1655,6 +1655,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
             if (!String.IsNullOrWhiteSpace(modifyActionOptions.OnClickSubmit))
                 javaScriptBuilder.AppendFormat("onclickSubmit: {0}, ", modifyActionOptions.OnClickSubmit);
+
+            if (!String.IsNullOrWhiteSpace(modifyActionOptions.ErrorTextFormat))
+                javaScriptBuilder.AppendFormat("errorTextFormat: {0}, ", modifyActionOptions.ErrorTextFormat);
         }
 
         private static void AppendNavigatorEditActionOptions(JqGridNavigatorEditActionOptions editActionOptions, StringBuilder javaScriptBuilder)
@@ -1722,9 +1725,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
 
             if (!String.IsNullOrWhiteSpace(editActionOptions.OnInitializeForm))
                 javaScriptBuilder.AppendFormat("onInitializeForm: {0}, ", editActionOptions.OnInitializeForm);
-
-            if (!String.IsNullOrWhiteSpace(editActionOptions.ErrorTextFormat))
-                javaScriptBuilder.AppendFormat("errorTextFormat: {0}, ", editActionOptions.ErrorTextFormat);
         }
 
         private static void AppendNavigatorDeleteActionOptions(JqGridNavigatorDeleteActionOptions deleteActionOptions, StringBuilder javaScriptBuilder)
