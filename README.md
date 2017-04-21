@@ -2,7 +2,7 @@ Lib.Web.Mvc
 ===========
 [![NuGet version](https://badge.fury.io/nu/Lib.Web.Mvc.svg)](http://badge.fury.io/nu/Lib.Web.Mvc)
 
-Lib.Web.Mvc is a library which contains some helper classes for ASP.NET MVC such as strongly typed jqGrid helper, XSL transformation HtmlHelper/ActionResult, FileResult with range request support, action filter and helpers for Content Security Policy Level 2, custom attributes and more.
+Lib.Web.Mvc is a library which contains some helper classes for ASP.NET MVC such as strongly typed jqGrid helper, attribute and helper providing support for HTTP/2 Server Push with Cache Digest, attribute and helpers providing support for Content Security Policy Level 2, FileResult providing support for Range Requests, action result and helper providing support for XSL transformation and more.
 
 <a href='https://pledgie.com/campaigns/33546'><img alt='Click here to lend your support to: Lib.Web.Mvc and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/33546.png?skin_name=chrome' border='0' ></a>
 
