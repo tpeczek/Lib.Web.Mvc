@@ -1,3 +1,7 @@
+## Lib.Web.Mvc 6.8.2
+### Bug Fixes
+- Fix for ErrorTextFormat not available on JqGridNavigatorDeleteActionOptions
+
 ## Lib.Web.Mvc 6.8.1
 ### Bug Fixes
 - Fix for ETag generation in RangeFileResult on FIPS compliant environments
