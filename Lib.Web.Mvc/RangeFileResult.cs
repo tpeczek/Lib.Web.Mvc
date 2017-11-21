@@ -92,8 +92,8 @@ namespace Lib.Web.Mvc
         /// <param name="modificationDate">The file modification date to use for the response.</param>
         /// <param name="fileLength">The file length to use for the response.</param>
         /// <remarks>
-        /// <para>The <paramref name="modificationDate"/> parameter is used internally while creating ETag and Last-Modified headers. Those headers might by used by client in order to verify that the same entity is being requested in separated partial requests and for caching purposes. Because of that it is important that the value passed to this parameter is consitant and reflects the actual state of entity during its entire lifetime.</para>
-        /// <para>The default <see cref="EntityTagMode"/> is <see cref="RangeFileResultEntityTagMode.MD5"/> for backward compatibility, but it is not FIPS complaint. There is an internal fallback but if FIPS compliance is a requirement usage of differen mode should be considered.</para>
+/// <para>The <paramref name="modificationDate"/> parameter is used internally while creating ETag and Last-Modified headers. Those headers might by used by client in order to verify that the same entity is being requested in separated partial requests and for caching purposes. Because of that it is important that the value passed to this parameter is consitant and reflects the actual state of entity during its entire lifetime.</para>
+        /// <para>The default <see cref="EntityTagMode"/> is <see cref="RangeFileResultEntityTagMode.MD5"/> for backward compatibility, but it is not FIPS complaint. There is an internal fallback but if FIPS compliance is a requirement usage of differen mode should be considered.</para>        /// <para>The default <see cref="P:Lib.Web.Mvc.RangeFileResult.EntityTagMode" /> is <see cref="F:Lib.Web.Mvc.RangeFileResultEntityTagMode.MD5" /> for backward compatibility, but it is not FIPS complaint. There is an internal fallback but if FIPS compliance is a requirement usage of differen mode should be considered.</para>
         /// </remarks>
         protected RangeFileResult(string contentType, string fileName, DateTime modificationDate, long fileLength)
         {
@@ -204,12 +204,16 @@ namespace Lib.Web.Mvc
 
                             if (context.HttpContext.Response.IsClientConnected)
                             {
-                                WriteEntityRange(context.HttpContext.Response, RangesStartIndexes[i], RangesEndIndexes[i]);
+                                WriteEntityRange(context.HttpContext.Response, RangesStartIndexes[i],
+                                    RangesEndIndexes[i]);
                                 if (MultipartRequest)
                                     context.HttpContext.Response.Write("\r\n");
                             }
                             else
-                                return;
+                            {
+                                context.HttpContext.Response.End();
+                                break;
+                            }
                         }
                         if (MultipartRequest)
                             context.HttpContext.Response.Write(String.Format("--{0}--", boundary));

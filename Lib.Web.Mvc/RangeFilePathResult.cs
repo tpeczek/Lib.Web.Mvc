@@ -12,7 +12,8 @@ namespace Lib.Web.Mvc
     public class RangeFilePathResult : RangeFileResult
     {
         #region Fields
-        private const int _bufferSize = 0x1000;
+        private const int _bufferSize = 0x1000; //4Kb buffer
+        private const int _maxOutputBytes = 0x400000; //4Mb - max size write to response
         #endregion
 
         #region Constructor
@@ -58,7 +59,7 @@ namespace Lib.Web.Mvc
             {
                 stream.Seek(rangeStartIndex, SeekOrigin.Begin);
 
-                int bytesRemaining = Convert.ToInt32(rangeEndIndex - rangeStartIndex) + 1;
+                int bytesRemaining = Math.Min(Convert.ToInt32(rangeEndIndex - rangeStartIndex) + 1, _maxOutputBytes);
                 byte[] buffer = new byte[_bufferSize];
 
                 while (bytesRemaining > 0)
