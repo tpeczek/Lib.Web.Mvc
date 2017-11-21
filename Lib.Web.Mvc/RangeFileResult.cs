@@ -204,12 +204,16 @@ namespace Lib.Web.Mvc
 
                             if (context.HttpContext.Response.IsClientConnected)
                             {
-                                WriteEntityRange(context.HttpContext.Response, RangesStartIndexes[i], RangesEndIndexes[i]);
+                                WriteEntityRange(context.HttpContext.Response, RangesStartIndexes[i],
+                                    RangesEndIndexes[i]);
                                 if (MultipartRequest)
                                     context.HttpContext.Response.Write("\r\n");
                             }
                             else
-                                return;
+                            {
+                                context.HttpContext.Response.End();
+                                break;
+                            }
                         }
                         if (MultipartRequest)
                             context.HttpContext.Response.Write(String.Format("--{0}--", boundary));
