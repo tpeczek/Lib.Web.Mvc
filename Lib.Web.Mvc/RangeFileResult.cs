@@ -39,6 +39,8 @@ namespace Lib.Web.Mvc
         private static char[] _commaSplitArray = new char[] { ',' };
         private static char[] _dashSplitArray = new char[] { '-' };
         private static string[] _httpDateFormats = new string[] { "r", "dddd, dd-MMM-yy HH':'mm':'ss 'GMT'", "ddd MMM d HH':'mm':'ss yyyy" };
+
+        private const int _maxOutputBytes = 0x400000; //4Mb - max size write to response
         #endregion
 
         #region Properties
@@ -266,6 +268,8 @@ namespace Lib.Web.Mvc
                     }
                     else
                         RangesStartIndexes[i] = Int64.Parse(currentRange[0]);
+
+                    RangesEndIndexes[i] = Math.Min(RangesStartIndexes[i] + _maxOutputBytes, RangesEndIndexes[i]);
                 }
             }
         }
