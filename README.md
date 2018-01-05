@@ -46,9 +46,10 @@ There are several sample projects available, showing different features of the l
 - [XSL Transformation in ASP.NET MVC](http://tpeczek.codeplex.com/releases/view/45199)
 
 ## Donating
-Lib.Web.Mvc is a personal open source project. If Lib.Web.Mvc has been helpful to you, consider donating. Donating helps support Lib.Web.Mvc.
 
-<a href='https://pledgie.com/campaigns/33546'><img alt='Click here to lend your support to: Lib.Web.Mvc and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/33546.png?skin_name=chrome' border='0' ></a>
+My blog and open source projects are result of my passion for software development, but they require a fair amount of my personal time. If you got value from any of the content I create, then I would appreciate your support by [buying me a coffee](https://www.buymeacoffee.com/tpeczek).
+
+<a href="https://www.buymeacoffee.com/tpeczek"><img src="https://www.buymeacoffee.com/assets/img/custom_images/black_img.png" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;"  target="_blank"></a>
 
 ## Questions
 You are encouraged to ask questions related to Lib.Web.Mvc on [Stack Overflow](http://stackoverflow.com/).
@@ -62,7 +63,7 @@ Visit the [Contributor Guidelines](https://github.com/tpeczek/Lib.Web.Mvc/blob/m
 
 ## Copyright and License
 
-Copyright © 2009 - 2017 Tomasz Pęczek
+Copyright © 2009 - 2018 Tomasz Pęczek
 
 From October 2009 to August 2014 licensed under the Ms-PL License.
 
