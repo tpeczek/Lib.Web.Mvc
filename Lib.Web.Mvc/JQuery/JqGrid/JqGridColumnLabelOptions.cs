@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
@@ -20,8 +17,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         #region Constructor
         internal JqGridColumnLabelOptions()
         {
-            Label = String.Empty;
-            Class = String.Empty;
+            Label = string.Empty;
+            Class = string.Empty;
             CssStyles = null;
             HtmlAttributes = null;
         }

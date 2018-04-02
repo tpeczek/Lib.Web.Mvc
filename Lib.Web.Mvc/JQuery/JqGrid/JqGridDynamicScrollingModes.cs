@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Lib.Web.Mvc.JQuery.JqGrid
+﻿namespace Lib.Web.Mvc.JQuery.JqGrid
 {
     /// <summary>
     /// Defines available modes for jqGrid dynamic scrolling
     /// </summary>
     public enum JqGridDynamicScrollingModes
     {
+        /// <summary>
+        /// Use JqGrid default value
+        /// </summary>
+        Default,
         /// <summary>
         /// Dynamic scrolling disabled.
         /// </summary>

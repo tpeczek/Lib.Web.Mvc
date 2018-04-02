@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
@@ -22,7 +19,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Combines equal and not equal
         /// </summary>
-        EqualOrNotEqual = JqGridSearchOperators.Eq | JqGridSearchOperators.Ne,
+        EqualOrNotEqual = Eq | Ne,
         /// <summary>
         /// Less
         /// </summary>
@@ -82,14 +79,18 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Combines equal, not equal, less, less or equal, greater, greater or equal, is null, is not null.
         /// </summary>
-        NoTextOperators = JqGridSearchOperators.Eq | JqGridSearchOperators.Ne | JqGridSearchOperators.Lt | JqGridSearchOperators.Le | JqGridSearchOperators.Gt | JqGridSearchOperators.Ge | JqGridSearchOperators.Nu | JqGridSearchOperators.Nn,
+        NoTextOperators = Eq | Ne | Lt | Le | Gt | Ge | Nu | Nn,
         /// <summary>
         /// Combines equal, not equal, begins with, does not begin with, ends with, does not end with, contains and does not contain, is null, is not null
         /// </summary>
-        TextOperators = JqGridSearchOperators.Eq | JqGridSearchOperators.Ne | JqGridSearchOperators.Bw | JqGridSearchOperators.Bn | JqGridSearchOperators.Ew | JqGridSearchOperators.En | JqGridSearchOperators.Cn | JqGridSearchOperators.Nc | JqGridSearchOperators.Nu | JqGridSearchOperators.Nn,
+        TextOperators = Eq | Ne | Bw | Bn | Ew | En | Cn | Nc | Nu | Nn,
         /// <summary>
         /// Combines is null, is not null
         /// </summary>
-        NullOperators = JqGridSearchOperators.Nu | JqGridSearchOperators.Nn
+        NullOperators = Nu | Nn,
+        /// <summary>
+        /// Use JqGrid default value
+        /// </summary>
+        Default = 65536
     }
 }

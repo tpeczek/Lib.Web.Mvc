@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web.Mvc;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
@@ -9,9 +6,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
     /// <summary>
     /// Specifies the mapping properties for the column.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Property)]
     public class JqGridColumnMappingAttribute : Attribute, IMetadataAware
     {
+        private bool? _key;
+
         #region Properties
         /// <summary>
         /// Gets or sets the JSON mapping for the column in the incoming JSON string.
@@ -21,7 +20,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <summary>
         /// Defines if this column value should be used as unique row id (in case there is no id from the server). 
         /// </summary>
-        public bool Key { get; set; }
+        public bool Key
+        {
+            get => _key ?? false;
+            set => _key = value;
+        }
 
         /// <summary>
         /// Gets or sets the XML mapping for the column in the incomming XML file.
@@ -36,7 +39,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         public JqGridColumnMappingAttribute()
         {
             JsonMapping = null;
-            Key = false;
             XmlMapping = null;
         }
         #endregion
@@ -49,7 +51,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         public void OnMetadataCreated(ModelMetadata metadata)
         {
             metadata.SetColumnJsonMapping(JsonMapping);
-            metadata.SetColumnKey(Key);
+            metadata.SetColumnKey(_key);
             metadata.SetColumnXmlMapping(XmlMapping);
         }
         #endregion

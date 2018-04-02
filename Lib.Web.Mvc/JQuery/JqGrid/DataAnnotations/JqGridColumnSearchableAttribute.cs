@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Web.Routing;
+using JetBrains.Annotations;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
 {
+    /// <inheritdoc />
     /// <summary>
     /// Specifies the searching options for column
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Property)]
     public class JqGridColumnSearchableAttribute : JqGridColumnElementAttribute
     {
         #region Properties
@@ -16,8 +18,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool ClearSearch
         {
-            get { return SearchOptions.ClearSearch; }
-            set { SearchOptions.ClearSearch = value; }
+            get => SearchOptions.ClearSearch ?? true;
+            set => SearchOptions.ClearSearch = value;
         }
 
         /// <summary>
@@ -25,22 +27,22 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool RequiredValidation
         {
-            get { return Rules.Required; }
-            set { Rules.Required = value; }
+            get => Rules.Required ?? false;
+            set => Rules.Required = value;
         }
 
         /// <summary>
         /// Gets the value defining if this column can be searched.
         /// </summary>
-        public bool Searchable { get; private set; }
+        public bool Searchable { get; }
 
         /// <summary>
         /// Gets or sets the value which defines if hidden column can be searched.
         /// </summary>
         public bool SearchHidden
         {
-            get { return SearchOptions.SearchHidden; }
-            set { SearchOptions.SearchHidden = value; }
+            get => SearchOptions.SearchHidden ?? false;
+            set => SearchOptions.SearchHidden = value;
         }
 
         /// <summary>
@@ -48,14 +50,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public JqGridSearchOperators SearchOperators
         {
-            get { return SearchOptions.SearchOperators; }
-            set { SearchOptions.SearchOperators = value; }
+            get => SearchOptions.SearchOperators;
+            set => SearchOptions.SearchOperators = value;
         }
 
         private JqGridColumnSearchOptions SearchOptions
         {
-            get { return (base.Options as JqGridColumnSearchOptions); }
-            set { base.Options = value; }
+            get => Options as JqGridColumnSearchOptions;
+            set => Options = value;
         }
 
         /// <summary>
@@ -69,55 +71,51 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// Initializes a new instance of the JqGridColumnSearchableAttribute class.
         /// </summary>
         /// <param name="searchable">If this column can be searched</param>
-        public JqGridColumnSearchableAttribute(bool searchable)
-            : base()
+        public JqGridColumnSearchableAttribute(bool searchable = true)
         {
             Searchable = searchable;
             SearchOptions = new JqGridColumnSearchOptions();
-            SearchType = JqGridColumnSearchTypes.Text;
+            SearchType = JqGridColumnSearchTypes.Default;
         }
 
         /// <summary>
-        /// Initializes a new instance of the JqGridColumnSearchableAttribute class.
+        /// Initializes a new instance of the JqGridColumnSearchableAttribute class and make column searchable force.
         /// </summary>
-        /// <param name="searchable">If this column can be searched</param>
         /// <param name="dataUrlRouteName">Route name for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select) or jQuery UI Autocomplete widget (if SearchType is JqGridColumnSearchTypes.Autocomplete).</param>
-        public JqGridColumnSearchableAttribute(bool searchable, string dataUrlRouteName)
-            : this(searchable)
+        public JqGridColumnSearchableAttribute(string dataUrlRouteName)
+            : this()
         {
-            if (String.IsNullOrWhiteSpace(dataUrlRouteName))
-                throw new ArgumentNullException("dataUrlRouteName");
-            
+            if (string.IsNullOrWhiteSpace(dataUrlRouteName))
+                throw new ArgumentNullException(nameof(dataUrlRouteName));
+
 
             DataUrlRouteName = dataUrlRouteName;
             DataUrlRouteData = new RouteValueDictionary();
         }
 
         /// <summary>
-        /// Initializes a new instance of the JqGridColumnSearchableAttribute class.
+        /// Initializes a new instance of the JqGridColumnSearchableAttribute class and make column searchable force.
         /// </summary>
-        /// <param name="searchable">If this column can be searched</param>
         /// <param name="dataUrlAction">Action for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select) or jQuery UI Autocomplete widget (if SearchType is JqGridColumnSearchTypes.Autocomplete).</param>
         /// <param name="dataUrlController">Controller for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select) or jQuery UI Autocomplete widget (if SearchType is JqGridColumnSearchTypes.Autocomplete).</param>
-        public JqGridColumnSearchableAttribute(bool searchable, string dataUrlAction, string dataUrlController) :
-            this(searchable, dataUrlAction, dataUrlController, null)
+        public JqGridColumnSearchableAttribute([AspMvcAction] string dataUrlAction, [AspMvcController] string dataUrlController) :
+            this(dataUrlAction, dataUrlController, null)
         { }
 
         /// <summary>
-        /// Initializes a new instance of the JqGridColumnSearchableAttribute class.
+        /// Initializes a new instance of the JqGridColumnSearchableAttribute class and make column searchable force.
         /// </summary>
-        /// <param name="searchable">If this column can be searched</param>
         /// <param name="dataUrlAction">Action for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select) or jQuery UI Autocomplete widget (if SearchType is JqGridColumnSearchTypes.Autocomplete).</param>
         /// <param name="dataUrlController">Controller for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select) or jQuery UI Autocomplete widget (if SearchType is JqGridColumnSearchTypes.Autocomplete).</param>
         /// <param name="dataUrlAreaName">Area for the URL to get the AJAX data for the select element (if is JqGridColumnSearchTypes.Select) or jQuery UI Autocomplete widget (if SearchType is JqGridColumnSearchTypes.Autocomplete).</param>
-        public JqGridColumnSearchableAttribute(bool searchable, string dataUrlAction, string dataUrlController, string dataUrlAreaName)
-            : this(searchable)
+        public JqGridColumnSearchableAttribute([AspMvcAction] string dataUrlAction, [AspMvcController] string dataUrlController, [AspMvcArea] string dataUrlAreaName)
+            : this()
         {
-            if (String.IsNullOrWhiteSpace(dataUrlAction))
-                throw new ArgumentNullException("dataUrlAction");
-            
-            if (String.IsNullOrWhiteSpace(dataUrlController))
-                throw new ArgumentNullException("dataUrlController");
+            if (string.IsNullOrWhiteSpace(dataUrlAction))
+                throw new ArgumentNullException(nameof(dataUrlAction));
+
+            if (string.IsNullOrWhiteSpace(dataUrlController))
+                throw new ArgumentNullException(nameof(dataUrlController));
 
             DataUrlRouteData = new RouteValueDictionary();
             DataUrlRouteData["controller"] = dataUrlController;
@@ -128,21 +126,17 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         }
 
         /// <summary>
-        /// Initializes a new instance of the JqGridColumnSearchableAttribute class.
+        /// Initializes a new instance of the JqGridColumnSearchableAttribute class and make column searchable force.
         /// </summary>
-        /// <param name="searchable">If this column can be searched</param>
         /// <param name="valueProviderType">The type of class which contains a method which will provide data for select element (if is JqGridColumnSearchTypes.Select). This class must have public parameterless constructor.</param>
         /// <param name="valueProviderMethodName">The name of method which will provide data for select element (if is JqGridColumnSearchTypes.Select). This method must return an object which implements IDictionary&lt;string, string&gt;.</param>
-        public JqGridColumnSearchableAttribute(bool searchable, Type valueProviderType, string valueProviderMethodName)
-            : this(searchable)
+        public JqGridColumnSearchableAttribute(Type valueProviderType, string valueProviderMethodName)
+            : this()
         {
-            if (valueProviderType == null)
-                throw new ArgumentNullException("valueProviderType");
+            if (string.IsNullOrWhiteSpace(valueProviderMethodName))
+                throw new ArgumentNullException(nameof(valueProviderMethodName));
 
-            if (String.IsNullOrWhiteSpace(valueProviderMethodName))
-                throw new ArgumentNullException("valueProviderMethodName");
-
-            ValueProviderType = valueProviderType;
+            ValueProviderType = valueProviderType ?? throw new ArgumentNullException(nameof(valueProviderType));
             ValueProviderMethodName = valueProviderMethodName;
         }
         #endregion
@@ -155,7 +149,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         protected override void InternalOnMetadataCreated(ModelMetadata metadata)
         {
             SearchOptions.DataEvents = DataEvents;
-            SearchOptions.DataUrl = DataUrl;
+            if (!string.IsNullOrWhiteSpace(DataUrlRouteName) || DataUrlRouteData != null)
+                SearchOptions.DataUrl = DataUrl;
             SearchOptions.HtmlAttributes = HtmlAttributes;
             SearchOptions.ValueDictionary = ValueDictionary;
 

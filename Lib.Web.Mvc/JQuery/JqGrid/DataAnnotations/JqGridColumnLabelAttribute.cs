@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Routing;
 using System.Web.Mvc;
-using System.Web;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
 {
     /// <summary>
     /// Specifies the label in the header for the column.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Property)]
     public class JqGridColumnLabelAttribute : Attribute, IMetadataAware
     {
         #region Properties
@@ -20,8 +16,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string Label
         {
-            get { return LabelOptions.Label; }
-            set { LabelOptions.Label = value; }
+            get => LabelOptions.Label;
+            set => LabelOptions.Label = value;
         }
 
         /// <summary>
@@ -29,27 +25,21 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string Class
         {
-            get { return LabelOptions.Class; }
-            set { LabelOptions.Class = value; }
+            get => LabelOptions.Class;
+            set => LabelOptions.Class = value;
         }
 
         /// <summary>
         /// When overriden in delivered class, provides a dictionary where keys should be CSS styles for the label (will be applied only if Class is null or empty string).
         /// </summary>
-        protected virtual IDictionary<string, object> CssStyles
-        {
-            get { return null; }
-        }
+        protected virtual IDictionary<string, object> CssStyles => null;
 
         /// <summary>
         /// When overriden in delivered class, provides a dictionary where keys should be valid attributes for the label.
         /// </summary>
-        protected virtual IDictionary<string, object> HtmlAttributes
-        {
-            get { return null; }
-        }
+        protected virtual IDictionary<string, object> HtmlAttributes => null;
 
-        private JqGridColumnLabelOptions LabelOptions { get; set; }
+        private JqGridColumnLabelOptions LabelOptions { get; }
         #endregion
 
         #region Constructor

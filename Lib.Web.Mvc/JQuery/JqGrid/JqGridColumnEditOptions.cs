@@ -3,36 +3,83 @@ using System.Text;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
+    /// <inheritdoc />
     /// <summary>
     /// Class which represents options for jqGrid editable column
     /// </summary>
     public class JqGridColumnEditOptions : JqGridColumnElementOptions
     {
+
+        #region Fields
+        private string _customElementFunction;
+        private string _customValueFunction;
+        private string _postDataScript;
+        private object _postData;
+
+        #endregion
+
         #region Properties
+
+        internal bool IsCustomElementFunctionSetted { get; private set; }
         /// <summary>
         /// Gets or sets the name of function which is used to create custom edit element
         /// </summary>
-        public string CustomElementFunction { get; set; }
-        
+        public string CustomElementFunction
+        {
+            get => _customElementFunction;
+            set
+            {
+                _customElementFunction = value;
+                IsCustomElementFunctionSetted = true;
+            }
+        }
+
+        internal bool IsCustomValueFunctionSetted { get; private set; }
         /// <summary>
         /// Gets or sets the name of function which should return the value from the custom element after the editing.
         /// </summary>
-        public string CustomValueFunction { get; set; }
+        public string CustomValueFunction
+        {
+            get => _customValueFunction;
+            set
+            {
+                _customValueFunction = value;
+                IsCustomValueFunctionSetted = true;
+            }
+        }
 
-        /// <summary>
+        /// <summary>z
         /// Gets or sets the value which defines if null value should be send to server if the field is empty.
         /// </summary>
-        public bool NullIfEmpty { get; set; }
+        public bool? NullIfEmpty { get; set; }
 
+        internal bool IsPostDataSetted { get; private set; }
         /// <summary>
         /// Gets or sets the additional data which will be added to the AJAX request to get the data for the select element (if EditType is JqGridColumnEditTypes.Select).
         /// </summary>
-        public object PostData { get; set; }
+        public object PostData
+        {
+            get => _postData;
+            set
+            {
+                _postData = value;
+                IsPostDataSetted = true;
+            }
+        }
 
+        internal bool IsPostDataScriptsSetted { get; private set; }
         /// <summary>
         /// Gets or sets the JavaScript which will dynamically generate the additional data which will be added to the AJAX request to get the data for the select element (if EditType is JqGridColumnEditTypes.Select). This property takes precedence over PostData.
         /// </summary>
-        public string PostDataScript { get; set; }
+        public string PostDataScript
+        {
+            get => _postDataScript;
+            set
+            {
+                _postDataScript = value;
+                IsPostDataScriptsSetted = true;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the child property name if this element performs parent role in selects cascade.
@@ -48,17 +95,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         public JqGridColumnEditOptions()
         {
-            BuildSelect = null;
             DataEvents = null;
-            DataInit = null;
-            DataUrl = null;
-            DefaultValue = null;
             HtmlAttributes = null;
-            CustomElementFunction = null;
-            CustomValueFunction = null;
-            NullIfEmpty = false;
-            PostData = null;
-            PostDataScript = null;
         }
         #endregion
 
@@ -66,7 +104,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         internal void ConfigureSelectsCascadeParent()
         {
             //Here be dragons
-            StringBuilder changeDataEventBuilder = new StringBuilder();
+            var changeDataEventBuilder = new StringBuilder();
             changeDataEventBuilder.Append("function() {{ var gridInstance = $('#{0}'); ");
             changeDataEventBuilder.AppendFormat("var parentElement = $(this); var inlineEditingChildElement = $('#' + parentElement.attr('id').substring(0, parentElement.attr('id').lastIndexOf('_' + parentElement.attr('name'))) + '_{0}'); var formEditingChildElement = $('#' + '{0}'); ", ChildName);
             changeDataEventBuilder.Append("var childColumnModel = null; var columnsModels = gridInstance.jqGrid ('getGridParam', 'colModel'); ");

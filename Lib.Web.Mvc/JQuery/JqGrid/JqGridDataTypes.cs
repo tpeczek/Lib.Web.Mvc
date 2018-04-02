@@ -1,12 +1,14 @@
-﻿using System;
-
-namespace Lib.Web.Mvc.JQuery.JqGrid
+﻿namespace Lib.Web.Mvc.JQuery.JqGrid
 {
     /// <summary>
     /// jqGrid data types
     /// </summary>
     public enum JqGridDataTypes
     {
+        /// <summary>
+        /// Use JqGrid default value
+        /// </summary>
+        Default,
         /// <summary>
         /// XML data
         /// </summary>
