@@ -202,8 +202,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <param name="formatter">The predefined formatter type ('' delimited string) or custom JavaScript formatting function name. <c>null</c> for not using default formatter if setted in JqGrid</param>
         public JqGridColumnFormatterAttribute(string formatter)
         {
-            /*if (string.IsNullOrWhiteSpace(formatter))
-				throw new ArgumentNullException(nameof(formatter));*/
             Formatter = formatter;
             Options = new JqGridColumnFormatterOptions();
             PrimaryIcon = string.Empty;
