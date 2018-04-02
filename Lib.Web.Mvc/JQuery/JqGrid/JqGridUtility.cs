@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web.Mvc;
 using System.Data;
 using System.Data.Linq;
@@ -17,6 +14,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 metadata.ShowForDisplay
                 && metadata.ModelType != typeof(EntityState)
                 && (!metadata.IsComplexType || metadata.ModelType == typeof(Binary) || metadata.ModelType == typeof(byte[]));
+        }
+
+        internal static string ToNullString(this string s)
+        {
+            return string.IsNullOrWhiteSpace(s) ? "null" : s;
         }
         #endregion
     }

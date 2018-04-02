@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Lib.Web.Mvc.JQuery.JqGrid
+﻿namespace Lib.Web.Mvc.JQuery.JqGrid
 {
     /// <summary>
     /// Defines available models for jqGrid TrreGrid
     /// </summary>
     public enum JqGridTreeGridModels
     {
+        /// <summary>
+        /// Use JqGrid default value
+        /// </summary>
+        Default,
         /// <summary>
         /// Nested set model
         /// </summary>

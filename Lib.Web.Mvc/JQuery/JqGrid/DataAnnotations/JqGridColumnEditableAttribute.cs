@@ -1,28 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web.Routing;
 using System.Web.Mvc;
-using System.Web;
-using Lib.Web.Mvc.JQuery.JqGrid.Constants;
+using JetBrains.Annotations;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
 {
+    /// <inheritdoc />
     /// <summary>
     /// Specifies the editing options for column
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Property)]
     public class JqGridColumnEditableAttribute : JqGridColumnElementAttribute
     {
+        #region Fields
+        private string _dateFormat;
+
+
+        #endregion
         #region Properties
         /// <summary>
         /// Gets or sets the name of function which is used to create custom edit element
         /// </summary>
         public string CustomElementFunction
         {
-            get { return EditOptions.CustomElementFunction; }
-            set { EditOptions.CustomElementFunction = value; }
+            get => EditOptions.CustomElementFunction;
+            set => EditOptions.CustomElementFunction = value;
         }
 
         /// <summary>
@@ -30,33 +32,42 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string CustomElementValueFunction
         {
-            get { return EditOptions.CustomValueFunction; }
-            set { EditOptions.CustomValueFunction = value; }
+            get => EditOptions.CustomValueFunction;
+            set => EditOptions.CustomValueFunction = value;
         }
 
+        internal bool IsDateFormatSetted { get; set; }
         /// <summary>
         /// Gets or sets the expected date format for this column in case of date validation (default ISO date). 
         /// </summary>
-        public string DateFormat { get; set; }
+        public string DateFormat
+        {
+            get => _dateFormat;
+            set
+            {
+                _dateFormat = value;
+                IsDateFormatSetted = true;
+            }
+        }
 
         /// <summary>
         /// Gets the value defining if this column can be edited.
         /// </summary>
-        public bool Editable { get; private set; }
+        public bool Editable { get; }
 
         /// <summary>
         /// Gets or sets the value which defines if hidden column can be edited in form editing.
         /// </summary>
         public bool EditHidden
         {
-            get { return Rules.EditHidden; }
-            set { Rules.EditHidden = value; }
+            get => Rules.EditHidden ?? false;
+            set => Rules.EditHidden = value;
         }
 
         internal JqGridColumnEditOptions EditOptions
         {
-            get { return (base.Options as JqGridColumnEditOptions); }
-            set { base.Options = value; }
+            get => Options as JqGridColumnEditOptions;
+            set => Options = value;
         }
 
         /// <summary>
@@ -69,8 +80,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public int FormColumnPosition
         {
-            get { return FormOptions.ColumnPosition.HasValue ? FormOptions.ColumnPosition.Value : 1; }
-            set { FormOptions.ColumnPosition = value; }
+            get => FormOptions.ColumnPosition ?? 1;
+            set => FormOptions.ColumnPosition = value;
         }
 
         /// <summary>
@@ -78,8 +89,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string FormElementPrefix
         {
-            get { return FormOptions.ElementPrefix; }
-            set { FormOptions.ElementPrefix = value; }
+            get => FormOptions.ElementPrefix;
+            set => FormOptions.ElementPrefix = value;
         }
 
         /// <summary>
@@ -87,8 +98,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string FormElementSuffix
         {
-            get { return FormOptions.ElementSuffix; }
-            set { FormOptions.ElementSuffix = value; }
+            get => FormOptions.ElementSuffix;
+            set => FormOptions.ElementSuffix = value;
         }
 
         /// <summary>
@@ -96,8 +107,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string FormLabel
         {
-            get { return FormOptions.Label; }
-            set { FormOptions.Label = value; }
+            get => FormOptions.Label;
+            set => FormOptions.Label = value;
         }
 
         /// <summary>
@@ -105,27 +116,33 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public int FormRowPosition
         {
-            get { return FormOptions.RowPosition.HasValue ? FormOptions.RowPosition.Value : 1; }
-            set { FormOptions.RowPosition = value; }
+            get => FormOptions.RowPosition ?? 1;
+            set => FormOptions.RowPosition = value;
         }
 
-        internal JqGridColumnFormOptions FormOptions { get; private set; }
+        internal JqGridColumnFormOptions FormOptions { get; }
 
         /// <summary>
         /// Gets or sets the value which defines if null value should be send to server if the field is empty.
         /// </summary>
         public bool NullIfEmpty
         {
-            get { return EditOptions.NullIfEmpty; }
-            set { EditOptions.NullIfEmpty = value; }
+            get => EditOptions.NullIfEmpty ?? false;
+            set => EditOptions.NullIfEmpty = value;
         }
 
+        internal bool IsPostDataDefault { get; private set; }
         /// <summary>
         /// When overriden in delivered class, provides additional data which will be added to the AJAX request to get the data for the select element (if EditType is JqGridColumnEditTypes.Select).
         /// </summary>
+        /// <remarks>Do not call base.PostData when overriden.</remarks>
         protected virtual object PostData
         {
-            get { return null; }
+            get
+            {
+                IsPostDataDefault = true;
+                return null;
+            }
         }
 
         /// <summary>
@@ -133,8 +150,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string PostDataScript
         {
-            get { return EditOptions.PostDataScript; }
-            set { EditOptions.PostDataScript = value; }
+            get => EditOptions.PostDataScript;
+            set => EditOptions.PostDataScript = value;
         }
 
         /// <summary>
@@ -142,8 +159,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string ChildName
         {
-            get { return EditOptions.ChildName; }
-            set { EditOptions.ChildName = value; }
+            get => EditOptions.ChildName;
+            set => EditOptions.ChildName = value;
         }
         #endregion
 
@@ -152,82 +169,76 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// Initializes a new instance of the JqGridColumnEditableAttribute class.
         /// </summary>
         /// <param name="editable">If this column can be edited</param>
-        public JqGridColumnEditableAttribute(bool editable)
-            : base()
+        public JqGridColumnEditableAttribute(bool editable = true)
         {
-            DateFormat = JqGridOptionsDefaults.DateFormat;
+            //DateFormat = JqGridOptionsDefaults.DateFormat;
             Editable = editable;
             EditOptions = new JqGridColumnEditOptions();
-            EditType = JqGridColumnEditTypes.Text;
+            EditType = JqGridColumnEditTypes.Default;
             FormOptions = new JqGridColumnFormOptions();
         }
 
         /// <summary>
-        /// Initializes a new instance of the JqGridColumnEditableAttribute class.
+        /// Initializes a new instance of the JqGridColumnEditableAttribute class and set column as editable force.
         /// </summary>
-        /// <param name="editable">If this column can be edited</param>
         /// <param name="dataUrlRouteName">Route name for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
-        public JqGridColumnEditableAttribute(bool editable, string dataUrlRouteName)
-            : this(editable)
+        public JqGridColumnEditableAttribute(string dataUrlRouteName)
+            : this()
         {
-            if (String.IsNullOrWhiteSpace(dataUrlRouteName))
-                throw new ArgumentNullException("dataUrlRouteName");
-            
+            if (string.IsNullOrWhiteSpace(dataUrlRouteName))
+                throw new ArgumentNullException(nameof(dataUrlRouteName));
+
 
             DataUrlRouteName = dataUrlRouteName;
             DataUrlRouteData = new RouteValueDictionary();
         }
 
         /// <summary>
-        /// Initializes a new instance of the JqGridColumnEditableAttribute class.
+        /// Initializes a new instance of the JqGridColumnEditableAttribute class and set column as editable force.
         /// </summary>
-        /// <param name="editable">If this column can be edited</param>
         /// <param name="dataUrlAction">Action for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
         /// <param name="dataUrlController">Controller for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
-        public JqGridColumnEditableAttribute(bool editable, string dataUrlAction, string dataUrlController) :
-            this(editable, dataUrlAction, dataUrlController, null)
+        public JqGridColumnEditableAttribute([AspMvcAction] string dataUrlAction, [AspMvcController] string dataUrlController) :
+            this(dataUrlAction, dataUrlController, null)
         { }
 
         /// <summary>
-        /// Initializes a new instance of the JqGridColumnEditableAttribute class.
+        /// Initializes a new instance of the JqGridColumnEditableAttribute class and set column as editable force.
         /// </summary>
-        /// <param name="editable">If this column can be edited</param>
         /// <param name="dataUrlAction">Action for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
         /// <param name="dataUrlController">Controller for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
         /// <param name="dataUrlAreaName">Area for the URL to get the AJAX data for the select element (if EditType is JqGridColumnEditTypes.Select) or jQuery UI Autocomplete widget (if EditType is JqGridColumnEditTypes.Autocomplete).</param>
-        public JqGridColumnEditableAttribute(bool editable, string dataUrlAction, string dataUrlController, string dataUrlAreaName)
-            : this(editable)
+        public JqGridColumnEditableAttribute([AspMvcAction] string dataUrlAction, [AspMvcController] string dataUrlController, [AspMvcArea] string dataUrlAreaName)
+            : this()
         {
-            if (String.IsNullOrWhiteSpace(dataUrlAction))
-                throw new ArgumentNullException("dataUrlAction");
-            
-            if (String.IsNullOrWhiteSpace(dataUrlController))
-                throw new ArgumentNullException("dataUrlController");
+            if (string.IsNullOrWhiteSpace(dataUrlAction))
+                throw new ArgumentNullException(nameof(dataUrlAction));
 
-            DataUrlRouteData = new RouteValueDictionary();
-            DataUrlRouteData["controller"] = dataUrlController;
-            DataUrlRouteData["action"] = dataUrlAction;
+            if (string.IsNullOrWhiteSpace(dataUrlController))
+                throw new ArgumentNullException(nameof(dataUrlController));
+
+            DataUrlRouteData = new RouteValueDictionary
+            {
+                ["controller"] = dataUrlController,
+                ["action"] = dataUrlAction
+            };
 
             if (dataUrlAreaName != null)
                 DataUrlRouteData["area"] = dataUrlAreaName;
         }
 
         /// <summary>
-        /// Initializes a new instance of the JqGridColumnEditableAttribute class.
+        /// Initializes a new instance of the JqGridColumnEditableAttribute class and set column as editable force.
         /// </summary>
-        /// <param name="editable">If this column can be edited</param>
         /// <param name="valueProviderType">The type of class which contains a method which will provide data for select element (if is JqGridColumnEditTypes.Select). This class must have public parameterless constructor.</param>
         /// <param name="valueProviderMethodName">The name of method which will provide data for select element (if is JqGridColumnEditTypes.Select). This method must return an object which implements IDictionary&lt;string, string&gt;.</param>
-        public JqGridColumnEditableAttribute(bool editable, Type valueProviderType, string valueProviderMethodName)
-            : this(editable)
+        public JqGridColumnEditableAttribute([NotNull] Type valueProviderType, string valueProviderMethodName)
+            : this()
         {
-            if (valueProviderType == null)
-                throw new ArgumentNullException("valueProviderType");
+            if (string.IsNullOrWhiteSpace(valueProviderMethodName))
+                throw new ArgumentNullException(nameof(valueProviderMethodName));
 
-            if (String.IsNullOrWhiteSpace(valueProviderMethodName))
-                throw new ArgumentNullException("valueProviderMethodName");
-
-            ValueProviderType = valueProviderType;
+            ValueProviderType = valueProviderType ?? throw new ArgumentNullException(nameof(valueProviderType));
             ValueProviderMethodName = valueProviderMethodName;
         }
         #endregion
@@ -240,9 +251,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         protected override void InternalOnMetadataCreated(ModelMetadata metadata)
         {
             EditOptions.DataEvents = DataEvents;
-            EditOptions.DataUrl = DataUrl;
+            if (!string.IsNullOrWhiteSpace(DataUrlRouteName) || DataUrlRouteData != null)
+                EditOptions.DataUrl = DataUrl;
             EditOptions.HtmlAttributes = HtmlAttributes;
-            EditOptions.PostData = PostData;
+            if (!IsPostDataDefault)
+                EditOptions.PostData = PostData;
             EditOptions.ValueDictionary = ValueDictionary;
 
             if (EditType == JqGridColumnEditTypes.JQueryUIAutocomplete)
@@ -266,7 +279,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
                 EditOptions.ConfigureSelectsCascadeParent();
             }
 
-            metadata.SetColumnDateFormat(DateFormat);
+            metadata.SetColumnDateFormat(new SettedString(IsDateFormatSetted, DateFormat));
             metadata.SetColumnEditable(Editable);
             metadata.SetColumnEditOptions(EditOptions);
             metadata.SetColumnEditRules(Rules);

@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Lib.Web.Mvc.JQuery.JqGrid
+﻿namespace Lib.Web.Mvc.JQuery.JqGrid
 {
     /// <summary>
     /// Defines the type of the column for appropriate sorting when datatype is local.
     /// </summary>
     public enum JqGridColumnSortTypes
     {
+        /// <summary>
+        /// Use JqGrid default value
+        /// </summary>
+        Default,
         /// <summary>
         /// Sorting as integers.
         /// </summary>
@@ -30,5 +29,5 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Sorting using custom function (this option is not supported in configuration import/export).
         /// </summary>
         Function
-     }
+    }
 }

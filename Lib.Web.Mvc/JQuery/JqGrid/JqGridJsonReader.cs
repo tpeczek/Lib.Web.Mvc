@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
@@ -22,11 +19,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         public string Records
         {
-            get { return _records; }
+            get => _records;
             set
             {
-                if (String.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("value");
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value));
                 _records = value;
             }
         }
@@ -36,8 +33,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         public string RecordValues
         {
-            get { return _recordValues; }
-            set { _recordValues = value; }
+            get => _recordValues;
+            set => _recordValues = value;
         }
 
         /// <summary>
@@ -52,8 +49,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         public JqGridJsonRecordsReader()
         {
-            Records = JqGridOptionsDefaults.ResponseRecords;
-            RecordValues = JqGridOptionsDefaults.ResponseRecordValues;
+            _records = JqGridOptionsDefaults.ResponseRecords;
+            _recordValues = JqGridOptionsDefaults.ResponseRecordValues;
             RepeatItems = true;
         }
         #endregion
@@ -61,8 +58,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         #region Methods
         internal virtual bool IsDefault()
         {
-            return ((Records == JqGridOptionsDefaults.ResponseRecords) && (RecordValues == JqGridOptionsDefaults.ResponseRecordValues) && RepeatItems);
+            return Records == JqGridOptionsDefaults.ResponseRecords && RecordValues == JqGridOptionsDefaults.ResponseRecordValues && RepeatItems;
         }
+        internal virtual bool IsGlobal => Records == JqGridResponse.JsonReader.Records
+                                         && RecordValues == JqGridResponse.JsonReader.RecordValues
+                                         && RepeatItems == JqGridResponse.JsonReader.RepeatItems;
         #endregion
     }
 
@@ -85,11 +85,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         public string PageIndex
         {
-            get { return _pageIndex; }
+            get => _pageIndex;
             set
             {
-                if (String.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("value");
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value));
                 _pageIndex = value;
             }
         }
@@ -99,11 +99,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         public string RecordId
         {
-            get { return _recordId; }
+            get => _recordId;
             set
             {
-                if (String.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("value");
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value));
                 _recordId = value;
             }
         }
@@ -118,11 +118,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         public string TotalPagesCount
         {
-            get { return _totalPagesCount; }
+            get => _totalPagesCount;
             set
             {
-                if (String.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("value");
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value));
                 _totalPagesCount = value;
             }
         }
@@ -132,11 +132,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         public string TotalRecordsCount
         {
-            get { return _totalRecordsCount; }
+            get => _totalRecordsCount;
             set
             {
-                if (String.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("value");
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value));
                 _totalRecordsCount = value;
             }
         }
@@ -146,11 +146,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         public string UserData
         {
-            get { return _userData; }
+            get => _userData;
             set
             {
-                if (String.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("value");
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value));
                 _userData = value;
             }
         }
@@ -160,7 +160,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Initializes a new instance of the JqGridJsonReader class.
         /// </summary>
-        public JqGridJsonReader() : base()
+        public JqGridJsonReader()
         {
             PageIndex = JqGridOptionsDefaults.ResponsePageIndex;
             RecordId = JqGridOptionsDefaults.ResponseRecordId;
@@ -174,8 +174,20 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         #region Methods
         internal new bool IsDefault()
         {
-            return (base.IsDefault() && (PageIndex == JqGridOptionsDefaults.ResponsePageIndex) && (RecordId == JqGridOptionsDefaults.ResponseRecordId) && (TotalPagesCount == JqGridOptionsDefaults.ResponseTotalPagesCount) && (TotalRecordsCount == JqGridOptionsDefaults.ResponseTotalRecordsCount) && (UserData == JqGridOptionsDefaults.ResponseUserData));
+            return base.IsDefault()
+                   && PageIndex == JqGridOptionsDefaults.ResponsePageIndex
+                   && RecordId == JqGridOptionsDefaults.ResponseRecordId
+                   && TotalPagesCount == JqGridOptionsDefaults.ResponseTotalPagesCount
+                   && TotalRecordsCount == JqGridOptionsDefaults.ResponseTotalRecordsCount
+                   && UserData == JqGridOptionsDefaults.ResponseUserData;
         }
+
+        internal new bool IsGlobal => base.IsGlobal
+                                  && PageIndex == JqGridResponse.JsonReader.PageIndex
+                                  && RecordId == JqGridResponse.JsonReader.RecordId
+                                  && TotalPagesCount == JqGridResponse.JsonReader.TotalPagesCount
+                                  && TotalRecordsCount == JqGridResponse.JsonReader.TotalRecordsCount
+                                  && UserData == JqGridResponse.JsonReader.UserData;
         #endregion
 
         #region ICloneable Members
@@ -185,7 +197,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <returns>A new object that is a shallow copy of this instance.</returns>
         public object Clone()
         {
-            return this.MemberwiseClone();
+            return MemberwiseClone();
         }
         #endregion
     }

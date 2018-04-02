@@ -1,7 +1,5 @@
 ﻿using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
@@ -10,32 +8,48 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
     /// <summary>
     /// Specifies the custom formatter for column
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Property)]
     public sealed class JqGridColumnFormatterAttribute : Attribute, IMetadataAware
     {
+
+        #region Fields
+        private string _unFormatter;
+
+        #endregion
+
         #region Properties
+
         /// <summary>
         /// Gets the predefined formatter type ('' delimited string) or custom JavaScript formatting function name.
         /// </summary>
-        public string Formatter { get; private set; }
+        public string Formatter { get; }
 
         /// <summary>
         /// Gets or sets the options for predefined formatter (every predefined formatter uses only a subset of all options), which are overwriting the defaults from the language file.
         /// </summary>
-        private JqGridColumnFormatterOptions Options { get; set; }
+        private JqGridColumnFormatterOptions Options { get; }
 
+        internal bool IsUnFormatterSetted { get; private set; }
         /// <summary>
         /// Gets or sets the custom function to "unformat" a value of the cell when used in editing or client-side sorting
         /// </summary>
-        public string UnFormatter { get; set; }
+        public string UnFormatter
+        {
+            get => _unFormatter;
+            set
+            {
+                _unFormatter = value;
+                IsUnFormatterSetted = true;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the decimal places.
         /// </summary>
         public int DecimalPlaces
         {
-            get { return Options.DecimalPlaces; }
-            set { Options.DecimalPlaces = value; }
+            get => Options.DecimalPlaces ?? JqGridOptionsDefaults.FormatterDecimalPlaces;
+            set => Options.DecimalPlaces = value;
         }
 
         /// <summary>
@@ -43,8 +57,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string DecimalSeparator
         {
-            get { return Options.DecimalSeparator; }
-            set { Options.DecimalSeparator = value; }
+            get => Options.DecimalSeparator;
+            set => Options.DecimalSeparator = value;
         }
 
         /// <summary>
@@ -52,8 +66,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string DefaultValue
         {
-            get { return Options.DefaultValue; }
-            set { Options.DefaultValue = value; }
+            get => Options.DefaultValue;
+            set => Options.DefaultValue = value;
         }
 
         /// <summary>
@@ -61,8 +75,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool Disabled
         {
-            get { return Options.Disabled; }
-            set { Options.Disabled = value; }
+            get => Options.Disabled ?? false;
+            set => Options.Disabled = value;
         }
 
         /// <summary>
@@ -70,8 +84,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string Prefix
         {
-            get { return Options.Prefix; }
-            set { Options.Prefix = value; }
+            get => Options.Prefix;
+            set => Options.Prefix = value;
         }
 
         /// <summary>
@@ -79,8 +93,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string Suffix
         {
-            get { return Options.Suffix; }
-            set { Options.Suffix = value; }
+            get => Options.Suffix;
+            set => Options.Suffix = value;
         }
 
         /// <summary>
@@ -88,8 +102,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string SourceFormat
         {
-            get { return Options.SourceFormat; }
-            set { Options.SourceFormat = value; }
+            get => Options.SourceFormat;
+            set => Options.SourceFormat = value;
         }
 
         /// <summary>
@@ -97,8 +111,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string OutputFormat
         {
-            get { return Options.OutputFormat; }
-            set { Options.OutputFormat = value; }
+            get => Options.OutputFormat;
+            set => Options.OutputFormat = value;
         }
 
         /// <summary>
@@ -106,8 +120,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string BaseLinkUrl
         {
-            get { return Options.BaseLinkUrl; }
-            set { Options.BaseLinkUrl = value; }
+            get => Options.BaseLinkUrl;
+            set => Options.BaseLinkUrl = value;
         }
 
         /// <summary>
@@ -115,8 +129,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string ShowAction
         {
-            get { return Options.ShowAction; }
-            set { Options.ShowAction = value; }
+            get => Options.ShowAction;
+            set => Options.ShowAction = value;
         }
 
         /// <summary>
@@ -124,8 +138,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string AddParam
         {
-            get { return Options.AddParam; }
-            set { Options.AddParam = value; }
+            get => Options.AddParam;
+            set => Options.AddParam = value;
         }
 
         /// <summary>
@@ -133,8 +147,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string Target
         {
-            get { return Options.Target; }
-            set { Options.Target = value; }
+            get => Options.Target;
+            set => Options.Target = value;
         }
 
         /// <summary>
@@ -142,8 +156,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string IdName
         {
-            get { return Options.IdName; }
-            set { Options.IdName = value; }
+            get => Options.IdName;
+            set => Options.IdName = value;
         }
 
         /// <summary>
@@ -151,8 +165,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string ThousandsSeparator
         {
-            get { return Options.ThousandsSeparator; }
-            set { Options.ThousandsSeparator = value; }
+            get => Options.ThousandsSeparator;
+            set => Options.ThousandsSeparator = value;
         }
 
         /// <summary>
@@ -185,16 +199,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <summary>
         /// Initializes a new instance of the JqGridColumnFormatterAttribute class.
         /// </summary>
-        /// <param name="formatter">The predefined formatter type ('' delimited string) or custom JavaScript formatting function name.</param>
+        /// <param name="formatter">The predefined formatter type ('' delimited string) or custom JavaScript formatting function name. <c>null</c> for not using default formatter if setted in JqGrid</param>
         public JqGridColumnFormatterAttribute(string formatter)
         {
-            if (String.IsNullOrWhiteSpace(formatter))
-                throw new ArgumentNullException("formatter");
+            /*if (string.IsNullOrWhiteSpace(formatter))
+				throw new ArgumentNullException(nameof(formatter));*/
             Formatter = formatter;
-            Options = new JqGridColumnFormatterOptions(formatter);
-            PrimaryIcon = String.Empty;
-            SecondaryIcon = String.Empty;
-            Label = String.Empty;
+            Options = new JqGridColumnFormatterOptions();
+            PrimaryIcon = string.Empty;
+            SecondaryIcon = string.Empty;
+            Label = string.Empty;
             Text = true;
         }
         #endregion
@@ -207,12 +221,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         public void OnMetadataCreated(ModelMetadata metadata)
         {
             if (Formatter == JqGridColumnPredefinedFormatters.JQueryUIButton)
-                metadata.SetColumnFormatter(GetJQueryUIButtonFormatter());
+                metadata.SetColumnFormatter(new SettedString(true, GetJQueryUIButtonFormatter()));
             else
             {
-                metadata.SetColumnFormatter(Formatter);
+                metadata.SetColumnFormatter(new SettedString(true, Formatter));
                 metadata.SetColumnFormatterOptions(Options);
-                metadata.SetColumnUnFormatter(UnFormatter);
+                metadata.SetColumnUnFormatter(new SettedString(IsUnFormatterSetted, UnFormatter));
             }
         }
         #endregion
@@ -220,20 +234,20 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         #region Methods
         internal string GetJQueryUIButtonFormatter()
         {
-            StringBuilder formatterBuilder = new StringBuilder(80);
+            var formatterBuilder = new StringBuilder(80);
             formatterBuilder.Append("function(cellValue, options, rowObject) { setTimeout(function() { $('#' + options.rowId + '_JQueryUIButton').attr('data-cell-value', cellValue).button({ ");
 
-            if (!String.IsNullOrEmpty(Label))
+            if (!string.IsNullOrEmpty(Label))
                 formatterBuilder.AppendFormat("label: '{0}', ", Label);
 
-            if (!String.IsNullOrWhiteSpace(PrimaryIcon) || !String.IsNullOrWhiteSpace(SecondaryIcon))
+            if (!string.IsNullOrWhiteSpace(PrimaryIcon) || !string.IsNullOrWhiteSpace(SecondaryIcon))
             {
                 formatterBuilder.Append("icons: { ");
 
-                if (!String.IsNullOrWhiteSpace(PrimaryIcon))
+                if (!string.IsNullOrWhiteSpace(PrimaryIcon))
                     formatterBuilder.AppendFormat("primary: '{0}', ", PrimaryIcon);
 
-                if (!String.IsNullOrWhiteSpace(SecondaryIcon))
+                if (!string.IsNullOrWhiteSpace(SecondaryIcon))
                     formatterBuilder.AppendFormat("secondary: '{0}', ", SecondaryIcon);
 
                 formatterBuilder.Remove(formatterBuilder.Length - 2, 2);
@@ -249,7 +263,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             else
                 formatterBuilder.Append(" })");
 
-            if (String.IsNullOrWhiteSpace(OnClick))
+            if (string.IsNullOrWhiteSpace(OnClick))
                 formatterBuilder.Append(";");
             else
                 formatterBuilder.AppendFormat(".click({0});", OnClick);
