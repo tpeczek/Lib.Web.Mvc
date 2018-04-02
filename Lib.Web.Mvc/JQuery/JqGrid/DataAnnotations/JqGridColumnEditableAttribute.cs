@@ -254,6 +254,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             if (!string.IsNullOrWhiteSpace(DataUrlRouteName) || DataUrlRouteData != null)
                 EditOptions.DataUrl = DataUrl;
             EditOptions.HtmlAttributes = HtmlAttributes;
+            object testOverridePostData = PostData;
             if (!IsPostDataDefault)
                 EditOptions.PostData = PostData;
             EditOptions.ValueDictionary = ValueDictionary;
