@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Web.Mvc;
 using System.Globalization;
 using System.Data.Linq;
@@ -12,7 +11,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
     /// Class which represents record for jqGrid.
     /// </summary>
     /// <typeparam name="TModel">Type of model for this grid</typeparam>
-    public class JqGridRecord<TModel>: JqGridRecord
+    public class JqGridRecord<TModel> : JqGridRecord
     {
         #region Constructor
         /// <summary>
@@ -51,7 +50,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         private static object GetFormattedValue(ModelMetadata propertyMetadata)
         {
             object formattedValue = propertyMetadata.Model;
-                
+
             if (propertyMetadata.Model == null)
                 formattedValue = propertyMetadata.NullDisplayText;
             else
@@ -63,8 +62,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                     else if (propertyMetadata.ModelType == typeof(byte[]))
                         formattedValue = Convert.ToBase64String(propertyMetadata.Model as byte[]);
                 }
-                else if (!String.IsNullOrEmpty(propertyMetadata.DisplayFormatString))
-                    formattedValue = String.Format(CultureInfo.CurrentCulture, propertyMetadata.DisplayFormatString, propertyMetadata.Model);
+                else if (!string.IsNullOrEmpty(propertyMetadata.DisplayFormatString))
+                    formattedValue = string.Format(CultureInfo.CurrentCulture, propertyMetadata.DisplayFormatString, propertyMetadata.Model);
             }
             return formattedValue;
         }

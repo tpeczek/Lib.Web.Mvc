@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web.Mvc;
-using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
 {
@@ -57,138 +53,127 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             if (metadata.AdditionalValues.ContainsKey(_alignmentKey))
                 return (JqGridAlignments)metadata.AdditionalValues[_alignmentKey];
-            else
-                return JqGridAlignments.Left;
+            return JqGridAlignments.Default;
         }
 
-        internal static void SetColumnCellAttributes(this ModelMetadata metadata, string cellAttributes)
+        internal static void SetColumnCellAttributes(this ModelMetadata metadata, SettedString cellAttributes)
         {
             metadata.AdditionalValues.Add(_cellAttributesKey, cellAttributes);
         }
 
-        internal static string GetColumnCellAttributes(this ModelMetadata metadata)
+        internal static SettedString GetColumnCellAttributes(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_cellAttributesKey))
-                return (string)metadata.AdditionalValues[_cellAttributesKey];
-            else
-                return null;
+                return (SettedString)metadata.AdditionalValues[_cellAttributesKey];
+            return null;
         }
 
-        internal static void SetColumnClasses(this ModelMetadata metadata, string classes)
+        internal static void SetColumnClasses(this ModelMetadata metadata, SettedString classes)
         {
             metadata.AdditionalValues.Add(_classesKey, classes);
         }
 
-        internal static string GetColumnClasses(this ModelMetadata metadata)
+        internal static SettedString GetColumnClasses(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_classesKey))
-                return (string)metadata.AdditionalValues[_classesKey];
-            else
-                return String.Empty;
+                return (SettedString)metadata.AdditionalValues[_classesKey];
+            return null;
         }
 
-        internal static void SetColumnDateFormat(this ModelMetadata metadata, string dateFormat)
+        internal static void SetColumnDateFormat(this ModelMetadata metadata, SettedString dateFormat)
         {
             metadata.AdditionalValues.Add(_dateFormatKey, dateFormat);
         }
 
-        internal static string GetColumnDateFormat(this ModelMetadata metadata)
+        internal static SettedString GetColumnDateFormat(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_dateFormatKey))
-                return (string)metadata.AdditionalValues[_dateFormatKey];
-            else
-                return JqGridOptionsDefaults.DateFormat;
+                return (SettedString)metadata.AdditionalValues[_dateFormatKey];
+            return null;
         }
 
-        internal static void SetColumnFixed(this ModelMetadata metadata, bool @fixed)
+        internal static void SetColumnFixed(this ModelMetadata metadata, bool? @fixed)
         {
             metadata.AdditionalValues.Add(_fixedKey, @fixed);
         }
 
-        internal static bool GetColumnFixed(this ModelMetadata metadata)
+        internal static bool? GetColumnFixed(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_fixedKey))
-                return (bool)metadata.AdditionalValues[_fixedKey];
-            else
-                return false;
+                return (bool?)metadata.AdditionalValues[_fixedKey];
+            return null;
         }
 
-        internal static void SetColumnFrozen(this ModelMetadata metadata, bool frozen)
+        internal static void SetColumnFrozen(this ModelMetadata metadata, bool? frozen)
         {
             metadata.AdditionalValues.Add(_frozenKey, frozen);
         }
 
-        internal static bool GetColumnFrozen(this ModelMetadata metadata)
+        internal static bool? GetColumnFrozen(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_frozenKey))
-                return (bool)metadata.AdditionalValues[_frozenKey];
-            else
-                return false;
+                return (bool?)metadata.AdditionalValues[_frozenKey];
+            return null;
         }
 
-        internal static void SetColumnHideInDialog(this ModelMetadata metadata, bool hideInDialog)
+        internal static void SetColumnHideInDialog(this ModelMetadata metadata, bool? hideInDialog)
         {
             metadata.AdditionalValues.Add(_hideInDialogKey, hideInDialog);
         }
 
-        internal static bool GetColumnHideInDialog(this ModelMetadata metadata)
+        internal static bool? GetColumnHideInDialog(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_hideInDialogKey))
-                return (bool)metadata.AdditionalValues[_hideInDialogKey];
-            else
-                return false;
+                return (bool?)metadata.AdditionalValues[_hideInDialogKey];
+            return null;
         }
 
-        internal static void SetColumnResizable(this ModelMetadata metadata, bool resizable)
+        internal static void SetColumnResizable(this ModelMetadata metadata, bool? resizable)
         {
             metadata.AdditionalValues.Add(_resizableKey, resizable);
         }
 
-        internal static bool GetColumnResizable(this ModelMetadata metadata)
+        internal static bool? GetColumnResizable(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_resizableKey))
-                return (bool)metadata.AdditionalValues[_resizableKey];
-            else
-                return true;
+                return (bool?)metadata.AdditionalValues[_resizableKey];
+            return null;
         }
 
-        internal static void SetColumnTitle(this ModelMetadata metadata, bool title)
+        internal static void SetColumnTitle(this ModelMetadata metadata, bool? title)
         {
             metadata.AdditionalValues.Add(_titleKey, title);
         }
 
-        internal static bool GetColumnTitle(this ModelMetadata metadata)
+        internal static bool? GetColumnTitle(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_titleKey))
-                return (bool)metadata.AdditionalValues[_titleKey];
-            else
-                return true;
+                return (bool?)metadata.AdditionalValues[_titleKey];
+            return null;
         }
 
-        internal static void SetColumnWidth(this ModelMetadata metadata, int width)
+        internal static void SetColumnWidth(this ModelMetadata metadata, int? width)
         {
             metadata.AdditionalValues.Add(_widthKey, width);
         }
 
-        internal static int GetColumnWidth(this ModelMetadata metadata)
+        internal static int? GetColumnWidth(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_widthKey))
-                return (int)metadata.AdditionalValues[_widthKey];
-            else
-                return 150;
+                return (int?)metadata.AdditionalValues[_widthKey];
+            return null;
         }
 
-        internal static void SetColumnViewable(this ModelMetadata metadata, bool viewable)
+        internal static void SetColumnViewable(this ModelMetadata metadata, bool? viewable)
         {
             metadata.AdditionalValues.Add(_viewableKey, viewable);
         }
 
-        internal static bool GetColumnViewable(this ModelMetadata metadata)
+        internal static bool? GetColumnViewable(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_viewableKey))
-                return (bool)metadata.AdditionalValues[_viewableKey];
-            else
-                return true;
+                return (bool?)metadata.AdditionalValues[_viewableKey];
+            return null;
         }
 
         internal static void SetColumnLabelOptions(this ModelMetadata metadata, JqGridColumnLabelOptions labelOptions)
@@ -196,17 +181,16 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
             metadata.AdditionalValues.Add(_labelOptionsKey, labelOptions);
         }
 
-        internal static void SetColumnEditable(this ModelMetadata metadata, bool editable)
+        internal static void SetColumnEditable(this ModelMetadata metadata, bool? editable)
         {
             metadata.AdditionalValues.Add(_editableKey, editable);
         }
 
-        internal static bool GetColumnEditable(this ModelMetadata metadata)
+        internal static bool? GetColumnEditable(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_editableKey))
-                return (bool)metadata.AdditionalValues[_editableKey];
-            else
-                return false;
+                return (bool?)metadata.AdditionalValues[_editableKey];
+            return null;
         }
 
         internal static void SetColumnEditOptions(this ModelMetadata metadata, JqGridColumnEditOptions editOptions)
@@ -218,8 +202,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             if (metadata.AdditionalValues.ContainsKey(_editOptionsKey))
                 return (JqGridColumnEditOptions)metadata.AdditionalValues[_editOptionsKey];
-            else
-                return null;
+            return null;
         }
 
         internal static void SetColumnEditRules(this ModelMetadata metadata, JqGridColumnRules editRules)
@@ -231,8 +214,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             if (metadata.AdditionalValues.ContainsKey(_editRulesKey))
                 return (JqGridColumnRules)metadata.AdditionalValues[_editRulesKey];
-            else
-                return null;
+            return null;
         }
 
         internal static void SetColumnEditType(this ModelMetadata metadata, JqGridColumnEditTypes editType)
@@ -244,8 +226,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             if (metadata.AdditionalValues.ContainsKey(_editTypeKey))
                 return (JqGridColumnEditTypes)metadata.AdditionalValues[_editTypeKey];
-            else
-                return JqGridColumnEditTypes.Text;
+            return JqGridColumnEditTypes.Default;
         }
 
         internal static void SetColumnFormOptions(this ModelMetadata metadata, JqGridColumnFormOptions formOptions)
@@ -257,21 +238,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             if (metadata.AdditionalValues.ContainsKey(_formOptionsKey))
                 return (JqGridColumnFormOptions)metadata.AdditionalValues[_formOptionsKey];
-            else
-                return null;
+            return null;
         }
 
-        internal static void SetColumnFormatter(this ModelMetadata metadata, string formatter)
+        internal static void SetColumnFormatter(this ModelMetadata metadata, SettedString formatter)
         {
             metadata.AdditionalValues.Add(_formatterKey, formatter);
         }
 
-        internal static string GetColumnFormatter(this ModelMetadata metadata)
+        internal static SettedString GetColumnFormatter(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_formatterKey))
-                return (string)metadata.AdditionalValues[_formatterKey];
-            else
-                return String.Empty;
+                return (SettedString)metadata.AdditionalValues[_formatterKey];
+            return null;
         }
 
         internal static void SetColumnFormatterOptions(this ModelMetadata metadata, JqGridColumnFormatterOptions formatterOptions)
@@ -283,42 +262,38 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             if (metadata.AdditionalValues.ContainsKey(_formatterOptionsKey))
                 return (JqGridColumnFormatterOptions)metadata.AdditionalValues[_formatterOptionsKey];
-            else
-                return null;
+            return null;
         }
 
-        internal static void SetColumnUnFormatter(this ModelMetadata metadata, string unFormatter)
+        internal static void SetColumnUnFormatter(this ModelMetadata metadata, SettedString unFormatter)
         {
             metadata.AdditionalValues.Add(_unFormatterKey, unFormatter);
         }
 
-        internal static string GetColumnUnFormatter(this ModelMetadata metadata)
+        internal static SettedString GetColumnUnFormatter(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_unFormatterKey))
-                return (string)metadata.AdditionalValues[_unFormatterKey];
-            else
-                return String.Empty;
+                return (SettedString)metadata.AdditionalValues[_unFormatterKey];
+            return null;
         }
 
         internal static JqGridColumnLabelOptions GetColumnLabelOptions(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_labelOptionsKey))
                 return (JqGridColumnLabelOptions)metadata.AdditionalValues[_labelOptionsKey];
-            else
-                return null;
+            return null;
         }
 
-        internal static void SetColumnSearchable(this ModelMetadata metadata, bool searchable)
+        internal static void SetColumnSearchable(this ModelMetadata metadata, bool? searchable)
         {
             metadata.AdditionalValues.Add(_searchableKey, searchable);
         }
 
-        internal static bool GetColumnSearchable(this ModelMetadata metadata)
+        internal static bool? GetColumnSearchable(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_searchableKey))
-                return (bool)metadata.AdditionalValues[_searchableKey];
-            else
-                return true;
+                return (bool?)metadata.AdditionalValues[_searchableKey];
+            return null;
         }
 
         internal static void SetColumnSearchOptions(this ModelMetadata metadata, JqGridColumnSearchOptions searchOptions)
@@ -330,8 +305,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             if (metadata.AdditionalValues.ContainsKey(_searchOptionsKey))
                 return (JqGridColumnSearchOptions)metadata.AdditionalValues[_searchOptionsKey];
-            else
-                return null;
+            return null;
         }
 
         internal static void SetColumnSearchRules(this ModelMetadata metadata, JqGridColumnRules searchRules)
@@ -343,8 +317,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             if (metadata.AdditionalValues.ContainsKey(_searchRulesKey))
                 return (JqGridColumnRules)metadata.AdditionalValues[_searchRulesKey];
-            else
-                return null;
+            return null;
         }
 
         internal static void SetColumnSearchType(this ModelMetadata metadata, JqGridColumnSearchTypes searchType)
@@ -356,21 +329,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             if (metadata.AdditionalValues.ContainsKey(_searchTypeKey))
                 return (JqGridColumnSearchTypes)metadata.AdditionalValues[_searchTypeKey];
-            else
-                return JqGridColumnSearchTypes.Text;
+            return JqGridColumnSearchTypes.Default;
         }
 
-        internal static void SetColumnSortable(this ModelMetadata metadata, bool sortable)
+        internal static void SetColumnSortable(this ModelMetadata metadata, bool? sortable)
         {
             metadata.AdditionalValues.Add(_sortableKey, sortable);
         }
 
-        internal static bool GetColumnSortable(this ModelMetadata metadata)
+        internal static bool? GetColumnSortable(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_sortableKey))
-                return (bool)metadata.AdditionalValues[_sortableKey];
-            else
-                return true;
+                return (bool?)metadata.AdditionalValues[_sortableKey];
+            return null;
         }
 
         internal static void SetColumnSortType(this ModelMetadata metadata, JqGridColumnSortTypes sortType)
@@ -382,34 +353,31 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             if (metadata.AdditionalValues.ContainsKey(_sortTypeKey))
                 return (JqGridColumnSortTypes)metadata.AdditionalValues[_sortTypeKey];
-            else
-                return JqGridColumnSortTypes.Text;
+            return JqGridColumnSortTypes.Default;
         }
 
-        internal static void SetColumnSortFunction(this ModelMetadata metadata, string sortFunction)
+        internal static void SetColumnSortFunction(this ModelMetadata metadata, SettedString sortFunction)
         {
             metadata.AdditionalValues.Add(_sortFunctionKey, sortFunction);
         }
 
-        internal static string GetColumnSortFunction(this ModelMetadata metadata)
+        internal static SettedString GetColumnSortFunction(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_sortFunctionKey))
-                return (string)metadata.AdditionalValues[_sortFunctionKey];
-            else
-                return String.Empty;
+                return (SettedString)metadata.AdditionalValues[_sortFunctionKey];
+            return null;
         }
 
-        internal static void SetColumnIndex(this ModelMetadata metadata, string index)
+        internal static void SetColumnIndex(this ModelMetadata metadata, SettedString index)
         {
             metadata.AdditionalValues.Add(_indexKey, index);
         }
 
-        internal static string GetColumnIndex(this ModelMetadata metadata)
+        internal static SettedString GetColumnIndex(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_indexKey))
-                return (string)metadata.AdditionalValues[_indexKey];
-            else
-                return String.Empty;
+                return (SettedString)metadata.AdditionalValues[_indexKey];
+            return null;
         }
 
         internal static void SetColumnInitialSortingOrder(this ModelMetadata metadata, JqGridSortingOrders initialSortingOrder)
@@ -421,8 +389,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             if (metadata.AdditionalValues.ContainsKey(_initialSortingOrderKey))
                 return (JqGridSortingOrders)metadata.AdditionalValues[_initialSortingOrderKey];
-            else
-                return JqGridSortingOrders.Asc;
+            return JqGridSortingOrders.Default;
         }
 
         internal static void SetColumnSummaryType(this ModelMetadata metadata, JqGridColumnSummaryTypes type)
@@ -434,21 +401,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             if (metadata.AdditionalValues.ContainsKey(_summaryTypeKey))
                 return (JqGridColumnSummaryTypes)metadata.AdditionalValues[_summaryTypeKey];
-            else
-                return null;
+            return null;
         }
 
-        internal static void SetColumnSummaryTemplate(this ModelMetadata metadata, string template)
+        internal static void SetColumnSummaryTemplate(this ModelMetadata metadata, SettedString template)
         {
             metadata.AdditionalValues.Add(_summaryTemplateKey, template);
         }
 
-        internal static string GetColumnSummaryTemplate(this ModelMetadata metadata)
+        internal static SettedString GetColumnSummaryTemplate(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_summaryTemplateKey))
-                return (string)metadata.AdditionalValues[_summaryTemplateKey];
-            else
-                return null;
+                return (SettedString)metadata.AdditionalValues[_summaryTemplateKey];
+            return null;
         }
 
         internal static void SetColumnSummaryFunction(this ModelMetadata metadata, string function)
@@ -460,8 +425,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             if (metadata.AdditionalValues.ContainsKey(_summaryFunctionKey))
                 return (string)metadata.AdditionalValues[_summaryFunctionKey];
-            else
-                return null;
+            return null;
         }
 
         internal static void SetColumnJsonMapping(this ModelMetadata metadata, string jsonMapping)
@@ -473,21 +437,19 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             if (metadata.AdditionalValues.ContainsKey(_jsonMappingKey))
                 return (string)metadata.AdditionalValues[_jsonMappingKey];
-            else
-                return null;
+            return null;
         }
 
-        internal static void SetColumnKey(this ModelMetadata metadata, bool key)
+        internal static void SetColumnKey(this ModelMetadata metadata, bool? key)
         {
             metadata.AdditionalValues.Add(_keyKey, key);
         }
 
-        internal static bool GetColumnKey(this ModelMetadata metadata)
+        internal static bool? GetColumnKey(this ModelMetadata metadata)
         {
             if (metadata.AdditionalValues.ContainsKey(_keyKey))
-                return (bool)metadata.AdditionalValues[_keyKey];
-            else
-                return false;
+                return (bool?)metadata.AdditionalValues[_keyKey];
+            return null;
         }
 
         internal static void SetColumnXmlMapping(this ModelMetadata metadata, string xmlMapping)
@@ -499,8 +461,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             if (metadata.AdditionalValues.ContainsKey(_xmlMappingKey))
                 return (string)metadata.AdditionalValues[_xmlMappingKey];
-            else
-                return String.Empty;
+            return String.Empty;
         }
         #endregion
     }

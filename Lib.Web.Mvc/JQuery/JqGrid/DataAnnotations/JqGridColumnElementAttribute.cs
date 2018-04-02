@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Reflection;
 using System.Web.Routing;
 using System.Web.Mvc;
 using System.Web;
-using System.Reflection;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
 {
@@ -14,12 +12,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
     /// </summary>
     public abstract class JqGridColumnElementAttribute : Attribute, IMetadataAware
     {
+        private string _value;
+
         #region Properties
         internal string DataUrl
         {
             get
             {
-                if ((HttpContext.Current != null) && (!String.IsNullOrWhiteSpace(DataUrlRouteName) || DataUrlRouteData != null))
+                if (HttpContext.Current != null && (!string.IsNullOrWhiteSpace(DataUrlRouteName) || DataUrlRouteData != null))
                 {
                     RouteValueDictionary dataUrlRouteValueDictionary = DataUrlRouteData;
                     if (DataUrlRouteValues != null)
@@ -54,18 +54,15 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <summary>
         /// When overriden in delivered class, provides additional route values for the select element AJAX request.
         /// </summary>
-        protected virtual object DataUrlRouteValues
-        {
-            get { return null; }
-        }
+        protected virtual object DataUrlRouteValues => null;
 
         /// <summary>
         /// Gets or sets the text to display after each date field (jQuery UI Datepicker widget).
         /// </summary>
         public string AppendText
         {
-            get { return Options.AppendText; }
-            set { Options.AppendText = value; }
+            get => Options.AppendText;
+            set => Options.AppendText = value;
         }
 
         /// <summary>
@@ -73,8 +70,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool AutoFocus
         {
-            get { return Options.AutoFocus; }
-            set { Options.AutoFocus = value; }
+            get => Options.AutoFocus;
+            set => Options.AutoFocus = value;
         }
 
         /// <summary>
@@ -82,8 +79,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool AutoSize
         {
-            get { return Options.AutoSize; }
-            set { Options.AutoSize = value; }
+            get => Options.AutoSize;
+            set => Options.AutoSize = value;
         }
 
         /// <summary>
@@ -91,8 +88,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string BuildSelect
         {
-            get { return Options.BuildSelect; }
-            set { Options.BuildSelect = value; }
+            get => Options.BuildSelect;
+            set => Options.BuildSelect = value;
         }
 
         /// <summary>
@@ -100,8 +97,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool ChangeMonth
         {
-            get { return Options.ChangeMonth; }
-            set { Options.ChangeMonth = value; }
+            get => Options.ChangeMonth;
+            set => Options.ChangeMonth = value;
         }
 
         /// <summary>
@@ -109,8 +106,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool ChangeYear
         {
-            get { return Options.ChangeYear; }
-            set { Options.ChangeYear = value; }
+            get => Options.ChangeYear;
+            set => Options.ChangeYear = value;
         }
 
         /// <summary>
@@ -118,8 +115,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool ConstrainInput
         {
-            get { return Options.ConstrainInput; }
-            set { Options.ConstrainInput = value; }
+            get => Options.ConstrainInput;
+            set => Options.ConstrainInput = value;
         }
 
         /// <summary>
@@ -127,8 +124,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string Culture
         {
-            get { return Options.Culture; }
-            set { Options.Culture = value; }
+            get => Options.Culture;
+            set => Options.Culture = value;
         }
 
         /// <summary>
@@ -136,8 +133,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool CustomValidation
         {
-            get { return Rules.Custom; }
-            set { Rules.Custom = value; }
+            get => Rules.Custom ?? false;
+            set => Rules.Custom = value;
         }
 
         /// <summary>
@@ -145,25 +142,22 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string CustomValidationFunction
         {
-            get { return Rules.CustomFunction; }
-            set { Rules.CustomFunction = value; }
+            get => Rules.CustomFunction;
+            set => Rules.CustomFunction = value;
         }
 
         /// <summary>
         /// When overriden in delivered class, provides a list of events to apply to the element.
         /// </summary>
-        protected virtual IList<JqGridColumnDataEvent> DataEvents
-        {
-            get { return null; }
-        }
+        protected virtual IList<JqGridColumnDataEvent> DataEvents => null;
 
         /// <summary>
         /// Gets or sets the function which will be called once when the element is created. This property is ignored in case of jQuery UI widgets.
         /// </summary>
         public string DataInit
         {
-            get { return Options.DataInit; }
-            set { Options.DataInit = value; }
+            get => Options.DataInit;
+            set => Options.DataInit = value;
         }
 
         /// <summary>
@@ -172,8 +166,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <remarks>If the value for this property is not provided, but there is a JqGridColumnFormatterAttribute with JqGridColumnPredefinedFormatters.Date formatter the helper will try to provide the value based on JqGridColumnFormatterAttribute.OutputFormat.</remarks> 
         public string DatepickerDateFormat
         {
-            get { return Options.DatePickerDateFormat; }
-            set { Options.DatePickerDateFormat = value; }
+            get => Options.DatePickerDateFormat;
+            set => Options.DatePickerDateFormat = value;
         }
 
         /// <summary>
@@ -181,8 +175,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool DateValidation
         {
-            get { return Rules.Date; }
-            set { Rules.Date = value; }
+            get => Rules.Date ?? false;
+            set => Rules.Date = value;
         }
 
         /// <summary>
@@ -190,8 +184,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string DefaultValue
         {
-            get { return Options.DefaultValue; }
-            set { Options.DefaultValue = value; }
+            get => Options.DefaultValue;
+            set => Options.DefaultValue = value;
         }
 
         /// <summary>
@@ -199,8 +193,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public int Delay
         {
-            get { return Options.Delay; }
-            set { Options.Delay = value; }
+            get => Options.Delay;
+            set => Options.Delay = value;
         }
 
         /// <summary>
@@ -208,8 +202,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool EmailValidation
         {
-            get { return Rules.Email; }
-            set { Rules.Email = value; }
+            get => Rules.Email ?? false;
+            set => Rules.Email = value;
         }
 
         /// <summary>
@@ -217,8 +211,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public int FirstDay
         {
-            get { return Options.FirstDay; }
-            set { Options.FirstDay = value; }
+            get => Options.FirstDay;
+            set => Options.FirstDay = value;
         }
 
         /// <summary>
@@ -226,25 +220,22 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool GotoCurrent
         {
-            get { return Options.GotoCurrent; }
-            set { Options.GotoCurrent = value; }
+            get => Options.GotoCurrent;
+            set => Options.GotoCurrent = value;
         }
 
         /// <summary>
         /// When overriden in delivered class, provides a dictionary where keys should be valid attributes for the element.
         /// </summary>
-        protected virtual IDictionary<string, object> HtmlAttributes
-        {
-            get { return null; }
-        }
+        protected virtual IDictionary<string, object> HtmlAttributes => null;
 
         /// <summary>
         /// Gets or sets value controlling the number of steps taken when holding down a spin button (jQuery UI Spinner widget).
         /// </summary>
         public bool Incremental
         {
-            get { return Options.Incremental; }
-            set { Options.Incremental = value; }
+            get => Options.Incremental;
+            set => Options.Incremental = value;
         }
 
         /// <summary>
@@ -252,8 +243,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public int Max
         {
-            get { return Options.Max.HasValue ? Options.Max.Value : Int32.MaxValue; }
-            set { Options.Max = value; }
+            get => Options.Max ?? int.MaxValue;
+            set => Options.Max = value;
         }
 
         /// <summary>
@@ -261,8 +252,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public int Min
         {
-            get { return Options.Min.HasValue ? Options.Min.Value : Int32.MinValue; }
-            set { Options.Min = value; }
+            get => Options.Min ?? int.MinValue;
+            set => Options.Min = value;
         }
 
         /// <summary>
@@ -271,8 +262,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <remarks>This string must be in the format defined by the DateFormat property, or a relative date. Relative dates must contain value and period pairs; valid periods are "y" for years, "m" for months, "w" for weeks, and "d" for days. For example, "+1m +7d" represents one month and seven days from today.</remarks> 
         public string MaxDate
         {
-            get { return Options.MaxDate; }
-            set { Options.MaxDate = value; }
+            get => Options.MaxDate;
+            set => Options.MaxDate = value;
         }
 
         /// <summary>
@@ -281,8 +272,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <remarks>This string must be in the format defined by the DateFormat property, or a relative date. Relative dates must contain value and period pairs; valid periods are "y" for years, "m" for months, "w" for weeks, and "d" for days. For example, "+1m +7d" represents one month and seven days from today.</remarks> 
         public string MinDate
         {
-            get { return Options.MinDate; }
-            set { Options.MinDate = value; }
+            get => Options.MinDate;
+            set => Options.MinDate = value;
         }
 
         /// <summary>
@@ -290,8 +281,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public int MinLength
         {
-            get { return Options.MinLength; }
-            set { Options.MinLength = value; }
+            get => Options.MinLength;
+            set => Options.MinLength = value;
         }
 
         /// <summary>
@@ -299,8 +290,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string NumberFormat
         {
-            get { return Options.NumberFormat; }
-            set { Options.NumberFormat = value; }
+            get => Options.NumberFormat;
+            set => Options.NumberFormat = value;
         }
 
         /// <summary>
@@ -308,8 +299,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public int NumberOfMonths
         {
-            get { return Options.NumberOfMonths; }
-            set { Options.NumberOfMonths = value; }
+            get => Options.NumberOfMonths;
+            set => Options.NumberOfMonths = value;
         }
 
         internal JqGridColumnElementOptions Options { get; set; }
@@ -319,8 +310,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public int Page
         {
-            get { return Options.Page; }
-            set { Options.Page = value; }
+            get => Options.Page;
+            set => Options.Page = value;
         }
 
         internal JqGridColumnRules Rules { get; set; }
@@ -330,8 +321,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool SelectOtherMonths
         {
-            get { return Options.SelectOtherMonths; }
-            set { Options.SelectOtherMonths = value; }
+            get => Options.SelectOtherMonths;
+            set => Options.SelectOtherMonths = value;
         }
 
         /// <summary>
@@ -340,8 +331,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <remarks>This string must be a relative number of years from the current year, e.g., "+3" or "-5".</remarks> 
         public string ShortYearCutoff
         {
-            get { return Options.ShortYearCutoff; }
-            set { Options.ShortYearCutoff = value; }
+            get => Options.ShortYearCutoff;
+            set => Options.ShortYearCutoff = value;
         }
 
         /// <summary>
@@ -349,8 +340,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public int ShowCurrentAtPos
         {
-            get { return Options.ShowCurrentAtPos; }
-            set { Options.ShowCurrentAtPos = value; }
+            get => Options.ShowCurrentAtPos;
+            set => Options.ShowCurrentAtPos = value;
         }
 
         /// <summary>
@@ -358,8 +349,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool ShowMonthAfterYear
         {
-            get { return Options.ShowMonthAfterYear; }
-            set { Options.ShowMonthAfterYear = value; }
+            get => Options.ShowMonthAfterYear;
+            set => Options.ShowMonthAfterYear = value;
         }
 
         /// <summary>
@@ -367,8 +358,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool ShowOtherMonths
         {
-            get { return Options.ShowOtherMonths; }
-            set { Options.ShowOtherMonths = value; }
+            get => Options.ShowOtherMonths;
+            set => Options.ShowOtherMonths = value;
         }
 
         /// <summary>
@@ -376,8 +367,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool ShowWeek
         {
-            get { return Options.ShowWeek; }
-            set { Options.ShowWeek = value; }
+            get => Options.ShowWeek;
+            set => Options.ShowWeek = value;
         }
 
         /// <summary>
@@ -385,8 +376,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string SpinnerDownIcon
         {
-            get { return Options.SpinnerDownIcon; }
-            set { Options.SpinnerDownIcon = value; }
+            get => Options.SpinnerDownIcon;
+            set => Options.SpinnerDownIcon = value;
         }
 
         /// <summary>
@@ -394,8 +385,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string SpinnerUpIcon
         {
-            get { return Options.SpinnerUpIcon; }
-            set { Options.SpinnerUpIcon = value; }
+            get => Options.SpinnerUpIcon;
+            set => Options.SpinnerUpIcon = value;
         }
 
         /// <summary>
@@ -403,8 +394,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public int Step
         {
-            get { return Options.Step; }
-            set { Options.Step = value; }
+            get => Options.Step;
+            set => Options.Step = value;
         }
 
         /// <summary>
@@ -412,8 +403,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public int StepMonths
         {
-            get { return Options.StepMonths; }
-            set { Options.StepMonths = value; }
+            get => Options.StepMonths;
+            set => Options.StepMonths = value;
         }
 
         /// <summary>
@@ -421,8 +412,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool TimeValidation
         {
-            get { return Rules.Time; }
-            set { Rules.Time = value; }
+            get => Rules.Time ?? false;
+            set => Rules.Time = value;
         }
 
         /// <summary>
@@ -430,14 +421,30 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public bool UrlValidation
         {
-            get { return Rules.Url; }
-            set { Rules.Url = value; }
+            get => Rules.Url ?? false;
+            set => Rules.Url = value;
         }
+
+        internal bool IsValueSetted { get; private set; }
+        internal bool IsValueNotOveriden { get; private set; }
 
         /// <summary>
         /// Gets or sets the set of value:label pairs for select element.
         /// </summary>
-        public virtual string Value{ get; set; }
+        public virtual string Value
+        {
+            get
+            {
+                IsValueNotOveriden = true;
+                return _value;
+            }
+            set
+            {
+                _value = value;
+                IsValueSetted = true;
+            }
+
+        }
 
         internal Type ValueProviderType { get; set; }
 
@@ -447,7 +454,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         {
             get
             {
-                if (ValueProviderType != null && !String.IsNullOrWhiteSpace(ValueProviderMethodName))
+                if (ValueProviderType != null && !string.IsNullOrWhiteSpace(ValueProviderMethodName))
                 {
                     MethodInfo valueProviderMethodInfo = ValueProviderType.GetMethod(ValueProviderMethodName);
                     if (valueProviderMethodInfo == null)
@@ -460,8 +467,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
                     object valueProvider = valueProviderConstructorInfo.Invoke(null);
                     if (typeof(IDictionary<string, string>).IsAssignableFrom(valueProviderMethodInfo.ReturnType))
                         return (IDictionary<string, string>)valueProviderMethodInfo.Invoke(valueProvider, null);
-                    else
-                        throw new InvalidOperationException("The method specified by ValueProviderType and ValueProviderMethodName does not return IDictionary<string, string>.");
+                    throw new InvalidOperationException("The method specified by ValueProviderType and ValueProviderMethodName does not return IDictionary<string, string>.");
                 }
                 return null;
             }
@@ -473,8 +479,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <remarks>This string must be either relative to today's year ("-nn:+nn"), relative to the currently selected year ("c-nn:c+nn"), absolute ("nnnn:nnnn"), or combinations of these formats ("nnnn:-nn"). Note that this option only affects what appears in the dropdown, to restrict which dates may be selected use the MinDate and/or MaxDate.</remarks> 
         public string YearRange
         {
-            get { return Options.YearRange; }
-            set { Options.YearRange = value; }
+            get => Options.YearRange;
+            set => Options.YearRange = value;
         }
 
         /// <summary>
@@ -482,8 +488,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// </summary>
         public string YearSuffix
         {
-            get { return Options.YearSuffix; }
-            set { Options.YearSuffix = value; }
+            get => Options.YearSuffix;
+            set => Options.YearSuffix = value;
         }
         #endregion
 
@@ -491,7 +497,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <summary>
         /// Initializes a new instance of the JqGridColumnElementAttribute class.
         /// </summary>
-        public JqGridColumnElementAttribute()
+        protected JqGridColumnElementAttribute()
         {
             Rules = new JqGridColumnRules();
         }
@@ -504,11 +510,13 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <param name="metadata">The model metadata.</param>
         public void OnMetadataCreated(ModelMetadata metadata)
         {
-            Options.Value = Value;
+            string testOverrideValue = Value;
+            if (!IsValueNotOveriden || IsValueSetted)
+                Options.Value = Value;
 
-            if ((metadata.ModelType == typeof(Int16)) || (metadata.ModelType == typeof(Int32)) || (metadata.ModelType == typeof(Int64)) || (metadata.ModelType == typeof(UInt16)) || (metadata.ModelType == typeof(UInt32)) || (metadata.ModelType == typeof(UInt32)))
+            if (metadata.ModelType == typeof(short) || metadata.ModelType == typeof(int) || metadata.ModelType == typeof(long) || metadata.ModelType == typeof(ushort) || metadata.ModelType == typeof(uint) || metadata.ModelType == typeof(uint))
                 Rules.Integer = true;
-            else if ((metadata.ModelType == typeof(Decimal)) || (metadata.ModelType == typeof(Double)) || (metadata.ModelType == typeof(Single)))
+            else if (metadata.ModelType == typeof(decimal) || metadata.ModelType == typeof(double) || metadata.ModelType == typeof(float))
                 Rules.Number = true;
 
             InternalOnMetadataCreated(metadata);

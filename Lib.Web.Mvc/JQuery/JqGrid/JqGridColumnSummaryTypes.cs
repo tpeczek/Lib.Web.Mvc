@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Lib.Web.Mvc.JQuery.JqGrid
+﻿namespace Lib.Web.Mvc.JQuery.JqGrid
 {
     /// <summary>
     /// Defines available types of grouping summary for jqGrid column.
     /// </summary>
     public enum JqGridColumnSummaryTypes
     {
+        /// <summary>
+        /// Disable summary if by default it enabled
+        /// </summary>
+        Disable,
         /// <summary>
         /// The sum function.
         /// </summary>

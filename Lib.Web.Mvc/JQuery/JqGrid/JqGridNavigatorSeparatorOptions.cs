@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Lib.Web.Mvc.JQuery.JqGrid.Constants;
+﻿using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
@@ -28,10 +24,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Initializes a new instance of the JqGridNavigatorSeparatorOptions class.
         /// </summary>
         public JqGridNavigatorSeparatorOptions()
-            : base()
         {
             Class = JqGridNavigatorDefaults.SeparatorClass;
-            Content = String.Empty;
+            Content = string.Empty;
         }
         #endregion
     }

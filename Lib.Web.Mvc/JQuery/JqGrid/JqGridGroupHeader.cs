@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
@@ -37,11 +34,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridGroupHeader(string startColumn, int numberOfColumns, string title = "")
         {
             if (String.IsNullOrWhiteSpace(startColumn))
-                throw new ArgumentNullException("startColumn");
+                throw new ArgumentNullException(nameof(startColumn));
             StartColumn = startColumn;
 
             if (numberOfColumns <= 0)
-                throw new ArgumentOutOfRangeException("numberOfColumns");
+                throw new ArgumentOutOfRangeException(nameof(numberOfColumns));
             NumberOfColumns = numberOfColumns;
 
             Title = title;

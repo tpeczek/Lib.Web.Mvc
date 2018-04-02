@@ -6,12 +6,21 @@
     public enum JqGridStyleUIOptions
     {
         /// <summary>
-        /// Bootstrap
+        /// Use default JqGrid value
+        /// </summary>
+        Default,
+        /// <summary>
+        /// Bootstrap 3
         /// </summary>
         /// <remarks>
         /// Available since Guriddo jqGrid 5.0
         /// </remarks>
         Bootstrap,
+        /// <summary>
+        /// Bootstrap 4
+        /// </summary>
+        /// <remarks>Available since Gurido jqGrid 5.3.0</remarks>
+        Bootstrap4,
         /// <summary>
         ///  jQueryUI
         /// </summary>

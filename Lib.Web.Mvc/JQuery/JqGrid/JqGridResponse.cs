@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
@@ -20,13 +18,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         public static JqGridJsonReader JsonReader
         {
-            get { return _jsonReader; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                _jsonReader = value;
-            }
+            get => _jsonReader;
+            set => _jsonReader = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         /// <summary>
@@ -34,7 +27,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         public int PageIndex { get; set; }
 
-        internal bool IsSubgridResponse { get; private set; }
+        internal bool IsSubgridResponse { get; }
 
         /// <summary>
         /// Gets or sets total pages count
@@ -49,7 +42,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets the records list
         /// </summary>
-        public List<JqGridRecord> Records { get; private set; }
+        public List<JqGridRecord> Records { get; }
 
         /// <summary>
         /// Gets or sets the customized JSON reader for this response.

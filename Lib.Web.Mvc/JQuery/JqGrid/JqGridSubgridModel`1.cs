@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Web.Mvc;
 using Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations;
 
@@ -18,7 +16,6 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Initializes a new instance of the JqGridSubgridModel class.
         /// </summary>
         public JqGridSubgridModel()
-            : base()
         {
             ModelMetadata modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(TModel));
             foreach (ModelMetadata propertyMetadata in modelMetadata.Properties.Where(p => p.ShowForDisplay && !p.IsComplexType))

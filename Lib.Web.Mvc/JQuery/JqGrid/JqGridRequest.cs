@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web.Mvc;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
@@ -22,13 +19,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         public static JqGridParametersNames ParameterNames
         {
-            get { return _parametersNames; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                _parametersNames = value;
-            }
+            get => _parametersNames;
+            set => _parametersNames = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         /// <summary>

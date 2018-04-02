@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Lib.Web.Mvc.JQuery.JqGrid
+﻿namespace Lib.Web.Mvc.JQuery.JqGrid
 {
     /// <summary>
     /// Class which represents options for jqGrid Navigator edit action.
@@ -125,8 +123,8 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             CloseAfterEdit = false;
             CheckOnSubmit = false;
             CheckOnUpdate = false;
-            TopInfo = String.Empty;
-            BottomInfo = String.Empty;
+            TopInfo = string.Empty;
+            BottomInfo = string.Empty;
             SaveKeyEnabled = false;
             SaveKey = (char)13;
             SaveButtonIcon = JqGridFormButtonIcon.SaveIcon;

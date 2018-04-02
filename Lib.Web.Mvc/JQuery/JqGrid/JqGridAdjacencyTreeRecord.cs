@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
@@ -14,7 +11,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets the id of parent of this record.
         /// </summary>
-        public string ParentId { get; private set; }
+        public string ParentId { get; }
         #endregion
 
         #region Constructor

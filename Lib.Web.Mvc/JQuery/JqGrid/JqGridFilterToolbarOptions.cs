@@ -1,8 +1,6 @@
 ﻿using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
@@ -21,7 +19,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// </summary>
         public JqGridSearchOperators DefaultSearchOperator
         {
-            get { return _defaultSearchOperator; }
+            get => _defaultSearchOperator;
 
             set
             {

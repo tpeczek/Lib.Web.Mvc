@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Lib.Web.Mvc.JQuery.JqGrid.Constants;
+﻿using Lib.Web.Mvc.JQuery.JqGrid.Constants;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
@@ -36,7 +32,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// Gets or sets the value which defines if the warning dialog can be closed with ESC key.
         /// </summary>
         public bool CloseOnEscape { get; set; }
-        
+
         /// <summary>
         /// Gets or set the value which defines if delete action is enabled (default true).
         /// </summary>
@@ -90,7 +86,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets or sets the function for event which is raised before the refresh button is clicked.
         /// </summary>
-        public string BeforeRefresh { get; set; } 
+        public string BeforeRefresh { get; set; }
 
         /// <summary>
         /// Gets or set the value which defines if search action is enabled (default true).
@@ -162,22 +158,22 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             CloseOnEscape = true;
             Delete = true;
             DeleteIcon = JqGridNavigatorDefaults.DeleteIcon;
-            DeleteText = String.Empty;
+            DeleteText = string.Empty;
             DeleteToolTip = JqGridNavigatorDefaults.DeleteToolTip;
             Refresh = true;
             RefreshIcon = JqGridNavigatorDefaults.RefreshIcon;
-            RefreshText = String.Empty;
+            RefreshText = string.Empty;
             RefreshToolTip = JqGridNavigatorDefaults.RefreshToolTip;
             RefreshMode = JqGridRefreshModes.FirstPage;
             AfterRefresh = null;
             BeforeRefresh = null;
             Search = true;
             SearchIcon = JqGridNavigatorDefaults.SearchIcon;
-            SearchText = String.Empty;
+            SearchText = string.Empty;
             SearchToolTip = JqGridNavigatorDefaults.SearchToolTip;
             View = false;
             ViewIcon = JqGridNavigatorDefaults.ViewIcon;
-            ViewText = String.Empty;
+            ViewText = string.Empty;
             ViewToolTip = JqGridNavigatorDefaults.ViewToolTip;
             AddFunction = null;
             EditFunction = null;

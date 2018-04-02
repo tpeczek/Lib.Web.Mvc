@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
@@ -14,7 +11,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets the corresponding column name from columns models.
         /// </summary>
-        public string ColumnName { get; private set; }
+        public string ColumnName { get; }
 
         /// <summary>
         /// Gets or sets the default value for the search input element.
@@ -24,7 +21,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets the label of the field.
         /// </summary>
-        public string Label { get; private set; }
+        public string Label { get; }
 
         /// <summary>
         /// Gets or sets the type of the search field (default JqGridColumnSearchTypes.Text).
@@ -45,11 +42,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <param name="label">The label of the field.</param>
         public JqGridFilterGridRowModel(string columnName, string label)
         {
-            if (String.IsNullOrWhiteSpace(columnName))
-                throw new ArgumentNullException("columnName");
+            if (string.IsNullOrWhiteSpace(columnName))
+                throw new ArgumentNullException(nameof(columnName));
 
-            if (String.IsNullOrWhiteSpace(label))
-                throw new ArgumentNullException("label");
+            if (string.IsNullOrWhiteSpace(label))
+                throw new ArgumentNullException(nameof(label));
 
             ColumnName = columnName;
             Label = label;

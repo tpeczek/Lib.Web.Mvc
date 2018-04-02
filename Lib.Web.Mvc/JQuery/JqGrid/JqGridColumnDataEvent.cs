@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
@@ -14,17 +11,17 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets the type of the event.
         /// </summary>
-        public string Type { get; private set; }
+        public string Type { get; }
 
         /// <summary>
         /// Gets the additional data for the event.
         /// </summary>
-        public object Data { get; private set; }
+        public object Data { get; }
 
         /// <summary>
         /// Gets the function which will be called on the event.
         /// </summary>
-        public string Function { get; private set; }
+        public string Function { get; }
         #endregion
 
         #region Constructor
@@ -36,11 +33,11 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <param name="data">The additional (optional) data for the event.</param>
         public JqGridColumnDataEvent(string type, string function, object data = null)
         {
-            if (String.IsNullOrWhiteSpace(type))
-                throw new ArgumentNullException("type");
+            if (string.IsNullOrWhiteSpace(type))
+                throw new ArgumentNullException(nameof(type));
 
-            if (String.IsNullOrWhiteSpace(function))
-                throw new ArgumentNullException("function");
+            if (string.IsNullOrWhiteSpace(function))
+                throw new ArgumentNullException(nameof(function));
 
             Type = type;
             Function = function;

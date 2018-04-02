@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
 {
@@ -14,17 +11,17 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets the list of columns names.
         /// </summary>
-        public List<string> ColumnsNames { get; private set; }
+        public List<string> ColumnsNames { get; }
 
         /// <summary>
         /// Gets the list of columns alignments.
         /// </summary>
-        public List<JqGridAlignments> ColumnsAlignments { get; private set; }
+        public List<JqGridAlignments> ColumnsAlignments { get; }
 
         /// <summary>
         /// Gets the list of columns widths.
         /// </summary>
-        public List<int> ColumnsWidths { get; private set; }
+        public List<int> ColumnsWidths { get; }
         #endregion
 
         #region Constructor

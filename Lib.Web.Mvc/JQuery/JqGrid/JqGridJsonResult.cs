@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Web.Mvc;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
@@ -27,14 +27,14 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public override void ExecuteResult(ControllerContext context)
         {
             if (context == null)
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
 
-            if (JsonRequestBehavior == JsonRequestBehavior.DenyGet && String.Equals(context.HttpContext.Request.HttpMethod, "GET", StringComparison.OrdinalIgnoreCase))
+            if (JsonRequestBehavior == JsonRequestBehavior.DenyGet && string.Equals(context.HttpContext.Request.HttpMethod, "GET", StringComparison.OrdinalIgnoreCase))
                 throw new InvalidOperationException("This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet.");
 
             HttpResponseBase response = context.HttpContext.Response;
 
-            if (!String.IsNullOrEmpty(ContentType))
+            if (!string.IsNullOrEmpty(ContentType))
                 response.ContentType = ContentType;
             else
                 response.ContentType = "application/json";
@@ -46,9 +46,10 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             {
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 serializer.RegisterConverters(new JavaScriptConverter[] { new Lib.Web.Mvc.JQuery.JqGrid.Serialization.JqGridScriptConverter() });
+                string data = serializer.Serialize(Data);
 
 
-                response.Write(serializer.Serialize(Data));
+                response.Write(data);
             }
         }
         #endregion

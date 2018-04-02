@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Lib.Web.Mvc.JQuery.JqGrid
@@ -15,17 +12,17 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets the record cells values.
         /// </summary>
-        public List<object> Values { get; private set; }
+        public List<object> Values { get; }
 
         /// <summary>
         /// Gets the record value.
         /// </summary>
-        public object Value { get; private set; }
+        public object Value { get; }
 
         /// <summary>
         /// Gets the record identifier.
         /// </summary>
-        public string Id { get; private set; }
+        public string Id { get; }
         #endregion
 
         #region Constructor

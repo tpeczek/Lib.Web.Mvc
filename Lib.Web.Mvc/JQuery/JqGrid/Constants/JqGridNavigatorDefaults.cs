@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Lib.Web.Mvc.JQuery.JqGrid.Constants
+﻿namespace Lib.Web.Mvc.JQuery.JqGrid.Constants
 {
     /// <summary>
     /// Contains default values for jqGrid Navigator properties

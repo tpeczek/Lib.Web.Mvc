@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Lib.Web.Mvc.JQuery.JqGrid.Constants
+﻿namespace Lib.Web.Mvc.JQuery.JqGrid.Constants
 {
     /// <summary>
     /// Contains default values for jqGrid options
@@ -163,7 +158,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Constants
         /// <summary>
         /// The class that is used for alternate rows.
         /// </summary>
-        public const string  AltClass = "ui-priority-secondary";
+        public const string AltClass = "ui-priority-secondary";
 
         /// <summary>
         /// The padding plus border width of the cell.
