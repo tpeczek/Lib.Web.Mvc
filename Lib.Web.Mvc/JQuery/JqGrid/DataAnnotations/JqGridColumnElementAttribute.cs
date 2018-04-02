@@ -510,6 +510,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.DataAnnotations
         /// <param name="metadata">The model metadata.</param>
         public void OnMetadataCreated(ModelMetadata metadata)
         {
+            string testOverrideValue = Value;
             if (!IsValueNotOveriden || IsValueSetted)
                 Options.Value = Value;
 
