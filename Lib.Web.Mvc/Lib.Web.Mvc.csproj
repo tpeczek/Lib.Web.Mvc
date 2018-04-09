@@ -63,6 +63,7 @@
     <Compile Include="JQuery\JqGrid\Constants\JQueryUIWidgetsDefaults.cs" />
     <Compile Include="JQuery\JqGrid\IJqGridHelper.cs" />
     <Compile Include="JQuery\JqGrid\IJqGridNavigatorPageableFormActionOptions.cs" />
+    <Compile Include="JQuery\JqGrid\JqGridBootstrap4IconSet.cs" />
     <Compile Include="JQuery\JqGrid\JqGridColumnSortTypes.cs" />
     <Compile Include="JQuery\JqGrid\JqGridCompatibilityModes.cs" />
     <Compile Include="JQuery\JqGrid\JqGridFormButtonIcon.cs" />

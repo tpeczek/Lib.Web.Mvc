@@ -13,6 +13,13 @@
         /// </remarks>
         Bootstrap,
         /// <summary>
+        /// Bootstrap 4
+        /// </summary>
+        /// <remarks>
+        /// Available since Gurido jqGrid 5.3.0
+        /// </remarks>
+        Bootstrap4,
+        /// <summary>
         ///  jQueryUI
         /// </summary>
         jQueryUI
