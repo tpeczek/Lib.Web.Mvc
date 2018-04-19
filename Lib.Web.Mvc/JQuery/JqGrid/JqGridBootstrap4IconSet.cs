@@ -17,6 +17,6 @@
         /// Use FontAwesome pack
         /// </summary>
         /// <remarks>Available since Gurido JqGrid 5.3.1</remarks>
-        fontAwesome
+        FontAwesome
     }
 }

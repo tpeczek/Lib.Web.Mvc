@@ -1072,7 +1072,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
                 javaScriptBuilder.AppendFormat("styleUI: '{0}',", _options.StyleUI.ToString()).AppendLine();
 
             if (_options.IconSet != JqGridBootstrap4IconSet.Iconic)
-                javaScriptBuilder.AppendFormat("iconSet: '{0}',", _options.IconSet.ToString()).AppendLine();
+                javaScriptBuilder.AppendFormat("iconSet: '{0}',", _options.IconSet.ToString().Replace("FontAwesome", "fontAwesome")).AppendLine();
 
             if (_options.SubgridEnabled)
             {

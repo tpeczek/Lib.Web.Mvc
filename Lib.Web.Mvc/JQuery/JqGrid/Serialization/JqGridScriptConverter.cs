@@ -396,7 +396,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 serializedObj.Add("styleUI", obj.StyleUI.ToString());
 
             if (obj.IconSet != JqGridBootstrap4IconSet.Iconic)
-                serializedObj.Add("iconSet", obj.IconSet.ToString());
+                serializedObj.Add("iconSet", obj.IconSet.ToString().Replace("FontAwesome", "fontAwesome"));
 
             if (obj.SubgridEnabled)
             {
