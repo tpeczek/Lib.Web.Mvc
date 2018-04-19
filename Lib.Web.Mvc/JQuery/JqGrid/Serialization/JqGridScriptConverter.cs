@@ -177,7 +177,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
 
                 obj.Height = GetInt32FromSerializedObj(serializedObj, "height");
                 obj.Hidden = GetBooleanFromSerializedObj(serializedObj, "hiddengrid", false);
-                obj.HiddenEnabled  = GetBooleanFromSerializedObj(serializedObj, "hidegrid", true);
+                obj.HiddenEnabled = GetBooleanFromSerializedObj(serializedObj, "hidegrid", true);
                 obj.HoverRows = GetBooleanFromSerializedObj(serializedObj, "hoverrows", true);
                 obj.IgnoreCase = GetBooleanFromSerializedObj(serializedObj, "ignoreCase", false);
                 obj.LoadOnce = GetBooleanFromSerializedObj(serializedObj, "loadonce", false);
@@ -187,7 +187,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.MultiSelect = GetBooleanFromSerializedObj(serializedObj, "multiselect", false);
                 obj.MultiSelectWidth = GetInt32FromSerializedObj(serializedObj, "multiselectWidth", 20);
                 obj.MultiSort = GetBooleanFromSerializedObj(serializedObj, "multiSort", false);
-                
+
                 if (serializedObj.ContainsKey("pager") && serializedObj["pager"] != null)
                     obj.Pager = true;
 
@@ -212,6 +212,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 obj.SortingName = GetStringFromSerializedObj(serializedObj, "sortname");
                 obj.SortingOrder = GetEnumFromSerializedObj(serializedObj, "sortorder", JqGridSortingOrders.Asc);
                 obj.StyleUI = GetEnumFromSerializedObj(serializedObj, "styleUI", JqGridStyleUIOptions.jQueryUI);
+                obj.IconSet = GetEnumFromSerializedObj(serializedObj, "iconSet", JqGridBootstrap4IconSet.Iconic);
                 obj.SubgridEnabled = GetBooleanFromSerializedObj(serializedObj, "subGrid", false);
 
                 if (serializedObj.ContainsKey("subGridModel") && serializedObj["subGridModel"] != null && serializedObj["subGridModel"] is IDictionary<string, object>)
@@ -394,6 +395,9 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (obj.StyleUI != JqGridStyleUIOptions.jQueryUI)
                 serializedObj.Add("styleUI", obj.StyleUI.ToString());
 
+            if (obj.IconSet != JqGridBootstrap4IconSet.Iconic)
+                serializedObj.Add("iconSet", obj.IconSet.ToString().Replace("FontAwesome", "fontAwesome"));
+
             if (obj.SubgridEnabled)
             {
                 serializedObj.Add("subGrid", true);
@@ -551,7 +555,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             if (obj.Hidden)
                 serializedObj.Add("hidden", true);
 
-            if (obj.HideInDialog) 
+            if (obj.HideInDialog)
                 serializedObj.Add("hidedlg", true);
 
             if (!String.IsNullOrWhiteSpace(obj.JsonMapping))
@@ -586,7 +590,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             {
                 if (obj.SearchType != JqGridColumnSearchTypes.Text)
                     serializedObj.Add("stype", obj.SearchType.ToString().ToLower());
-                    
+
                 if (obj.SearchOptions != null)
                     serializedObj.Add("searchoptions", obj.SearchOptions);
 
@@ -651,7 +655,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 serializedObj.Add("NullIfEmpty", true);
 
             if (obj.HtmlAttributes != null)
-                foreach(KeyValuePair<string, object> htmlAttribute in obj.HtmlAttributes)
+                foreach (KeyValuePair<string, object> htmlAttribute in obj.HtmlAttributes)
                     serializedObj.Add(htmlAttribute.Key, htmlAttribute.Value);
         }
 
@@ -914,7 +918,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
             obj.ElementSuffix = GetStringFromSerializedObj(serializedObj, "elmsuffix");
             obj.Label = GetStringFromSerializedObj(serializedObj, "label");
             obj.RowPosition = GetInt32FromSerializedObj(serializedObj, "rowpos");
-            
+
             return obj;
         }
 
@@ -922,7 +926,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
         {
             if (obj.ColumnPosition.HasValue)
                 serializedObj.Add("colpos", obj.ColumnPosition.Value);
-            
+
             if (!String.IsNullOrWhiteSpace(obj.ElementPrefix))
                 serializedObj.Add("elmprefix", obj.ElementPrefix);
 
@@ -1026,7 +1030,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid.Serialization
                 if (searchOperators.HasValue)
                     obj.SearchOperators = searchOperators.Value;
             }
-            
+
             return obj;
         }
 

@@ -138,7 +138,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         /// <summary>
         /// Gets or sets the list of columns indexes for remaping (default null).
         /// </summary>
-        public List<int> ColumnsRemaping { get; set;  }
+        public List<int> ColumnsRemaping { get; set; }
 
         /// <summary>
         /// Gets or sets the string of data which will be used when DataType is set to JqGridDataTypes.XmlString or JqGridDataTypes.JsonString (default null).
@@ -474,6 +474,12 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
         public JqGridStyleUIOptions StyleUI { get; set; }
 
         /// <summary>
+        /// Gets or set the icon set for Bootstrap 4 style UI
+        /// </summary>
+        /// <remarks>Available since Gurido JqGrid 5.3.0</remarks>
+        public JqGridBootstrap4IconSet IconSet { get; set; }
+
+        /// <summary>
         /// Gets or sets the value which defines if subgrid is enabled.
         /// </summary>
         public bool SubgridEnabled { get; set; }
@@ -636,6 +642,7 @@ namespace Lib.Web.Mvc.JQuery.JqGrid
             SortingName = String.Empty;
             SortingOrder = JqGridSortingOrders.Asc;
             StyleUI = JqGridStyleUIOptions.jQueryUI;
+            IconSet = JqGridBootstrap4IconSet.Iconic;
             SubgridColumnWidth = 20;
             SubgridEnabled = false;
             SubgridModel = null;
