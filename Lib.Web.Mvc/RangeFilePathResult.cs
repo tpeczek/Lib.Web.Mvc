@@ -54,22 +54,7 @@ namespace Lib.Web.Mvc
         /// <param name="rangeEndIndex">Range end index</param>
         protected override void WriteEntityRange(HttpResponseBase response, long rangeStartIndex, long rangeEndIndex)
         {
-            using (FileStream stream = new FileStream(FileName, FileMode.Open, FileAccess.Read))
-            {
-                stream.Seek(rangeStartIndex, SeekOrigin.Begin);
-
-                int bytesRemaining = Convert.ToInt32(rangeEndIndex - rangeStartIndex) + 1;
-                byte[] buffer = new byte[_bufferSize];
-
-                while (bytesRemaining > 0)
-                {
-                    int bytesRead = stream.Read(buffer, 0, _bufferSize < bytesRemaining ? _bufferSize : bytesRemaining);
-                    response.OutputStream.Write(buffer, 0, bytesRead);
-                    bytesRemaining -= bytesRead;
-                }
-
-                stream.Close();
-            }
+            response.TransmitFile(FileName, rangeStartIndex, (rangeEndIndex - rangeStartIndex) + 1);
         }
         #endregion
     }
