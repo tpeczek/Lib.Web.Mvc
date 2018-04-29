@@ -172,7 +172,7 @@ namespace Lib.Web.Mvc
 
                 if (!RangeRequest)
                 {
-                    context.HttpContext.Response.AddHeader("Content-Length", FileLength.ToString());
+                    context.HttpContext.Response.AddHeader("Content-Length", FileLength.ToString("D"));
                     context.HttpContext.Response.ContentType = ContentType;
                     context.HttpContext.Response.StatusCode = 200;
                     if (!context.HttpContext.Request.HttpMethod.Equals("HEAD"))
@@ -182,10 +182,10 @@ namespace Lib.Web.Mvc
                 {
                     string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
 
-                    context.HttpContext.Response.AddHeader("Content-Length", GetContentLength(boundary).ToString());
+                    context.HttpContext.Response.AddHeader("Content-Length", GetContentLength(boundary).ToString("D"));
                     if (!MultipartRequest)
                     {
-                        context.HttpContext.Response.AddHeader("Content-Range", String.Format("bytes {0}-{1}/{2}", RangesStartIndexes[0], RangesEndIndexes[0], FileLength));
+                        context.HttpContext.Response.AddHeader("Content-Range", String.Format("bytes {0:D}-{1:D}/{2:D}", RangesStartIndexes[0], RangesEndIndexes[0], FileLength));
                         context.HttpContext.Response.ContentType = ContentType;
                     }
                     else
@@ -199,7 +199,7 @@ namespace Lib.Web.Mvc
                             {
                                 context.HttpContext.Response.Write(String.Format("--{0}\r\n", boundary));
                                 context.HttpContext.Response.Write(String.Format("Content-Type: {0}\r\n", ContentType));
-                                context.HttpContext.Response.Write(String.Format("Content-Range: bytes {0}-{1}/{2}\r\n\r\n", RangesStartIndexes[i], RangesEndIndexes[i], FileLength));
+                                context.HttpContext.Response.Write(String.Format("Content-Range: bytes {0:D}-{1:D}/{2:D}\r\n\r\n", RangesStartIndexes[i], RangesEndIndexes[i], FileLength));
                             }
 
                             if (context.HttpContext.Response.IsClientConnected)
@@ -266,16 +266,16 @@ namespace Lib.Web.Mvc
             }
         }
 
-        private int GetContentLength(string boundary)
+        private long GetContentLength(string boundary)
         {
-            int contentLength = 0;
+            long contentLength = 0;
 
             for (int i = 0; i < RangesStartIndexes.Length; i++)
             {
-                contentLength += Convert.ToInt32(RangesEndIndexes[i] - RangesStartIndexes[i]) + 1;
+                contentLength += (RangesEndIndexes[i] - RangesStartIndexes[i]) + 1;
 
                 if (MultipartRequest)
-                    contentLength += boundary.Length + ContentType.Length + RangesStartIndexes[i].ToString().Length + RangesEndIndexes[i].ToString().Length + FileLength.ToString().Length + 49;
+                    contentLength += boundary.Length + ContentType.Length + RangesStartIndexes[i].ToString("D").Length + RangesEndIndexes[i].ToString("D").Length + FileLength.ToString("D").Length + 49;
             }
 
             if (MultipartRequest)
