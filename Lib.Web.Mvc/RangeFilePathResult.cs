@@ -12,7 +12,7 @@ namespace Lib.Web.Mvc
     public class RangeFilePathResult : RangeFileResult
     {
         #region Fields
-        private const int _bufferSize = 0x1000;
+        private const int _bufferSize = 0x1000; //4Kb buffer
         #endregion
 
         #region Constructor
