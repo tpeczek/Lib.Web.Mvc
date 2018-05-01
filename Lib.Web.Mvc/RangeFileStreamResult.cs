@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Web;
+using System.Buffers;
 
 namespace Lib.Web.Mvc
 {
@@ -13,7 +11,7 @@ namespace Lib.Web.Mvc
     public class RangeFileStreamResult : RangeFileResult
     {
         #region Fields
-        private const int _bufferSize = 0x1000;
+        private const int _defaultWriteBufferSize = 81920;
         #endregion
 
         #region Properties
@@ -39,10 +37,7 @@ namespace Lib.Web.Mvc
         public RangeFileStreamResult(Stream fileStream, string contentType, string fileName, DateTime modificationDate)
             : base(contentType, fileName, modificationDate, fileStream.Length)
         {
-            if (fileStream == null)
-                throw new ArgumentNullException("fileStream");
-
-            FileStream = fileStream;
+            FileStream = fileStream ?? throw new ArgumentNullException("fileStream"); ;
         }
         #endregion
 
@@ -53,19 +48,7 @@ namespace Lib.Web.Mvc
         /// <param name="response">The response from context within which the result is executed.</param>
         protected override void WriteEntireEntity(HttpResponseBase response)
         {
-            using (FileStream)
-            {
-                byte[] buffer = new byte[_bufferSize];
-
-                while (true)
-                {
-                    int bytesRead = FileStream.Read(buffer, 0, _bufferSize);
-                    if (bytesRead == 0)
-                        break;
-
-                    response.OutputStream.Write(buffer, 0, bytesRead);
-                }
-            }
+            WriteFileStream(response, 0, FileStream.Length);
         }
 
         /// <summary>
@@ -76,18 +59,33 @@ namespace Lib.Web.Mvc
         /// <param name="rangeEndIndex">Range end index</param>
         protected override void WriteEntityRange(HttpResponseBase response, long rangeStartIndex, long rangeEndIndex)
         {
+            WriteFileStream(response, rangeStartIndex, (rangeEndIndex - rangeStartIndex) + 1);
+        }
+
+        private void WriteFileStream(HttpResponseBase response, long offset, long length)
+        {
             using (FileStream)
             {
-                FileStream.Seek(rangeStartIndex, SeekOrigin.Begin);
+                int writeBufferSize = (int)Math.Min(_defaultWriteBufferSize, length);
 
-                int bytesRemaining = Convert.ToInt32(rangeEndIndex - rangeStartIndex) + 1;
-                byte[] buffer = new byte[_bufferSize];
-
-                while (bytesRemaining > 0)
+                byte[] writeBuffer = ArrayPool<byte>.Shared.Rent(writeBufferSize);
+                try
                 {
-                    int bytesRead = FileStream.Read(buffer, 0, _bufferSize < bytesRemaining ? _bufferSize : bytesRemaining);
-                    response.OutputStream.Write(buffer, 0, bytesRead);
-                    bytesRemaining -= bytesRead;
+                    int read;
+                    long remaining = length;
+                    
+                    FileStream.Seek(offset, SeekOrigin.Begin);
+                    while ((remaining > 0) && (read = FileStream.Read(writeBuffer, 0, writeBuffer.Length)) != 0)
+                    {
+                        response.OutputStream.Write(writeBuffer, 0, read);
+                        response.Flush();
+
+                        remaining -= read;
+                    }
+                }
+                finally
+                {
+                    ArrayPool<byte>.Shared.Return(writeBuffer);
                 }
             }
         }
