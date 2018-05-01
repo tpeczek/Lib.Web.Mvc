@@ -65,6 +65,11 @@ namespace Lib.Web.Mvc
         public long FileLength { get; private set; }
 
         /// <summary>
+        /// Gets the maximum file length to use for the response.
+        /// </summary>
+        public long? MaxFileLength { get; private set; }
+
+        /// <summary>
         /// Gets or sets the entity tag (ETag) generation mode.
         /// </summary>
         /// <remarks>
@@ -96,6 +101,22 @@ namespace Lib.Web.Mvc
         /// <para>The default <see cref="EntityTagMode"/> is <see cref="RangeFileResultEntityTagMode.MD5"/> for backward compatibility, but it is not FIPS complaint. There is an internal fallback but if FIPS compliance is a requirement usage of differen mode should be considered.</para>
         /// </remarks>
         protected RangeFileResult(string contentType, string fileName, DateTime modificationDate, long fileLength)
+            : this(contentType, fileName, modificationDate, fileLength, null)
+        { }
+
+        /// <summary>
+        /// Initializes a new instance of the RangeFileResult class.
+        /// </summary>
+        /// <param name="contentType">The content type to use for the response.</param>
+        /// <param name="fileName">The file name to use for the response.</param>
+        /// <param name="modificationDate">The file modification date to use for the response.</param>
+        /// <param name="fileLength">The file length to use for the response.</param>
+        /// <param name="maxFileLength">The max file length to use for the response.</param>
+        /// <remarks>
+        /// <para>The <paramref name="modificationDate"/> parameter is used internally while creating ETag and Last-Modified headers. Those headers might by used by client in order to verify that the same entity is being requested in separated partial requests and for caching purposes. Because of that it is important that the value passed to this parameter is consitant and reflects the actual state of entity during its entire lifetime.</para>
+        /// <para>The default <see cref="EntityTagMode"/> is <see cref="RangeFileResultEntityTagMode.MD5"/> for backward compatibility, but it is not FIPS complaint. There is an internal fallback but if FIPS compliance is a requirement usage of differen mode should be considered.</para>
+        /// </remarks>
+        protected RangeFileResult(string contentType, string fileName, DateTime modificationDate, long fileLength, long? maxFileLength)
         {
             if (String.IsNullOrEmpty(contentType))
             {
@@ -108,6 +129,7 @@ namespace Lib.Web.Mvc
             HttpModificationDate = modificationDate.ToUniversalTime();
             HttpModificationDate = new DateTime(HttpModificationDate.Year, HttpModificationDate.Month, HttpModificationDate.Day, HttpModificationDate.Hour, HttpModificationDate.Minute, HttpModificationDate.Second, DateTimeKind.Utc);
             FileLength = fileLength;
+            MaxFileLength = maxFileLength;
             EntityTagMode = _defaultEntityTagMode;
         }
         #endregion
@@ -286,7 +308,7 @@ namespace Lib.Web.Mvc
 
         private bool ValidateRanges(HttpResponseBase response)
         {
-            if (FileLength > Int32.MaxValue)
+            if (MaxFileLength.HasValue && (FileLength > MaxFileLength.Value))
             {
                 response.StatusCode = 413;
                 return false;

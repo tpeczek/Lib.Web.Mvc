@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web;
 
 namespace Lib.Web.Mvc
@@ -32,7 +29,7 @@ namespace Lib.Web.Mvc
          * </remarks>
          */
         public RangeFileContentResult(byte[] fileContents, string contentType, string fileName, DateTime modificationDate)
-            : base(contentType, fileName, modificationDate, fileContents.Length)
+            : base(contentType, fileName, modificationDate, fileContents.Length, Int32.MaxValue)
         {
             if (fileContents == null)
                 throw new ArgumentNullException("fileContents");
@@ -48,7 +45,7 @@ namespace Lib.Web.Mvc
         /// <param name="response">The response from context within which the result is executed.</param>
         protected override void WriteEntireEntity(HttpResponseBase response)
         {
-            response.OutputStream.Write(FileContents, 0, FileContents.Length);
+            WriteFileContents(response, 0, FileContents.Length);
         }
 
         /// <summary>
@@ -59,7 +56,17 @@ namespace Lib.Web.Mvc
         /// <param name="rangeEndIndex">Range end index</param>
         protected override void WriteEntityRange(HttpResponseBase response, long rangeStartIndex, long rangeEndIndex)
         {
-            response.OutputStream.Write(FileContents, Convert.ToInt32(rangeStartIndex), Convert.ToInt32(rangeEndIndex - rangeStartIndex) + 1);
+            WriteFileContents(response, (int)rangeStartIndex, (int)(rangeEndIndex - rangeStartIndex) + 1);
+        }
+
+        private void WriteFileContents(HttpResponseBase response, int offset, int length)
+        {
+            bool bufferOutput = response.BufferOutput;
+
+            response.BufferOutput = false;
+            response.OutputStream.Write(FileContents, offset, length);
+
+            response.BufferOutput = bufferOutput;
         }
         #endregion
     }
