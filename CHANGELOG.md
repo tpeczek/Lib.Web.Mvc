@@ -1,3 +1,10 @@
+## Lib.Web.Mvc 6.9.0
+### Bug Fixes
+- Fix for potential *Response Buffer Limit Exceeded* issue in `RangeFileResult` implementations 
+### Additions and Changes
+- Added support for Bootstrap4 in jqGrid via `StyleUI` & `IconSet` properties on `JqGridOptions` along with `JqGridBootstrap4IconSet` enum (thanks to @Vampire2008)
+- Added support for files larger than 2 GB in `RangeFileStreamResult` and `RangeFilePathResult`
+
 ## Lib.Web.Mvc 6.8.2
 ### Bug Fixes
 - Fix for ErrorTextFormat not available on JqGridNavigatorDeleteActionOptions

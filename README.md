@@ -22,7 +22,7 @@ Alpha packages are available on [MyGet](http://tpeczek.com/2013/01/using-alpha-l
 
 ## Documentation
 
-The library documentation is available on [NuDoq](http://www.nudoq.org/#!/Projects/Lib.Web.Mvc) or as a part of the release (chm file).
+The library documentation is available as a part of the release (chm file).
 
 There is also a series of blog posts describing key features of the library:
 
