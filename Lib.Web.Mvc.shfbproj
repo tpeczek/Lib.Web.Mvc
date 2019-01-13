@@ -51,7 +51,7 @@ Notice: For all the properties that represent options for jqGrid, if the value f
     </NamespaceSummaries>
     <FeedbackEMailAddress>
     </FeedbackEMailAddress>
-    <HelpFileFormat>HtmlHelp1, Website</HelpFileFormat>
+    <HelpFileFormat>HtmlHelp1</HelpFileFormat>
     <PresentationStyle>VS2010</PresentationStyle>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <IndentHtml>False</IndentHtml>
