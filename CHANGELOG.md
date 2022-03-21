@@ -1,3 +1,7 @@
+## Lib.Web.Mvc 6.10.0 
+### Additions and Changes
+- Enabled floating version for ASP.NET MVC package
+
 ## Lib.Web.Mvc 6.9.0
 ### Bug Fixes
 - Fix for potential *Response Buffer Limit Exceeded* issue in `RangeFileResult` implementations 
