@@ -22,7 +22,7 @@
       <DocumentationSource sourceFile="Lib.Web.Mvc\bin\Release\Lib.Web.Mvc.dll" />
       <DocumentationSource sourceFile="Lib.Web.Mvc\bin\Release\Lib.Web.Mvc.xml" />
     </DocumentationSources>
-    <CopyrightText>Copyright &amp;#169%3b  2009 - 2022 Tomasz Pęczek</CopyrightText>
+    <CopyrightText>Copyright &amp;#169%3b  2009 - 2023 Tomasz Pęczek</CopyrightText>
     <HelpTitle>Lib.Web.Mvc Documentation</HelpTitle>
     <SyntaxFilters>C#, Visual Basic</SyntaxFilters>
     <ProjectSummary>Lib.Web.Mvc is a library which contains some helper classes for ASP.NET MVC such as:
