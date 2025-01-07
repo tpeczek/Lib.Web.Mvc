@@ -61,7 +61,7 @@ Visit the [Contributor Guidelines](https://github.com/tpeczek/Lib.Web.Mvc/blob/m
 
 ## Copyright and License
 
-Copyright © 2009 - 2024 Tomasz Pęczek
+Copyright © 2009 - 2025 Tomasz Pęczek
 
 From October 2009 to August 2014 licensed under the Ms-PL License.
 
