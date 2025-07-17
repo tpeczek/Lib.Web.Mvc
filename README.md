@@ -34,7 +34,7 @@ There is also a series of blog posts describing key features of the library:
 - [HTTP/2 Server Push and ASP.NET MVC](http://tpeczek.com/2016/12/one-of-new-features-in-http2-is-server.html)
 - [HTTP/2 Server Push and ASP.NET MVC - Cache Digest](http://tpeczek.com/2017/01/http2-server-push-and-aspnet-mvc-cache.html)
 
-## Usage examples
+## Usage Examples
 
 There are several sample projects available, showing different features of the library:
 
@@ -43,21 +43,16 @@ There are several sample projects available, showing different features of the l
 - [VideoJS in ASP.NET MVC](http://tpeczek.codeplex.com/releases/view/74711)
 - [XSL Transformation in ASP.NET MVC](http://tpeczek.codeplex.com/releases/view/45199)
 
+## Consulting and Professional Services
+
+Do you need help with any of my libraries, or with building features on top of what they provide? What about ASP.NET Core architecture, Azure architecture, or DevOps? I offer consulting and development services.
+
+[![Book an Appointment](https://img.shields.io/badge/%20-Book%20an%20Appointment-%23006BFF?logo=calendly&logoColor=white&style=for-the-badge)](https://calendly.com/tpeczek/30min)
+[![Send an Email](https://img.shields.io/badge/%20-Send%20an%20email-%23EA4335?logo=gmail&logoColor=white&style=for-the-badge)](mailto:tpeczek@gmail.com)
+
 ## Donating
 
-My blog and open source projects are result of my passion for software development, but they require a fair amount of my personal time. If you got value from any of the content I create, then I would appreciate your support by [buying me a coffee](https://www.buymeacoffee.com/tpeczek).
-
-<a href="https://www.buymeacoffee.com/tpeczek"><img src="https://www.buymeacoffee.com/assets/img/custom_images/black_img.png" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;"  target="_blank"></a>
-
-## Questions
-You are encouraged to ask questions related to Lib.Web.Mvc on [Stack Overflow](http://stackoverflow.com/).
-
-The [lib.web.mvc tag](http://stackoverflow.com/questions/tagged/lib.web.mvc) has been created specially for this purpose and it is being monitored daily by the library author.
-
-
-## Contribute
-
-Visit the [Contributor Guidelines](https://github.com/tpeczek/Lib.Web.Mvc/blob/master/CONTRIBUTING.md) for more details.
+My blog and open source projects are result of my passion for software development, but they require a fair amount of my personal time. If you got value from any of the content I create, then I would appreciate your support by [sponsoring me](https://github.com/sponsors/tpeczek) (either monthly or one-time).
 
 ## Copyright and License
 
